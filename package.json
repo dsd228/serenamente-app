@@ -1,1 +1,1 @@
-{\n  "name": "serenamente-app",\n  "version": "1.0.0",\n  "scripts": {\n    "dev": "vite",\n    "build": "vite build",\n    "serve": "vite preview"\n  },\n  "dependencies": {},\n  "devDependencies": {\n    "vite": "^2.0.0",\n    "@vitejs/plugin-react": "^2.0.0"\n  }\n}
+{"name": "serenamente-app", "version": "1.0.0"} 
