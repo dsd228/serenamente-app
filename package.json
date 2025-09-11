@@ -1,1 +1,14 @@
-{"name": "serenamente-app", "version": "1.0.0"} 
+{
+  "name": "serenamente-app",
+  "version": "1.0.0",
+  "description": "Aplicación de notas con almacenamiento local",
+  "main": "public/main.jsx",
+  "type": "module",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "keywords": ["react", "notes", "localStorage", "serenamente"],
+  "author": "",
+  "license": "MIT"
+} 
