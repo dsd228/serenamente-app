@@ -1,0 +1,87 @@
+:root {
+  --color-home: #7fb1f7;
+  --color-depresion: #b8c0ff;
+  --color-ansiedad: #9df2e7;
+  --color-estres: #f8b195;
+  --color-trauma: #ffd6e0;
+  --color-toc: #f6e7cb;
+  --color-alimentacion: #c8e6c9;
+  --color-adicciones: #ffecd2;
+  --color-bipolar: #f5d6e0;
+  --color-esquizofrenia: #e0eafc;
+  --glass-bg: rgba(255,255,255,0.32);
+  --glass-blur: 12px;
+  --glass-border: rgba(200,200,255,0.28);
+  --font-main: 'Inter', 'Nunito', Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--color-home);
+  margin: 0;
+  min-height: 100vh;
+  transition: background 0.7s;
+}
+body.area-depresion { background: var(--color-depresion);}
+body.area-ansiedad { background: var(--color-ansiedad);}
+body.area-estres { background: var(--color-estres);}
+body.area-trauma { background: var(--color-trauma);}
+body.area-toc { background: var(--color-toc);}
+body.area-alimentacion { background: var(--color-alimentacion);}
+body.area-adicciones { background: var(--color-adicciones);}
+body.area-bipolar { background: var(--color-bipolar);}
+body.area-esquizofrenia { background: var(--color-esquizofrenia);}
+
+.glass-nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px 24px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 4px 18px #0001;
+}
+.nav-logo img {width:32px;height:32px;}
+.glass-nav ul {list-style:none;display:flex;gap:22px; margin-left: 20px; padding:0;}
+.nav-link {text-decoration:none;color:#333;padding:7px 18px;border-radius:11px;transition:background 0.2s;}
+.nav-link.active, .nav-link:hover {background:var(--glass-border);}
+.nav-link.area-depresion {color:var(--color-depresion);}
+.nav-link.area-ansiedad {color:var(--color-ansiedad;}
+/* ...más colores por área... */
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border-radius: 22px;
+  box-shadow: 0 8px 32px #0003;
+  border: 1.4px solid var(--glass-border);
+  padding: 32px 24px;
+  margin: 38px auto;
+  max-width: 600px;
+  color: #222;
+  text-align: center;
+}
+.area-card.area-depresion {border-color:var(--color-depresion);}
+.area-card.area-ansiedad {border-color:var(--color-ansiedad);}
+.area-icon {width:70px;height:70px;margin-bottom:18px;}
+.areas-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;margin-top:32px;}
+.glass-mini {
+  background: var(--glass-bg);
+  border-radius: 15px;
+  box-shadow: 0 4px 14px #0001;
+  padding: 16px;
+  text-align: center;
+  text-decoration: none;
+  color: #222;
+  display: flex; flex-direction: column; align-items: center; gap:12px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.glass-mini:hover {box-shadow: 0 8px 24px #0002; transform:translateY(-2px);}
+.glass-mini img {width:38px;height:38px;}
+.glass-section {background:var(--glass-bg);margin:18px 0 0 0;padding:18px;border-radius:14px;text-align:left;}
+/* Animaciones sutiles */
+@media(max-width:700px) {
+  .glass-card {padding:14px;}
+  .areas-grid {grid-template-columns:1fr 1fr;}
+}
