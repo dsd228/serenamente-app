@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Serenamente - Análisis y Mejoras</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --primary: #4e54c8;
@@ -243,6 +244,22 @@
             border-radius: 10px 10px 0 0;
         }
 
+        .pwa-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
         @media (max-width: 768px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -254,6 +271,10 @@
             
             header h1 {
                 font-size: 2rem;
+            }
+            
+            .theme-selector {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -402,6 +423,35 @@
                 </ul>
             </div>
         </div>
+
+        <div class="card">
+            <h2>Service Worker y Funcionalidad PWA</h2>
+            <p>La aplicación ya incluye un service worker para caching y funcionalidad offline:</p>
+            
+            <div class="improvement">
+                <h3><i class="fas fa-code-branch"></i> Service Worker Implementado</h3>
+                <ul>
+                    <li><strong>Cache Name:</strong> serenamente-cache-v1</li>
+                    <li><strong>Recursos en cache:</strong> Página principal, manifest, iconos y Chart.js</li>
+                    <li><strong>Estrategia de caching:</strong> Cache-first con fallback a network</li>
+                </ul>
+            </div>
+            
+            <div class="improvement">
+                <h3><i class="fas fa-mobile-alt"></i> Próximos Pasos PWA</h3>
+                <ul>
+                    <li>Agregar pantalla de instalación para dispositivos móviles</li>
+                    <li>Implementar notificaciones push</li>
+                    <li>Agregar más recursos a la estrategia de caching</li>
+                    <li>Implementar actualizaciones en segundo plano</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="pwa-badge" id="pwaInstallButton" style="display: none;">
+        <i class="fas fa-download"></i>
+        <span>Instalar App</span>
     </div>
 
     <footer>
@@ -422,6 +472,42 @@
                 document.body.classList.add('calm-theme');
             }
         }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // PWA Installation Prompt
+        let deferredPrompt;
+        const pwaInstallButton = document.getElementById('pwaInstallButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            pwaInstallButton.style.display = 'flex';
+            
+            pwaInstallButton.addEventListener('click', () => {
+                pwaInstallButton.style.display = 'none';
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        });
     </script>
 </body>
 </html>
