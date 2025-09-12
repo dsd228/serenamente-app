@@ -4,380 +4,71 @@
   <meta charset="UTF-8">
   <title>Serenamente - Salud Mental Universal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/icon-192.png">
-  <meta name="theme-color" content="#4361ee">
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/css/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    if('serviceWorker' in navigator){
-      window.addEventListener('load', ()=>navigator.serviceWorker.register('service-worker.js'));
-    }
-  </script>
-  <style>
-    :root {
-      --primary: #4361ee;
-      --success: #4ade80;
-      --bg: #f1f5fe;
-      --bg-dark: #232946;
-      --text: #222;
-      --text-dark: #f8fafc;
-      --card: #fff;
-      --card-dark: #232946;
-      --shadow: 0 8px 32px #4361ee22;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      transition: background 0.5s, color 0.5s;
-    }
-    body.dark-mode {
-      background: var(--bg-dark);
-      color: var(--text-dark);
-    }
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: var(--card);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      padding: 40px 20px;
-      transition: background 0.5s, color 0.5s;
-    }
-    body.dark-mode .container {
-      background: var(--card-dark);
-      color: var(--text-dark);
-    }
-    .app-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-    }
-    .app-title img {
-      width: 56px;
-      height: 56px;
-      vertical-align: middle;
-    }
-    .btn {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 10px 24px;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      margin: 8px 0;
-      transition: background 0.2s;
-    }
-    .btn:active {background: #3a0ca3;}
-    .section {margin-bottom: 40px;}
-    .chart-container {width:100%;max-width:700px;margin:0 auto 30px;}
-    h2 img {width:28px;height:28px;vertical-align:middle;margin-right:8px;}
-    label, select, input, textarea {font-size:1rem;}
-    .input-group {display:flex;gap:10px;margin-bottom:12px;}
-    .input-group input, .input-group textarea {flex:1;}
-    /* Card style */
-    .card {
-      background: #f8fafc;
-      border-radius: 11px;
-      box-shadow: 0 2px 8px #4361ee15;
-      padding: 16px;
-      margin-bottom: 15px;
-    }
-    body.dark-mode .card {background: #2d3748; color: #f8fafc;}
-    /* Icon grid */
-    .icon-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(48px,1fr));gap:16px;margin:20px 0;}
-    .icon-grid img {width:48px; height:48px;}
-    /* FAQ style */
-    .faq-item strong {color: var(--primary);}
-    /* Progress bar */
-    .progress-bar {height: 20px; border-radius: 9px; background: #e0e7ef; margin-bottom: 12px;}
-    .progress-bar-inner {height: 100%; border-radius: 9px; background: var(--primary); width:0; transition:width 0.7s;}
-    /* Modal */
-    #assessmentModal, #installPrompt {
-      position:fixed; top:0; left:0; width:100vw; height:100vh; background:#222a; display:none; z-index:999;
-    }
-    .modal-content {
-      background:#fff; border-radius:16px; box-shadow:0 6px 32px #0008;
-      max-width:400px; margin:80px auto; padding:30px; position:relative;
-    }
-    body.dark-mode .modal-content {background: #232946; color: #fff;}
-    .modal-content .btn {margin-top: 16px;}
-    .close-modal {
-      position:absolute;top:14px;right:14px;background:transparent;border:none;font-size:1.3rem;cursor:pointer;
-    }
-    /* Responsive */
-    @media(max-width:600px){
-      .container {padding:15px;}
-      .app-title img {width:36px;height:36px;}
-    }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <div class="app-title">
-      <img src="icons/icon-512.png" alt="Serenamente Logo">
-      Serenamente 🌿
-    </div>
-    <!-- Progreso -->
-    <div class="section">
-      <h2><img src="icons/icon-progress.png" alt="Progreso"> Tu Progreso</h2>
-      <div class="chart-container"><canvas id="progressChart"></canvas></div>
-      <div class="progress-bar"><div id="progressBarInner" class="progress-bar-inner"></div></div>
-      <span id="progressText"></span>
-    </div>
-    <!-- Autoevaluaciones -->
-    <div class="section">
-      <h2><img src="icons/icon-assessment.png" alt="Autoevaluaciones"> Autoevaluaciones PHQ-9 / GAD-7</h2>
-      <button class="btn" onclick="openAssessment('phq9')">PHQ-9 (Depresión)</button>
-      <button class="btn" onclick="openAssessment('gad7')">GAD-7 (Ansiedad)</button>
-      <div id="assessmentResult"></div>
-    </div>
-    <!-- Exportar -->
-    <div class="section">
-      <h2><img src="icons/icon-export.png" alt="Exportar"> Exportar Diario y Hábitos</h2>
-      <button class="btn" onclick="exportCSV()">Exportar a CSV</button>
-      <button class="btn" onclick="window.print()">Exportar a PDF</button>
-    </div>
-    <!-- Recordatorio -->
-    <div class="section">
-      <h2><img src="icons/icon-notification.png" alt="Notificación"> Recordatorios y Notificaciones</h2>
-      <button class="btn" onclick="scheduleNotification()">Programar recordatorio diario</button>
-    </div>
-    <!-- Personalización -->
-    <div class="section">
-      <h2><img src="icons/icon-profile.png" alt="Perfil"> Personalización</h2>
-      <label>Modo Oscuro <input type="checkbox" id="darkToggle"></label>
-      <label style="margin-left:20px;">Perfil de usuario:
-        <select id="userProfile">
-          <option value="adulto">Adulto</option>
-          <option value="adolescente">Adolescente</option>
-          <option value="mayor">Adulto mayor</option>
-        </select>
-      </label>
-    </div>
-    <!-- Diario emocional -->
-    <div class="section">
-      <h2><img src="icons/icon-diary.png" alt="Diario"> Diario Emocional</h2>
-      <div class="input-group">
-        <textarea id="journalInput" placeholder="Escribe tu entrada..." rows="2"></textarea>
-        <button class="btn" onclick="saveJournal()">Guardar</button>
+<body class="area-home">
+  <nav class="glass-nav">
+    <img src="/icons/icon-192.png" alt="Serenamente" class="nav-logo">
+    <ul>
+      <li><a href="index.html" class="nav-link active">Inicio</a></li>
+      <li><a href="/areas/depresion.html" class="nav-link area-depresion">Depresión</a></li>
+      <li><a href="/areas/ansiedad.html" class="nav-link area-ansiedad">Ansiedad</a></li>
+      <li><a href="/areas/estres.html" class="nav-link area-estres">Estrés</a></li>
+      <li><a href="/areas/trauma.html" class="nav-link area-trauma">Trauma</a></li>
+      <li><a href="/areas/toc.html" class="nav-link area-toc">TOC</a></li>
+      <li><a href="/areas/alimentacion.html" class="nav-link area-alimentacion">Alimentación</a></li>
+      <li><a href="/areas/adicciones.html" class="nav-link area-adicciones">Adicciones</a></li>
+      <li><a href="/areas/bipolar.html" class="nav-link area-bipolar">Bipolaridad</a></li>
+      <li><a href="/areas/esquizofrenia.html" class="nav-link area-esquizofrenia">Esquizofrenia</a></li>
+    </ul>
+  </nav>
+  <main>
+    <section class="glass-card home-card">
+      <img src="/icons/icon-512.png" class="area-icon" alt="Logo Serenamente">
+      <h1>Serenamente 🌿</h1>
+      <p>Elige el área que quieres trabajar y accede a técnicas eficaces, autoevaluaciones, recursos y acompañamiento digital.</p>
+      <div class="areas-grid">
+        <a href="/areas/depresion.html" class="glass-mini area-depresion">
+          <img src="/icons/icon-depresion.png" alt="Depresión">
+          <span>Depresión</span>
+        </a>
+        <a href="/areas/ansiedad.html" class="glass-mini area-ansiedad">
+          <img src="/icons/icon-ansiedad.png" alt="Ansiedad">
+          <span>Ansiedad</span>
+        </a>
+        <a href="/areas/estres.html" class="glass-mini area-estres">
+          <img src="/icons/icon-estres.png" alt="Estrés">
+          <span>Estrés</span>
+        </a>
+        <a href="/areas/trauma.html" class="glass-mini area-trauma">
+          <img src="/icons/icon-trauma.png" alt="Trauma">
+          <span>Trauma</span>
+        </a>
+        <a href="/areas/toc.html" class="glass-mini area-toc">
+          <img src="/icons/icon-toc.png" alt="TOC">
+          <span>TOC</span>
+        </a>
+        <a href="/areas/alimentacion.html" class="glass-mini area-alimentacion">
+          <img src="/icons/icon-alimentacion.png" alt="Alimentación">
+          <span>Alimentación</span>
+        </a>
+        <a href="/areas/adicciones.html" class="glass-mini area-adicciones">
+          <img src="/icons/icon-adicciones.png" alt="Adicciones">
+          <span>Adicciones</span>
+        </a>
+        <a href="/areas/bipolar.html" class="glass-mini area-bipolar">
+          <img src="/icons/icon-bipolar.png" alt="Bipolaridad">
+          <span>Bipolaridad</span>
+        </a>
+        <a href="/areas/esquizofrenia.html" class="glass-mini area-esquizofrenia">
+          <img src="/icons/icon-esquizofrenia.png" alt="Esquizofrenia">
+          <span>Esquizofrenia</span>
+        </a>
       </div>
-      <div id="journalEntries"></div>
-    </div>
-    <!-- Hábitos saludables -->
-    <div class="section">
-      <h2><img src="icons/icon-habits.png" alt="Hábitos"> Hábitos Saludables</h2>
-      <div class="input-group">
-        <input id="habitInput" placeholder="Nuevo hábito...">
-        <button class="btn" onclick="addHabit()">Agregar</button>
-      </div>
-      <div id="habitList"></div>
-      <ul>
-        <li>Dormir 7-9 horas</li>
-        <li>Actividad física diaria (30min)</li>
-        <li>Comer frutas y verduras</li>
-        <li>Meditar o practicar mindfulness</li>
-        <li>Socializar al menos 1 vez por semana</li>
-      </ul>
-    </div>
-    <!-- Meditación y respiración -->
-    <div class="section">
-      <h2><img src="icons/icon-meditation.png" alt="Meditación"> Meditación y Mindfulness</h2>
-      <button class="btn" onclick="playMeditation()">▶️ Meditación guiada</button>
-      <audio id="meditationAudio" src="https://cdn.pixabay.com/audio/2023/07/25/audio_5f7a1b7e4a.mp3"></audio>
-      <div id="meditationStatus"></div>
-      <label for="meditationTime">Duración: </label>
-      <select id="meditationTime">
-        <option value="5">5 minutos</option>
-        <option value="10">10 minutos</option>
-        <option value="15">15 minutos</option>
-      </select>
-    </div>
-    <div class="section">
-      <h2><img src="icons/icon-breath.png" alt="Respiración"> Ejercicios de Respiración</h2>
-      <select id="breathType">
-        <option value="478">4-7-8 (Inhala 4s, mantén 7s, exhala 8s)</option>
-        <option value="cuadrada">Cuadrada (4s inhala, 4s mantén, 4s exhala, 4s mantén)</option>
-        <option value="diafragmatica">Diafragmática</option>
-      </select>
-      <button class="btn" onclick="startBreathing()">Iniciar Ejercicio</button>
-      <audio id="heartAudio" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b4e5fae.mp3" preload="auto"></audio>
-      <div id="breathAnimation" style="margin-top:14px;font-size:1.35rem;"></div>
-    </div>
-    <!-- FAQ y recursos -->
-    <div class="section">
-      <h2><img src="icons/icon-export.png" alt="FAQ"> Preguntas Frecuentes y Recursos</h2>
-      <div class="card faq-item"><strong>¿Es privada mi información?</strong> Sí, todo se guarda solo en tu dispositivo.</div>
-      <div class="card faq-item"><strong>¿Qué hago si tengo pensamientos suicidas?</strong> Busca ayuda profesional, llama a emergencias o contacta una línea de ayuda.</div>
-      <div class="card faq-item"><strong>¿Cómo buscar ayuda profesional?</strong> Consulta directorios de psicólogos o acude a tu centro de salud local.</div>
-      <div class="card faq-item"><strong>¿Las técnicas aquí recomendadas son científicas?</strong> Sí, todas están avaladas por organismos internacionales y estudios recientes.</div>
-      <div class="card faq-item"><strong>¿Puedo desactivar los sonidos?</strong> Sí, ajusta el control arriba.</div>
-      <div class="icon-grid">
-        <a href="https://www.who.int/mental_health/es/" target="_blank"><img src="icons/icon-progress.png" alt="OMS"></a>
-        <a href="https://www.apa.org/topics/mental-health" target="_blank"><img src="icons/icon-progress.png" alt="APA"></a>
-        <a href="https://headspace.com/" target="_blank"><img src="icons/icon-meditation.png" alt="Headspace"></a>
-        <a href="https://www.mindshift.ca/" target="_blank"><img src="icons/icon-assessment.png" alt="MindShift"></a>
-      </div>
-    </div>
-    <div class="section">
-      <div class="card">
-        <strong>¿Necesitas ayuda inmediata?</strong><br>
-        <span>Si sientes que no puedes más, busca ayuda ahora. Tu vida es valiosa.</span><br>
-        <a href="tel:911" class="btn" style="background:#ea4a4a;">Llama al 911</a>
-        <a href="https://www.suicidepreventionlifeline.org/" target="_blank" class="btn" style="background:#4ade80;">Línea Nacional de Prevención</a>
-      </div>
-    </div>
-  </div>
-  <!-- Modal para autoevaluaciones -->
-  <div id="assessmentModal">
-    <div class="modal-content">
-      <button class="close-modal" onclick="closeAssessmentModal()">×</button>
-      <div id="modalAssessmentContent"></div>
-    </div>
-  </div>
-  <!-- Instalar app prompt -->
-  <div id="installPrompt">
-    <div class="modal-content">
-      <button class="close-modal" onclick="closeInstallPrompt()">×</button>
-      <div>¿Quieres instalar la app Serenamente?</div>
-      <button class="btn" id="installBtn">Instalar</button>
-    </div>
-  </div>
-  <script>
-    // Modo oscuro persistente
-    const darkToggle=document.getElementById('darkToggle');
-    if(localStorage.getItem('mode')==='dark'){document.body.classList.add('dark-mode');darkToggle.checked=true;}
-    darkToggle.addEventListener('change',function(){if(this.checked){document.body.classList.add('dark-mode');localStorage.setItem('mode','dark');}else{document.body.classList.remove('dark-mode');localStorage.setItem('mode','light');}});
-    // Perfil de usuario personalizado
-    const userProfile=document.getElementById('userProfile');
-    if(localStorage.getItem('profile'))userProfile.value=localStorage.getItem('profile');
-    userProfile.addEventListener('change',()=>localStorage.setItem('profile',userProfile.value));
-    // Diario y hábitos
-    function saveJournal(){let input=document.getElementById('journalInput');let text=input.value.trim();if(!text)return;let entries=JSON.parse(localStorage.getItem('journal')||'[]');entries.push({date:new Date().toLocaleString(),text});localStorage.setItem('journal',JSON.stringify(entries));input.value='';showJournal();drawChart();updateProgress();}
-    function showJournal(){let entries=JSON.parse(localStorage.getItem('journal')||'[]');let html=entries.slice(-10).reverse().map(e=>`<div class="card"><b>${e.date}</b> ${e.text}</div>`).join('');document.getElementById('journalEntries').innerHTML=html||'No hay entradas.';}
-    showJournal();
-    function addHabit(){let input=document.getElementById('habitInput');let text=input.value.trim();if(!text)return;let habits=JSON.parse(localStorage.getItem('habits')||'[]');habits.push({text,done:false});localStorage.setItem('habits',JSON.stringify(habits));input.value='';showHabits();drawChart();updateProgress();}
-    function toggleHabit(idx){let habits=JSON.parse(localStorage.getItem('habits')||'[]');habits[idx].done=!habits[idx].done;localStorage.setItem('habits',JSON.stringify(habits));showHabits();drawChart();updateProgress();}
-    function showHabits(){let habits=JSON.parse(localStorage.getItem('habits')||'[]');let html=habits.map((h,i)=>`<div class="card"><input type="checkbox" ${h.done?'checked':''} onclick="toggleHabit(${i})"> ${h.done?'<s>'+h.text+'</s>':h.text}</div>`).join('');document.getElementById('habitList').innerHTML=html||'No hay hábitos.';}
-    showHabits();
-    // Chart.js progreso
-    let chart;
-    function drawChart(){let entries=JSON.parse(localStorage.getItem('journal')||'[]').length;let habits=JSON.parse(localStorage.getItem('habits')||'[]').filter(h=>h.done).length;let data={labels:['Entradas','Hábitos'],datasets:[{label:'Progreso',data:[entries,habits],backgroundColor:['#4361ee','#4ade80']}]};if(chart){chart.data=data;chart.update();}else{chart=new Chart(document.getElementById('progressChart'),{type:'bar',data:data,options:{scales:{y:{beginAtZero:true}}}});}
-    }
-    drawChart();
-    // Exportar CSV
-    function exportCSV(){let journals=JSON.parse(localStorage.getItem('journal')||'[]');let habits=JSON.parse(localStorage.getItem('habits')||'[]');let csv='Fecha,Entrada\n'+journals.map(e=>`${e.date},"${e.text.replace(/"/g,'""')}"`).join('\n');csv+='\n\nHábito,Completado\n'+habits.map(h=>`${h.text},${h.done?'Sí':'No'}`).join('\n');let blob=new Blob([csv],{type:'text/csv'});let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download='serenamente.csv';a.click();URL.revokeObjectURL(url);}
-    // Recordatorio diario con notificación local
-    function scheduleNotification(){if('Notification'in window){Notification.requestPermission().then(function(result){if(result==='granted'){setTimeout(()=>new Notification('¡Hora de registrar tu bienestar diario!'),5000);}});}}
-    // Autoevaluación PHQ-9 y GAD-7
-    function openAssessment(type){
-      const modal=document.getElementById('assessmentModal');
-      const content=document.getElementById('modalAssessmentContent');
-      let questions=[],label='',max=3;
-      if(type==='phq9'){label='PHQ-9 (Depresión)';questions=[
-        'Poco interés o placer en hacer cosas','Sentirse deprimido, triste o sin esperanza','Dificultad para dormir o dormir demasiado','Sentirse cansado o con poca energía','Pérdida de apetito o comer en exceso','Sentirse mal consigo mismo','Dificultad para concentrarse','Moverse o hablar muy despacio o estar inquieto','Pensamientos suicidas'
-      ];}
-      else{label='GAD-7 (Ansiedad)';questions=[
-        'Sentirse nervioso o ansioso','No poder parar de preocuparse','Preocuparse demasiado por diferentes cosas','Dificultad para relajarse','Estar inquieto','Irritable','Sentir miedo de que algo terrible pudiera pasar'
-      ];}
-      let html=`<h3>${label}</h3><form id="assessmentForm">`;
-      questions.forEach((q,i)=>{html+=`<div>${i+1}. ${q}<br>
-        <select name="q${i}">
-          <option value="0">Nunca</option>
-          <option value="1">Algunos días</option>
-          <option value="2">Más de la mitad de los días</option>
-          <option value="3">Casi todos los días</option>
-        </select></div>`;});
-      html+=`<button class="btn" type="submit">Interpretar</button></form><div id="assessmentModalResult"></div>`;
-      content.innerHTML=html;
-      modal.style.display='block';
-      document.getElementById('assessmentForm').onsubmit=function(e){
-        e.preventDefault();
-        let score=0;
-        for(let i=0;i<questions.length;i++){score+=parseInt(this['q'+i].value);}
-        let result='';if(type==='phq9'){
-          if(score<5)result='Depresión mínima';else if(score<10)result='Depresión leve';else if(score<15)result='Moderada';else if(score<20)result='Moderadamente severa';else result='Severa';
-        }else{
-          if(score<5)result='Ansiedad mínima';else if(score<10)result='Leve';else if(score<15)result='Moderada';else result='Severa';
-        }
-        document.getElementById('assessmentModalResult').innerHTML=`<b>Puntaje: ${score}</b><br><b>Interpretación: ${result}</b>`;
-      }
-    }
-    function closeAssessmentModal(){document.getElementById('assessmentModal').style.display='none';}
-    // Meditación guiada con audio
-    function playMeditation(){
-      let audio=document.getElementById('meditationAudio');
-      let status=document.getElementById('meditationStatus');
-      let time=parseInt(document.getElementById('meditationTime').value);
-      audio.currentTime=0;
-      audio.volume=0.8;
-      audio.play();
-      status.textContent="Reproduciendo meditación...";
-      setTimeout(()=>{audio.pause();status.textContent="Finalizado";},time*60*1000);
-    }
-    // Ejercicios de respiración con latido
-    const heartAudio = document.getElementById('heartAudio');
-    function startBreathing() {
-      let type = document.getElementById('breathType').value;
-      let div = document.getElementById('breathAnimation');
-      let steps, times;
-      if(type==="478") {
-        steps = ["Inhala profundamente (4s)", "Mantén el aire (7s)", "Exhala lentamente (8s)"];
-        times = [4000, 7000, 8000];
-      }
-      else if(type==="cuadrada") {
-        steps = ["Inhala (4s)", "Mantén (4s)", "Exhala (4s)", "Mantén (4s)"];
-        times = [4000,4000,4000,4000];
-      }
-      else {
-        steps = ["Inhala diafragmáticamente (5s)", "Exhala lentamente (5s)"];
-        times = [5000,5000];
-      }
-      let i=0, cycles=0;
-      function step() {
-        div.textContent = steps[i];
-        div.style.color = (i%2===0) ? "#4361ee":"#4ade80";
-        heartAudio.currentTime = 0;
-        heartAudio.play();
-        setTimeout(()=>{
-          i=(i+1)%steps.length;
-          cycles++;
-          if(cycles<steps.length*2) step();
-          else {div.textContent="¡Bien hecho!"; heartAudio.pause(); updateProgress();}
-        }, times[i]);
-      }
-      step();
-    }
-    // Progreso visual
-    function updateProgress() {
-      let journals = JSON.parse(localStorage.getItem('journal') || '[]').length;
-      let habits = JSON.parse(localStorage.getItem('habits') || '[]').filter(h=>h.done).length;
-      let percent = Math.min(100, (journals+habits)*7);
-      document.getElementById('progressBarInner').style.width = percent+"%";
-      document.getElementById('progressText').textContent = "Progreso: "+percent+"% ("+(journals+habits)+" acciones registradas)";
-    }
-    updateProgress();
-    // PWA install prompt
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('installPrompt').style.display = 'block';
-      document.getElementById('installBtn').onclick = () => {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => { closeInstallPrompt(); });
-      }
-    });
-    function closeInstallPrompt(){document.getElementById('installPrompt').style.display='none';}
-  </script>
+    </section>
+  </main>
+  <script src="/js/app.js"></script>
 </body>
 </html>
