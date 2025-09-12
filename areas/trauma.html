@@ -1,1 +1,65 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Trauma | Serenamente</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="area-trauma">
+  <nav class="glass-nav">
+    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
+    <ul>
+      <li><a href="/index.html" class="nav-link">Inicio</a></li>
+      <li><a href="/areas/trauma.html" class="nav-link area-trauma active">Trauma</a></li>
+      <!-- ...otras áreas... -->
+    </ul>
+  </nav>
+  <main>
+    <section class="glass-card area-card area-trauma">
+      <img src="/icons/icon-trauma.png" class="area-icon" alt="Trauma">
+      <h1>Trauma</h1>
+      <p>EMDR, Mindfulness, grounding, autoevaluación PCL-5, recursos y ejercicios.</p>
+      <div class="glass-section">
+        <h2>Autoevaluación PCL-5 (TEPT)</h2>
+        <form id="pcl5form">
+          <ol>
+            <li>Recuerdos intrusivos <select name="q0"><option value="0">Nada</option><option value="1">Poco</option><option value="2">Algo</option><option value="3">Mucho</option><option value="4">Extremadamente</option></select></li>
+            <li>Perturbación emocional <select name="q1"><option value="0">Nada</option><option value="1">Poco</option><option value="2">Algo</option><option value="3">Mucho</option><option value="4">Extremadamente</option></select></li>
+            <li>Evitar pensamientos <select name="q2"><option value="0">Nada</option><option value="1">Poco</option><option value="2">Algo</option><option value="3">Mucho</option><option value="4">Extremadamente</option></select></li>
+          </ol>
+          <button type="submit" class="btn">Interpretar</button>
+        </form>
+        <div id="pcl5result"></div>
+      </div>
+      <div class="glass-section">
+        <h2>Técnicas recomendadas</h2>
+        <ul>
+          <li>EMDR (Desensibilización y Reprocesamiento por Movimientos Oculares)</li>
+          <li>Mindfulness y grounding</li>
+          <li>Exposición gradual</li>
+        </ul>
+      </div>
+      <div class="glass-section">
+        <h2>Recursos y ayuda</h2>
+        <p>Busca ayuda profesional si los síntomas son severos.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.getElementById('pcl5form').onsubmit=function(e){
+      e.preventDefault();
+      let score=0;
+      for(let i=0;i<3;i++){score+=parseInt(this['q'+i].value);}
+      let result;
+      if(score<6)result='Síntomas leves de TEPT';
+      else if(score<9)result='Moderados';
+      else result='Severos';
+      document.getElementById('pcl5result').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
+      if(score>=8){document.getElementById('pcl5result').innerHTML += "<br><strong>Busca ayuda profesional especializada.</strong>";}
+    }
+  </script>
+</body>
+</html>
