@@ -1,1 +1,64 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Esquizofrenia | Serenamente</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="area-esquizofrenia">
+  <nav class="glass-nav">
+    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
+    <ul>
+      <li><a href="/index.html" class="nav-link">Inicio</a></li>
+      <li><a href="/areas/esquizofrenia.html" class="nav-link area-esquizofrenia active">Esquizofrenia</a></li>
+      <!-- ...otras áreas... -->
+    </ul>
+  </nav>
+  <main>
+    <section class="glass-card area-card area-esquizofrenia">
+      <img src="/icons/icon-esquizofrenia.png" class="area-icon" alt="Esquizofrenia">
+      <h1>Esquizofrenia</h1>
+      <p>Psicoeducación, apoyo familiar, gestión de medicación, monitorización de síntomas, recursos y ejercicios.</p>
+      <div class="glass-section">
+        <h2>Monitorización de síntomas</h2>
+        <form id="esquizoform">
+          <ol>
+            <li>Alucinaciones <select name="q0"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
+            <li>Ideas delirantes <select name="q1"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
+          </ol>
+          <button type="submit" class="btn">Interpretar</button>
+        </form>
+        <div id="esquizoresult"></div>
+      </div>
+      <div class="glass-section">
+        <h2>Técnicas recomendadas</h2>
+        <ul>
+          <li>Psicoeducación digital</li>
+          <li>Apoyo familiar</li>
+          <li>Gestión de medicación</li>
+          <li>Monitorización de síntomas</li>
+        </ul>
+      </div>
+      <div class="glass-section">
+        <h2>Recursos y ayuda</h2>
+        <p>Busca ayuda profesional y apoyo familiar.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.getElementById('esquizoform').onsubmit=function(e){
+      e.preventDefault();
+      let score=0;
+      for(let i=0;i<2;i++){score+=parseInt(this['q'+i].value);}
+      let result;
+      if(score<3)result='Monitorización baja';
+      else if(score<5)result='Moderada';
+      else result='Alta';
+      document.getElementById('esquizoresult').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
+      if(score>=3){document.getElementById('esquizoresult').innerHTML += "<br><strong>Consulta a tu profesional de referencia.</strong>";}
+    }
+  </script>
+</body>
+</html>
