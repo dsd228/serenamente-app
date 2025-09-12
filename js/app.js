@@ -1,4 +1,3 @@
-// Marca el enlace activo
 document.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.querySelectorAll('.nav-link');
   const currentPath = window.location.pathname.split('/').pop();
