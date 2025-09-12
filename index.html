@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serenamente - Análisis y Mejoras</title>
+    <title>Serenamente - App de Salud Mental</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" id="app-manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNlcmVuYW1lbnRlIiwKICAic2hvcnRfbmFtZSI6ICJTZXJlbmFtZW50ZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjNGU1NGM4IiwKICAidGhlbWVfY29sb3IiOiAiIzRlNTRjOCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi892lzcC5wbGFjZWhvbGRlci5jb20vMTkyIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly92aXNwLnBsYWNlaG9sZGVyLmNvbS81MTIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
     <style>
         :root {
             --primary: #4e54c8;
@@ -32,6 +32,29 @@
             color: var(--dark);
             line-height: 1.6;
             padding-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        body.dark-theme {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            color: #f8f9fa;
+            --light: #343a40;
+            --dark: #f8f9fa;
+            --gray: #adb5bd;
+        }
+
+        body.nature-theme {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+            --primary: #2d5016;
+            --secondary: #56ab2f;
+            --accent: #ff9a3d;
+        }
+
+        body.calm-theme {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --primary: #4a00e0;
+            --secondary: #8e2de2;
+            --accent: #ff7be5;
         }
 
         .container {
@@ -70,6 +93,11 @@
             transition: var(--transition);
         }
 
+        .dark-theme .card {
+            background: #2c3034;
+            color: #f8f9fa;
+        }
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
@@ -96,6 +124,11 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
             border-left: 4px solid var(--primary);
+        }
+
+        .dark-theme .module {
+            background: #2c3034;
+            color: #f8f9fa;
         }
 
         .module:hover {
@@ -137,9 +170,18 @@
             transition: var(--transition);
         }
 
+        .dark-theme .area {
+            background: #2c3034;
+            color: #f8f9fa;
+        }
+
         .area:hover {
             background: linear-gradient(to right, #f0f2ff, #e6e9ff);
             transform: translateX(5px);
+        }
+
+        .dark-theme .area:hover {
+            background: linear-gradient(to right, #3a3f44, #4a5056);
         }
 
         .area i {
@@ -155,6 +197,11 @@
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-left: 4px solid var(--accent);
+        }
+
+        .dark-theme .improvement {
+            background: #2c3034;
+            color: #f8f9fa;
         }
 
         .improvement h3 {
@@ -244,6 +291,10 @@
             border-radius: 10px 10px 0 0;
         }
 
+        .dark-theme footer {
+            background: #1a1d20;
+        }
+
         .pwa-badge {
             position: fixed;
             bottom: 20px;
@@ -258,6 +309,23 @@
             gap: 8px;
             cursor: pointer;
             z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-on {
+            background-color: var(--success);
+        }
+        
+        .status-off {
+            background-color: var(--danger);
         }
 
         @media (max-width: 768px) {
@@ -284,6 +352,10 @@
         <div class="container">
             <h1>Serenamente</h1>
             <p>App de salud mental: Análisis de estructura y propuesta de mejoras</p>
+            <div style="margin-top: 10px;">
+                <span class="status-indicator" id="sw-status"></span>
+                <small>Service Worker: <span id="sw-text">Comprobando...</span></small>
+            </div>
         </div>
     </header>
 
@@ -426,7 +498,7 @@
 
         <div class="card">
             <h2>Service Worker y Funcionalidad PWA</h2>
-            <p>La aplicación ya incluye un service worker para caching y funcionalidad offline:</p>
+            <p>La aplicación incluye un service worker para caching y funcionalidad offline:</p>
             
             <div class="improvement">
                 <h3><i class="fas fa-code-branch"></i> Service Worker Implementado</h3>
@@ -434,6 +506,7 @@
                     <li><strong>Cache Name:</strong> serenamente-cache-v1</li>
                     <li><strong>Recursos en cache:</strong> Página principal, manifest, iconos y Chart.js</li>
                     <li><strong>Estrategia de caching:</strong> Cache-first con fallback a network</li>
+                    <li><strong>Estado:</strong> <span id="sw-detail">Comprobando...</span></li>
                 </ul>
             </div>
             
@@ -462,28 +535,73 @@
     </footer>
 
     <script>
+        // Funcionalidad para cambiar temas
         function changeTheme(theme) {
-            document.body.className = '';
-            if (theme === 'dark') {
-                document.body.classList.add('dark-theme');
-            } else if (theme === 'nature') {
-                document.body.classList.add('nature-theme');
-            } else if (theme === 'calm') {
-                document.body.classList.add('calm-theme');
-            }
+            document.body.className = theme + '-theme';
+            localStorage.setItem('serenamente-theme', theme);
+        }
+
+        // Cargar tema guardado
+        const savedTheme = localStorage.getItem('serenamente-theme');
+        if (savedTheme) {
+            changeTheme(savedTheme);
         }
 
         // Service Worker Registration
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then((registration) => {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch((registrationError) => {
-                        console.log('SW registration failed: ', registrationError);
-                    });
-            });
+            const swStatus = document.getElementById('sw-status');
+            const swText = document.getElementById('sw-text');
+            const swDetail = document.getElementById('sw-detail');
+            
+            // Crear el service worker en línea
+            const swContent = `
+                const CACHE_NAME = 'serenamente-cache-v1';
+                const urlsToCache = [
+                    '/',
+                    '/index.html',
+                    '/manifest.json',
+                    '/icon-192.png',
+                    '/icon-512.png',
+                    'https://cdn.jsdelivr.net/npm/chart.js'
+                ];
+
+                self.addEventListener('install', e => {
+                    e.waitUntil(
+                        caches.open(CACHE_NAME)
+                        .then(cache => cache.addAll(urlsToCache))
+                    );
+                });
+                
+                self.addEventListener('fetch', e => {
+                    e.respondWith(
+                        caches.match(e.request)
+                        .then(response => response || fetch(e.request))
+                    );
+                });
+            `;
+            
+            // Crear un blob con el service worker
+            const blob = new Blob([swContent], { type: 'application/javascript' });
+            const swURL = URL.createObjectURL(blob);
+            
+            // Registrar el service worker
+            navigator.serviceWorker.register(swURL)
+                .then((registration) => {
+                    console.log('SW registered: ', registration);
+                    swStatus.className = 'status-indicator status-on';
+                    swText.textContent = 'Registrado correctamente';
+                    swDetail.textContent = 'Funcionando correctamente';
+                })
+                .catch((registrationError) => {
+                    console.log('SW registration failed: ', registrationError);
+                    swStatus.className = 'status-indicator status-off';
+                    swText.textContent = 'Error en registro';
+                    swDetail.textContent = 'Error: ' + registrationError.message;
+                });
+        } else {
+            document.getElementById('sw-status').className = 'status-indicator status-off';
+            document.getElementById('sw-text').textContent = 'No compatible';
+            document.getElementById('sw-detail').textContent = 'Su navegador no soporta Service Workers';
         }
 
         // PWA Installation Prompt
