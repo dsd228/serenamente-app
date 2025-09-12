@@ -1,620 +1,209 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Serenamente - App de Salud Mental</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="manifest" id="app-manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNlcmVuYW1lbnRlIiwKICAic2hvcnRfbmFtZSI6ICJTZXJlbmFtZW50ZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjNGU1NGM4IiwKICAidGhlbWVfY29sb3IiOiAiIzRlNTRjOCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi892lzcC5wbGFjZWhvbGRlci5jb20vMTkyIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly92aXNwLnBsYWNlaG9sZGVyLmNvbS81MTIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
-    <style>
-        :root {
-            --primary: #4e54c8;
-            --secondary: #8f94fb;
-            --accent: #ff6b6b;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --gray: #6c757d;
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            padding-bottom: 2rem;
-            transition: var(--transition);
-        }
-
-        body.dark-theme {
-            background: linear-gradient(135deg, #232526 0%, #414345 100%);
-            color: #f8f9fa;
-            --light: #343a40;
-            --dark: #f8f9fa;
-            --gray: #adb5bd;
-        }
-
-        body.nature-theme {
-            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
-            --primary: #2d5016;
-            --secondary: #56ab2f;
-            --accent: #ff9a3d;
-        }
-
-        body.calm-theme {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            --primary: #4a00e0;
-            --secondary: #8e2de2;
-            --accent: #ff7be5;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 0 0 10px 10px;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            transition: var(--transition);
-        }
-
-        .dark-theme .card {
-            background: #2c3034;
-            color: #f8f9fa;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-        }
-
-        .card h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--secondary);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .module {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
-            border-left: 4px solid var(--primary);
-        }
-
-        .dark-theme .module {
-            background: #2c3034;
-            color: #f8f9fa;
-        }
-
-        .module:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            border-left: 4px solid var(--accent);
-        }
-
-        .module h3 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .module p {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
-
-        .module i {
-            font-size: 1.8rem;
-            color: var(--secondary);
-            margin-bottom: 1rem;
-        }
-
-        .area-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .area {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
-        }
-
-        .dark-theme .area {
-            background: #2c3034;
-            color: #f8f9fa;
-        }
-
-        .area:hover {
-            background: linear-gradient(to right, #f0f2ff, #e6e9ff);
-            transform: translateX(5px);
-        }
-
-        .dark-theme .area:hover {
-            background: linear-gradient(to right, #3a3f44, #4a5056);
-        }
-
-        .area i {
-            font-size: 1.5rem;
-            margin-right: 1rem;
-            color: var(--primary);
-        }
-
-        .improvement {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid var(--accent);
-        }
-
-        .dark-theme .improvement {
-            background: #2c3034;
-            color: #f8f9fa;
-        }
-
-        .improvement h3 {
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .improvement h3 i {
-            margin-right: 0.5rem;
-        }
-
-        .improvement ul {
-            padding-left: 1.5rem;
-        }
-
-        .improvement li {
-            margin-bottom: 0.5rem;
-        }
-
-        .priority {
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-left: 0.5rem;
-        }
-
-        .high {
-            background-color: var(--danger);
-            color: white;
-        }
-
-        .medium {
-            background-color: var(--warning);
-            color: var(--dark);
-        }
-
-        .low {
-            background-color: var(--success);
-            color: white;
-        }
-
-        .theme-selector {
-            display: flex;
-            justify-content: center;
-            margin: 1rem 0 2rem;
-            gap: 1rem;
-        }
-
-        .theme-btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .theme-default {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        .theme-dark {
-            background: linear-gradient(to right, #232526, #414345);
-            color: white;
-        }
-
-        .theme-nature {
-            background: linear-gradient(to right, #56ab2f, #a8e063);
-            color: white;
-        }
-
-        .theme-calm {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: white;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding: 1.5rem;
-            background: var(--dark);
-            color: white;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .dark-theme footer {
-            background: #1a1d20;
-        }
-
-        .pwa-badge {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--primary);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 50px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            z-index: 1000;
-            transition: var(--transition);
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        
-        .status-on {
-            background-color: var(--success);
-        }
-        
-        .status-off {
-            background-color: var(--danger);
-        }
-
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .area-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            header h1 {
-                font-size: 2rem;
-            }
-            
-            .theme-selector {
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Service Worker Status -->
+    <div class="sw-status">
+        <span class="sw-indicator sw-pending" id="sw-indicator"></span>
+        <span id="sw-message">Verificando Service Worker...</span>
+    </div>
+
+    <!-- Header -->
     <header>
-        <div class="container">
-            <h1>Serenamente</h1>
-            <p>App de salud mental: Análisis de estructura y propuesta de mejoras</p>
-            <div style="margin-top: 10px;">
-                <span class="status-indicator" id="sw-status"></span>
-                <small>Service Worker: <span id="sw-text">Comprobando...</span></small>
+        <div class="container header-content">
+            <div>
+                <h1 class="logo">Serenamente</h1>
+                <p class="subtitle">Tu santuario digital para el bienestar emocional</p>
+            </div>
+            <div class="theme-selector">
+                <button class="theme-btn" data-theme="default">
+                    <span class="theme-icon">☀️</span>
+                    Predeterminado
+                </button>
+                <button class="theme-btn" data-theme="dark">
+                    <span class="theme-icon">🌙</span>
+                    Oscuro
+                </button>
+                <button class="theme-btn" data-theme="nature">
+                    <span class="theme-icon">🌿</span>
+                    Naturaleza
+                </button>
+                <button class="theme-btn" data-theme="calm">
+                    <span class="theme-icon">🌊</span>
+                    Calma
+                </button>
             </div>
         </div>
     </header>
 
-    <div class="container">
-        <div class="theme-selector">
-            <button class="theme-btn theme-default" onclick="changeTheme('default')">Tema Predeterminado</button>
-            <button class="theme-btn theme-dark" onclick="changeTheme('dark')">Modo Oscuro</button>
-            <button class="theme-btn theme-nature" onclick="changeTheme('nature')">Tema Naturaleza</button>
-            <button class="theme-btn theme-calm" onclick="changeTheme('calm')">Tema Calma</button>
-        </div>
-
-        <div class="card">
-            <h2>Módulos y Contenido Principal</h2>
-            <p>La aplicación Serenamente está estructurada en diferentes módulos que abordan diversas áreas de la salud mental.</p>
+    <!-- Main Content -->
+    <main class="container">
+        <section id="home" class="module-container active">
+            <h1>Bienvenido a Serenamente</h1>
+            <p class="text-center">Tu espacio personal para encontrar paz, equilibrio y bienestar emocional. Explora herramientas diseñadas para nutrir tu mente y alma.</p>
             
-            <div class="grid">
-                <div class="module">
-                    <i class="fas fa-home"></i>
-                    <h3>Home / Pantalla Principal</h3>
-                    <p>Logo de bienvenida y explicación de la app, con navegación a las diferentes áreas.</p>
-                </div>
-                <div class="module">
-                    <i class="fas fa-book"></i>
+            <div class="grid grid-4">
+                <div class="card text-center">
+                    <i class="fas fa-book-open fa-3x mb-3" style="color: #8b5cf6;"></i>
                     <h3>Diario Emocional</h3>
-                    <p>Registro de entradas con fecha y contenido para el seguimiento emocional.</p>
+                    <p>Registra tus sentimientos diarios y descubre patrones en tu bienestar emocional.</p>
+                    <a href="journal.html" class="btn btn-primary">Explorar</a>
                 </div>
-                <div class="module">
-                    <i class="fas fa-headphones"></i>
+                
+                <div class="card text-center">
+                    <i class="fas fa-meditation fa-3x mb-3" style="color: #3b82f6;"></i>
                     <h3>Meditaciones Guiadas</h3>
-                    <p>Reproductor de audio con meditaciones para diferentes necesidades.</p>
+                    <p>Accede a sesiones de meditación para reducir el estrés y encontrar la calma interior.</p>
+                    <a href="meditation.html" class="btn btn-primary">Explorar</a>
                 </div>
-                <div class="module">
-                    <i class="fas fa-lungs"></i>
+                
+                <div class="card text-center">
+                    <i class="fas fa-wind fa-3x mb-3" style="color: #10b981;"></i>
                     <h3>Ejercicios de Respiración</h3>
-                    <p>Animaciones y controles para practicar técnicas de respiración.</p>
+                    <p>Practica técnicas de respiración consciente para calmar tu sistema nervioso.</p>
+                    <a href="breathing.html" class="btn btn-primary">Explorar</a>
                 </div>
-                <div class="module">
-                    <i class="fas fa-chart-line"></i>
+                
+                <div class="card text-center">
+                    <i class="fas fa-chart-line fa-3x mb-3" style="color: #f59e0b;"></i>
                     <h3>Panel de Progreso</h3>
-                    <p>Gráficas y estadísticas de seguimiento del estado emocional.</p>
-                </div>
-                <div class="module">
-                    <i class="fas fa-tasks"></i>
-                    <h3>Registro de Hábitos</h3>
-                    <p>Seguimiento de hábitos saludables y rutinas.</p>
+                    <p>Sigue tu evolución emocional con estadísticas visuales y análisis personalizados.</p>
+                    <a href="progress.html" class="btn btn-primary">Explorar</a>
                 </div>
             </div>
-        </div>
+            
+            <div class="grid grid-2 mt-8">
+                <div class="card">
+                    <h3>Áreas de Apoyo</h3>
+                    <p>Ofrecemos recursos específicos para manejar ansiedad, depresión, estrés, trauma, TOC, adicciones y más. Cada área tiene herramientas adaptadas a tus necesidades.</p>
+                    <a href="support.html" class="btn btn-outline">Ver todas las áreas</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Hábitos Saludables</h3>
+                    <p>Registro y seguimiento de rutinas que mejoran tu bienestar: meditación, ejercicio, sueño, gratitud y respiración consciente.</p>
+                    <a href="habits.html" class="btn btn-outline">Registrar hábitos</a>
+                </div>
+            </div>
+            
+            <div class="card mt-8">
+                <h3>Recomendaciones de Mejora</h3>
+                <ul class="list-disc pl-6">
+                    <li><strong>Alta prioridad:</strong> Agregar autenticación y sincronización en la nube</li>
+                    <li><strong>Alta prioridad:</strong> Mejorar la accesibilidad con etiquetas ARIA</li>
+                    <li><strong>Media prioridad:</strong> Minificar recursos estáticos y optimizar imágenes</li>
+                    <li><strong>Media prioridad:</strong> Internacionalización para soporte de múltiples idiomas</li>
+                    <li><strong>Baja prioridad:</strong> Reorganizar la estructura de archivos y eliminar redundancias</li>
+                </ul>
+            </div>
+        </section>
+    </main>
 
-        <div class="card">
-            <h2>Áreas de Salud Mental</h2>
-            <p>La aplicación cubre las siguientes áreas problemáticas de salud mental, cada una con su contenido específico:</p>
-            
-            <div class="area-grid">
-                <div class="area">
-                    <i class="fas fa-sad-tear"></i>
-                    <span>Depresión</span>
-                </div>
-                <div class="area">
-                    <i class="fas fa-heartbeat"></i>
-                    <span>Ansiedad</span>
-                </div>
-                <div class="area">
-                    <i class="fas fa-brain"></i>
-                    <span>Estrés</span>
-                </div>
-                <div class="area">
-                    <i class="fas fa-first-aid"></i>
-                    <span>Trauma</span>
-                </div>
-                <div class="area">
-                    <i class="fas fa-redo"></i>
-                    <span>TOC</span>
-                </div>
-                <div class="area">
-                    <i class="fas fa-utensils"></i>
-                    <span>Alimentación</span>
-                </div>
-                <div class="area">
-                    <i class="fas fa-wine-glass"></i>
-                    <span>Adicciones</span>
-                </div>
-                <div class="area">
-                    <i class="fas fa-cloud-sun"></i>
-                    <span>Bipolaridad</span>
-                </div>
-                <div class="area">
-                    <i class="fas fa-project-diagram"></i>
-                    <span>Esquizofrenia</span>
-                </div>
-            </div>
-        </div>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="index.html" class="nav-item active" data-module="home">
+            <i class="fas fa-home"></i>
+            Inicio
+        </a>
+        <a href="journal.html" class="nav-item" data-module="journal">
+            <i class="fas fa-book"></i>
+            Diario
+        </a>
+        <a href="meditation.html" class="nav-item" data-module="meditation">
+            <i class="fas fa-meditation"></i>
+            Meditación
+        </a>
+        <a href="breathing.html" class="nav-item" data-module="breathing">
+            <i class="fas fa-wind"></i>
+            Respiración
+        </a>
+        <a href="progress.html" class="nav-item" data-module="progress">
+            <i class="fas fa-chart-line"></i>
+            Progreso
+        </a>
+    </nav>
 
-        <div class="card">
-            <h2>Mejoras Recomendadas</h2>
-            <p>Basado en el análisis de la aplicación, se recomiendan las siguientes mejoras organizadas por prioridad:</p>
-            
-            <div class="improvement">
-                <h3><i class="fas fa-user-circle"></i> UX/UI <span class="priority high">Alta Prioridad</span></h3>
-                <ul>
-                    <li>Agregar descripciones breves o ejemplos en cada área</li>
-                    <li>Mejorar la accesibilidad con etiquetas ARIA y contraste adecuado</li>
-                    <li>Agregar retroalimentación visual en interacciones</li>
-                    <li>Optimizar la responsividad en dispositivos móviles</li>
-                </ul>
-            </div>
-            
-            <div class="improvement">
-                <h3><i class="fas fa-cogs"></i> Funcionalidad <span class="priority high">Alta Prioridad</span></h3>
-                <ul>
-                    <li>Integrar autenticación/registro de usuario</li>
-                    <li>Sincronización en la nube para múltiples dispositivos</li>
-                    <li>Agregar más recursos multimedia (videos, podcasts)</li>
-                    <li>Sistema de notificaciones para recordatorios</li>
-                    <li>Autoevaluaciones interactivas con recomendaciones</li>
-                </ul>
-            </div>
-            
-            <div class="improvement">
-                <h3><i class="fas fa-code"></i> Código y Mantenimiento <span class="priority medium">Media Prioridad</span></h3>
-                <ul>
-                    <li>Separar estilos en archivos por módulos</li>
-                    <li>Minificar recursos estáticos para mejorar rendimiento</li>
-                    <li>Optimizar imágenes con formatos adaptativos</li>
-                    <li>Internacionalización (soporte para múltiples idiomas)</li>
-                    <li>Implementar pruebas automáticas y validación</li>
-                </ul>
-            </div>
-            
-            <div class="improvement">
-                <h3><i class="fas fa-tools"></i> Sugerencias Específicas <span class="priority low">Baja Prioridad</span></h3>
-                <ul>
-                    <li>Eliminar duplicidad de enlaces a CSS en HTML</li>
-                    <li>Reorganizar imágenes fuera de contenedores principales</li>
-                    <li>Completar la implementación de lógica en JavaScript</li>
-                    <li>Revisar estructura de archivos y organización del proyecto</li>
-                </ul>
-            </div>
-        </div>
+    <!-- Install PWA Button -->
+    <button class="install-btn" id="install-btn" title="Instalar aplicación">
+        <i class="fas fa-cloud-download-alt"></i>
+    </button>
 
-        <div class="card">
-            <h2>Service Worker y Funcionalidad PWA</h2>
-            <p>La aplicación incluye un service worker para caching y funcionalidad offline:</p>
-            
-            <div class="improvement">
-                <h3><i class="fas fa-code-branch"></i> Service Worker Implementado</h3>
-                <ul>
-                    <li><strong>Cache Name:</strong> serenamente-cache-v1</li>
-                    <li><strong>Recursos en cache:</strong> Página principal, manifest, iconos y Chart.js</li>
-                    <li><strong>Estrategia de caching:</strong> Cache-first con fallback a network</li>
-                    <li><strong>Estado:</strong> <span id="sw-detail">Comprobando...</span></li>
-                </ul>
-            </div>
-            
-            <div class="improvement">
-                <h3><i class="fas fa-mobile-alt"></i> Próximos Pasos PWA</h3>
-                <ul>
-                    <li>Agregar pantalla de instalación para dispositivos móviles</li>
-                    <li>Implementar notificaciones push</li>
-                    <li>Agregar más recursos a la estrategia de caching</li>
-                    <li>Implementar actualizaciones en segundo plano</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="pwa-badge" id="pwaInstallButton" style="display: none;">
-        <i class="fas fa-download"></i>
-        <span>Instalar App</span>
-    </div>
-
+    <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>Análisis de la aplicación Serenamente - Propuesta de mejoras y estructura</p>
-            <p>© 2023 - Diseño para fines ilustrativos</p>
-        </div>
+        © 2024 Serenamente - Una aplicación ilustrativa para bienestar emocional<br>
+        Esta aplicación no reemplaza la terapia profesional. Si estás pasando por un momento difícil, busca ayuda de un profesional de la salud mental.
     </footer>
 
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+    
+    <!-- Service Worker Registration -->
     <script>
-        // Funcionalidad para cambiar temas
-        function changeTheme(theme) {
-            document.body.className = theme + '-theme';
-            localStorage.setItem('serenamente-theme', theme);
-        }
-
-        // Cargar tema guardado
-        const savedTheme = localStorage.getItem('serenamente-theme');
-        if (savedTheme) {
-            changeTheme(savedTheme);
-        }
-
-        // Service Worker Registration
+        // Check if service worker is supported
         if ('serviceWorker' in navigator) {
-            const swStatus = document.getElementById('sw-status');
-            const swText = document.getElementById('sw-text');
-            const swDetail = document.getElementById('sw-detail');
-            
-            // Crear el service worker en línea
-            const swContent = `
-                const CACHE_NAME = 'serenamente-cache-v1';
-                const urlsToCache = [
-                    '/',
-                    '/index.html',
-                    '/manifest.json',
-                    '/icon-192.png',
-                    '/icon-512.png',
-                    'https://cdn.jsdelivr.net/npm/chart.js'
-                ];
-
-                self.addEventListener('install', e => {
-                    e.waitUntil(
-                        caches.open(CACHE_NAME)
-                        .then(cache => cache.addAll(urlsToCache))
-                    );
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    document.getElementById('sw-indicator').classList.remove('sw-pending');
+                    document.getElementById('sw-indicator').classList.add('sw-active');
+                    document.getElementById('sw-message').textContent = 'Service Worker activado';
+                    
+                    // Listen for updates
+                    registration.onupdatefound = function() {
+                        const installingWorker = registration.installing;
+                        installingWorker.onstatechange = function() {
+                            if (installingWorker.state === 'installed') {
+                                if (navigator.serviceWorker.controller) {
+                                    // New update available
+                                    document.getElementById('sw-indicator').classList.remove('sw-active');
+                                    document.getElementById('sw-indicator').classList.add('sw-pending');
+                                    document.getElementById('sw-message').textContent = 'Actualización disponible. Recargue la página.';
+                                    
+                                    // Show notification to user
+                                    setTimeout(() => {
+                                        if (confirm('Nueva versión disponible. ¿Desea actualizar ahora?')) {
+                                            window.location.reload();
+                                        }
+                                    }, 1000);
+                                } else {
+                                    // Initial install
+                                    document.getElementById('sw-indicator').classList.remove('sw-pending');
+                                    document.getElementById('sw-indicator').classList.add('sw-active');
+                                    document.getElementById('sw-message').textContent = 'Service Worker activado';
+                                }
+                            }
+                        };
+                    };
+                }).catch(function(error) {
+                    console.log('ServiceWorker registration failed: ', error);
+                    document.getElementById('sw-indicator').classList.remove('sw-pending');
+                    document.getElementById('sw-indicator').classList.add('sw-error');
+                    document.getElementById('sw-message').textContent = 'Error al registrar Service Worker';
                 });
-                
-                self.addEventListener('fetch', e => {
-                    e.respondWith(
-                        caches.match(e.request)
-                        .then(response => response || fetch(e.request))
-                    );
-                });
-            `;
-            
-            // Crear un blob con el service worker
-            const blob = new Blob([swContent], { type: 'application/javascript' });
-            const swURL = URL.createObjectURL(blob);
-            
-            // Registrar el service worker
-            navigator.serviceWorker.register(swURL)
-                .then((registration) => {
-                    console.log('SW registered: ', registration);
-                    swStatus.className = 'status-indicator status-on';
-                    swText.textContent = 'Registrado correctamente';
-                    swDetail.textContent = 'Funcionando correctamente';
-                })
-                .catch((registrationError) => {
-                    console.log('SW registration failed: ', registrationError);
-                    swStatus.className = 'status-indicator status-off';
-                    swText.textContent = 'Error en registro';
-                    swDetail.textContent = 'Error: ' + registrationError.message;
-                });
-        } else {
-            document.getElementById('sw-status').className = 'status-indicator status-off';
-            document.getElementById('sw-text').textContent = 'No compatible';
-            document.getElementById('sw-detail').textContent = 'Su navegador no soporta Service Workers';
+            });
         }
-
-        // PWA Installation Prompt
+        
+        // Handle PWA installation
         let deferredPrompt;
-        const pwaInstallButton = document.getElementById('pwaInstallButton');
-
+        
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            pwaInstallButton.style.display = 'flex';
-            
-            pwaInstallButton.addEventListener('click', () => {
-                pwaInstallButton.style.display = 'none';
+            document.getElementById('install-btn').style.display = 'flex';
+        });
+        
+        document.getElementById('install-btn').addEventListener('click', () => {
+            if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
@@ -623,8 +212,33 @@
                         console.log('User dismissed the install prompt');
                     }
                     deferredPrompt = null;
+                    document.getElementById('install-btn').style.display = 'none';
                 });
+            }
+        });
+        
+        // Theme switching functionality
+        document.querySelectorAll('.theme-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.getAttribute('data-theme');
+                document.body.className = '';
+                if (theme !== 'default') {
+                    document.body.classList.add(`theme-${theme}`);
+                }
+                
+                // Save preference
+                localStorage.setItem('serenamente-theme', theme);
             });
+        });
+        
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('serenamente-theme');
+            if (savedTheme && savedTheme !== 'default') {
+                document.body.classList.add(`theme-${savedTheme}`);
+                // Update active theme button
+                document.querySelector(`.theme-btn[data-theme="${savedTheme}"]`).classList.add('active');
+            }
         });
     </script>
 </body>
