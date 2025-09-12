@@ -1,77 +1,102 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Serenamente - Salud Mental Universal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serenamente - Salud Mental</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="area-home">
-  <nav class="glass-nav">
-    <img src="icons/icon-192.png" alt="Serenamente" class="nav-logo">
-    <ul>
-      <li><a href="index.html" class="nav-link active">Inicio</a></li>
-      <li><a href="areas/depresion.html" class="nav-link area-depresion">Depresión</a></li>
-      <li><a href="areas/ansiedad.html" class="nav-link area-ansiedad">Ansiedad</a></li>
-      <li><a href="areas/estres.html" class="nav-link area-estres">Estrés</a></li>
-      <li><a href="areas/trauma.html" class="nav-link area-trauma">Trauma</a></li>
-      <li><a href="areas/toc.html" class="nav-link area-toc">TOC</a></li>
-      <li><a href="areas/alimentacion.html" class="nav-link area-alimentacion">Alimentación</a></li>
-      <li><a href="areas/adicciones.html" class="nav-link area-adicciones">Adicciones</a></li>
-      <li><a href="areas/bipolar.html" class="nav-link area-bipolar">Bipolaridad</a></li>
-      <li><a href="areas/esquizofrenia.html" class="nav-link area-esquizofrenia">Esquizofrenia</a></li>
-    </ul>
-  </nav>
-  <main>
-    <section class="glass-card home-card">
-      <img src="icons/icon-512.png" class="area-icon" alt="Logo Serenamente">
-      <h1>Serenamente 🌿</h1>
-      <p>Elige el área que quieres trabajar y accede a técnicas eficaces, autoevaluaciones, recursos y acompañamiento digital.</p>
-      <div class="areas-grid">
-        <a href="areas/depresion.html" class="glass-mini area-depresion">
-          <img src="icons/icon-depresion.png" alt="Depresión">
-          <span>Depresión</span>
-        </a>
-        <a href="areas/ansiedad.html" class="glass-mini area-ansiedad">
-          <img src="icons/icon-ansiedad.png" alt="Ansiedad">
-          <span>Ansiedad</span>
-        </a>
-        <a href="areas/estres.html" class="glass-mini area-estres">
-          <img src="icons/icon-estres.png" alt="Estrés">
-          <span>Estrés</span>
-        </a>
-        <a href="areas/trauma.html" class="glass-mini area-trauma">
-          <img src="icons/icon-trauma.png" alt="Trauma">
-          <span>Trauma</span>
-        </a>
-        <a href="areas/toc.html" class="glass-mini area-toc">
-          <img src="icons/icon-toc.png" alt="TOC">
-          <span>TOC</span>
-        </a>
-        <a href="areas/alimentacion.html" class="glass-mini area-alimentacion">
-          <img src="icons/icon-alimentacion.png" alt="Alimentación">
-          <span>Alimentación</span>
-        </a>
-        <a href="areas/adicciones.html" class="glass-mini area-adicciones">
-          <img src="icons/icon-adicciones.png" alt="Adicciones">
-          <span>Adicciones</span>
-        </a>
-        <a href="areas/bipolar.html" class="glass-mini area-bipolar">
-          <img src="icons/icon-bipolar.png" alt="Bipolaridad">
-          <span>Bipolaridad</span>
-        </a>
-        <a href="areas/esquizofrenia.html" class="glass-mini area-esquizofrenia">
-          <img src="icons/icon-esquizofrenia.png" alt="Esquizofrenia">
-          <span>Esquizofrenia</span>
-        </a>
-      </div>
-    </section>
-  </main>
-  <link rel="stylesheet" href="css/styles.css">
-<script src="js/app.js"></script>
-<img src="icons/icon-192.png">
-<!-- ... -->
+<body class="theme-default">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="icons/logo.png" alt="Logo Serenamente">
+                <h1>Serenamente</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#areas">Áreas</a></li>
+                    <li><a href="#diario">Diario</a></li>
+                    <li><a href="#meditaciones">Meditaciones</a></li>
+                    <li><a href="#progreso">Progreso</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h2>Bienvenido a Serenamente</h2>
+                <p>Tu compañero para el bienestar mental</p>
+                <a href="#areas" class="btn">Explorar Áreas</a>
+            </div>
+        </section>
+
+        <section id="areas" class="areas">
+            <div class="container">
+                <h2>Áreas de Salud Mental</h2>
+                <div class="areas-grid">
+                    <a href="depresion.html" class="area-card" data-theme="theme-depresion">
+                        <i class="fas fa-sad-tear"></i>
+                        <h3>Depresión</h3>
+                    </a>
+                    <a href="ansiedad.html" class="area-card" data-theme="theme-ansiedad">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Ansiedad</h3>
+                    </a>
+                    <a href="estres.html" class="area-card" data-theme="theme-estres">
+                        <i class="fas fa-brain"></i>
+                        <h3>Estrés</h3>
+                    </a>
+                    <a href="trauma.html" class="area-card" data-theme="theme-trauma">
+                        <i class="fas fa-first-aid"></i>
+                        <h3>Trauma</h3>
+                    </a>
+                    <a href="toc.html" class="area-card" data-theme="theme-toc">
+                        <i class="fas fa-redo"></i>
+                        <h3>TOC</h3>
+                    </a>
+                    <a href="alimentacion.html" class="area-card" data-theme="theme-alimentacion">
+                        <i class="fas fa-utensils"></i>
+                        <h3>Alimentación</h3>
+                    </a>
+                    <a href="adicciones.html" class="area-card" data-theme="theme-adicciones">
+                        <i class="fas fa-wine-glass"></i>
+                        <h3>Adicciones</h3>
+                    </a>
+                    <a href="bipolaridad.html" class="area-card" data-theme="theme-bipolaridad">
+                        <i class="fas fa-cloud-sun"></i>
+                        <h3>Bipolaridad</h3>
+                    </a>
+                    <a href="esquizofrenia.html" class="area-card" data-theme="theme-esquizofrenia">
+                        <i class="fas fa-project-diagram"></i>
+                        <h3>Esquizofrenia</h3>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="diario" class="diario">
+            <div class="container">
+                <h2>Diario Emocional</h2>
+                <p>Registra tus pensamientos y emociones</p>
+                <!-- Aquí iría el componente de diario -->
+            </div>
+        </section>
+
+        <!-- Otras secciones como meditaciones, progreso, etc. -->
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Serenamente - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>
