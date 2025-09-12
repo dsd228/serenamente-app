@@ -1,1 +1,63 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bipolaridad | Serenamente</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="area-bipolar">
+  <nav class="glass-nav">
+    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
+    <ul>
+      <li><a href="/index.html" class="nav-link">Inicio</a></li>
+      <li><a href="/areas/bipolar.html" class="nav-link area-bipolar active">Bipolaridad</a></li>
+      <!-- ...otras áreas... -->
+    </ul>
+  </nav>
+  <main>
+    <section class="glass-card area-card area-bipolar">
+      <img src="/icons/icon-bipolar.png" class="area-icon" alt="Bipolaridad">
+      <h1>Bipolaridad</h1>
+      <p>Psicoeducación, monitorización de síntomas, terapia familiar, recursos y ejercicios.</p>
+      <div class="glass-section">
+        <h2>Monitorización de síntomas</h2>
+        <form id="bipolarform">
+          <ol>
+            <li>Cambios de ánimo frecuentes <select name="q0"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
+            <li>Dificultad para regular emociones <select name="q1"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
+          </ol>
+          <button type="submit" class="btn">Interpretar</button>
+        </form>
+        <div id="bipolarresult"></div>
+      </div>
+      <div class="glass-section">
+        <h2>Técnicas recomendadas</h2>
+        <ul>
+          <li>Psicoeducación digital</li>
+          <li>Terapia familiar</li>
+          <li>Monitorización de síntomas</li>
+        </ul>
+      </div>
+      <div class="glass-section">
+        <h2>Recursos y ayuda</h2>
+        <p>Busca ayuda profesional y apoyo familiar.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.getElementById('bipolarform').onsubmit=function(e){
+      e.preventDefault();
+      let score=0;
+      for(let i=0;i<2;i++){score+=parseInt(this['q'+i].value);}
+      let result;
+      if(score<3)result='Monitorización baja';
+      else if(score<5)result='Moderada';
+      else result='Alta';
+      document.getElementById('bipolarresult').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
+      if(score>=3){document.getElementById('bipolarresult').innerHTML += "<br><strong>Consulta a tu profesional de referencia.</strong>";}
+    }
+  </script>
+</body>
+</html>
