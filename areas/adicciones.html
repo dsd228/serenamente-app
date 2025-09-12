@@ -1,1 +1,63 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Adicciones | Serenamente</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="area-adicciones">
+  <nav class="glass-nav">
+    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
+    <ul>
+      <li><a href="/index.html" class="nav-link">Inicio</a></li>
+      <li><a href="/areas/adicciones.html" class="nav-link area-adicciones active">Adicciones</a></li>
+      <!-- ...otras áreas... -->
+    </ul>
+  </nav>
+  <main>
+    <section class="glass-card area-card area-adicciones">
+      <img src="/icons/icon-adicciones.png" class="area-icon" alt="Adicciones">
+      <h1>Adicciones</h1>
+      <p>TCC para adicciones, terapia motivacional, autoevaluación AUDIT, recursos y ejercicios.</p>
+      <div class="glass-section">
+        <h2>Autoevaluación AUDIT</h2>
+        <form id="auditform">
+          <ol>
+            <li>Consumo de alcohol semanal <select name="q0"><option value="0">Nunca</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
+            <li>Problemas derivados del consumo <select name="q1"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
+          </ol>
+          <button type="submit" class="btn">Interpretar</button>
+        </form>
+        <div id="auditresult"></div>
+      </div>
+      <div class="glass-section">
+        <h2>Técnicas recomendadas</h2>
+        <ul>
+          <li>Evitar disparadores</li>
+          <li>Grupos de apoyo</li>
+          <li>Terapia motivacional</li>
+        </ul>
+      </div>
+      <div class="glass-section">
+        <h2>Recursos y ayuda</h2>
+        <p>Busca ayuda profesional si tienes problemas con sustancias.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.getElementById('auditform').onsubmit=function(e){
+      e.preventDefault();
+      let score=0;
+      for(let i=0;i<2;i++){score+=parseInt(this['q'+i].value);}
+      let result;
+      if(score<3)result='Sin riesgo';
+      else if(score<5)result='Riesgo moderado';
+      else result='Riesgo alto';
+      document.getElementById('auditresult').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
+      if(score>=3){document.getElementById('auditresult').innerHTML += "<br><strong>Busca ayuda profesional.</strong>";}
+    }
+  </script>
+</body>
+</html>
