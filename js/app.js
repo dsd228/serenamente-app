@@ -1,7 +1,11 @@
-document.querySelectorAll('.nav-link').forEach(link=>{
-  link.addEventListener('click', function(){
-    document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
-    this.classList.add('active');
-    // Si usas SPA, aquí puedes cargar dinámicamente el contenido del área
+// Marca el enlace activo
+document.addEventListener('DOMContentLoaded', () => {
+  const navLinks = document.querySelectorAll('.nav-link');
+  const currentPath = window.location.pathname.split('/').pop();
+  navLinks.forEach(link => {
+    if (link.getAttribute('href').split('/').pop() === currentPath) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    }
   });
 });
