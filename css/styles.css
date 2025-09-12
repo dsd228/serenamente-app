@@ -80,6 +80,19 @@ body.area-esquizofrenia { background: var(--color-esquizofrenia);}
 .glass-mini:hover {box-shadow: 0 8px 24px #0002; transform:translateY(-2px);}
 .glass-mini img {width:38px;height:38px;}
 .glass-section {background:var(--glass-bg);margin:18px 0 0 0;padding:18px;border-radius:14px;text-align:left;}
+.btn {
+  background: var(--color-home);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  margin-top: 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0001;
+  transition: background 0.2s;
+}
+.btn:hover {background: var(--color-depresion);}
 @media(max-width:700px) {
   .glass-card {padding:14px;}
   .areas-grid {grid-template-columns:1fr 1fr;}
