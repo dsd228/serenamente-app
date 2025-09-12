@@ -4,8 +4,8 @@ const urlsToCache = [
   '/index.html',
   '/manifest.json',
   '/icon-192.png',
-  '/icon-512.png'
-  // Agrega aquí tus recursos adicionales (audios, imágenes, etc)
+  '/icon-512.png',
+  'https://cdn.jsdelivr.net/npm/chart.js'
 ];
 
 self.addEventListener('install', e => {
