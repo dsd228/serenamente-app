@@ -3,100 +3,425 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serenamente - Salud Mental</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Serenamente - Análisis y Mejoras</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4e54c8;
+            --secondary: #8f94fb;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gray: #6c757d;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 10px 10px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .module {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+        }
+
+        .module:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            border-left: 4px solid var(--accent);
+        }
+
+        .module h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .module p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .module i {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .area-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .area {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .area:hover {
+            background: linear-gradient(to right, #f0f2ff, #e6e9ff);
+            transform: translateX(5px);
+        }
+
+        .area i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+
+        .improvement {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--accent);
+        }
+
+        .improvement h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .improvement h3 i {
+            margin-right: 0.5rem;
+        }
+
+        .improvement ul {
+            padding-left: 1.5rem;
+        }
+
+        .improvement li {
+            margin-bottom: 0.5rem;
+        }
+
+        .priority {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .high {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .medium {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        .low {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .theme-selector {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0 2rem;
+            gap: 1rem;
+        }
+
+        .theme-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .theme-default {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .theme-dark {
+            background: linear-gradient(to right, #232526, #414345);
+            color: white;
+        }
+
+        .theme-nature {
+            background: linear-gradient(to right, #56ab2f, #a8e063);
+            color: white;
+        }
+
+        .theme-calm {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: var(--dark);
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .area-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
-<body class="theme-default">
+<body>
     <header>
         <div class="container">
-            <div class="logo">
-                <img src="icons/logo.png" alt="Logo Serenamente">
-                <h1>Serenamente</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#home">Inicio</a></li>
-                    <li><a href="#areas">Áreas</a></li>
-                    <li><a href="#diario">Diario</a></li>
-                    <li><a href="#meditaciones">Meditaciones</a></li>
-                    <li><a href="#progreso">Progreso</a></li>
-                </ul>
-            </nav>
+            <h1>Serenamente</h1>
+            <p>App de salud mental: Análisis de estructura y propuesta de mejoras</p>
         </div>
     </header>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="container">
-                <h2>Bienvenido a Serenamente</h2>
-                <p>Tu compañero para el bienestar mental</p>
-                <a href="#areas" class="btn">Explorar Áreas</a>
-            </div>
-        </section>
+    <div class="container">
+        <div class="theme-selector">
+            <button class="theme-btn theme-default" onclick="changeTheme('default')">Tema Predeterminado</button>
+            <button class="theme-btn theme-dark" onclick="changeTheme('dark')">Modo Oscuro</button>
+            <button class="theme-btn theme-nature" onclick="changeTheme('nature')">Tema Naturaleza</button>
+            <button class="theme-btn theme-calm" onclick="changeTheme('calm')">Tema Calma</button>
+        </div>
 
-        <section id="areas" class="areas">
-            <div class="container">
-                <h2>Áreas de Salud Mental</h2>
-                <div class="areas-grid">
-                    <a href="depresion.html" class="area-card" data-theme="theme-depresion">
-                        <i class="fas fa-sad-tear"></i>
-                        <h3>Depresión</h3>
-                    </a>
-                    <a href="ansiedad.html" class="area-card" data-theme="theme-ansiedad">
-                        <i class="fas fa-heartbeat"></i>
-                        <h3>Ansiedad</h3>
-                    </a>
-                    <a href="estres.html" class="area-card" data-theme="theme-estres">
-                        <i class="fas fa-brain"></i>
-                        <h3>Estrés</h3>
-                    </a>
-                    <a href="trauma.html" class="area-card" data-theme="theme-trauma">
-                        <i class="fas fa-first-aid"></i>
-                        <h3>Trauma</h3>
-                    </a>
-                    <a href="toc.html" class="area-card" data-theme="theme-toc">
-                        <i class="fas fa-redo"></i>
-                        <h3>TOC</h3>
-                    </a>
-                    <a href="alimentacion.html" class="area-card" data-theme="theme-alimentacion">
-                        <i class="fas fa-utensils"></i>
-                        <h3>Alimentación</h3>
-                    </a>
-                    <a href="adicciones.html" class="area-card" data-theme="theme-adicciones">
-                        <i class="fas fa-wine-glass"></i>
-                        <h3>Adicciones</h3>
-                    </a>
-                    <a href="bipolaridad.html" class="area-card" data-theme="theme-bipolaridad">
-                        <i class="fas fa-cloud-sun"></i>
-                        <h3>Bipolaridad</h3>
-                    </a>
-                    <a href="esquizofrenia.html" class="area-card" data-theme="theme-esquizofrenia">
-                        <i class="fas fa-project-diagram"></i>
-                        <h3>Esquizofrenia</h3>
-                    </a>
+        <div class="card">
+            <h2>Módulos y Contenido Principal</h2>
+            <p>La aplicación Serenamente está estructurada en diferentes módulos que abordan diversas áreas de la salud mental.</p>
+            
+            <div class="grid">
+                <div class="module">
+                    <i class="fas fa-home"></i>
+                    <h3>Home / Pantalla Principal</h3>
+                    <p>Logo de bienvenida y explicación de la app, con navegación a las diferentes áreas.</p>
+                </div>
+                <div class="module">
+                    <i class="fas fa-book"></i>
+                    <h3>Diario Emocional</h3>
+                    <p>Registro de entradas con fecha y contenido para el seguimiento emocional.</p>
+                </div>
+                <div class="module">
+                    <i class="fas fa-headphones"></i>
+                    <h3>Meditaciones Guiadas</h3>
+                    <p>Reproductor de audio con meditaciones para diferentes necesidades.</p>
+                </div>
+                <div class="module">
+                    <i class="fas fa-lungs"></i>
+                    <h3>Ejercicios de Respiración</h3>
+                    <p>Animaciones y controles para practicar técnicas de respiración.</p>
+                </div>
+                <div class="module">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Panel de Progreso</h3>
+                    <p>Gráficas y estadísticas de seguimiento del estado emocional.</p>
+                </div>
+                <div class="module">
+                    <i class="fas fa-tasks"></i>
+                    <h3>Registro de Hábitos</h3>
+                    <p>Seguimiento de hábitos saludables y rutinas.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="diario" class="diario">
-            <div class="container">
-                <h2>Diario Emocional</h2>
-                <p>Registra tus pensamientos y emociones</p>
-                <!-- Aquí iría el componente de diario -->
+        <div class="card">
+            <h2>Áreas de Salud Mental</h2>
+            <p>La aplicación cubre las siguientes áreas problemáticas de salud mental, cada una con su contenido específico:</p>
+            
+            <div class="area-grid">
+                <div class="area">
+                    <i class="fas fa-sad-tear"></i>
+                    <span>Depresión</span>
+                </div>
+                <div class="area">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Ansiedad</span>
+                </div>
+                <div class="area">
+                    <i class="fas fa-brain"></i>
+                    <span>Estrés</span>
+                </div>
+                <div class="area">
+                    <i class="fas fa-first-aid"></i>
+                    <span>Trauma</span>
+                </div>
+                <div class="area">
+                    <i class="fas fa-redo"></i>
+                    <span>TOC</span>
+                </div>
+                <div class="area">
+                    <i class="fas fa-utensils"></i>
+                    <span>Alimentación</span>
+                </div>
+                <div class="area">
+                    <i class="fas fa-wine-glass"></i>
+                    <span>Adicciones</span>
+                </div>
+                <div class="area">
+                    <i class="fas fa-cloud-sun"></i>
+                    <span>Bipolaridad</span>
+                </div>
+                <div class="area">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Esquizofrenia</span>
+                </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Otras secciones como meditaciones, progreso, etc. -->
-
-    </main>
+        <div class="card">
+            <h2>Mejoras Recomendadas</h2>
+            <p>Basado en el análisis de la aplicación, se recomiendan las siguientes mejoras organizadas por prioridad:</p>
+            
+            <div class="improvement">
+                <h3><i class="fas fa-user-circle"></i> UX/UI <span class="priority high">Alta Prioridad</span></h3>
+                <ul>
+                    <li>Agregar descripciones breves o ejemplos en cada área</li>
+                    <li>Mejorar la accesibilidad con etiquetas ARIA y contraste adecuado</li>
+                    <li>Agregar retroalimentación visual en interacciones</li>
+                    <li>Optimizar la responsividad en dispositivos móviles</li>
+                </ul>
+            </div>
+            
+            <div class="improvement">
+                <h3><i class="fas fa-cogs"></i> Funcionalidad <span class="priority high">Alta Prioridad</span></h3>
+                <ul>
+                    <li>Integrar autenticación/registro de usuario</li>
+                    <li>Sincronización en la nube para múltiples dispositivos</li>
+                    <li>Agregar más recursos multimedia (videos, podcasts)</li>
+                    <li>Sistema de notificaciones para recordatorios</li>
+                    <li>Autoevaluaciones interactivas con recomendaciones</li>
+                </ul>
+            </div>
+            
+            <div class="improvement">
+                <h3><i class="fas fa-code"></i> Código y Mantenimiento <span class="priority medium">Media Prioridad</span></h3>
+                <ul>
+                    <li>Separar estilos en archivos por módulos</li>
+                    <li>Minificar recursos estáticos para mejorar rendimiento</li>
+                    <li>Optimizar imágenes con formatos adaptativos</li>
+                    <li>Internacionalización (soporte para múltiples idiomas)</li>
+                    <li>Implementar pruebas automáticas y validación</li>
+                </ul>
+            </div>
+            
+            <div class="improvement">
+                <h3><i class="fas fa-tools"></i> Sugerencias Específicas <span class="priority low">Baja Prioridad</span></h3>
+                <ul>
+                    <li>Eliminar duplicidad de enlaces a CSS en HTML</li>
+                    <li>Reorganizar imágenes fuera de contenedores principales</li>
+                    <li>Completar la implementación de lógica en JavaScript</li>
+                    <li>Revisar estructura de archivos y organización del proyecto</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
-            <p>&copy; 2023 Serenamente - Todos los derechos reservados</p>
+            <p>Análisis de la aplicación Serenamente - Propuesta de mejoras y estructura</p>
+            <p>© 2023 - Diseño para fines ilustrativos</p>
         </div>
     </footer>
 
-    <script src="app.js"></script>
+    <script>
+        function changeTheme(theme) {
+            document.body.className = '';
+            if (theme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else if (theme === 'nature') {
+                document.body.classList.add('nature-theme');
+            } else if (theme === 'calm') {
+                document.body.classList.add('calm-theme');
+            }
+        }
+    </script>
 </body>
 </html>
