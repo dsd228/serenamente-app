@@ -1,44 +1,58 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Depresión | Serenamente</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="area-depresion">
-  <nav class="glass-nav">
-    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
-    <ul>
-      <li><a href="/index.html" class="nav-link">Inicio</a></li>
-      <li><a href="/areas/depresion.html" class="nav-link area-depresion active">Depresión</a></li>
-      <!-- ...otras áreas... -->
+<section class="py-8 max-w-2xl mx-auto fadein">
+  <div class="flex items-center gap-4 mb-6">
+    <div class="w-14 h-14 bg-gradient-to-br from-indigo-100 to-indigo-200 rounded-full flex items-center justify-center">
+      <i class="fas fa-cloud-rain text-indigo-600 text-3xl"></i>
+    </div>
+    <div>
+      <h2 class="text-3xl font-bold mb-1">Depresión</h2>
+      <p class="text-gray-600">Apoyo y autoevaluación para la depresión.</p>
+    </div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Autoevaluación PHQ-2</h3>
+    <form id="depresion-form" aria-label="Autoevaluación PHQ-2">
+      <label class="block mb-2 font-medium">¿Te has sentido triste o sin esperanza en las últimas dos semanas?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="tristeza" required>
+        <option value="">Selecciona...</option>
+        <option value="frecuente">Frecuentemente</option>
+        <option value="a_veces">A veces</option>
+        <option value="nunca">Nunca</option>
+      </select>
+      <label class="block mb-2 font-medium">¿Has perdido interés o placer en hacer cosas?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="interes" required>
+        <option value="">Selecciona...</option>
+        <option value="siempre">Siempre</option>
+        <option value="a_veces">A veces</option>
+        <option value="nunca">Nunca</option>
+      </select>
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 transition">Enviar</button>
+    </form>
+    <div id="depresion-result" class="mt-4 text-indigo-700"></div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6">
+    <h3 class="text-xl font-semibold mb-3">Recursos útiles y ayuda</h3>
+    <ul class="list-disc pl-6 space-y-2">
+      <li><a href="https://www.suicide.org/international-suicide-hotlines.html" target="_blank" class="text-indigo-600 underline hover:text-indigo-800">Líneas internacionales de emergencia</a></li>
+      <li><a href="https://www.psicologiaymente.com/clinica/depresion" target="_blank" class="text-indigo-600 underline hover:text-indigo-800">Psicología y Mente</a></li>
+      <li><a href="https://www.mind.org.uk/" target="_blank" class="text-indigo-600 underline hover:text-indigo-800">Mind UK</a></li>
     </ul>
-  </nav>
-  <main>
-    <section class="glass-card area-card area-depresion">
-      <img src="/icons/icon-depresion.png" class="area-icon" alt="Depresión">
-      <h1>Depresión</h1>
-      <p>Panel con técnicas TCC, Mindfulness, activación conductual, autoevaluación PHQ-9, recursos y ejercicios interactivos.</p>
-      <div class="glass-section">
-        <h2>Autoevaluación PHQ-9</h2>
-        <!-- Aquí va el test PHQ-9 interactivo -->
-      </div>
-      <div class="glass-section">
-        <h2>Técnicas recomendadas</h2>
-        <ul>
-          <li>Reestructuración cognitiva</li>
-          <li>Activación conductual</li>
-          <li>Rutinas de autocuidado</li>
-          <li>Mindfulness guiado</li>
-        </ul>
-      </div>
-      <div class="glass-section">
-        <h2>Recursos y ayuda</h2>
-        <p>En caso de crisis, busca ayuda profesional o llama al 911.</p>
-      </div>
-    </section>
-  </main>
-</body>
-</html>
+  </div>
+  <script>
+    document.getElementById('depresion-form').onsubmit = function(e) {
+      e.preventDefault();
+      const tristeza = this.tristeza.value;
+      const interes = this.interes.value;
+      let msg = '';
+      if (tristeza === 'frecuente' || interes === 'siempre') {
+        msg = 'Tus respuestas indican que podrías necesitar apoyo profesional. No dudes en pedir ayuda.';
+      } else if (tristeza === 'a_veces' || interes === 'a_veces') {
+        msg = 'Observa tus emociones y busca soporte si lo necesitas.';
+      } else if (tristeza === 'nunca' && interes === 'nunca') {
+        msg = '¡Genial! Parece que tu estado de ánimo es estable.';
+      } else {
+        msg = 'Completa las respuestas para obtener orientación.';
+      }
+      document.getElementById('depresion-result').textContent = msg;
+    }
+  </script>
+</section>
