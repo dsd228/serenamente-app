@@ -1,63 +1,57 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Alimentación | Serenamente</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="area-alimentacion">
-  <nav class="glass-nav">
-    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
-    <ul>
-      <li><a href="/index.html" class="nav-link">Inicio</a></li>
-      <li><a href="/areas/alimentacion.html" class="nav-link area-alimentacion active">Alimentación</a></li>
-      <!-- ...otras áreas... -->
+<section class="py-8 max-w-2xl mx-auto fadein">
+  <div class="flex items-center gap-4 mb-6">
+    <div class="w-14 h-14 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center">
+      <i class="fas fa-apple-alt text-green-700 text-3xl"></i>
+    </div>
+    <div>
+      <h2 class="text-3xl font-bold mb-1">Alimentación</h2>
+      <p class="text-gray-600">Mejora tu relación con la comida y realiza una autoevaluación.</p>
+    </div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Autoevaluación EAT-26</h3>
+    <form id="alimentacion-form" aria-label="Autoevaluación EAT-26">
+      <label class="block mb-2 font-medium">¿Te preocupa tu peso o figura?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="peso" required>
+        <option value="">Selecciona...</option>
+        <option value="siempre">Siempre</option>
+        <option value="a veces">A veces</option>
+        <option value="nunca">Nunca</option>
+      </select>
+      <label class="block mb-2 font-medium">¿Evitas comer por miedo a engordar?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="evita" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded shadow hover:bg-green-800 transition">Enviar</button>
+    </form>
+    <div id="alimentacion-result" class="mt-4 text-green-700"></div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6">
+    <h3 class="text-xl font-semibold mb-3">Recursos útiles</h3>
+    <ul class="list-disc pl-6 space-y-2">
+      <li><a href="https://www.aedweb.org/" target="_blank" class="text-green-700 underline hover:text-green-900">Asociación de Trastornos Alimentarios</a></li>
+      <li><a href="https://www.nutricion.org.ar/" target="_blank" class="text-green-700 underline hover:text-green-900">Sociedad Argentina de Nutrición</a></li>
+      <li><a href="https://www.fundacionmanantiales.org.ar/" target="_blank" class="text-green-700 underline hover:text-green-900">Fundación Manantiales</a></li>
     </ul>
-  </nav>
-  <main>
-    <section class="glass-card area-card area-alimentacion">
-      <img src="/icons/icon-alimentacion.png" class="area-icon" alt="Alimentación">
-      <h1>Alimentación</h1>
-      <p>TCC adaptada, terapia familiar, mindfulness alimentario, autoevaluación EAT-26, recursos y ejercicios.</p>
-      <div class="glass-section">
-        <h2>Autoevaluación EAT-26</h2>
-        <form id="eat26form">
-          <ol>
-            <li>Preocupación por la comida <select name="q0"><option value="0">Nada</option><option value="1">Poco</option><option value="2">Algo</option><option value="3">Mucho</option></select></li>
-            <li>Comer en secreto <select name="q1"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
-          </ol>
-          <button type="submit" class="btn">Interpretar</button>
-        </form>
-        <div id="eat26result"></div>
-      </div>
-      <div class="glass-section">
-        <h2>Técnicas recomendadas</h2>
-        <ul>
-          <li>Mindfulness alimentario</li>
-          <li>TCC adaptada</li>
-          <li>Terapia familiar</li>
-        </ul>
-      </div>
-      <div class="glass-section">
-        <h2>Recursos y ayuda</h2>
-        <p>Busca ayuda profesional si tienes conductas alimentarias de riesgo.</p>
-      </div>
-    </section>
-  </main>
+  </div>
   <script>
-    document.getElementById('eat26form').onsubmit=function(e){
+    document.getElementById('alimentacion-form').onsubmit = function(e) {
       e.preventDefault();
-      let score=0;
-      for(let i=0;i<2;i++){score+=parseInt(this['q'+i].value);}
-      let result;
-      if(score<3)result='Sin riesgo';
-      else if(score<5)result='Riesgo moderado';
-      else result='Riesgo alto';
-      document.getElementById('eat26result').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
-      if(score>=3){document.getElementById('eat26result').innerHTML += "<br><strong>Consulta a un profesional.</strong>";}
+      const peso = this.peso.value;
+      const evita = this.evita.value;
+      let msg = '';
+      if (peso === 'siempre' || evita === 'si') {
+        msg = 'Tus respuestas indican que podrías beneficiarte de apoyo profesional sobre tu relación con la alimentación.';
+      } else if (peso === 'a veces') {
+        msg = 'Presta atención a tus hábitos y emociones respecto a la alimentación.';
+      } else if (peso === 'nunca' && evita === 'no') {
+        msg = '¡Excelente! Parece que tienes una relación saludable con la comida.';
+      } else {
+        msg = 'Completa las respuestas para obtener orientación.';
+      }
+      document.getElementById('alimentacion-result').textContent = msg;
     }
   </script>
-</body>
-</html>
+</section>
