@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
-// Base de datos de fichas (puedes poner esto en un archivo aparte y usar props)
+// Base de datos de fichas (puedes ampliar cada área con funciones/test/ejercicios)
 const fichas = [
   {
     key: "ansiedad",
     titulo: "Ansiedad (GAD, pánico, TOC)",
-    descripcion: "Ansiedad excesiva, miedos, ataques de pánico o rituales que interfieren en la vida.",
+    descripcion: "Ansiedad excesiva, miedos, ataques de pánico o rituales.",
     tecnicas: [
       "TCC: psicoeducación, registro de síntomas, reestructuración cognitiva, exposición gradual.",
       "ERP para TOC: exposición + prevención de respuesta.",
@@ -13,23 +13,35 @@ const fichas = [
     ],
     ejercicios: [
       "Respiración diafragmática guiada.",
-      "Registro de pensamientos automáticos.",
-      "Ejercicio 5-4-3-2-1 (anclaje al presente).",
-      "Exposición gradual (jerarquía de miedos)."
+      "Registro de pensamientos.",
+      "Ejercicio 5-4-3-2-1 (anclaje al presente)."
     ],
-    farmacologia: [
-      "ISRS/SNRI (sertralina, escitalopram, venlafaxina).",
-      "Benzodiacepinas solo en crisis (corto plazo)."
+    test: [
+      { pregunta: "¿Sientes preocupación excesiva por cosas cotidianas?", opciones: ["Nunca", "A veces", "Frecuente", "Siempre"] },
+      { pregunta: "¿Has tenido ataques de pánico en el último mes?", opciones: ["No", "1 vez", "2-3 veces", "Más de 3"] },
+      { pregunta: "¿Evitas lugares/situaciones por miedo o ansiedad?", opciones: ["No", "Pocas veces", "Frecuente", "Siempre"] }
     ],
-    otras: "Hospitalización si riesgo suicida o incapacidad severa. Psicoeducación familiar.",
-    alarma: [
-      "Ideación suicida.",
-      "Ataques de pánico graves.",
-      "Incapacidad funcional."
-    ],
+    farmacologia: ["ISRS/SNRI", "Benzodiacepinas en crisis"],
+    otras: "Hospitalización si riesgo suicida. Psicoeducación familiar.",
+    alarma: ["Ideación suicida", "Ataques graves", "Incapacidad funcional"],
     fuente: "NICE, WHO"
   },
-  // ...agrega aquí las demás fichas del JSON
+  {
+    key: "depresion",
+    titulo: "Depresión / Bipolaridad",
+    descripcion: "Tristeza profunda, anhedonia, alteración del ánimo.",
+    tecnicas: ["TCC", "Activación conductual", "TIP", "IPSRT"],
+    ejercicios: ["Agenda de actividades", "Registro emocional", "Mindfulness guiado"],
+    test: [
+      { pregunta: "¿Ha disminuido tu interés en actividades?", opciones: ["No", "Leve", "Moderado", "Severo"] },
+      { pregunta: "¿Has tenido pensamientos suicidas?", opciones: ["Nunca", "Rara vez", "A menudo", "Diariamente"] }
+    ],
+    farmacologia: ["ISRS", "Litio", "Valproato", "Antipsicóticos"],
+    otras: "ECT, rTMS, hospitalización.",
+    alarma: ["Ideación suicida", "Deterioro funcional grave"],
+    fuente: "NICE, NIMH"
+  }
+  // ...agrega más según tu JSON
 ];
 
 // Modal básico para React
@@ -56,11 +68,58 @@ function Modal({ open, onClose, title, children }) {
   );
 }
 
+// Test rápido por ficha
+function TestPatologia({ test }) {
+  const [respuestas, setRespuestas] = useState(Array(test.length).fill(null));
+  const [terminado, setTerminado] = useState(false);
+
+  function handleChange(idx, value) {
+    const nuevo = [...respuestas];
+    nuevo[idx] = value;
+    setRespuestas(nuevo);
+  }
+
+  function enviarTest() {
+    setTerminado(true);
+    // Aquí puedes poner lógica de puntaje, derivación, feedback, etc.
+  }
+
+  return (
+    <div>
+      {test.map((q, idx) => (
+        <div key={idx} style={{ marginBottom: "1em" }}>
+          <strong>{q.pregunta}</strong>
+          <div>
+            {q.opciones.map((op, i) => (
+              <label key={i} style={{ marginRight: "1em" }}>
+                <input
+                  type="radio"
+                  name={`test${idx}`}
+                  value={op}
+                  checked={respuestas[idx] === op}
+                  onChange={() => handleChange(idx, op)}
+                /> {op}
+              </label>
+            ))}
+          </div>
+        </div>
+      ))}
+      {!terminado ? (
+        <button onClick={enviarTest} style={{ background: "#AEE6E6", color: "#2d3b6a", padding: "0.6em 1.2em", borderRadius: "1em", fontWeight: "bold" }}>Enviar test</button>
+      ) : (
+        <div style={{ marginTop: "1em", color: "#2d3b6a" }}>
+          <strong>¡Test completado!</strong> {respuestas.includes("Severo") || respuestas.includes("Siempre") || respuestas.includes("Diariamente")
+            ? "Te recomendamos consultar con un profesional." : "Tus respuestas no indican alerta grave, pero si persisten los síntomas consulta con tu médico."}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Ficha individual
 function FichaPatologia({ ficha }) {
-  const [modal, setModal] = useState({ open: false, title: "", items: [] });
+  const [modal, setModal] = useState({ open: false, title: "", content: null });
 
-  // PDF export (jsPDF necesario si quieres exportar)
   function exportarPDF() {
     if (!window.jspdf) return alert("jsPDF no cargado.");
     const { jsPDF } = window.jspdf;
@@ -90,7 +149,7 @@ function FichaPatologia({ ficha }) {
 
   function derivacionAlarma() {
     alert(`Derivación/Alarma para ${ficha.titulo}:\n- ${ficha.alarma.join('\n- ')}\n\nContactar servicios de emergencia o profesional de salud mental.`);
-    // Aquí puedes integrar tu sistema de notificaciones/alarma.
+    // Integra con tu sistema de notificaciones o backend aquí.
   }
 
   return (
@@ -125,49 +184,36 @@ function FichaPatologia({ ficha }) {
         display: "flex", flexWrap: "wrap", gap: "1em", marginTop: "1.2em"
       }}>
         <button
-          style={{
-            background: "linear-gradient(90deg,#AEE6E6,#B9AEDC)", color: "#2d3b6a",
-            border: "none", padding: "0.7em 1.2em", borderRadius: "1em", fontWeight: "bold", cursor: "pointer"
-          }}
-          onClick={() => setModal({ open: true, title: "Técnicas", items: ficha.tecnicas })}
+          style={{background:"linear-gradient(90deg,#AEE6E6,#B9AEDC)",color:"#2d3b6a",border:"none",padding:"0.7em 1.2em",borderRadius:"1em",fontWeight:"bold",cursor:"pointer"}}
+          onClick={() => setModal({ open: true, title: "Técnicas", content: <ul>{ficha.tecnicas.map((t,i)=><li key={i}>{t}</li>)}</ul>})}
         >Ver técnicas</button>
         <button
-          style={{
-            background: "linear-gradient(90deg,#C2E9D3,#ecebff)", color: "#2d3b6a",
-            border: "none", padding: "0.7em 1.2em", borderRadius: "1em", fontWeight: "bold", cursor: "pointer"
-          }}
-          onClick={() => setModal({ open: true, title: "Ejercicios prácticos", items: ficha.ejercicios })}
+          style={{background:"linear-gradient(90deg,#C2E9D3,#ecebff)",color:"#2d3b6a",border:"none",padding:"0.7em 1.2em",borderRadius:"1em",fontWeight:"bold",cursor:"pointer"}}
+          onClick={() => setModal({ open: true, title: "Ejercicios prácticos", content: <ul>{ficha.ejercicios.map((t,i)=><li key={i}>{t}</li>)}</ul>})}
         >Ejercicios prácticos</button>
         <button
-          style={{
-            background: "linear-gradient(90deg,#B9AEDC,#A7C7E7)", color: "#2d3b6a",
-            border: "none", padding: "0.7em 1.2em", borderRadius: "1em", fontWeight: "bold", cursor: "pointer"
-          }}
+          style={{background:"linear-gradient(90deg,#B9AEDC,#A7C7E7)",color:"#2d3b6a",border:"none",padding:"0.7em 1.2em",borderRadius:"1em",fontWeight:"bold",cursor:"pointer"}}
           onClick={exportarPDF}
         >Exportar ficha PDF</button>
         <button
-          style={{
-            background: "linear-gradient(90deg,#F7D6E0,#AEE6E6)", color: "#a81e3a",
-            border: "none", padding: "0.7em 1.2em", borderRadius: "1em", fontWeight: "bold", cursor: "pointer"
-          }}
+          style={{background:"linear-gradient(90deg,#F7D6E0,#AEE6E6)",color:"#a81e3a",border:"none",padding:"0.7em 1.2em",borderRadius:"1em",fontWeight:"bold",cursor:"pointer"}}
           onClick={derivacionAlarma}
         >Derivación / Alarma</button>
         <button
-          style={{
-            background: "linear-gradient(90deg,#C2E9D3,#F7D6E0)", color: "#2d3b6a",
-            border: "none", padding: "0.7em 1.2em", borderRadius: "1em", fontWeight: "bold", cursor: "pointer"
-          }}
+          style={{background:"linear-gradient(90deg,#C2E9D3,#F7D6E0)",color:"#2d3b6a",border:"none",padding:"0.7em 1.2em",borderRadius:"1em",fontWeight:"bold",cursor:"pointer"}}
           onClick={enviarMail}
         >Enviar por mail</button>
+        <button
+          style={{background:"#ecebff",color:"#2d3b6a",border:"none",padding:"0.7em 1.2em",borderRadius:"1em",fontWeight:"bold",cursor:"pointer"}}
+          onClick={() => setModal({open:true,title:"Test de autoevaluación",content:<TestPatologia test={ficha.test}/>})}
+        >Test rápido</button>
       </div>
       <Modal
         open={modal.open}
         onClose={() => setModal({ ...modal, open: false })}
         title={modal.title + " (" + ficha.titulo + ")"}
       >
-        <ul style={{ lineHeight: "1.8" }}>
-          {modal.items.map((item, i) => <li key={i}>{item}</li>)}
-        </ul>
+        {modal.content}
       </Modal>
     </div>
   );
