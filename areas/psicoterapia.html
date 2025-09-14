@@ -1,69 +1,125 @@
 <section class="py-8 max-w-2xl mx-auto fadein">
+  <!-- Encabezado -->
   <div class="flex items-center gap-4 mb-6">
     <div class="w-14 h-14 bg-gradient-to-br from-indigo-100 to-purple-200 rounded-full flex items-center justify-center">
       <i class="fas fa-comments text-purple-700 text-3xl"></i>
     </div>
     <div>
-      <h2 class="text-3xl font-bold mb-1">Chat con tu Psicólogo Virtual</h2>
-      <p class="text-gray-600">Recibe orientación profesional simulando una conversación real de psicoterapia.</p>
+      <h2 class="text-3xl font-bold mb-1">Chat de Psicoterapia Virtual</h2>
+      <p class="text-gray-600">Asistencia personalizada en crisis, ejercicios guiados y audioterapia.</p>
     </div>
   </div>
+
+  <!-- Chat Window -->
   <div class="bg-white rounded-3xl shadow p-6 mb-6">
-    <div id="chat-window" class="mb-4 max-h-96 overflow-y-auto">
-      <!-- Aquí aparecen los mensajes del chat -->
+    <div id="chat-window" class="mb-4 max-h-96 overflow-y-auto" style="scroll-behavior:smooth;">
+      <!-- Mensajes aquí -->
     </div>
     <form id="chat-form" class="flex gap-2" autocomplete="off">
       <input type="text" id="chat-input" class="border rounded p-2 flex-1" placeholder="Escribe aquí tu mensaje..." required maxlength="180"/>
       <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded shadow">Enviar</button>
     </form>
+    <div class="flex gap-2 mt-2">
+      <button onclick="setMode('breve')" id="btn-breve" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded active">Breve</button>
+      <button onclick="setMode('extendida')" id="btn-extendida" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded">Extendida</button>
+    </div>
+  </div>
+
+  <!-- Ejercicio guiado sugerido -->
+  <div id="ejercicio-sugerido"></div>
+
+  <!-- Audioterapia -->
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Audioterapia: Relajación y Bienestar</h3>
+    <div class="flex flex-col gap-3">
+      <button onclick="playAudio('relajacion')" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-800 transition">Relajación guiada</button>
+      <button onclick="playAudio('mindfulness')" class="bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-800 transition">Mindfulness rápido</button>
+      <button onclick="playAudio('autoafirmacion')" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-800 transition">Autoafirmación positiva</button>
+      <audio id="audio-player" controls style="display:none;margin-top:1rem;width:100%"></audio>
+    </div>
   </div>
 </section>
 <script>
-  // Técnicas por trastorno, puedes ampliar/modificar
-  const techniques = {
-    ansiedad: [
-      "Respiración profunda y consciente",
-      "Reestructuración cognitiva para identificar pensamientos irracionales",
-      "Exposición gradual a situaciones temidas",
-      "Mindfulness (atención plena)"
-    ],
-    depresion: [
-      "Activación conductual (hacer actividades placenteras)",
-      "Diario de gratitud",
-      "Reestructuración cognitiva de pensamientos negativos",
-      "Técnicas de autocompasión"
-    ],
-    trauma: [
-      "Técnicas de grounding (anclaje al presente)",
-      "Visualización de lugar seguro",
-      "EMDR (Desensibilización y Reprocesamiento por Movimientos Oculares)",
-      "Narración controlada de la experiencia"
-    ],
-    adicciones: [
-      "Identificación de desencadenantes",
-      "Planificación de alternativas saludables",
-      "Técnicas de control de impulsos",
-      "Apoyo en grupos de pares"
-    ],
-    toc: [
-      "Exposición y prevención de respuesta (ERP)",
-      "Registro y análisis de obsesiones/compulsiones",
-      "Reestructuración cognitiva",
-      "Mindfulness para aceptar pensamientos sin reaccionar"
-    ],
-    bipolaridad: [
-      "Monitoreo de estado de ánimo",
-      "Rutinas estables de sueño",
-      "Psicoeducación sobre síntomas",
-      "Técnicas de regulación emocional"
-    ]
-    // Puedes agregar más áreas
+  // Modo de respuesta
+  let replyMode = 'breve';
+  function setMode(mode) {
+    replyMode = mode;
+    document.getElementById('btn-breve').classList.toggle('active', mode==='breve');
+    document.getElementById('btn-extendida').classList.toggle('active', mode==='extendida');
+    renderChat();
+  }
+
+  // Audioterapia audios (puedes cambiar las URLs por las tuyas)
+  const audioClips = {
+    relajacion: "https://cdn.pixabay.com/audio/2022/07/26/audio_124b5d7b91.mp3",
+    mindfulness: "https://cdn.pixabay.com/audio/2023/02/23/audio_128fa7519b.mp3",
+    autoafirmacion: "https://cdn.pixabay.com/audio/2022/03/15/audio_115b5a070e.mp3"
+  };
+  function playAudio(type) {
+    const player = document.getElementById('audio-player');
+    player.src = audioClips[type];
+    player.style.display = 'block';
+    player.play();
+  }
+
+  // Crisis y técnicas
+  const crisisTechniques = {
+    ansiedad: {
+      breve: "Prueba la respiración consciente. Inhala lento por la nariz, exhala lento por la boca. Repite 5 veces.",
+      extendida: `La respiración diafragmática ayuda a calmar el sistema nervioso. Siéntate cómodo, pon una mano en tu abdomen. Inhala 4 segundos sintiendo que se expande, retén 2 segundos, exhala por la boca en 6 segundos. Repite varias veces. También puedes probar la técnica 5-4-3-2-1: nombra 5 cosas que ves, 4 que puedes tocar, 3 que escuchas, 2 que hueles, 1 que saboreas.`,
+      ejercicio: `<button onclick="ejercicioAnsiedad()" class="bg-indigo-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+    },
+    depresion: {
+      breve: "Haz la técnica de 3 cosas buenas: escribe tres cosas positivas de hoy.",
+      extendida: `La activación conductual ayuda a salir de la inactividad. Haz una acción pequeña: dúchate, camina, llama a alguien. Luego, escribe tres cosas buenas de hoy. Practica reestructuración cognitiva: detecta un pensamiento negativo y busca una interpretación alternativa. Usa autoafirmaciones: “Tengo valor”, “Este momento no define mi vida”.`,
+      ejercicio: `<button onclick="ejercicioDepresion()" class="bg-yellow-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+    },
+    trauma: {
+      breve: "Grounding: toca un objeto, siente tus pies, nombra colores a tu alrededor.",
+      extendida: `Las técnicas de grounding ayudan a volver al presente. Prueba: siente la textura de un objeto, nota la temperatura de tus manos, nombra los colores que ves. Visualiza un lugar seguro y respira lento. Si tienes flashbacks, repite: “Estoy seguro aquí y ahora”.`,
+      ejercicio: `<button onclick="ejercicioTrauma()" class="bg-green-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+    },
+    adicciones: {
+      breve: "Distráete: sal de la habitación, llama a alguien, escucha música.",
+      extendida: `Cuando sientas impulso, usa la técnica de tiempo de espera: espera 10 minutos antes de actuar. Identifica el desencadenante. Haz una lista de alternativas saludables: caminar, tomar agua, hablar con alguien. Si es urgente, contacta un profesional o grupo de apoyo.`,
+      ejercicio: `<button onclick="ejercicioAdicciones()" class="bg-pink-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+    },
+    toc: {
+      breve: "Retrasa la compulsión 1 minuto. Repite: “Es solo un pensamiento”.",
+      extendida: `La Exposición y Prevención de Respuesta (ERP) es útil: expónte al pensamiento sin hacer la compulsión por 1 minuto, luego 2, y así sucesivamente. Apunta tus obsesiones y la ansiedad asociada. Practica mindfulness para aceptar pensamientos sin reaccionar.`,
+      ejercicio: `<button onclick="ejercicioTOC()" class="bg-teal-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+    },
+    bipolaridad: {
+      breve: "Registra tu estado de ánimo y mantén rutinas.",
+      extendida: `Monitorea tu ánimo cada día. Mantén rutinas de sueño y comida. Si notas cambios intensos, contacta a tu profesional. La psicoeducación y la regulación emocional ayudan a estabilizar. Haz actividades tranquilas y evita estímulos extremos.`,
+      ejercicio: `<button onclick="ejercicioBipolaridad()" class="bg-purple-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+    }
+  };
+
+  // Palabras clave asociadas a crisis
+  const crisisKeywords = {
+    ansiedad: ["ansiedad", "pánico", "ataque", "miedo", "estresado"],
+    depresion: ["depresión", "triste", "desanimado", "llorar", "desesperanza", "sin ganas"],
+    trauma: ["trauma", "recuerdo", "flashback", "disociar", "miedo intenso", "temblor", "abuso"],
+    adicciones: ["adicción", "consumir", "impulso", "abstinencia", "quiero drogarme", "no aguanto"],
+    toc: ["toc", "obsesión", "compulsión", "comprobar", "pensar sin parar"],
+    bipolaridad: ["bipolaridad", "cambio de ánimo", "euforia", "no puedo dormir", "tristeza intensa"]
   };
 
   // Chat state
   let chatHistory = [
     {author: "psicologo", text: "¡Hola! Soy tu psicólogo virtual. ¿Sobre qué tema te gustaría conversar hoy? Ejemplo: ansiedad, depresión, trauma, adicciones, TOC, bipolaridad."}
   ];
+
+  function detectCrisis(msg) {
+    msg = msg.toLowerCase();
+    for (let crisis in crisisKeywords) {
+      if (crisisKeywords[crisis].some(k => msg.includes(k))) {
+        return crisis;
+      }
+    }
+    return null;
+  }
 
   // Render chat
   function renderChat() {
@@ -78,57 +134,115 @@
     chatDiv.scrollTop = chatDiv.scrollHeight;
   }
 
-  // Analiza mensaje y responde
-  function getPsychologistReply(userMsg) {
-    userMsg = userMsg.toLowerCase();
-    let area = "";
-    ["ansiedad","depresion","trauma","adicciones","toc","bipolaridad"].forEach(k=>{
-      if(userMsg.includes(k)) area = k;
-    });
-
-    if(area) {
-      let reply = `Gracias por compartir que quieres hablar sobre <b>${area}</b>.<br>`;
-      reply += `¿Cómo te has sentido últimamente con respecto a este tema? ¿Podrías describir una situación reciente?`;
-      reply += `<br><br><b>Técnicas recomendadas para ${area}:</b><ul>`;
-      techniques[area].forEach(t=>reply+=`<li>${t}</li>`);
-      reply += `</ul>`;
-      return reply;
+  // Genera respuesta según crisis detectada y modo
+  function getReply(userMsg) {
+    let crisis = detectCrisis(userMsg);
+    if (crisis) {
+      let txt = replyMode === 'breve' ? crisisTechniques[crisis].breve : crisisTechniques[crisis].extendida;
+      txt += `<br>${crisisTechniques[crisis].ejercicio}`;
+      txt += `<br><i>¿Quieres ver otra técnica o ejercicio? Escribe "más".</i>`;
+      return txt;
     }
-
-    // Si ya se mencionó un área antes, sugiere técnicas específicas
-    if(chatHistory.some(m=>m.text.toLowerCase().includes("ansiedad"))) area = "ansiedad";
-    if(chatHistory.some(m=>m.text.toLowerCase().includes("depresion"))) area = "depresion";
-    if(chatHistory.some(m=>m.text.toLowerCase().includes("trauma"))) area = "trauma";
-    if(chatHistory.some(m=>m.text.toLowerCase().includes("adicciones"))) area = "adicciones";
-    if(chatHistory.some(m=>m.text.toLowerCase().includes("toc"))) area = "toc";
-    if(chatHistory.some(m=>m.text.toLowerCase().includes("bipolaridad"))) area = "bipolaridad";
-
-    // Respuestas según área y palabras clave
-    if(area) {
-      if(userMsg.includes("estresado") || userMsg.includes("ansioso") || userMsg.includes("ansiedad")) {
-        return `Entiendo que la ansiedad puede ser muy incómoda. ¿Te gustaría intentar una técnica de ${techniques.ansiedad[0]} ahora? <br><button onclick="location.hash='#/ejercicio/respiracion'" class="bg-indigo-600 text-white px-2 py-1 rounded">Ejercicio guiado</button>`;
+    if (userMsg.toLowerCase().includes("más")) {
+      // Sugerir otra técnica si ya hay crisis en el chat
+      let lastCrisis = null;
+      for (let i = chatHistory.length - 1; i >= 0; i--) {
+        let c = detectCrisis(chatHistory[i].text);
+        if (c) { lastCrisis = c; break; }
       }
-      if(userMsg.includes("triste") || userMsg.includes("desanimado") || userMsg.includes("depresion")) {
-        return `La tristeza y la depresión son emociones válidas. ¿Te gustaría escribir una autoafirmación? <br><button onclick="location.hash='#/ejercicio/autoafirmacion'" class="bg-yellow-600 text-white px-2 py-1 rounded">Ejercicio guiado</button>`;
+      if (lastCrisis) {
+        let txt = replyMode === 'breve' ? crisisTechniques[lastCrisis].extendida : crisisTechniques[lastCrisis].breve;
+        txt += `<br>${crisisTechniques[lastCrisis].ejercicio}`;
+        return txt;
       }
-      if(userMsg.includes("miedo") || userMsg.includes("trauma")) {
-        return `El miedo y el trauma pueden trabajarse con <b>técnicas de grounding</b>. ¿Te gustaría hacer una visualización de lugar seguro? <br><button onclick="location.hash='#/ejercicio/visualizacion'" class="bg-green-600 text-white px-2 py-1 rounded">Ejercicio guiado</button>`;
-      }
-      if(userMsg.includes("impulso") || userMsg.includes("adiccion")) {
-        return `Para las adicciones, identificar desencadenantes es útil. ¿Quieres hacer una lista de alternativas saludables?`;
-      }
-      if(userMsg.includes("obsesion") || userMsg.includes("compulsion") || userMsg.includes("toc")) {
-        return `¿Te gustaría probar la técnica de <b>prevención de respuesta</b>? Es muy eficaz para el TOC.`;
-      }
-      if(userMsg.includes("bipolaridad") || userMsg.includes("cambio de ánimo")) {
-        return `¿Has notado cambios recientes en tu estado de ánimo? Monitorear tus emociones a diario ayuda mucho.`;
-      }
-      // Respuesta genérica si no hay palabra clave
-      return `Cuéntame un poco más sobre lo que estás sintiendo. Juntos podemos buscar técnicas útiles.`;
     }
+    // Si no detecta crisis, respuesta general
+    return "¿Puedes contarme más sobre cómo te has sentido o qué quieres trabajar hoy? Puedo ayudarte con ansiedad, depresión, trauma, adicciones, TOC, bipolaridad.";
+  }
 
-    // Si no detecta área, responde general
-    return `¿Puedes contarme más sobre cómo te has sentido o qué te gustaría trabajar hoy?`;
+  // Ejercicios guiados por crisis
+  function ejercicioAnsiedad() {
+    document.getElementById('ejercicio-sugerido').innerHTML = `
+      <div class="bg-indigo-50 p-6 rounded-xl mb-4">
+        <h4 class="text-lg font-bold mb-2">Ejercicio de Respiración (Ansiedad)</h4>
+        <ol class="list-decimal pl-6 mb-2">
+          <li>Siéntate cómodo, pon una mano en el abdomen.</li>
+          <li>Inhala lento por la nariz 4 segundos.</li>
+          <li>Retén el aire 2 segundos.</li>
+          <li>Exhala lento por la boca 6 segundos.</li>
+          <li>Repite 5 veces.</li>
+        </ol>
+        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-indigo-600 text-white px-3 py-1 rounded">Cerrar</button>
+      </div>
+    `;
+  }
+  function ejercicioDepresion() {
+    document.getElementById('ejercicio-sugerido').innerHTML = `
+      <div class="bg-yellow-50 p-6 rounded-xl mb-4">
+        <h4 class="text-lg font-bold mb-2">Ejercicio de Activación Conductual (Depresión)</h4>
+        <ol class="list-decimal pl-6 mb-2">
+          <li>Elige una acción pequeña: ducharte, caminar, llamar a alguien.</li>
+          <li>Hazla aunque no tengas ganas.</li>
+          <li>Luego, escribe tres cosas buenas que pasaron hoy.</li>
+        </ol>
+        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-yellow-600 text-white px-3 py-1 rounded">Cerrar</button>
+      </div>
+    `;
+  }
+  function ejercicioTrauma() {
+    document.getElementById('ejercicio-sugerido').innerHTML = `
+      <div class="bg-green-50 p-6 rounded-xl mb-4">
+        <h4 class="text-lg font-bold mb-2">Ejercicio de Grounding (Trauma)</h4>
+        <ol class="list-decimal pl-6 mb-2">
+          <li>Toca un objeto y describe su textura, temperatura y color.</li>
+          <li>Siente tus pies en el suelo, flexiónalos lentamente.</li>
+          <li>Nombra 3 colores, 3 sonidos y 3 olores que te rodean.</li>
+          <li>Repite: “Estoy seguro aquí y ahora”.</li>
+        </ol>
+        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-green-600 text-white px-3 py-1 rounded">Cerrar</button>
+      </div>
+    `;
+  }
+  function ejercicioAdicciones() {
+    document.getElementById('ejercicio-sugerido').innerHTML = `
+      <div class="bg-pink-50 p-6 rounded-xl mb-4">
+        <h4 class="text-lg font-bold mb-2">Ejercicio de Distracción (Adicciones)</h4>
+        <ol class="list-decimal pl-6 mb-2">
+          <li>Sal de la habitación o cambia de ambiente.</li>
+          <li>Llama o escribe a alguien de confianza.</li>
+          <li>Pon música y baila o canta.</li>
+          <li>Espera 10 minutos antes de actuar sobre el impulso.</li>
+        </ol>
+        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-pink-600 text-white px-3 py-1 rounded">Cerrar</button>
+      </div>
+    `;
+  }
+  function ejercicioTOC() {
+    document.getElementById('ejercicio-sugerido').innerHTML = `
+      <div class="bg-teal-50 p-6 rounded-xl mb-4">
+        <h4 class="text-lg font-bold mb-2">Ejercicio de ERP (TOC)</h4>
+        <ol class="list-decimal pl-6 mb-2">
+          <li>Identifica el pensamiento obsesivo.</li>
+          <li>Evita realizar la compulsión por 1 minuto (luego 2, luego 5).</li>
+          <li>Apunta cómo te sientes antes, durante y después.</li>
+          <li>Repite: “Es solo un pensamiento, pasará”.</li>
+        </ol>
+        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-teal-600 text-white px-3 py-1 rounded">Cerrar</button>
+      </div>
+    `;
+  }
+  function ejercicioBipolaridad() {
+    document.getElementById('ejercicio-sugerido').innerHTML = `
+      <div class="bg-purple-50 p-6 rounded-xl mb-4">
+        <h4 class="text-lg font-bold mb-2">Ejercicio de Monitoreo (Bipolaridad)</h4>
+        <ol class="list-decimal pl-6 mb-2">
+          <li>Escribe cómo te has sentido hoy: ánimo, energía, sueño, apetito.</li>
+          <li>Haz una lista de actividades que mantengan tu rutina.</li>
+          <li>Si notas cambios intensos, contacta a tu profesional.</li>
+        </ol>
+        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-purple-600 text-white px-3 py-1 rounded">Cerrar</button>
+      </div>
+    `;
   }
 
   // Enviar mensaje
@@ -138,12 +252,12 @@
     const text = input.value.trim();
     if (!text) return;
     chatHistory.push({author:"user",text:text});
-    const reply = getPsychologistReply(text);
+    const reply = getReply(text);
     chatHistory.push({author:"psicologo", text: reply});
     renderChat();
     input.value = '';
   };
 
-  // Primer render
+  // Render inicial
   renderChat();
 </script>
