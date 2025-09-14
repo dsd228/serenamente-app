@@ -1,63 +1,57 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Bipolaridad | Serenamente</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="area-bipolar">
-  <nav class="glass-nav">
-    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
-    <ul>
-      <li><a href="/index.html" class="nav-link">Inicio</a></li>
-      <li><a href="/areas/bipolar.html" class="nav-link area-bipolar active">Bipolaridad</a></li>
-      <!-- ...otras áreas... -->
+<section class="py-8 max-w-2xl mx-auto fadein">
+  <div class="flex items-center gap-4 mb-6">
+    <div class="w-14 h-14 bg-gradient-to-br from-purple-100 to-purple-200 rounded-full flex items-center justify-center">
+      <i class="fas fa-adjust text-purple-700 text-3xl"></i>
+    </div>
+    <div>
+      <h2 class="text-3xl font-bold mb-1">Bipolaridad</h2>
+      <p class="text-gray-600">Monitoreo y recursos para el trastorno bipolar.</p>
+    </div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Monitoreo diario de síntomas</h3>
+    <form id="bipolar-form" aria-label="Monitoreo bipolar">
+      <label class="block mb-2 font-medium">¿Te sentiste muy eufórico o deprimido hoy?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="estado" required>
+        <option value="">Selecciona...</option>
+        <option value="euforia">Eufórico/a</option>
+        <option value="depresion">Deprimido/a</option>
+        <option value="estable">Estable</option>
+      </select>
+      <label class="block mb-2 font-medium">¿Tuviste dificultades para dormir?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="sueño" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <button type="submit" class="bg-purple-700 text-white px-4 py-2 rounded shadow hover:bg-purple-800 transition">Enviar</button>
+    </form>
+    <div id="bipolar-result" class="mt-4 text-purple-700"></div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6">
+    <h3 class="text-xl font-semibold mb-3">Recursos útiles</h3>
+    <ul class="list-disc pl-6 space-y-2">
+      <li><a href="https://www.bipolar-latinoamerica.org/" target="_blank" class="text-purple-700 underline hover:text-purple-900">Bipolar Latinoamérica</a></li>
+      <li><a href="https://www.fundacionmanantiales.org.ar/" target="_blank" class="text-purple-700 underline hover:text-purple-900">Fundación Manantiales</a></li>
+      <li><a href="https://www.psicoactiva.com/bipolaridad/" target="_blank" class="text-purple-700 underline hover:text-purple-900">PsicoActiva</a></li>
     </ul>
-  </nav>
-  <main>
-    <section class="glass-card area-card area-bipolar">
-      <img src="/icons/icon-bipolar.png" class="area-icon" alt="Bipolaridad">
-      <h1>Bipolaridad</h1>
-      <p>Psicoeducación, monitorización de síntomas, terapia familiar, recursos y ejercicios.</p>
-      <div class="glass-section">
-        <h2>Monitorización de síntomas</h2>
-        <form id="bipolarform">
-          <ol>
-            <li>Cambios de ánimo frecuentes <select name="q0"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
-            <li>Dificultad para regular emociones <select name="q1"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
-          </ol>
-          <button type="submit" class="btn">Interpretar</button>
-        </form>
-        <div id="bipolarresult"></div>
-      </div>
-      <div class="glass-section">
-        <h2>Técnicas recomendadas</h2>
-        <ul>
-          <li>Psicoeducación digital</li>
-          <li>Terapia familiar</li>
-          <li>Monitorización de síntomas</li>
-        </ul>
-      </div>
-      <div class="glass-section">
-        <h2>Recursos y ayuda</h2>
-        <p>Busca ayuda profesional y apoyo familiar.</p>
-      </div>
-    </section>
-  </main>
+  </div>
   <script>
-    document.getElementById('bipolarform').onsubmit=function(e){
+    document.getElementById('bipolar-form').onsubmit = function(e) {
       e.preventDefault();
-      let score=0;
-      for(let i=0;i<2;i++){score+=parseInt(this['q'+i].value);}
-      let result;
-      if(score<3)result='Monitorización baja';
-      else if(score<5)result='Moderada';
-      else result='Alta';
-      document.getElementById('bipolarresult').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
-      if(score>=3){document.getElementById('bipolarresult').innerHTML += "<br><strong>Consulta a tu profesional de referencia.</strong>";}
+      const estado = this.estado.value;
+      const sueño = this.sueño.value;
+      let msg = '';
+      if (estado === 'euforia') {
+        msg = 'Monitorea tus niveles de energía y busca ayuda profesional si los cambios son intensos.';
+      } else if (estado === 'depresion') {
+        msg = 'Habla con tu profesional de salud mental si los síntomas persisten.';
+      } else if (estado === 'estable' && sueño === 'no') {
+        msg = '¡Buen día! Mantener rutinas ayuda a la estabilidad.';
+      } else {
+        msg = 'Completa las respuestas para obtener orientación.';
+      }
+      document.getElementById('bipolar-result').textContent = msg;
     }
   </script>
-</body>
-</html>
+</section>
