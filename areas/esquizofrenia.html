@@ -1,64 +1,54 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Esquizofrenia | Serenamente</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="area-esquizofrenia">
-  <nav class="glass-nav">
-    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
-    <ul>
-      <li><a href="/index.html" class="nav-link">Inicio</a></li>
-      <li><a href="/areas/esquizofrenia.html" class="nav-link area-esquizofrenia active">Esquizofrenia</a></li>
-      <!-- ...otras áreas... -->
+<section class="py-8 max-w-2xl mx-auto fadein">
+  <div class="flex items-center gap-4 mb-6">
+    <div class="w-14 h-14 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-full flex items-center justify-center">
+      <i class="fas fa-brain text-yellow-700 text-3xl"></i>
+    </div>
+    <div>
+      <h2 class="text-3xl font-bold mb-1">Esquizofrenia</h2>
+      <p class="text-gray-600">Información y monitoreo de síntomas.</p>
+    </div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Monitoreo de síntomas</h3>
+    <form id="esquizofrenia-form" aria-label="Monitoreo esquizofrenia">
+      <label class="block mb-2 font-medium">¿Has tenido alucinaciones o pensamientos extraños recientemente?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="alucinaciones" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <label class="block mb-2 font-medium">¿Tienes dificultad para concentrarte o mantener rutinas?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="rutinas" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <button type="submit" class="bg-yellow-700 text-white px-4 py-2 rounded shadow hover:bg-yellow-800 transition">Enviar</button>
+    </form>
+    <div id="esquizofrenia-result" class="mt-4 text-yellow-700"></div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6">
+    <h3 class="text-xl font-semibold mb-3">Recursos y ayuda</h3>
+    <ul class="list-disc pl-6 space-y-2">
+      <li><a href="https://esquizo.org/" target="_blank" class="text-yellow-700 underline hover:text-yellow-900">Esquizo.org</a></li>
+      <li><a href="https://www.fundacionmanantiales.org.ar/" target="_blank" class="text-yellow-700 underline hover:text-yellow-900">Fundación Manantiales</a></li>
+      <li><a href="https://www.psicologiaymente.com/clinica/esquizofrenia" target="_blank" class="text-yellow-700 underline hover:text-yellow-900">Psicología y Mente</a></li>
     </ul>
-  </nav>
-  <main>
-    <section class="glass-card area-card area-esquizofrenia">
-      <img src="/icons/icon-esquizofrenia.png" class="area-icon" alt="Esquizofrenia">
-      <h1>Esquizofrenia</h1>
-      <p>Psicoeducación, apoyo familiar, gestión de medicación, monitorización de síntomas, recursos y ejercicios.</p>
-      <div class="glass-section">
-        <h2>Monitorización de síntomas</h2>
-        <form id="esquizoform">
-          <ol>
-            <li>Alucinaciones <select name="q0"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
-            <li>Ideas delirantes <select name="q1"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
-          </ol>
-          <button type="submit" class="btn">Interpretar</button>
-        </form>
-        <div id="esquizoresult"></div>
-      </div>
-      <div class="glass-section">
-        <h2>Técnicas recomendadas</h2>
-        <ul>
-          <li>Psicoeducación digital</li>
-          <li>Apoyo familiar</li>
-          <li>Gestión de medicación</li>
-          <li>Monitorización de síntomas</li>
-        </ul>
-      </div>
-      <div class="glass-section">
-        <h2>Recursos y ayuda</h2>
-        <p>Busca ayuda profesional y apoyo familiar.</p>
-      </div>
-    </section>
-  </main>
+  </div>
   <script>
-    document.getElementById('esquizoform').onsubmit=function(e){
+    document.getElementById('esquizofrenia-form').onsubmit = function(e) {
       e.preventDefault();
-      let score=0;
-      for(let i=0;i<2;i++){score+=parseInt(this['q'+i].value);}
-      let result;
-      if(score<3)result='Monitorización baja';
-      else if(score<5)result='Moderada';
-      else result='Alta';
-      document.getElementById('esquizoresult').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
-      if(score>=3){document.getElementById('esquizoresult').innerHTML += "<br><strong>Consulta a tu profesional de referencia.</strong>";}
+      const alucinaciones = this.alucinaciones.value;
+      const rutinas = this.rutinas.value;
+      let msg = '';
+      if (alucinaciones === 'si' || rutinas === 'si') {
+        msg = 'Es importante que consultes a tu médico o terapeuta sobre tus síntomas.';
+      } else if (alucinaciones === 'no' && rutinas === 'no') {
+        msg = '¡Bien! Mantén el monitoreo y sigue tus rutinas para tu bienestar.';
+      } else {
+        msg = 'Completa las respuestas para obtener orientación.';
+      }
+      document.getElementById('esquizofrenia-result').textContent = msg;
     }
   </script>
-</body>
-</html>
+</section>
