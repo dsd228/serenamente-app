@@ -1,64 +1,54 @@
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>TOC | Serenamente</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="area-toc">
-  <nav class="glass-nav">
-    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
-    <ul>
-      <li><a href="/index.html" class="nav-link">Inicio</a></li>
-      <li><a href="/areas/toc.html" class="nav-link area-toc active">TOC</a></li>
-      <!-- ...otras áreas... -->
+<section class="py-8 max-w-2xl mx-auto fadein">
+  <div class="flex items-center gap-4 mb-6">
+    <div class="w-14 h-14 bg-gradient-to-br from-teal-100 to-teal-200 rounded-full flex items-center justify-center">
+      <i class="fas fa-sync text-teal-700 text-3xl"></i>
+    </div>
+    <div>
+      <h2 class="text-3xl font-bold mb-1">TOC</h2>
+      <p class="text-gray-600">Herramientas y ayuda para trastorno obsesivo-compulsivo.</p>
+    </div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Autoevaluación breve</h3>
+    <form id="toc-form" aria-label="Autoevaluación TOC">
+      <label class="block mb-2 font-medium">¿Sientes pensamientos repetitivos difíciles de controlar?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="pensamientos" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <label class="block mb-2 font-medium">¿Realizas acciones repetitivas para reducir la ansiedad?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="acciones" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <button type="submit" class="bg-teal-700 text-white px-4 py-2 rounded shadow hover:bg-teal-800 transition">Enviar</button>
+    </form>
+    <div id="toc-result" class="mt-4 text-teal-700"></div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6">
+    <h3 class="text-xl font-semibold mb-3">Recursos y ayuda</h3>
+    <ul class="list-disc pl-6 space-y-2">
+      <li><a href="https://www.psicologiaymente.com/clinica/trastorno-obsesivo-compulsivo" target="_blank" class="text-teal-700 underline hover:text-teal-900">Psicología y Mente</a></li>
+      <li><a href="https://www.ocdaction.org.uk/" target="_blank" class="text-teal-700 underline hover:text-teal-900">OCD Action (UK)</a></li>
+      <li><a href="https://www.fundacionmanantiales.org.ar/" target="_blank" class="text-teal-700 underline hover:text-teal-900">Fundación Manantiales</a></li>
     </ul>
-  </nav>
-  <main>
-    <section class="glass-card area-card area-toc">
-      <img src="/icons/icon-toc.png" class="area-icon" alt="TOC">
-      <h1>TOC</h1>
-      <p>TCC con prevención de respuesta, psicoeducación, autoevaluación Y-BOCS, recursos y ejercicios.</p>
-      <div class="glass-section">
-        <h2>Autoevaluación Y-BOCS</h2>
-        <form id="tocform">
-          <ol>
-            <li>Tiempo en obsesiones <select name="q0"><option value="0">Nada</option><option value="1">Poco</option><option value="2">Algo</option><option value="3">Mucho</option><option value="4">Extremadamente</option></select></li>
-            <li>Malestar por compulsiones <select name="q1"><option value="0">Nada</option><option value="1">Poco</option><option value="2">Algo</option><option value="3">Mucho</option><option value="4">Extremadamente</option></select></li>
-          </ol>
-          <button type="submit" class="btn">Interpretar</button>
-        </form>
-        <div id="tocresult"></div>
-      </div>
-      <div class="glass-section">
-        <h2>Técnicas recomendadas</h2>
-        <ul>
-          <li>Exposición y prevención de respuesta</li>
-          <li>Psicoeducación sobre TOC</li>
-          <li>Registros diarios</li>
-        </ul>
-      </div>
-      <div class="glass-section">
-        <h2>Recursos y ayuda</h2>
-        <p>Busca ayuda profesional especializada en TOC si tus síntomas son severos.</p>
-      </div>
-    </section>
-  </main>
+  </div>
   <script>
-    document.getElementById('tocform').onsubmit=function(e){
+    document.getElementById('toc-form').onsubmit = function(e) {
       e.preventDefault();
-      let score=0;
-      for(let i=0;i<2;i++){score+=parseInt(this['q'+i].value);}
-      let result;
-      if(score<3)result='TOC leve';
-      else if(score<6)result='Moderado';
-      else result='Severo';
-      document.getElementById('tocresult').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
-      if(score>=4){document.getElementById('tocresult').innerHTML += "<br><strong>Considera consultar a un especialista.</strong>";}
+      const pensamientos = this.pensamientos.value;
+      const acciones = this.acciones.value;
+      let msg = '';
+      if (pensamientos === 'si' || acciones === 'si') {
+        msg = 'Tus respuestas sugieren síntomas de TOC. Considera consultar a un profesional.';
+      } else if (pensamientos === 'no' && acciones === 'no') {
+        msg = '¡Genial! No presentas síntomas significativos de TOC.';
+      } else {
+        msg = 'Completa las respuestas para obtener orientación.';
+      }
+      document.getElementById('toc-result').textContent = msg;
     }
   </script>
-</body>
-</html>
+</section>
