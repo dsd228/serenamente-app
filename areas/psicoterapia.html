@@ -1,85 +1,94 @@
-<section class="py-8 max-w-2xl mx-auto fadein">
+<section class="py-8 max-w-2xl mx-auto fadein chatbot-container" id="chatbot-bg">
   <!-- Encabezado -->
-  <div class="flex items-center gap-4 mb-6">
-    <div class="w-14 h-14 bg-gradient-to-br from-indigo-100 to-purple-200 rounded-full flex items-center justify-center">
-      <i class="fas fa-comments text-purple-700 text-3xl"></i>
+  <div class="flex items-center gap-4 mb-8">
+    <div class="w-16 h-16 bg-gradient-to-br from-blue-100 via-lavender-100 to-green-100 rounded-full flex items-center justify-center shadow-lg">
+      <i class="fas fa-robot text-indigo-600 text-4xl"></i>
     </div>
     <div>
-      <h2 class="text-3xl font-bold mb-1">Chat de Psicoterapia Virtual</h2>
-      <p class="text-gray-600">Asistencia en crisis, ejercicios guiados, audioterapia y herramientas personales.</p>
+      <h2 class="text-4xl font-extrabold mb-1 text-indigo-900 tracking-tight">Psicoterapia AI</h2>
+      <p class="text-lg text-blue-900 opacity-80">Tu psicólogo virtual con ejercicios, audioterapia y plan de emergencia.</p>
     </div>
+    <button id="toggle-dark" class="ml-auto bg-gradient-to-r from-gray-100 to-gray-300 text-gray-800 px-3 py-1 rounded-xl font-semibold shadow ring-1 ring-gray-200 hover:scale-105 transition-all" title="Modo oscuro automático">
+      <i class="fas fa-moon"></i>
+    </button>
   </div>
 
-  <!-- Chat Window -->
-  <div class="bg-white rounded-3xl shadow p-6 mb-6">
-    <div id="chat-window" class="mb-4 max-h-96 overflow-y-auto" style="scroll-behavior:smooth;">
+  <!-- Chatbot Window -->
+  <div class="bg-gradient-to-br from-white via-lavender-50 to-blue-50 rounded-3xl shadow-lg p-6 mb-8 border border-blue-100 backdrop-blur-sm chatbot-bubbles">
+    <div id="chat-window" class="mb-4 max-h-96 overflow-y-auto transition-all" style="scroll-behavior:smooth;">
       <!-- Mensajes aquí -->
     </div>
     <form id="chat-form" class="flex gap-2" autocomplete="off">
-      <input type="text" id="chat-input" class="border rounded p-2 flex-1" placeholder="Escribe aquí tu mensaje..." required maxlength="180"/>
-      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded shadow">Enviar</button>
+      <input type="text" id="chat-input" class="border rounded-xl p-3 flex-1 bg-blue-50 text-blue-900 focus:ring-2 focus:ring-blue-300 transition-all" placeholder="Escribe aquí tu mensaje..." required maxlength="180"/>
+      <button type="submit" class="bg-gradient-to-r from-indigo-600 via-blue-400 to-green-400 text-white px-5 py-2 rounded-xl font-semibold shadow hover:scale-105 transition-all">Enviar</button>
     </form>
-    <div class="flex gap-2 mt-2">
-      <button onclick="setMode('breve')" id="btn-breve" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded active">Breve</button>
-      <button onclick="setMode('extendida')" id="btn-extendida" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded">Extendida</button>
-      <button onclick="saveChatToJournal()" class="bg-green-600 text-white px-3 py-1 rounded">Guardar chat en diario</button>
-      <button onclick="showPlanEmergenciaModal()" class="bg-pink-600 text-white px-3 py-1 rounded">Crear/editar plan de emergencia</button>
+    <div class="flex flex-wrap gap-2 mt-3">
+      <button onclick="setMode('breve')" id="btn-breve" class="bg-blue-100 text-indigo-800 px-3 py-1 rounded-xl font-semibold transition-all ring-1 ring-indigo-200">Breve</button>
+      <button onclick="setMode('extendida')" id="btn-extendida" class="bg-lavender-100 text-purple-800 px-3 py-1 rounded-xl font-semibold transition-all ring-1 ring-purple-200">Extendida</button>
+      <button onclick="saveChatToJournal()" class="bg-green-200 text-green-900 px-3 py-1 rounded-xl font-semibold transition-all ring-1 ring-green-300">Guardar chat en diario</button>
+      <button onclick="showPlanEmergenciaModal()" class="bg-pink-100 text-pink-900 px-3 py-1 rounded-xl font-semibold transition-all ring-1 ring-pink-200">Crear/editar plan de emergencia</button>
     </div>
   </div>
 
   <!-- Ejercicio guiado sugerido -->
   <div id="ejercicio-sugerido"></div>
 
-  <!-- Audioterapia -->
-  <div class="bg-white rounded-3xl shadow p-6 mb-6">
-    <h3 class="text-xl font-semibold mb-3">Audioterapia: Relajación y Bienestar</h3>
-    <div class="flex flex-col gap-3">
-      <button onclick="playAudio('relajacion')" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-800 transition">Relajación guiada</button>
-      <button onclick="playAudio('mindfulness')" class="bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-800 transition">Mindfulness rápido</button>
-      <button onclick="playAudio('autoafirmacion')" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-800 transition">Autoafirmación positiva</button>
+  <!-- Audioterapia Futurista -->
+  <div class="bg-gradient-to-r from-white via-blue-50 to-green-50 rounded-3xl shadow-lg p-6 mb-8 border border-green-100">
+    <h3 class="text-2xl font-bold mb-3 text-green-900">Audioterapia</h3>
+    <div class="flex flex-col sm:flex-row gap-3">
+      <button onclick="playAudio('relajacion')" class="bg-gradient-to-r from-blue-300 via-green-200 to-lavender-200 text-white px-4 py-2 rounded-xl font-semibold shadow hover:scale-105 transition-all">Relajación guiada</button>
+      <button onclick="playAudio('mindfulness')" class="bg-gradient-to-r from-purple-300 via-indigo-200 to-blue-200 text-white px-4 py-2 rounded-xl font-semibold shadow hover:scale-105 transition-all">Mindfulness rápido</button>
+      <button onclick="playAudio('autoafirmacion')" class="bg-gradient-to-r from-green-300 via-pink-200 to-blue-200 text-white px-4 py-2 rounded-xl font-semibold shadow hover:scale-105 transition-all">Autoafirmación positiva</button>
       <audio id="audio-player" controls style="display:none;margin-top:1rem;width:100%"></audio>
     </div>
   </div>
 
   <!-- Modal Plan de Emergencia -->
   <div id="plan-emergencia-modal" class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50" style="display:none;">
-    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-lg">
-      <h3 class="text-2xl font-bold mb-4">Plan de Emergencia Personal</h3>
+    <div class="bg-gradient-to-br from-white via-pink-50 to-blue-50 p-8 rounded-2xl shadow-xl w-full max-w-lg border border-pink-100">
+      <h3 class="text-2xl font-extrabold mb-4 text-pink-900">Plan de Emergencia Personal</h3>
       <form id="plan-emergencia-form" class="flex flex-col gap-3">
         <label>
           <span class="font-medium">1. ¿Qué señales indican que estoy en crisis?</span>
-          <input type="text" name="senales" class="border rounded p-2 w-full" maxlength="100" required>
+          <input type="text" name="senales" class="border rounded-xl p-2 w-full bg-blue-50" maxlength="100" required>
         </label>
         <label>
           <span class="font-medium">2. ¿Qué puedo hacer para calmarme?</span>
-          <input type="text" name="acciones" class="border rounded p-2 w-full" maxlength="100" required>
+          <input type="text" name="acciones" class="border rounded-xl p-2 w-full bg-green-50" maxlength="100" required>
         </label>
         <label>
           <span class="font-medium">3. ¿A qué persona puedo contactar?</span>
-          <input type="text" name="contacto" class="border rounded p-2 w-full" maxlength="80" required>
+          <input type="text" name="contacto" class="border rounded-xl p-2 w-full bg-lavender-50" maxlength="80" required>
         </label>
         <label>
           <span class="font-medium">4. Recursos o teléfonos útiles</span>
-          <input type="text" name="recursos" class="border rounded p-2 w-full" maxlength="100">
+          <input type="text" name="recursos" class="border rounded-xl p-2 w-full bg-pink-50" maxlength="100">
         </label>
-        <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded shadow hover:bg-pink-700">Guardar plan</button>
-        <button type="button" onclick="closePlanEmergenciaModal()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded shadow">Cancelar</button>
+        <button type="submit" class="bg-gradient-to-r from-pink-400 to-purple-400 text-white px-4 py-2 rounded-xl font-semibold shadow hover:scale-105 transition-all">Guardar plan</button>
+        <button type="button" onclick="closePlanEmergenciaModal()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-xl font-semibold shadow">Cancelar</button>
+        <button type="button" onclick="exportPlanPDF()" class="bg-gradient-to-r from-indigo-400 to-green-300 text-white px-4 py-2 rounded-xl font-semibold shadow mt-2">Exportar a PDF</button>
       </form>
     </div>
   </div>
-  <div id="plan-emergencia-vista" class="bg-pink-50 rounded-2xl shadow p-6 mb-6" style="display:none;">
-    <h3 class="text-xl font-semibold mb-3">Mi plan de emergencia</h3>
+  <div id="plan-emergencia-vista" class="bg-gradient-to-r from-pink-50 via-blue-50 to-green-50 rounded-2xl shadow p-6 mb-8 border border-pink-100" style="display:none;">
+    <h3 class="text-xl font-bold mb-3 text-pink-900">Mi plan de emergencia</h3>
     <div id="plan-emergencia-content"></div>
-    <button onclick="editPlanEmergencia()" class="bg-pink-600 text-white px-3 py-1 rounded mt-2">Editar plan</button>
+    <button onclick="editPlanEmergencia()" class="bg-gradient-to-r from-pink-400 to-purple-300 text-white px-3 py-1 rounded-xl font-semibold shadow mt-2">Editar plan</button>
+    <button onclick="exportPlanPDF()" class="bg-gradient-to-r from-indigo-400 to-green-300 text-white px-3 py-1 rounded-xl font-semibold shadow mt-2">Exportar a PDF</button>
   </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
+  // Estado emocional para fondo interactivo
+  let emotionalBg = 'default'; // ansiedad, depresion, trauma, etc
+
   // Modo de respuesta
   let replyMode = 'breve';
   function setMode(mode) {
     replyMode = mode;
-    document.getElementById('btn-breve').classList.toggle('active', mode==='breve');
-    document.getElementById('btn-extendida').classList.toggle('active', mode==='extendida');
+    document.getElementById('btn-breve').classList.toggle('ring-4', mode==='breve');
+    document.getElementById('btn-extendida').classList.toggle('ring-4', mode==='extendida');
     renderChat();
   }
 
@@ -99,34 +108,34 @@
   // Crisis y técnicas
   const crisisTechniques = {
     ansiedad: {
-      breve: "Prueba la respiración consciente. Inhala lento por la nariz, exhala lento por la boca. Repite 5 veces.",
-      extendida: `La respiración diafragmática ayuda a calmar el sistema nervioso. Siéntate cómodo, pon una mano en tu abdomen. Inhala 4 segundos sintiendo que se expande, retén 2 segundos, exhala por la boca en 6 segundos. Repite varias veces. También puedes probar la técnica 5-4-3-2-1: nombra 5 cosas que ves, 4 que puedes tocar, 3 que escuchas, 2 que hueles, 1 que saboreas.`,
-      ejercicio: `<button onclick="ejercicioAnsiedad()" class="bg-indigo-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+      breve: "🌱 Prueba la respiración consciente. Inhala lento por la nariz, exhala lento por la boca. Repite 5 veces.",
+      extendida: `🧘‍♂️ La respiración diafragmática ayuda a calmar el sistema nervioso.<br>Siéntate cómodo, pon una mano en tu abdomen.<br>Inhala 4 segundos sintiendo que se expande, retén 2 segundos, exhala por la boca en 6 segundos. Repite varias veces.<br>También puedes probar la técnica 5-4-3-2-1: nombra 5 cosas que ves, 4 que puedes tocar, 3 que escuchas, 2 que hueles, 1 que saboreas.`,
+      ejercicio: `<button onclick="ejercicioAnsiedad()" class="bg-gradient-to-r from-indigo-400 to-green-300 text-white px-3 py-1 rounded-xl font-semibold shadow">Ejercicio guiado</button>`
     },
     depresion: {
-      breve: "Haz la técnica de 3 cosas buenas: escribe tres cosas positivas de hoy.",
-      extendida: `La activación conductual ayuda a salir de la inactividad. Haz una acción pequeña: dúchate, camina, llama a alguien. Luego, escribe tres cosas buenas de hoy. Practica reestructuración cognitiva: detecta un pensamiento negativo y busca una interpretación alternativa. Usa autoafirmaciones: “Tengo valor”, “Este momento no define mi vida”.`,
-      ejercicio: `<button onclick="ejercicioDepresion()" class="bg-yellow-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+      breve: "🌸 Haz la técnica de 3 cosas buenas: escribe tres cosas positivas de hoy.",
+      extendida: `💡 La activación conductual ayuda a salir de la inactividad.<br>Haz una acción pequeña: dúchate, camina, llama a alguien.<br>Luego, escribe tres cosas buenas de hoy.<br>Practica reestructuración cognitiva: detecta un pensamiento negativo y busca una interpretación alternativa.<br>Usa autoafirmaciones: “Tengo valor”, “Este momento no define mi vida”.`,
+      ejercicio: `<button onclick="ejercicioDepresion()" class="bg-gradient-to-r from-yellow-300 to-pink-300 text-white px-3 py-1 rounded-xl font-semibold shadow">Ejercicio guiado</button>`
     },
     trauma: {
-      breve: "Grounding: toca un objeto, siente tus pies, nombra colores a tu alrededor.",
-      extendida: `Las técnicas de grounding ayudan a volver al presente. Prueba: siente la textura de un objeto, nota la temperatura de tus manos, nombra los colores que ves. Visualiza un lugar seguro y respira lento. Si tienes flashbacks, repite: “Estoy seguro aquí y ahora”.`,
-      ejercicio: `<button onclick="ejercicioTrauma()" class="bg-green-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+      breve: "🪴 Grounding: toca un objeto, siente tus pies, nombra colores a tu alrededor.",
+      extendida: `🌳 Las técnicas de grounding ayudan a volver al presente.<br>Prueba: siente la textura de un objeto, nota la temperatura de tus manos, nombra los colores que ves.<br>Visualiza un lugar seguro y respira lento.<br>Si tienes flashbacks, repite: “Estoy seguro aquí y ahora”.`,
+      ejercicio: `<button onclick="ejercicioTrauma()" class="bg-gradient-to-r from-green-400 to-blue-300 text-white px-3 py-1 rounded-xl font-semibold shadow">Ejercicio guiado</button>`
     },
     adicciones: {
-      breve: "Distráete: sal de la habitación, llama a alguien, escucha música.",
-      extendida: `Cuando sientas impulso, usa la técnica de tiempo de espera: espera 10 minutos antes de actuar. Identifica el desencadenante. Haz una lista de alternativas saludables: caminar, tomar agua, hablar con alguien. Si es urgente, contacta un profesional o grupo de apoyo.`,
-      ejercicio: `<button onclick="ejercicioAdicciones()" class="bg-pink-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+      breve: "💧 Distráete: sal de la habitación, llama a alguien, escucha música.",
+      extendida: `🔗 Cuando sientas impulso, usa la técnica de tiempo de espera: espera 10 minutos antes de actuar.<br>Identifica el desencadenante.<br>Haz una lista de alternativas saludables: caminar, tomar agua, hablar con alguien.<br>Si es urgente, contacta un profesional o grupo de apoyo.`,
+      ejercicio: `<button onclick="ejercicioAdicciones()" class="bg-gradient-to-r from-pink-400 to-green-300 text-white px-3 py-1 rounded-xl font-semibold shadow">Ejercicio guiado</button>`
     },
     toc: {
-      breve: "Retrasa la compulsión 1 minuto. Repite: “Es solo un pensamiento”.",
-      extendida: `La Exposición y Prevención de Respuesta (ERP) es útil: expónte al pensamiento sin hacer la compulsión por 1 minuto, luego 2, y así sucesivamente. Apunta tus obsesiones y la ansiedad asociada. Practica mindfulness para aceptar pensamientos sin reaccionar.`,
-      ejercicio: `<button onclick="ejercicioTOC()" class="bg-teal-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+      breve: "🌀 Retrasa la compulsión 1 minuto. Repite: “Es solo un pensamiento”.",
+      extendida: `🧩 La Exposición y Prevención de Respuesta (ERP) es útil:<br>Expónte al pensamiento sin hacer la compulsión por 1 minuto, luego 2, y así sucesivamente.<br>Apunta tus obsesiones y la ansiedad asociada.<br>Practica mindfulness para aceptar pensamientos sin reaccionar.`,
+      ejercicio: `<button onclick="ejercicioTOC()" class="bg-gradient-to-r from-teal-400 to-blue-400 text-white px-3 py-1 rounded-xl font-semibold shadow">Ejercicio guiado</button>`
     },
     bipolaridad: {
-      breve: "Registra tu estado de ánimo y mantén rutinas.",
-      extendida: `Monitorea tu ánimo cada día. Mantén rutinas de sueño y comida. Si notas cambios intensos, contacta a tu profesional. La psicoeducación y la regulación emocional ayudan a estabilizar. Haz actividades tranquilas y evita estímulos extremos.`,
-      ejercicio: `<button onclick="ejercicioBipolaridad()" class="bg-purple-600 text-white px-3 py-1 rounded">Ejercicio guiado</button>`
+      breve: "⚡ Registra tu estado de ánimo y mantén rutinas.",
+      extendida: `🔬 Monitorea tu ánimo cada día.<br>Mantén rutinas de sueño y comida.<br>Si notas cambios intensos, contacta a tu profesional.<br>La psicoeducación y la regulación emocional ayudan a estabilizar.<br>Haz actividades tranquilas y evita estímulos extremos.`,
+      ejercicio: `<button onclick="ejercicioBipolaridad()" class="bg-gradient-to-r from-purple-400 to-green-300 text-white px-3 py-1 rounded-xl font-semibold shadow">Ejercicio guiado</button>`
     }
   };
 
@@ -142,30 +151,60 @@
 
   // Chat state
   let chatHistory = [
-    {author: "psicologo", text: "¡Hola! Soy tu psicólogo virtual. ¿Sobre qué tema te gustaría conversar hoy? Ejemplo: ansiedad, depresión, trauma, adicciones, TOC, bipolaridad."}
+    {author: "psicologo", emotion:'default', text: "<span style='color:#7C3AED;font-weight:700;'>¡Hola! Soy tu psicólogo virtual.<br>¿Sobre qué tema te gustaría conversar hoy?<br><b>Ejemplo:</b> ansiedad, depresión, trauma, adicciones, TOC, bipolaridad.</span>"}
   ];
 
   function detectCrisis(msg) {
     msg = msg.toLowerCase();
     for (let crisis in crisisKeywords) {
       if (crisisKeywords[crisis].some(k => msg.includes(k))) {
+        emotionalBg = crisis; // Para fondo
         return crisis;
       }
     }
+    emotionalBg = 'default';
     return null;
   }
 
-  // Render chat
+  // Animación de burbujas y fondo interactivo
   function renderChat() {
     const chatDiv = document.getElementById('chat-window');
-    chatDiv.innerHTML = chatHistory.map(msg =>
-      `<div class="mb-2 flex ${msg.author === 'user' ? 'justify-end' : 'justify-start'}">
-        <div class="${msg.author === 'user' ? 'bg-indigo-100 text-indigo-800' : 'bg-purple-50 text-purple-800'} rounded-xl p-3 max-w-[80%] shadow">
+    chatDiv.innerHTML = chatHistory.map((msg,i) =>
+      `<div class="bubble-anim mb-3 flex ${msg.author === 'user' ? 'justify-end' : 'justify-start'}">
+        <div class="${msg.author === 'user' ? 'bubble-user' : 'bubble-bot'} rounded-2xl p-4 max-w-[80%] shadow-lg font-semibold tracking-wide" style="${msg.author === 'user' ? 'margin-left:auto;' : ''}">
           ${msg.text}
         </div>
       </div>`
     ).join('');
     chatDiv.scrollTop = chatDiv.scrollHeight;
+    updateBgByEmotion();
+  }
+
+  // Cambia el fondo según estado emocional detectado
+  function updateBgByEmotion() {
+    const bg = document.getElementById('chatbot-bg');
+    switch(emotionalBg){
+      case 'ansiedad':
+        bg.style.background = 'radial-gradient(ellipse at top,#A7C7E7 60%,#C2E9D3 100%)';
+        break;
+      case 'depresion':
+        bg.style.background = 'linear-gradient(135deg,#f7d6e0 60%,#b9aedc 100%)';
+        break;
+      case 'trauma':
+        bg.style.background = 'radial-gradient(ellipse at bottom,#C2E9D3 60%,#ecebff 100%)';
+        break;
+      case 'adicciones':
+        bg.style.background = 'linear-gradient(135deg,#AEE6E6 60%,#F7D6E0 100%)';
+        break;
+      case 'toc':
+        bg.style.background = 'linear-gradient(135deg,#AEE6E6 60%,#ecebff 100%)';
+        break;
+      case 'bipolaridad':
+        bg.style.background = 'linear-gradient(135deg,#b9aedc 60%,#AEE6E6 100%)';
+        break;
+      default:
+        bg.style.background = 'linear-gradient(135deg,#f4f6fa 60%,#A7C7E7 100%)';
+    }
   }
 
   // Genera respuesta según crisis detectada y modo
@@ -174,11 +213,10 @@
     if (crisis) {
       let txt = replyMode === 'breve' ? crisisTechniques[crisis].breve : crisisTechniques[crisis].extendida;
       txt += `<br>${crisisTechniques[crisis].ejercicio}`;
-      txt += `<br><i>¿Quieres ver otra técnica o ejercicio? Escribe "más".</i>`;
+      txt += `<br><i style='color:#6366F1'>¿Quieres ver otra técnica o ejercicio? Escribe "más".</i>`;
       return txt;
     }
     if (userMsg.toLowerCase().includes("más")) {
-      // Sugerir otra técnica si ya hay crisis en el chat
       let lastCrisis = null;
       for (let i = chatHistory.length - 1; i >= 0; i--) {
         let c = detectCrisis(chatHistory[i].text);
@@ -190,94 +228,81 @@
         return txt;
       }
     }
-    // Si no detecta crisis, respuesta general
-    return "¿Puedes contarme más sobre cómo te has sentido o qué quieres trabajar hoy? Puedo ayudarte con ansiedad, depresión, trauma, adicciones, TOC, bipolaridad.";
+    return "<span style='color:#7C3AED'>¿Puedes contarme más sobre cómo te has sentido o qué quieres trabajar hoy?<br>Puedo ayudarte con <b>ansiedad, depresión, trauma, adicciones, TOC, bipolaridad</b>.</span>";
   }
 
-  // Ejercicios guiados por crisis
-  function ejercicioAnsiedad() {
-    document.getElementById('ejercicio-sugerido').innerHTML = `
-      <div class="bg-indigo-50 p-6 rounded-xl mb-4">
-        <h4 class="text-lg font-bold mb-2">Ejercicio de Respiración (Ansiedad)</h4>
-        <ol class="list-decimal pl-6 mb-2">
-          <li>Siéntate cómodo, pon una mano en el abdomen.</li>
-          <li>Inhala lento por la nariz 4 segundos.</li>
-          <li>Retén el aire 2 segundos.</li>
-          <li>Exhala lento por la boca 6 segundos.</li>
-          <li>Repite 5 veces.</li>
-        </ol>
-        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-indigo-600 text-white px-3 py-1 rounded">Cerrar</button>
-      </div>
-    `;
-  }
-  function ejercicioDepresion() {
-    document.getElementById('ejercicio-sugerido').innerHTML = `
-      <div class="bg-yellow-50 p-6 rounded-xl mb-4">
-        <h4 class="text-lg font-bold mb-2">Ejercicio de Activación Conductual (Depresión)</h4>
-        <ol class="list-decimal pl-6 mb-2">
-          <li>Elige una acción pequeña: ducharte, caminar, llamar a alguien.</li>
-          <li>Hazla aunque no tengas ganas.</li>
-          <li>Luego, escribe tres cosas buenas que pasaron hoy.</li>
-        </ol>
-        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-yellow-600 text-white px-3 py-1 rounded">Cerrar</button>
-      </div>
-    `;
-  }
-  function ejercicioTrauma() {
-    document.getElementById('ejercicio-sugerido').innerHTML = `
-      <div class="bg-green-50 p-6 rounded-xl mb-4">
-        <h4 class="text-lg font-bold mb-2">Ejercicio de Grounding (Trauma)</h4>
-        <ol class="list-decimal pl-6 mb-2">
-          <li>Toca un objeto y describe su textura, temperatura y color.</li>
-          <li>Siente tus pies en el suelo, flexiónalos lentamente.</li>
-          <li>Nombra 3 colores, 3 sonidos y 3 olores que te rodean.</li>
-          <li>Repite: “Estoy seguro aquí y ahora”.</li>
-        </ol>
-        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-green-600 text-white px-3 py-1 rounded">Cerrar</button>
-      </div>
-    `;
-  }
-  function ejercicioAdicciones() {
-    document.getElementById('ejercicio-sugerido').innerHTML = `
-      <div class="bg-pink-50 p-6 rounded-xl mb-4">
-        <h4 class="text-lg font-bold mb-2">Ejercicio de Distracción (Adicciones)</h4>
-        <ol class="list-decimal pl-6 mb-2">
-          <li>Sal de la habitación o cambia de ambiente.</li>
-          <li>Llama o escribe a alguien de confianza.</li>
-          <li>Pon música y baila o canta.</li>
-          <li>Espera 10 minutos antes de actuar sobre el impulso.</li>
-        </ol>
-        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-pink-600 text-white px-3 py-1 rounded">Cerrar</button>
-      </div>
-    `;
-  }
-  function ejercicioTOC() {
-    document.getElementById('ejercicio-sugerido').innerHTML = `
-      <div class="bg-teal-50 p-6 rounded-xl mb-4">
-        <h4 class="text-lg font-bold mb-2">Ejercicio de ERP (TOC)</h4>
-        <ol class="list-decimal pl-6 mb-2">
-          <li>Identifica el pensamiento obsesivo.</li>
-          <li>Evita realizar la compulsión por 1 minuto (luego 2, luego 5).</li>
-          <li>Apunta cómo te sientes antes, durante y después.</li>
-          <li>Repite: “Es solo un pensamiento, pasará”.</li>
-        </ol>
-        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-teal-600 text-white px-3 py-1 rounded">Cerrar</button>
-      </div>
-    `;
-  }
-  function ejercicioBipolaridad() {
-    document.getElementById('ejercicio-sugerido').innerHTML = `
-      <div class="bg-purple-50 p-6 rounded-xl mb-4">
-        <h4 class="text-lg font-bold mb-2">Ejercicio de Monitoreo (Bipolaridad)</h4>
-        <ol class="list-decimal pl-6 mb-2">
-          <li>Escribe cómo te has sentido hoy: ánimo, energía, sueño, apetito.</li>
-          <li>Haz una lista de actividades que mantengan tu rutina.</li>
-          <li>Si notas cambios intensos, contacta a tu profesional.</li>
-        </ol>
-        <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-purple-600 text-white px-3 py-1 rounded">Cerrar</button>
-      </div>
-    `;
-  }
+  // Ejercicios guiados por crisis (igual que antes)
+  function ejercicioAnsiedad() { /* ...igual que antes... */ document.getElementById('ejercicio-sugerido').innerHTML = `
+    <div class="bg-gradient-to-br from-blue-100 via-lavender-100 to-green-50 p-6 rounded-2xl mb-4 border border-blue-200 shadow-xl animate-fadein">
+      <h4 class="text-2xl font-bold mb-3 text-indigo-700">Ejercicio de Respiración (Ansiedad)</h4>
+      <ol class="list-decimal pl-6 mb-2 text-lg text-blue-900">
+        <li>Siéntate cómodo, pon una mano en el abdomen.</li>
+        <li>Inhala lento por la nariz 4 segundos.</li>
+        <li>Retén el aire 2 segundos.</li>
+        <li>Exhala lento por la boca 6 segundos.</li>
+        <li>Repite 5 veces.</li>
+      </ol>
+      <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-gradient-to-r from-indigo-400 to-green-300 text-white px-4 py-2 rounded-xl font-semibold shadow mt-2">Cerrar</button>
+    </div>
+  `;}
+  function ejercicioDepresion() { /* ...igual que antes... */ document.getElementById('ejercicio-sugerido').innerHTML = `
+    <div class="bg-gradient-to-br from-pink-100 via-yellow-100 to-white p-6 rounded-2xl mb-4 border border-pink-200 shadow-xl animate-fadein">
+      <h4 class="text-2xl font-bold mb-3 text-pink-700">Ejercicio de Activación Conductual (Depresión)</h4>
+      <ol class="list-decimal pl-6 mb-2 text-lg text-pink-900">
+        <li>Elige una acción pequeña: ducharte, caminar, llamar a alguien.</li>
+        <li>Hazla aunque no tengas ganas.</li>
+        <li>Luego, escribe tres cosas buenas que pasaron hoy.</li>
+      </ol>
+      <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-gradient-to-r from-yellow-300 to-pink-300 text-white px-4 py-2 rounded-xl font-semibold shadow mt-2">Cerrar</button>
+    </div>
+  `;}
+  function ejercicioTrauma() { /* igual que antes */ document.getElementById('ejercicio-sugerido').innerHTML = `
+    <div class="bg-gradient-to-br from-green-100 via-blue-100 to-white p-6 rounded-2xl mb-4 border border-green-200 shadow-xl animate-fadein">
+      <h4 class="text-2xl font-bold mb-3 text-green-700">Ejercicio de Grounding (Trauma)</h4>
+      <ol class="list-decimal pl-6 mb-2 text-lg text-green-900">
+        <li>Toca un objeto y describe su textura, temperatura y color.</li>
+        <li>Siente tus pies en el suelo, flexiónalos lentamente.</li>
+        <li>Nombra 3 colores, 3 sonidos y 3 olores que te rodean.</li>
+        <li>Repite: “Estoy seguro aquí y ahora”.</li>
+      </ol>
+      <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-gradient-to-r from-green-400 to-blue-300 text-white px-4 py-2 rounded-xl font-semibold shadow mt-2">Cerrar</button>
+    </div>
+  `;}
+  function ejercicioAdicciones() { /* igual que antes */ document.getElementById('ejercicio-sugerido').innerHTML = `
+    <div class="bg-gradient-to-br from-pink-100 via-green-100 to-white p-6 rounded-2xl mb-4 border border-pink-200 shadow-xl animate-fadein">
+      <h4 class="text-2xl font-bold mb-3 text-pink-700">Ejercicio de Distracción (Adicciones)</h4>
+      <ol class="list-decimal pl-6 mb-2 text-lg text-pink-900">
+        <li>Sal de la habitación o cambia de ambiente.</li>
+        <li>Llama o escribe a alguien de confianza.</li>
+        <li>Pon música y baila o canta.</li>
+        <li>Espera 10 minutos antes de actuar sobre el impulso.</li>
+      </ol>
+      <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-gradient-to-r from-pink-400 to-green-300 text-white px-4 py-2 rounded-xl font-semibold shadow mt-2">Cerrar</button>
+    </div>
+  `;}
+  function ejercicioTOC() { /* igual que antes */ document.getElementById('ejercicio-sugerido').innerHTML = `
+    <div class="bg-gradient-to-br from-teal-100 via-blue-100 to-white p-6 rounded-2xl mb-4 border border-teal-200 shadow-xl animate-fadein">
+      <h4 class="text-2xl font-bold mb-3 text-teal-700">Ejercicio de ERP (TOC)</h4>
+      <ol class="list-decimal pl-6 mb-2 text-lg text-teal-900">
+        <li>Identifica el pensamiento obsesivo.</li>
+        <li>Evita realizar la compulsión por 1 minuto (luego 2, luego 5).</li>
+        <li>Apunta cómo te sientes antes, durante y después.</li>
+        <li>Repite: “Es solo un pensamiento, pasará”.</li>
+      </ol>
+      <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-gradient-to-r from-teal-400 to-blue-400 text-white px-4 py-2 rounded-xl font-semibold shadow mt-2">Cerrar</button>
+    </div>
+  `;}
+  function ejercicioBipolaridad() { /* igual que antes */ document.getElementById('ejercicio-sugerido').innerHTML = `
+    <div class="bg-gradient-to-br from-purple-100 via-green-100 to-white p-6 rounded-2xl mb-4 border border-purple-200 shadow-xl animate-fadein">
+      <h4 class="text-2xl font-bold mb-3 text-purple-700">Ejercicio de Monitoreo (Bipolaridad)</h4>
+      <ol class="list-decimal pl-6 mb-2 text-lg text-purple-900">
+        <li>Escribe cómo te has sentido hoy: ánimo, energía, sueño, apetito.</li>
+        <li>Haz una lista de actividades que mantengan tu rutina.</li>
+        <li>Si notas cambios intensos, contacta a tu profesional.</li>
+      </ol>
+      <button onclick="document.getElementById('ejercicio-sugerido').innerHTML=''" class="bg-gradient-to-r from-purple-400 to-green-300 text-white px-4 py-2 rounded-xl font-semibold shadow mt-2">Cerrar</button>
+    </div>
+  `;}
 
   // Guardar chat en diario
   function saveChatToJournal() {
@@ -290,7 +315,6 @@
   function showPlanEmergenciaModal() {
     document.getElementById('plan-emergencia-modal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
-    // Si hay datos previos, precargar
     const plan = JSON.parse(localStorage.getItem('planEmergencia') || '{}');
     if (plan && Object.keys(plan).length > 0) {
       document.querySelector("#plan-emergencia-form [name=senales]").value = plan.senales || '';
@@ -323,14 +347,32 @@
     }
     document.getElementById('plan-emergencia-vista').style.display = 'block';
     document.getElementById('plan-emergencia-content').innerHTML = `
-      <div class="mb-2"><span class="font-semibold">Señales de crisis:</span> ${plan.senales}</div>
-      <div class="mb-2"><span class="font-semibold">Acciones para calmarme:</span> ${plan.acciones}</div>
-      <div class="mb-2"><span class="font-semibold">Contacto de apoyo:</span> ${plan.contacto}</div>
-      <div class="mb-2"><span class="font-semibold">Recursos útiles:</span> ${plan.recursos}</div>
+      <div class="mb-2"><span class="font-semibold text-pink-700">Señales de crisis:</span> ${plan.senales}</div>
+      <div class="mb-2"><span class="font-semibold text-green-700">Acciones para calmarme:</span> ${plan.acciones}</div>
+      <div class="mb-2"><span class="font-semibold text-blue-700">Contacto de apoyo:</span> ${plan.contacto}</div>
+      <div class="mb-2"><span class="font-semibold text-purple-700">Recursos útiles:</span> ${plan.recursos}</div>
     `;
   }
   function editPlanEmergencia() {
     showPlanEmergenciaModal();
+  }
+
+  // Exportar plan de emergencia a PDF
+  function exportPlanPDF() {
+    const plan = JSON.parse(localStorage.getItem('planEmergencia') || '{}');
+    if (!plan || !plan.senales) return alert("Completa el plan de emergencia primero.");
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text("Plan de Emergencia Personal", 20, 20);
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Señales de crisis: ${plan.senales}`, 20, 40);
+    doc.text(`Acciones para calmarme: ${plan.acciones}`, 20, 55);
+    doc.text(`Contacto de apoyo: ${plan.contacto}`, 20, 70);
+    doc.text(`Recursos útiles: ${plan.recursos}`, 20, 85);
+    doc.save("plan-emergencia.pdf");
   }
 
   // Enviar mensaje
@@ -339,14 +381,58 @@
     const input = document.getElementById('chat-input');
     const text = input.value.trim();
     if (!text) return;
-    chatHistory.push({author:"user",text:text});
+    chatHistory.push({author:"user",emotion:emotionalBg,text:text});
     const reply = getReply(text);
-    chatHistory.push({author:"psicologo", text: reply});
+    chatHistory.push({author:"psicologo",emotion:emotionalBg,text:reply});
     renderChat();
     input.value = '';
   };
 
+  // Modo oscuro automático
+  let darkMode = false;
+  document.getElementById('toggle-dark').onclick = function(){
+    darkMode = !darkMode;
+    document.documentElement.classList.toggle('darkmode',darkMode);
+    localStorage.setItem('psico-dark',darkMode?'1':'0');
+  };
+  // Detecta el modo preferido
+  if(localStorage.getItem('psico-dark')==='1' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    document.documentElement.classList.add('darkmode');
+    darkMode = true;
+  }
+
   // Render inicial y plan emergencia
   renderChat();
   showPlanEmergencia();
+
+  // Animación de burbujas al aparecer
+  setTimeout(()=>{
+    document.querySelectorAll('.bubble-anim').forEach((el,i)=>{
+      el.style.animationDelay = (i*0.12)+'s';
+      el.classList.add('bubble-animated');
+    });
+  },200);
+
 </script>
+<style>
+  .lavender-100 { background: #ecebff; }
+  .animate-fadein { animation: fadein .7s; }
+  @keyframes fadein { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+  .bubble-anim { opacity:0; transform:translateY(20px);}
+  .bubble-animated { opacity:1; transform:translateY(0); animation: bubblein .7s both;}
+  @keyframes bubblein { from{opacity:0;transform:scale(0.9) translateY(20px);} to{opacity:1;transform:scale(1) translateY(0);} }
+  .bubble-user { background: linear-gradient(135deg,#A7C7E7 60%,#C2E9D3 100%);}
+  .bubble-bot  { background: linear-gradient(135deg,#ecebff 60%,#b9aedc 100%);}
+  /* Dark mode */
+  html.darkmode, html.darkmode body { background: #191c25 !important; color: #e0e4ea;}
+  html.darkmode .chatbot-container { background: linear-gradient(135deg,#25283b 60%,#233c54 100%) !important; }
+  html.darkmode .chatbot-bubbles { background: linear-gradient(135deg,#20242c 60%,#25283b 100%) !important; border-color:#2a3953;}
+  html.darkmode .bubble-user { background: linear-gradient(135deg,#293d6a 80%,#377a6d 100%) !important; color:#e0e4ea !important;}
+  html.darkmode .bubble-bot { background: linear-gradient(135deg,#3b3256 60%,#233c54 100%) !important; color:#e0e4ea !important;}
+  html.darkmode input, html.darkmode textarea { background: #23283a !important; color:#e0e4ea !important; border-color:#2a3953;}
+  html.darkmode .bg-blue-100, html.darkmode .bg-lavender-100, html.darkmode .bg-pink-100, html.darkmode .bg-green-100 { filter:brightness(0.7);}
+  html.darkmode .bg-white { background: #222 !important;}
+  html.darkmode .bg-gradient-to-r, html.darkmode .bg-gradient-to-br { filter:brightness(0.8);}
+  html.darkmode .ring-indigo-200, html.darkmode .ring-purple-200, html.darkmode .ring-green-300, html.darkmode .ring-pink-200 { box-shadow:0 0 0 2px #444;}
+  html.darkmode .border-blue-100, html.darkmode .border-green-100, html.darkmode .border-pink-100, html.darkmode .border-teal-200 { border-color:#2a3953 !important;}
+</style>
