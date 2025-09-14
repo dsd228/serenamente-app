@@ -1,44 +1,204 @@
 <section class="py-8 max-w-2xl mx-auto fadein">
+  <!-- Encabezado -->
   <div class="flex items-center gap-4 mb-6">
     <div class="w-14 h-14 bg-gradient-to-br from-indigo-100 to-purple-200 rounded-full flex items-center justify-center">
       <i class="fas fa-user-md text-purple-700 text-3xl"></i>
     </div>
     <div>
       <h2 class="text-3xl font-bold mb-1">Psicoterapia</h2>
-      <p class="text-gray-600">Información, ejercicios y apoyo para tu proceso psicoterapéutico.</p>
+      <p class="text-gray-600">Ejercicios interactivos y herramientas para tu proceso psicoterapéutico.</p>
     </div>
   </div>
-  <div class="bg-white rounded-3xl shadow p-6 mb-6">
-    <h3 class="text-xl font-semibold mb-3">¿Qué es la psicoterapia?</h3>
-    <p>La psicoterapia es un proceso de acompañamiento profesional para ayudarte a conocer, gestionar y transformar tus emociones, pensamientos y conductas. Hay muchas formas de psicoterapia (cognitivo-conductual, humanista, sistémica, etc.) y todas buscan tu bienestar.</p>
+
+  <!-- Mensaje positivo -->
+  <div class="bg-white rounded-3xl shadow p-6 mb-6 flex flex-col items-center">
+    <h3 class="text-xl font-semibold mb-3">Frase motivadora</h3>
+    <div id="motivational-msg" class="text-indigo-700 text-lg mb-4 font-bold text-center">...</div>
+    <button onclick="nextMotivational()" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-800 transition">Otra frase</button>
   </div>
+
+  <!-- Recordatorio de sesión -->
   <div class="bg-white rounded-3xl shadow p-6 mb-6">
-    <h3 class="text-xl font-semibold mb-3">Ejercicio guiado: Respiración y reflexión</h3>
-    <p class="mb-3">Practica este ejercicio para calmarte y conectar contigo mismo antes o después de una sesión:</p>
+    <h3 class="text-xl font-semibold mb-3">¿Tienes sesión esta semana?</h3>
+    <form id="sesion-form" class="mb-2 flex flex-col gap-2">
+      <label class="font-medium">Fecha próxima sesión:</label>
+      <input type="date" id="sesion-date" class="border rounded p-2 w-full" required>
+      <button class="bg-purple-700 text-white px-4 py-2 rounded shadow hover:bg-purple-900 transition" type="submit">Guardar</button>
+    </form>
+    <div id="sesion-msg" class="mt-2 text-purple-700 font-semibold"></div>
+  </div>
+
+  <!-- Guía para preparar sesión -->
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">¿Cómo aprovechar la psicoterapia?</h3>
     <ol class="list-decimal pl-6 space-y-2">
-      <li>Busca un lugar tranquilo y siéntate cómodamente.</li>
-      <li>Respira profundo y lento durante 2 minutos.</li>
-      <li>Piensa: ¿Qué quiero trabajar hoy en mi proceso?</li>
-      <li>Escribe tus emociones o pensamientos en tu <a href="#/journal" class="text-indigo-600 underline hover:text-indigo-800">diario emocional</a>.</li>
+      <li>Piensa en los temas o emociones que quieres tratar.</li>
+      <li>Lleva registro en tu <a href="#/journal" class="text-indigo-600 underline hover:text-indigo-800">diario emocional</a>.</li>
+      <li>Llega puntual y con mente abierta.</li>
+      <li>Haz preguntas, comparte tus dudas y avances.</li>
+      <li>Después de la sesión, reflexiona y anota tus aprendizajes.</li>
     </ol>
   </div>
+
+  <!-- Ejercicio: Autoafirmación -->
   <div class="bg-white rounded-3xl shadow p-6 mb-6">
-    <h3 class="text-xl font-semibold mb-3">¿Cómo elegir psicoterapia?</h3>
-    <p>Algunas preguntas que puedes hacerte:</p>
-    <ul class="list-disc pl-6 space-y-2">
-      <li>¿Qué quiero mejorar o cambiar?</li>
-      <li>¿Prefiero hablar sobre mi pasado, mis emociones, mis pensamientos o mis relaciones?</li>
-      <li>¿Busco apoyo individual, grupal, familiar o de pareja?</li>
-      <li>¿Me siento cómodo con el terapeuta? ¿Siento confianza?</li>
-    </ul>
+    <h3 class="text-xl font-semibold mb-3">Ejercicio de autoafirmación</h3>
+    <form id="afirmacion-form" class="flex flex-col gap-2">
+      <label class="font-medium">Escribe una frase positiva sobre ti:</label>
+      <input type="text" id="afirmacion" class="border rounded p-2 w-full" maxlength="80" required>
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-800 transition">Guardar</button>
+    </form>
+    <div id="afirmacion-msg" class="mt-2 text-green-700 font-semibold"></div>
+    <div id="afirmacion-history" class="mt-4"></div>
   </div>
-  <div class="bg-white rounded-3xl shadow p-6">
-    <h3 class="text-xl font-semibold mb-3">Recursos y ayuda profesional</h3>
-    <ul class="list-disc pl-6 space-y-2">
-      <li><a href="https://www.psicologiaymente.com/clinica/psicoterapia" target="_blank" class="text-purple-700 underline hover:text-purple-900">Psicología y Mente - Psicoterapia</a></li>
-      <li><a href="https://www.bps.org.uk/public/become-psychotherapist" target="_blank" class="text-purple-700 underline hover:text-purple-900">British Psychological Society</a></li>
-      <li><a href="https://www.apa.org/topics/psychotherapy" target="_blank" class="text-purple-700 underline hover:text-purple-900">American Psychological Association</a></li>
-    </ul>
-    <div class="mt-4 text-gray-700">Recuerda: la psicoterapia es un espacio seguro, confidencial y profesional. Si tienes dudas, consulta con un terapeuta certificado.</div>
+
+  <!-- Registro de emociones -->
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Registro de emociones</h3>
+    <form id="emocion-form" class="flex flex-col gap-2">
+      <label class="font-medium">¿Cómo te sientes ahora?</label>
+      <select id="emocion" class="border rounded p-2 w-full" required>
+        <option value="">Selecciona...</option>
+        <option value="Feliz">Feliz</option>
+        <option value="Triste">Triste</option>
+        <option value="Ansioso/a">Ansioso/a</option>
+        <option value="Motivado/a">Motivado/a</option>
+        <option value="Cansado/a">Cansado/a</option>
+        <option value="En calma">En calma</option>
+        <option value="Otro">Otro</option>
+      </select>
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-800 transition">Registrar</button>
+    </form>
+    <div id="emocion-msg" class="mt-2 text-green-700 font-semibold"></div>
+    <div id="emocion-history" class="mt-4"></div>
+  </div>
+
+  <!-- Establecimiento de metas y avances -->
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Establece una meta para tu proceso</h3>
+    <form id="meta-form" class="flex flex-col gap-2 mb-2">
+      <label class="font-medium">Meta o avance personal:</label>
+      <input type="text" id="meta" class="border rounded p-2 w-full" maxlength="80" required>
+      <button type="submit" class="bg-purple-700 text-white px-4 py-2 rounded shadow hover:bg-purple-900 transition">Guardar meta</button>
+    </form>
+    <div id="meta-msg" class="mt-2 text-green-700 font-semibold"></div>
+    <div id="meta-history" class="mt-4"></div>
   </div>
 </section>
+<script>
+  // Frases motivadoras
+  const frases = [
+    "Eres capaz de lograr grandes cambios.",
+    "Tu proceso importa y tu bienestar también.",
+    "Todo avance, por pequeño que sea, es valioso.",
+    "Mereces sentirte bien y avanzar.",
+    "Confía en ti y en tu capacidad de transformar.",
+    "Hoy es un buen día para cuidar de ti.",
+    "Tu crecimiento es importante.",
+    "La psicoterapia es un acto de valentía.",
+    "Cada día es una nueva oportunidad."
+  ];
+  let fraseIndex = Math.floor(Math.random() * frases.length);
+  function nextMotivational() {
+    fraseIndex = (fraseIndex + 1) % frases.length;
+    document.getElementById('motivational-msg').textContent = frases[fraseIndex];
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('motivational-msg').textContent = frases[fraseIndex];
+    showAfirmacionHistory();
+    showEmocionHistory();
+    showMetaHistory();
+    showSesionMsg();
+  });
+
+  // Recordatorio de sesión
+  document.getElementById('sesion-form').onsubmit = function(e) {
+    e.preventDefault();
+    const fecha = document.getElementById('sesion-date').value;
+    if (!fecha) return;
+    localStorage.setItem('psicoterapiaSesion', fecha);
+    showSesionMsg();
+  };
+  function showSesionMsg() {
+    const fecha = localStorage.getItem('psicoterapiaSesion');
+    const msgDiv = document.getElementById('sesion-msg');
+    if (!fecha) {
+      msgDiv.textContent = "No has agendado tu próxima sesión.";
+    } else {
+      const date = new Date(fecha);
+      const hoy = new Date();
+      let mensaje = `Tu próxima sesión es el ${date.toLocaleDateString()}.`;
+      if(date < hoy) mensaje += " ¡La fecha ya pasó! Agenda una nueva.";
+      msgDiv.textContent = mensaje;
+    }
+  }
+
+  // Autoafirmación interactiva
+  document.getElementById('afirmacion-form').onsubmit = function(e) {
+    e.preventDefault();
+    const txt = document.getElementById('afirmacion').value.trim();
+    if (!txt) return;
+    let arr = JSON.parse(localStorage.getItem('psicoterapiaAfirmaciones') || '[]');
+    const now = new Date();
+    arr.unshift({text: txt, date: now.toLocaleString()});
+    localStorage.setItem('psicoterapiaAfirmaciones', JSON.stringify(arr));
+    document.getElementById('afirmacion').value = '';
+    document.getElementById('afirmacion-msg').textContent = "¡Guardada!";
+    showAfirmacionHistory();
+  };
+  function showAfirmacionHistory() {
+    const arr = JSON.parse(localStorage.getItem('psicoterapiaAfirmaciones') || '[]');
+    const div = document.getElementById('afirmacion-history');
+    if (!arr.length) { div.innerHTML = ""; return; }
+    div.innerHTML = `<h4 class="font-semibold mb-2">Tus afirmaciones:</h4>` +
+      arr.slice(0,5).map(a => `<div class="border border-indigo-100 rounded-xl p-2 mb-1 text-gray-700">
+        "${a.text}" <span class="text-xs text-gray-400">${a.date}</span>
+      </div>`).join('');
+  }
+
+  // Registro de emociones
+  document.getElementById('emocion-form').onsubmit = function(e) {
+    e.preventDefault();
+    const emo = document.getElementById('emocion').value;
+    if (!emo) return;
+    let arr = JSON.parse(localStorage.getItem('psicoterapiaEmociones') || '[]');
+    const now = new Date();
+    arr.unshift({text: emo, date: now.toLocaleString()});
+    localStorage.setItem('psicoterapiaEmociones', JSON.stringify(arr));
+    document.getElementById('emocion').value = '';
+    document.getElementById('emocion-msg').textContent = "¡Registrada!";
+    showEmocionHistory();
+  };
+  function showEmocionHistory() {
+    const arr = JSON.parse(localStorage.getItem('psicoterapiaEmociones') || '[]');
+    const div = document.getElementById('emocion-history');
+    if (!arr.length) { div.innerHTML = ""; return; }
+    div.innerHTML = `<h4 class="font-semibold mb-2">Tus emociones recientes:</h4>` +
+      arr.slice(0,5).map(a => `<div class="border border-blue-100 rounded-xl p-2 mb-1 text-gray-700">
+        ${a.text} <span class="text-xs text-gray-400">${a.date}</span>
+      </div>`).join('');
+  }
+
+  // Metas y avances personales
+  document.getElementById('meta-form').onsubmit = function(e) {
+    e.preventDefault();
+    const txt = document.getElementById('meta').value.trim();
+    if (!txt) return;
+    let arr = JSON.parse(localStorage.getItem('psicoterapiaMetas') || '[]');
+    const now = new Date();
+    arr.unshift({text: txt, date: now.toLocaleString()});
+    localStorage.setItem('psicoterapiaMetas', JSON.stringify(arr));
+    document.getElementById('meta').value = '';
+    document.getElementById('meta-msg').textContent = "¡Meta guardada!";
+    showMetaHistory();
+  };
+  function showMetaHistory() {
+    const arr = JSON.parse(localStorage.getItem('psicoterapiaMetas') || '[]');
+    const div = document.getElementById('meta-history');
+    if (!arr.length) { div.innerHTML = ""; return; }
+    div.innerHTML = `<h4 class="font-semibold mb-2">Tus metas y avances:</h4>` +
+      arr.slice(0,5).map(a => `<div class="border border-purple-100 rounded-xl p-2 mb-1 text-gray-700">
+        ${a.text} <span class="text-xs text-gray-400">${a.date}</span>
+      </div>`).join('');
+  }
+</script>
