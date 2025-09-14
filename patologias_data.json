@@ -1,0 +1,21 @@
+[
+  {
+    "patologia": "Ansiedad (GAD, pánico, TOC)",
+    "descripcion": "Ansiedad excesiva, miedos, ataques de pánico o rituales.",
+    "tecnicas": ["TCC", "Exposición", "ERP (TOC)", "Mindfulness", "Relajación"],
+    "farmacologia": ["ISRS/SNRI", "Benzodiacepinas (crisis)"],
+    "otras": "Hospitalización si riesgo grave.",
+    "alarma": ["Ideación suicida", "Ataques graves"],
+    "fuente": "NICE, WHO"
+  },
+  {
+    "patologia": "Depresión / Bipolaridad",
+    "descripcion": "Tristeza profunda, anhedonia, alteración del ánimo; manía/hipomanía en bipolaridad.",
+    "tecnicas": ["TCC", "Activación conductual", "TIP", "IPSRT"],
+    "farmacologia": ["ISRS", "Litio", "Valproato", "Antipsicóticos"],
+    "otras": "ECT, rTMS, hospitalización si grave.",
+    "alarma": ["Ideación suicida", "Deterioro funcional grave"],
+    "fuente": "NICE, NIMH"
+  }
+  // ...más patologías
+]
