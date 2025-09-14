@@ -1,0 +1,47 @@
+<div class="ficha-patologia" style="background:linear-gradient(110deg,#AEE6E6 60%,#ecebff 100%);border-radius:1.5rem;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 24px #ecebff;">
+  <h2 style="color:#2d3b6a;font-size:1.5rem;font-weight:bold;margin-bottom:0.5rem;">Ansiedad (GAD, pánico, TOC)</h2>
+  <div><b>¿Qué es?</b> Ansiedad excesiva, miedos, ataques de pánico o rituales que interfieren en la vida.</div>
+  <div style="margin-top:0.7em;"><b>Técnicas/Terapias Psicológicas:</b>
+    <ul>
+      <li>TCC: psicoeducación, registro de síntomas, reestructuración cognitiva, exposición gradual.</li>
+      <li>ERP para TOC: exposición + prevención de respuesta.</li>
+      <li>Relajación y mindfulness.</li>
+    </ul>
+  </div>
+  <div style="margin-top:0.7em;"><b>Farmacología:</b> ISRS/SNRI; benzodiacepinas en crisis.</div>
+  <div style="margin-top:0.7em;"><b>Otras intervenciones:</b> Hospitalización si riesgo suicida o incapacidad severa. Psicoeducación familiar.</div>
+  <div style="margin-top:0.7em;"><b>Señales de alarma:</b> Ideación suicida, ataques de pánico graves, incapacidad funcional.</div>
+  <div style="margin-top:0.7em;color:#6366F1;"><b>Guía/Fuente:</b> NICE | WHO</div>
+  <div class="ficha-buttons" style="display:flex;gap:1em;margin-top:1.2em;">
+    <button onclick="verTecnicas('ansiedad')" style="background:linear-gradient(90deg,#AEE6E6,#B9AEDC);color:#2d3b6a;border:none;padding:0.7em 1.2em;border-radius:1em;font-weight:bold;cursor:pointer;">Ver técnicas</button>
+    <button onclick="verEjercicios('ansiedad')" style="background:linear-gradient(90deg,#C2E9D3,#ecebff);color:#2d3b6a;border:none;padding:0.7em 1.2em;border-radius:1em;font-weight:bold;cursor:pointer;">Ejercicios prácticos</button>
+    <button onclick="exportarPDF('ansiedad')" style="background:linear-gradient(90deg,#B9AEDC,#A7C7E7);color:#2d3b6a;border:none;padding:0.7em 1.2em;border-radius:1em;font-weight:bold;cursor:pointer;">Exportar ficha PDF</button>
+    <button onclick="derivacionAlarma('ansiedad')" style="background:linear-gradient(90deg,#F7D6E0,#AEE6E6);color:#a81e3a;border:none;padding:0.7em 1.2em;border-radius:1em;font-weight:bold;cursor:pointer;">Derivación / Alarma</button>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+function verTecnicas(patologia) {
+  // Puedes mostrar modal, expandir info, etc
+  alert("Técnicas para " + patologia + ":\n- TCC\n- Exposición\n- Mindfulness\n- ERP (si TOC)\n- Relajación");
+}
+function verEjercicios(patologia) {
+  alert("Ejercicios prácticos para " + patologia + ":\n- Respiración diafragmática\n- Registro de pensamientos\n- Jerarquía de exposición\n- Mindfulness guiado");
+}
+function exportarPDF(patologia) {
+  // Ejemplo jsPDF
+  const { jsPDF } = window.jspdf || {};
+  if (!jsPDF) return alert("jsPDF no cargado.");
+  let doc = new jsPDF();
+  doc.text("Ficha: Trastorno de Ansiedad", 20, 20);
+  doc.text("¿Qué es? Ansiedad excesiva, miedos, ataques de pánico o rituales que interfieren en la vida.", 20, 35);
+  doc.text("Técnicas/Terapias Psicológicas:\n- TCC\n- Exposición\n- Mindfulness\n- ERP\n- Relajación", 20, 50);
+  doc.text("Farmacología:\n- ISRS/SNRI\n- Benzodiacepinas (crisis)", 20, 80);
+  doc.text("Otras intervenciones:\n- Hospitalización si riesgo suicida\n- Psicoeducación familiar", 20, 95);
+  doc.text("Señales de alarma:\n- Ideación suicida\n- Ataques de pánico graves\n- Incapacidad funcional", 20, 110);
+  doc.save("ficha_ansiedad.pdf");
+}
+function derivacionAlarma(patologia) {
+  alert("Derivación/Alarma para " + patologia + ":\n- Ideación suicida\n- Crisis grave\n- Incapacidad funcional\n\nContactar a servicios de emergencia o profesional de salud mental.");
+}
+</script>
