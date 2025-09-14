@@ -1,0 +1,265 @@
+[
+  {
+    "key": "ansiedad",
+    "titulo": "Ansiedad (GAD, pánico, TOC)",
+    "descripcion": "Ansiedad excesiva, miedos, ataques de pánico o rituales que interfieren en la vida.",
+    "tecnicas": [
+      "TCC: psicoeducación, registro de síntomas, reestructuración cognitiva, exposición gradual.",
+      "ERP para TOC: exposición + prevención de respuesta.",
+      "Relajación y mindfulness."
+    ],
+    "ejercicios": [
+      "Respiración diafragmática guiada.",
+      "Registro de pensamientos automáticos.",
+      "Ejercicio 5-4-3-2-1 (anclaje al presente).",
+      "Exposición gradual (jerarquía de miedos)."
+    ],
+    "farmacologia": [
+      "ISRS/SNRI (sertralina, escitalopram, venlafaxina).",
+      "Benzodiacepinas solo en crisis (corto plazo)."
+    ],
+    "otras": "Hospitalización si riesgo suicida o incapacidad severa. Psicoeducación familiar.",
+    "alarma": [
+      "Ideación suicida.",
+      "Ataques de pánico graves.",
+      "Incapacidad funcional."
+    ],
+    "fuente": "NICE, WHO"
+  },
+  {
+    "key": "depresion",
+    "titulo": "Depresión / Bipolaridad",
+    "descripcion": "Tristeza profunda, anhedonia, alteración del ánimo; manía/hipomanía en bipolaridad.",
+    "tecnicas": [
+      "TCC: activación conductual, agenda de actividades graduales, reestructuración cognitiva.",
+      "TIP: mejora de relaciones y rol social.",
+      "IPSRT: estabilización de rutinas (bipolaridad)."
+    ],
+    "ejercicios": [
+      "Agenda de actividades placenteras y funcionales.",
+      "Registro de emociones y pensamientos.",
+      "Técnica de las 3 cosas buenas.",
+      "Mindfulness guiado."
+    ],
+    "farmacologia": [
+      "ISRS (depresión unipolar).",
+      "Litio, valproato, antipsicóticos (bipolaridad)."
+    ],
+    "otras": "ECT, rTMS, hospitalización si grave.",
+    "alarma": [
+      "Ideación suicida.",
+      "Deterioro funcional grave."
+    ],
+    "fuente": "NICE, NIMH"
+  },
+  {
+    "key": "psicosis",
+    "titulo": "Psicosis / Esquizofrenia",
+    "descripcion": "Delirios, alucinaciones, pensamiento desorganizado.",
+    "tecnicas": [
+      "Terapia cognitiva para psicosis.",
+      "Entrenamiento en habilidades sociales.",
+      "Rehabilitación vocacional.",
+      "Psicoeducación familiar."
+    ],
+    "ejercicios": [
+      "Técnicas de grounding (anclaje al presente).",
+      "Reconocimiento de síntomas y señales de recaída.",
+      "Rutinas estructuradas diarias.",
+      "Ejercicios de manejo de voces."
+    ],
+    "farmacologia": [
+      "Antipsicóticos atípicos/típicos."
+    ],
+    "otras": "Hospitalización si riesgo, programas de adherencia.",
+    "alarma": [
+      "Riesgo auto/heteroagresión.",
+      "Pérdida de contacto con la realidad."
+    ],
+    "fuente": "NICE"
+  },
+  {
+    "key": "adicciones",
+    "titulo": "Adicciones",
+    "descripcion": "Uso problemático, dependencia.",
+    "tecnicas": [
+      "Entrevista motivacional.",
+      "TCC para adicciones.",
+      "Grupos de ayuda mutua (AA, NA)."
+    ],
+    "ejercicios": [
+      "Identificar desencadenantes.",
+      "Plan de manejo de impulsos.",
+      "Técnica de tiempo de espera.",
+      "Distracción positiva."
+    ],
+    "farmacologia": [
+      "Metadona, buprenorfina (opioides).",
+      "Naltrexona, acamprosato, disulfiram (alcohol).",
+      "Naloxona (sobredosis)."
+    ],
+    "otras": "Detox supervisado, redes comunitarias.",
+    "alarma": [
+      "Sobredosis.",
+      "Abstinencia grave.",
+      "Ideación suicida."
+    ],
+    "fuente": "WHO, SAMHSA"
+  },
+  {
+    "key": "trauma",
+    "titulo": "Trauma (PTSD)",
+    "descripcion": "Reviviscencias, evitación, hiperalerta tras trauma.",
+    "tecnicas": [
+      "TF-CBT.",
+      "Prolonged Exposure (PE).",
+      "CPT.",
+      "EMDR."
+    ],
+    "ejercicios": [
+      "Ejercicios de grounding.",
+      "Exposición gradual a recuerdos (guiada).",
+      "Reestructuración de creencias.",
+      "EMDR (movimientos oculares guiados)."
+    ],
+    "farmacologia": [
+      "ISRS (sertralina, paroxetina)."
+    ],
+    "otras": "Hospitalización si riesgo grave.",
+    "alarma": [
+      "Riesgo suicida.",
+      "Disfunción severa.",
+      "Comorbilidad grave."
+    ],
+    "fuente": "APA, WHO"
+  },
+  {
+    "key": "alimentario",
+    "titulo": "Trastornos alimentarios",
+    "descripcion": "Anorexia, bulimia, binge-eating.",
+    "tecnicas": [
+      "TCC-E (bulimia, binge-eating).",
+      "FBT (Maudsley) en adolescentes.",
+      "Multidisciplinario/adaptada adultos."
+    ],
+    "ejercicios": [
+      "Registro alimentario.",
+      "Identificación de emociones asociadas a la ingesta.",
+      "Técnicas de afrontamiento y manejo de impulsos.",
+      "Psicoeducación nutricional."
+    ],
+    "farmacologia": [
+      "Reposición médica supervisada.",
+      "Farmacología según riesgo."
+    ],
+    "otras": "Hospitalización si riesgo vital.",
+    "alarma": [
+      "IMC muy bajo.",
+      "Alteración electrolitos.",
+      "Deshidratación."
+    ],
+    "fuente": "NICE"
+  },
+  {
+    "key": "personalidad",
+    "titulo": "Personalidad (Borderline/BPD)",
+    "descripcion": "Patrones persistentes, inestabilidad afectiva, impulsividad, autolesiones.",
+    "tecnicas": [
+      "DBT (mindfulness, tolerancia al malestar, regulación emocional).",
+      "MBT.",
+      "Terapia de esquemas."
+    ],
+    "ejercicios": [
+      "Mindfulness guiado.",
+      "Ejercicios de tolerancia al malestar.",
+      "Registro de emociones y autolesiones.",
+      "Entrenamiento en habilidades sociales."
+    ],
+    "farmacologia": [
+      "No específicos; medicación sintomática temporal."
+    ],
+    "otras": "Hospitalización si riesgo suicida, coaching telefónico.",
+    "alarma": [
+      "Autolesión grave.",
+      "Suicidio."
+    ],
+    "fuente": "Cochrane"
+  },
+  {
+    "key": "neurocognitivo",
+    "titulo": "Neurocognitivos (demencias)",
+    "descripcion": "Deterioro cognitivo progresivo, pérdida funcional.",
+    "tecnicas": [
+      "Estimulación cognitiva.",
+      "Soporte al cuidador.",
+      "Manejo conductual (BPSD)."
+    ],
+    "ejercicios": [
+      "Ejercicios de memoria y atención.",
+      "Rutinas diarias.",
+      "Apoyo emocional a cuidadores.",
+      "Planificación anticipada de cuidados."
+    ],
+    "farmacologia": [
+      "Inhibidores colinesterasa.",
+      "Memantina."
+    ],
+    "otras": "Planificación de cuidados, hospitalización si delirium.",
+    "alarma": [
+      "Deterioro rápido.",
+      "Abandono/maltrato.",
+      "Delirium."
+    ],
+    "fuente": "NICE"
+  },
+  {
+    "key": "tdah_tea",
+    "titulo": "TDAH / TEA",
+    "descripcion": "Déficit de atención, hiperactividad; espectro autista.",
+    "tecnicas": [
+      "Entrenamiento parental.",
+      "Intervención conductual (TDAH).",
+      "ABA, habilidades sociales (TEA)."
+    ],
+    "ejercicios": [
+      "Rutinas estructuradas.",
+      "Ejercicios de atención y autocontrol.",
+      "Entrenamiento en habilidades sociales.",
+      "Apoyo educativo individualizado."
+    ],
+    "farmacologia": [
+      "Estimulantes, atomoxetina (TDAH).",
+      "Manejo comorbilidades (TEA)."
+    ],
+    "otras": "Apoyos educativos, psicoeducación.",
+    "alarma": [
+      "Deterioro funcional grave.",
+      "Riesgo social."
+    ],
+    "fuente": "NICE"
+  },
+  {
+    "key": "neuromodulacion",
+    "titulo": "Intervenciones somáticas (neuromodulación)",
+    "descripcion": "Neuroestimulación en depresión resistente, catatonia.",
+    "tecnicas": [
+      "ECT (electroconvulsivo).",
+      "rTMS (estimulación magnética)."
+    ],
+    "ejercicios": [
+      "Psicoeducación sobre tratamiento.",
+      "Registro de efectos y evolución.",
+      "Apoyo emocional pre y post tratamiento."
+    ],
+    "farmacologia": [
+      "-"
+    ],
+    "otras": "Hospitalización, monitoreo médico.",
+    "alarma": [
+      "Depresión psicótica.",
+      "Suicidio.",
+      "Catatonia."
+    ],
+    "fuente": "NICE"
+  }
+]
