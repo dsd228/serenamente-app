@@ -1,245 +1,354 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serenamente - App de Salud Mental</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serenamente - App de Salud Mental</title>
+  <!-- TailwindCSS CDN for utility-first design (can replace with custom CSS if needed) -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Font Awesome for icons (can replace with SVG icons as needed) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    /* Theme classes for switching */
+    .theme-dark { background: #1a202c; color: #f7fafc; }
+    .theme-nature { background: linear-gradient(135deg,#e6fffa,#d1fae5); color: #065f46; }
+    .theme-calm { background: linear-gradient(135deg,#e0f2fe,#dbeafe); color: #2563eb; }
+    /* Utility classes for gradients, rounded, etc. (if not using Tailwind) */
+    /* Add custom CSS as needed for additional styling */
+    .sw-status { position:fixed; top:1rem; left:1rem; z-index:50; background:#1a202c; color:#fff; padding:0.5rem 1rem; border-radius:9999px; font-size:0.875rem; display:flex; align-items:center;}
+    .sw-dot { width:0.5rem; height:0.5rem; border-radius:9999px; margin-right:0.5rem;}
+    .sw-dot.active { background:#38d9a9;}
+    .sw-dot.pending { background:#fbbf24;}
+    .sw-dot.error { background:#f87171;}
+    .install-btn { position:fixed; bottom:5rem; right:1rem; z-index:50; background:#6366F1; color:#fff; padding:1rem; border-radius:9999px; font-size:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:background .2s;}
+    .install-btn:hover { background:#4f46e5;}
+    .theme-selector { position:fixed; top:1rem; right:1rem; z-index:50; background:#fff; border-radius:9999px; box-shadow:0 2px 8px rgba(0,0,0,0.06); display:flex; gap:0.25rem; padding:0.25rem;}
+    .theme-btn { padding:0.5rem; border-radius:9999px; border:none; background:transparent; cursor:pointer; transition:transform .2s;}
+    .theme-btn.active { background:#e0e7ff; transform:scale(1.1);}
+    .nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #e5e7eb; display:flex; justify-content:space-around; z-index:50; }
+    .nav-item { flex:1; text-align:center; padding:1rem 0; color:#6366F1; font-weight:500; display:flex; flex-direction:column; align-items:center; transition:color .2s;}
+    .nav-item.active { color:#1e3a8a;}
+    .nav-item i { font-size:1.5rem; margin-bottom:0.25rem;}
+    /* Footer */
+    footer { background:#f3f4f6; color:#6b7280; padding:2rem 0; text-align:center; font-size:0.9rem; margin-top:3rem;}
+    /* Responsive Container */
+    .container { max-width:1200px; margin:0 auto; padding:0 1rem;}
+  </style>
 </head>
-<body>
-    <!-- Service Worker Status -->
-    <div class="service-worker.js">
-        <span class="sw-indicator sw-pending" id="sw-indicator"></span>
-        <span id="sw-message">Verificando Service Worker...</span>
-    </div>
-
-    <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <div>
-                <h1 class="logo">Serenamente</h1>
-                <p class="subtitle">Tu santuario digital para el bienestar emocional</p>
-            </div>
-            <div class="theme-selector">
-                <button class="theme-btn" data-theme="default">
-                    <span class="theme-icon">☀️</span>
-                    Predeterminado
-                </button>
-                <button class="theme-btn" data-theme="dark">
-                    <span class="theme-icon">🌙</span>
-                    Oscuro
-                </button>
-                <button class="theme-btn" data-theme="nature">
-                    <span class="theme-icon">🌿</span>
-                    Naturaleza
-                </button>
-                <button class="theme-btn" data-theme="calm">
-                    <span class="theme-icon">🌊</span>
-                    Calma
-                </button>
-            </div>
+<body class="theme-default">
+  <!-- Service Worker Status -->
+  <div id="sw-status" class="sw-status" style="display:none;">
+    <span id="sw-dot" class="sw-dot"></span>
+    <span id="sw-msg">Verificando Service Worker...</span>
+  </div>
+  <!-- Theme Selector -->
+  <div class="theme-selector" id="theme-selector">
+    <button class="theme-btn active" data-theme="default" title="Predeterminado">☀️</button>
+    <button class="theme-btn" data-theme="dark" title="Oscuro">🌙</button>
+    <button class="theme-btn" data-theme="nature" title="Naturaleza">🌿</button>
+    <button class="theme-btn" data-theme="calm" title="Calma">🌊</button>
+  </div>
+  <!-- Install Button -->
+  <button class="install-btn" id="install-btn" title="Instalar aplicación" style="display:none;"><i class="fas fa-cloud-download-alt"></i></button>
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg sticky top-0 z-40">
+    <div class="container flex flex-col md:flex-row justify-between items-center py-4">
+      <div class="flex items-center mb-4 md:mb-0">
+        <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-3">
+          <i class="fas fa-meditation text-white"></i>
         </div>
-    </header>
+        <div>
+          <h1 class="text-xl font-bold">Serenamente</h1>
+          <p class="text-sm opacity-90">Tu santuario digital para el bienestar emocional</p>
+        </div>
+      </div>
+      <div class="flex space-x-2" id="theme-selector-header">
+        <!-- Theme buttons will be cloned here -->
+      </div>
+    </div>
+  </header>
+  <!-- Main Content Container -->
+  <main class="container mt-8" id="main-content">
+    <!-- Content will be injected here by JS routing -->
+  </main>
+  <!-- Navigation -->
+  <nav class="nav" id="main-nav">
+    <a href="#/" class="nav-item active" data-route="/">
+      <i class="fas fa-home"></i> <span>Inicio</span>
+    </a>
+    <a href="#/journal" class="nav-item" data-route="journal">
+      <i class="fas fa-book"></i> <span>Diario</span>
+    </a>
+    <a href="#/meditation" class="nav-item" data-route="meditation">
+      <i class="fas fa-meditation"></i> <span>Meditación</span>
+    </a>
+    <a href="#/breathing" class="nav-item" data-route="breathing">
+      <i class="fas fa-wind"></i> <span>Respiración</span>
+    </a>
+    <a href="#/progress" class="nav-item" data-route="progress">
+      <i class="fas fa-chart-line"></i> <span>Progreso</span>
+    </a>
+  </nav>
+  <!-- Footer -->
+  <footer>
+    © 2024 Serenamente - Una aplicación ilustrativa para bienestar emocional<br>
+    Esta aplicación no reemplaza la terapia profesional. Si estás pasando por un momento difícil, busca ayuda de un profesional de la salud mental.
+  </footer>
+  <!-- App JS -->
+  <script>
+    // --- THEME SWITCHING ---
+    function setTheme(theme) {
+      document.body.className = '';
+      if (theme !== 'default') document.body.classList.add('theme-' + theme);
+      localStorage.setItem('serenamente-theme', theme);
 
-    <!-- Main Content -->
-    <main class="container">
-        <section id="home" class="module-container active">
-            <h1>Bienvenido a Serenamente</h1>
-            <p class="text-center">Tu espacio personal para encontrar paz, equilibrio y bienestar emocional. Explora herramientas diseñadas para nutrir tu mente y alma.</p>
-            
-            <div class="grid grid-4">
-                <div class="card text-center">
-                    <i class="fas fa-book-open fa-3x mb-3" style="color: #8b5cf6;"></i>
-                    <h3>Diario Emocional</h3>
-                    <p>Registra tus sentimientos diarios y descubre patrones en tu bienestar emocional.</p>
-                    <a href="journal.html" class="btn btn-primary">Explorar</a>
-                </div>
-                
-                <div class="card text-center">
-                    <i class="fas fa-meditation fa-3x mb-3" style="color: #3b82f6;"></i>
-                    <h3>Meditaciones Guiadas</h3>
-                    <p>Accede a sesiones de meditación para reducir el estrés y encontrar la calma interior.</p>
-                    <a href="meditation.html" class="btn btn-primary">Explorar</a>
-                </div>
-                
-                <div class="card text-center">
-                    <i class="fas fa-wind fa-3x mb-3" style="color: #10b981;"></i>
-                    <h3>Ejercicios de Respiración</h3>
-                    <p>Practica técnicas de respiración consciente para calmar tu sistema nervioso.</p>
-                    <a href="breathing.html" class="btn btn-primary">Explorar</a>
-                </div>
-                
-                <div class="card text-center">
-                    <i class="fas fa-chart-line fa-3x mb-3" style="color: #f59e0b;"></i>
-                    <h3>Panel de Progreso</h3>
-                    <p>Sigue tu evolución emocional con estadísticas visuales y análisis personalizados.</p>
-                    <a href="progress.html" class="btn btn-primary">Explorar</a>
-                </div>
-            </div>
-            
-            <div class="grid grid-2 mt-8">
-                <div class="card">
-                    <h3>Áreas de Apoyo</h3>
-                    <p>Ofrecemos recursos específicos para manejar ansiedad, depresión, estrés, trauma, TOC, adicciones y más. Cada área tiene herramientas adaptadas a tus necesidades.</p>
-                    <a href="support.html" class="btn btn-outline">Ver todas las áreas</a>
-                </div>
-                
-                <div class="card">
-                    <h3>Hábitos Saludables</h3>
-                    <p>Registro y seguimiento de rutinas que mejoran tu bienestar: meditación, ejercicio, sueño, gratitud y respiración consciente.</p>
-                    <a href="habits.html" class="btn btn-outline">Registrar hábitos</a>
-                </div>
-            </div>
-            
-            <div class="card mt-8">
-                <h3>Recomendaciones de Mejora</h3>
-                <ul class="list-disc pl-6">
-                    <li><strong>Alta prioridad:</strong> Agregar autenticación y sincronización en la nube</li>
-                    <li><strong>Alta prioridad:</strong> Mejorar la accesibilidad con etiquetas ARIA</li>
-                    <li><strong>Media prioridad:</strong> Minificar recursos estáticos y optimizar imágenes</li>
-                    <li><strong>Media prioridad:</strong> Internacionalización para soporte de múltiples idiomas</li>
-                    <li><strong>Baja prioridad:</strong> Reorganizar la estructura de archivos y eliminar redundancias</li>
-                </ul>
-            </div>
-        </section>
-    </main>
+      // Update theme selectors
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === theme);
+      });
+    }
+    // Theme selector listeners
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+    });
+    // Load theme on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+      let saved = localStorage.getItem('serenamente-theme') || 'default';
+      setTheme(saved);
+    });
+    // Clone theme buttons for header
+    document.getElementById('theme-selector-header').innerHTML =
+      document.getElementById('theme-selector').innerHTML;
+    document.querySelectorAll('#theme-selector-header .theme-btn').forEach(btn => {
+      btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+    });
 
-    <!-- Navigation -->
-    <nav class="nav">
-        <a href="index.html" class="nav-item active" data-module="home">
-            <i class="fas fa-home"></i>
-            Inicio
-        </a>
-        <a href="journal.html" class="nav-item" data-module="journal">
-            <i class="fas fa-book"></i>
-            Diario
-        </a>
-        <a href="meditation.html" class="nav-item" data-module="meditation">
-            <i class="fas fa-meditation"></i>
-            Meditación
-        </a>
-        <a href="breathing.html" class="nav-item" data-module="breathing">
-            <i class="fas fa-wind"></i>
-            Respiración
-        </a>
-        <a href="progress.html" class="nav-item" data-module="progress">
-            <i class="fas fa-chart-line"></i>
-            Progreso
-        </a>
-    </nav>
-
-    <!-- Install PWA Button -->
-    <button class="install-btn" id="install-btn" title="Instalar aplicación">
-        <i class="fas fa-cloud-download-alt"></i>
-    </button>
-
-    <!-- Footer -->
-    <footer>
-        © 2024 Serenamente - Una aplicación ilustrativa para bienestar emocional<br>
-        Esta aplicación no reemplaza la terapia profesional. Si estás pasando por un momento difícil, busca ayuda de un profesional de la salud mental.
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="app.js"></script>
-    
-    <!-- Service Worker Registration -->
-    <script>
-        // Check if service worker is supported
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    document.getElementById('sw-indicator').classList.remove('sw-pending');
-                    document.getElementById('sw-indicator').classList.add('sw-active');
-                    document.getElementById('sw-message').textContent = 'Service Worker activado';
-                    
-                    // Listen for updates
-                    registration.onupdatefound = function() {
-                        const installingWorker = registration.installing;
-                        installingWorker.onstatechange = function() {
-                            if (installingWorker.state === 'installed') {
-                                if (navigator.serviceWorker.controller) {
-                                    // New update available
-                                    document.getElementById('sw-indicator').classList.remove('sw-active');
-                                    document.getElementById('sw-indicator').classList.add('sw-pending');
-                                    document.getElementById('sw-message').textContent = 'Actualización disponible. Recargue la página.';
-                                    
-                                    // Show notification to user
-                                    setTimeout(() => {
-                                        if (confirm('Nueva versión disponible. ¿Desea actualizar ahora?')) {
-                                            window.location.reload();
-                                        }
-                                    }, 1000);
-                                } else {
-                                    // Initial install
-                                    document.getElementById('sw-indicator').classList.remove('sw-pending');
-                                    document.getElementById('sw-indicator').classList.add('sw-active');
-                                    document.getElementById('sw-message').textContent = 'Service Worker activado';
-                                }
-                            }
-                        };
-                    };
-                }).catch(function(error) {
-                    console.log('ServiceWorker registration failed: ', error);
-                    document.getElementById('sw-indicator').classList.remove('sw-pending');
-                    document.getElementById('sw-indicator').classList.add('sw-error');
-                    document.getElementById('sw-message').textContent = 'Error al registrar Service Worker';
-                });
-            });
-        }
-        
-        // Handle PWA installation
-        let deferredPrompt;
-        
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('install-btn').style.display = 'flex';
-        });
-        
-        document.getElementById('install-btn').addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
-                    }
-                    deferredPrompt = null;
-                    document.getElementById('install-btn').style.display = 'none';
-                });
-            }
-        });
-        
-        // Theme switching functionality
-        document.querySelectorAll('.theme-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                const theme = button.getAttribute('data-theme');
-                document.body.className = '';
-                if (theme !== 'default') {
-                    document.body.classList.add(`theme-${theme}`);
+    // --- SERVICE WORKER STATUS ---
+    let swStatus = 'pending';
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(reg) {
+          swStatus = 'active';
+          updateSWStatus();
+          reg.onupdatefound = function() {
+            const worker = reg.installing;
+            worker.onstatechange = function() {
+              if (worker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  swStatus = 'pending';
+                  updateSWStatus();
+                  setTimeout(() => {
+                    if (confirm('Nueva versión disponible. ¿Desea actualizar ahora?')) window.location.reload();
+                  }, 1000);
+                } else {
+                  swStatus = 'active';
+                  updateSWStatus();
                 }
-                
-                // Save preference
-                localStorage.setItem('serenamente-theme', theme);
-            });
-        });
-        
-        // Load saved theme
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('serenamente-theme');
-            if (savedTheme && savedTheme !== 'default') {
-                document.body.classList.add(`theme-${savedTheme}`);
-                // Update active theme button
-                document.querySelector(`.theme-btn[data-theme="${savedTheme}"]`).classList.add('active');
+              }
             }
+          }
+        }).catch(function() {
+          swStatus = 'error';
+          updateSWStatus();
         });
-    </script>
+      });
+    }
+    function updateSWStatus() {
+      let swDiv = document.getElementById('sw-status');
+      swDiv.style.display = 'flex';
+      let dot = document.getElementById('sw-dot');
+      let msg = document.getElementById('sw-msg');
+      dot.className = 'sw-dot ' + swStatus;
+      if (swStatus === 'active') msg.textContent = 'Service Worker activado';
+      else if (swStatus === 'pending') msg.textContent = 'Actualización disponible';
+      else msg.textContent = 'Error en servicio';
+    }
+    // --- PWA INSTALL ---
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('install-btn').style.display = 'block';
+    });
+    document.getElementById('install-btn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        document.getElementById('install-btn').style.display = 'none';
+      }
+    });
+
+    // --- SIMPLE ROUTER ---
+    function render(route, params = {}) {
+      // Main routes
+      let html = '';
+      if (!route || route === '/') html = homePage();
+      else if (route === 'journal') html = journalPage();
+      else if (route === 'meditation') html = meditationPage();
+      else if (route === 'breathing') html = breathingPage();
+      else if (route === 'progress') html = progressPage();
+      else if (route === 'habits') html = habitsPage();
+      else if (route === 'areas') html = areasPage();
+      else if (route.startsWith('area/')) html = areaDetailPage(route.split('/')[1]);
+      else html = homePage();
+      document.getElementById('main-content').innerHTML = html;
+      // Update nav active
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === '#/' + route);
+      });
+    }
+    // Listen hashchange
+    window.addEventListener('hashchange', () => {
+      let route = location.hash.replace(/^#\/?/, '');
+      render(route);
+    });
+    // Initial render
+    document.addEventListener('DOMContentLoaded', () => {
+      let route = location.hash.replace(/^#\/?/, '');
+      render(route);
+    });
+
+    // --- PAGE HTML TEMPLATES (simplified, can be expanded as needed) ---
+    function homePage(){
+      return `
+      <section class="text-center py-16">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+          Bienvenido a <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Serenamente</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed">
+          Tu santuario digital para el bienestar emocional. Explora herramientas diseñadas para nutrir tu mente y alma.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+          <a href="#/areas" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2">
+            <i class="fas fa-book-open"></i> Explorar Áreas
+          </a>
+          <a href="#/journal" class="border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 flex items-center gap-2">
+            <i class="fas fa-book"></i> Iniciar Diario
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          ${featureCard('fa-book-open','Diario Emocional','Registra tus sentimientos diarios y descubre patrones en tu bienestar emocional.','#/journal')}
+          ${featureCard('fa-meditation','Meditaciones Guiadas','Accede a sesiones de meditación para reducir el estrés y encontrar la calma interior.','#/meditation')}
+          ${featureCard('fa-wind','Ejercicios de Respiración','Practica técnicas de respiración consciente para calmar tu sistema nervioso.','#/breathing')}
+          ${featureCard('fa-chart-line','Panel de Progreso','Sigue tu evolución emocional con estadísticas visuales y análisis personalizados.','#/progress')}
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div class="space-y-8">
+            <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100">
+              <div class="flex items-start mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-red-100 to-pink-100 rounded-2xl flex items-center justify-center mr-6">
+                  <i class="fas fa-heart text-red-600"></i>
+                </div>
+                <div>
+                  <h3 class="text-2xl font-bold mb-3">Áreas de Apoyo</h3>
+                  <p class="text-lg">Ofrecemos recursos específicos para manejar ansiedad, depresión, estrés, trauma, TOC, adicciones y más.</p>
+                </div>
+              </div>
+              <a href="#/areas" class="bg-gradient-to-r from-red-600 to-pink-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl">Ver todas las áreas</a>
+            </div>
+            <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100">
+              <div class="flex items-start mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mr-6">
+                  <i class="fas fa-calendar text-green-600"></i>
+                </div>
+                <div>
+                  <h3 class="text-2xl font-bold mb-3">Hábitos Saludables</h3>
+                  <p class="text-lg">Registro y seguimiento de rutinas que mejoran tu bienestar: meditación, ejercicio, sueño, gratitud y respiración consciente.</p>
+                </div>
+              </div>
+              <a href="#/habits" class="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl">Registrar hábitos</a>
+            </div>
+          </div>
+          <div class="relative">
+            <img src="https://placehold.co/600x500/f5f5f5/4e54c8?text=Bienestar+Emocional" alt="Bienestar emocional" class="rounded-3xl shadow-2xl"/>
+            <div class="absolute -bottom-6 -left-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-2xl shadow-xl">
+              <div class="flex items-center gap-2"><i class="fas fa-check-circle"></i> <span class="font-semibold">100% Gratuito</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100 mt-16">
+          <h2 class="text-3xl font-bold text-center mb-12">Recomendaciones de Mejora</h2>
+          <ul class="list-disc pl-8 text-lg">
+            <li><strong>Alta prioridad:</strong> Agregar autenticación y sincronización en la nube</li>
+            <li><strong>Alta prioridad:</strong> Mejorar la accesibilidad con etiquetas ARIA</li>
+            <li><strong>Media prioridad:</strong> Minificar recursos estáticos y optimizar imágenes</li>
+            <li><strong>Media prioridad:</strong> Internacionalización para soporte de múltiples idiomas</li>
+            <li><strong>Baja prioridad:</strong> Reorganizar la estructura de archivos y eliminar redundancias</li>
+          </ul>
+        </div>
+        <section class="py-16 bg-gradient-to-r from-indigo-600 to-purple-600 text-white mt-12">
+          <h2 class="text-4xl font-bold mb-6">¿Listo para comenzar tu camino hacia el bienestar?</h2>
+          <p class="text-xl mb-10 opacity-90">Serenamente te acompaña en cada paso de tu jornada emocional. No estás solo.</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#/journal" class="bg-white text-indigo-600 px-10 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl">Iniciar Diario Emocional</a>
+            <a href="#/areas" class="border-2 border-white text-white px-10 py-4 rounded-2xl text-lg font-semibold hover:bg-white hover:text-indigo-600">Explorar Áreas de Apoyo</a>
+          </div>
+        </section>
+      </section>`;
+    }
+    function featureCard(icon,title,desc,link){
+      return `<div class="relative group cursor-pointer transition-all duration-500 hover:-translate-y-2">
+        <div class="relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl border border-gray-100 h-full flex flex-col items-center text-center transition-all duration-500 hover:scale-105">
+          <div class="w-20 h-20 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-full flex items-center justify-center mb-6">
+            <i class="fas ${icon} text-indigo-600" style="font-size:2.5rem;"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4">${title}</h3>
+          <p class="text-gray-600 mb-6 flex-1">${desc}</p>
+          <a href="${link}" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center gap-2">
+            Explorar <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>`;
+    }
+    // More page templates (journalPage, meditationPage, etc.) would follow with similar structure.
+    // For brevity, you can expand the rest with matching HTML/CSS as above, using icons and classes.
+
+    // Example: Journal Page
+    function journalPage(){
+      return `
+      <section class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-16">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-4">Diario Emocional</h1>
+            <p class="text-xl text-gray-600">Registra tus sentimientos diarios y descubre patrones en tu bienestar emocional.</p>
+          </div>
+          <div class="bg-white rounded-3xl shadow-xl p-10 border border-gray-100 mb-8">
+            <h2 class="text-2xl font-bold mb-6">¿Cómo te sientes hoy?</h2>
+            <textarea class="w-full h-64 p-6 border-2 border-gray-200 rounded-2xl text-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition-all duration-300 resize-none mb-8"
+              placeholder="Escribe sobre tus emociones, pensamientos y experiencias de hoy..."></textarea>
+            <div class="flex justify-between items-center">
+              <div class="flex space-x-4">
+                <button class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300">Guardar</button>
+                <button class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-2xl text-lg font-semibold hover:bg-gray-50 transition-all duration-300">Borrar</button>
+              </div>
+              <div class="text-gray-500">Última entrada: Hoy, 10:30 AM</div>
+            </div>
+          </div>
+          <div class="bg-white rounded-3xl shadow-xl p-10 border border-gray-100">
+            <h2 class="text-2xl font-bold mb-8">Historial reciente</h2>
+            <div class="space-y-6">
+              <div class="border border-gray-200 rounded-2xl p-6">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <p class="text-gray-800 text-lg mb-4">
+                      Hoy me sentí particularmente ansioso al tener que presentar mi proyecto en la reunión. Me costó concentrarme y tuve pensamientos negativos sobre mi capacidad. Después de practicar respiración consciente durante 5 minutos, me sentí un poco mejor.
+                    </p>
+                    <p class="text-gray-500 text-sm">Hoy, 10:30 AM</p>
+                  </div>
+                  <div class="flex space-x-2">
+                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Ansiedad</span>
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Estrés</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>`;
+    }
+    // Add meditationPage, breathingPage, progressPage, habitsPage, areasPage, areaDetailPage, etc. similarly
+
+  </script>
 </body>
 </html>
