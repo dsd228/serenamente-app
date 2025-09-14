@@ -6,7 +6,7 @@
     </div>
     <div>
       <h2 class="text-3xl font-bold mb-1">Psicoterapia</h2>
-      <p class="text-gray-600">Ejercicios interactivos y herramientas para tu proceso psicoterapéutico.</p>
+      <p class="text-gray-600">Ejercicios interactivos, motivación y herramientas para tu proceso psicoterapéutico.</p>
     </div>
   </div>
 
@@ -73,6 +73,31 @@
     <div id="emocion-history" class="mt-4"></div>
   </div>
 
+  <!-- SUGERENCIA dinámica de ejercicios -->
+  <div id="ejercicio-sugerido"></div>
+
+  <!-- Ejercicios guiados expandidos -->
+  <div class="bg-white rounded-3xl shadow p-6 mb-6" id="ejercicios-expandidos" style="display:none;">
+    <!-- Respiración guiada -->
+    <div id="ej-respiracion" style="display:none;">
+      <h3 class="text-xl font-semibold mb-3">Respiración consciente</h3>
+      <p class="mb-2">1. Siéntate cómodo.<br>2. Cierra los ojos.<br>3. Inhala lento contando hasta 4.<br>4. Retén el aire 2 segundos.<br>5. Exhala contando hasta 6.<br>Repite 5 veces.</p>
+      <button onclick="cerrarEjercicio()" class="mt-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded">Cerrar</button>
+    </div>
+    <!-- Meditación breve -->
+    <div id="ej-meditacion" style="display:none;">
+      <h3 class="text-xl font-semibold mb-3">Meditación breve</h3>
+      <p class="mb-2">1. Siéntate en silencio.<br>2. Presta atención a tu respiración.<br>3. Deja pasar pensamientos sin juzgar.<br>4. Hazlo durante 3-5 minutos.</p>
+      <button onclick="cerrarEjercicio()" class="mt-2 bg-purple-100 text-purple-700 px-4 py-2 rounded">Cerrar</button>
+    </div>
+    <!-- Visualización positiva -->
+    <div id="ej-visualizacion" style="display:none;">
+      <h3 class="text-xl font-semibold mb-3">Visualización positiva</h3>
+      <p class="mb-2">1. Imagina un lugar seguro y feliz.<br>2. Siente la calma y seguridad.<br>3. Mantén esa imagen por 2 minutos.<br>4. Respira profundo y abre los ojos.</p>
+      <button onclick="cerrarEjercicio()" class="mt-2 bg-green-100 text-green-700 px-4 py-2 rounded">Cerrar</button>
+    </div>
+  </div>
+
   <!-- Establecimiento de metas y avances -->
   <div class="bg-white rounded-3xl shadow p-6 mb-6">
     <h3 class="text-xl font-semibold mb-3">Establece una meta para tu proceso</h3>
@@ -103,13 +128,49 @@
     fraseIndex = (fraseIndex + 1) % frases.length;
     document.getElementById('motivational-msg').textContent = frases[fraseIndex];
   }
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('motivational-msg').textContent = frases[fraseIndex];
-    showAfirmacionHistory();
-    showEmocionHistory();
-    showMetaHistory();
-    showSesionMsg();
-  });
+
+  // Ejercicios guiados expandidos
+  function mostrarEjercicio(tipo) {
+    document.getElementById('ejercicios-expandidos').style.display = 'block';
+    document.getElementById('ej-respiracion').style.display = 'none';
+    document.getElementById('ej-meditacion').style.display = 'none';
+    document.getElementById('ej-visualizacion').style.display = 'none';
+    if (tipo === 'respiracion') document.getElementById('ej-respiracion').style.display = 'block';
+    if (tipo === 'meditacion') document.getElementById('ej-meditacion').style.display = 'block';
+    if (tipo === 'visualizacion') document.getElementById('ej-visualizacion').style.display = 'block';
+  }
+  function cerrarEjercicio() {
+    document.getElementById('ejercicios-expandidos').style.display = 'none';
+    document.getElementById('ej-respiracion').style.display = 'none';
+    document.getElementById('ej-meditacion').style.display = 'none';
+    document.getElementById('ej-visualizacion').style.display = 'none';
+  }
+
+  // Sugerencias según emoción
+  function sugerirEjercicio(emocion) {
+    let sugerencia = '', btn = '';
+    if (emocion === "Ansioso/a") {
+      sugerencia = "¿Te gustaría hacer el ejercicio de respiración guiada?";
+      btn = `<button onclick="mostrarEjercicio('respiracion')" class="ml-2 bg-indigo-600 text-white px-3 py-1 rounded">Respiración</button>`;
+    } else if (emocion === "Triste") {
+      sugerencia = "Prueba el ejercicio de autoafirmación o visualización positiva.";
+      btn = `<button onclick="mostrarEjercicio('visualizacion')" class="ml-2 bg-green-600 text-white px-3 py-1 rounded">Visualización</button>`;
+    } else if (emocion === "Motivado/a") {
+      sugerencia = "¡Establece una meta de avance personal!";
+      btn = `<button onclick="document.getElementById('meta').focus()" class="ml-2 bg-purple-600 text-white px-3 py-1 rounded">Nueva meta</button>`;
+    } else if (emocion === "En calma") {
+      sugerencia = "¿Quieres hacer una meditación breve para mantener tu bienestar?";
+      btn = `<button onclick="mostrarEjercicio('meditacion')" class="ml-2 bg-indigo-600 text-white px-3 py-1 rounded">Meditación</button>`;
+    }
+    document.getElementById('ejercicio-sugerido').innerHTML = sugerencia ? 
+      `<div class="bg-indigo-50 rounded-xl p-4 mb-4 text-indigo-700 font-semibold flex items-center">${sugerencia}${btn}</div>` : '';
+  }
+
+  // Enviar al diario
+  function enviarAlDiario(txt) {
+    localStorage.setItem('diarioDraft', txt);
+    location.hash = "#/journal";
+  }
 
   // Recordatorio de sesión
   document.getElementById('sesion-form').onsubmit = function(e) {
@@ -151,8 +212,9 @@
     const div = document.getElementById('afirmacion-history');
     if (!arr.length) { div.innerHTML = ""; return; }
     div.innerHTML = `<h4 class="font-semibold mb-2">Tus afirmaciones:</h4>` +
-      arr.slice(0,5).map(a => `<div class="border border-indigo-100 rounded-xl p-2 mb-1 text-gray-700">
+      arr.slice(0,5).map(a => `<div class="border border-indigo-100 rounded-xl p-2 mb-1 text-gray-700 flex justify-between items-center">
         "${a.text}" <span class="text-xs text-gray-400">${a.date}</span>
+        <button onclick="enviarAlDiario('${a.text}')" class="ml-3 px-2 py-1 text-xs bg-indigo-100 rounded hover:bg-indigo-200">Registrar en Diario</button>
       </div>`).join('');
   }
 
@@ -168,15 +230,18 @@
     document.getElementById('emocion').value = '';
     document.getElementById('emocion-msg').textContent = "¡Registrada!";
     showEmocionHistory();
+    sugerirEjercicio(emo);
   };
   function showEmocionHistory() {
     const arr = JSON.parse(localStorage.getItem('psicoterapiaEmociones') || '[]');
     const div = document.getElementById('emocion-history');
     if (!arr.length) { div.innerHTML = ""; return; }
     div.innerHTML = `<h4 class="font-semibold mb-2">Tus emociones recientes:</h4>` +
-      arr.slice(0,5).map(a => `<div class="border border-blue-100 rounded-xl p-2 mb-1 text-gray-700">
+      arr.slice(0,5).map(a => `<div class="border border-blue-100 rounded-xl p-2 mb-1 text-gray-700 flex justify-between items-center">
         ${a.text} <span class="text-xs text-gray-400">${a.date}</span>
+        <button onclick="enviarAlDiario('${a.text}')" class="ml-3 px-2 py-1 text-xs bg-indigo-100 rounded hover:bg-indigo-200">Registrar en Diario</button>
       </div>`).join('');
+    if (arr.length) sugerirEjercicio(arr[0].text);
   }
 
   // Metas y avances personales
@@ -197,8 +262,20 @@
     const div = document.getElementById('meta-history');
     if (!arr.length) { div.innerHTML = ""; return; }
     div.innerHTML = `<h4 class="font-semibold mb-2">Tus metas y avances:</h4>` +
-      arr.slice(0,5).map(a => `<div class="border border-purple-100 rounded-xl p-2 mb-1 text-gray-700">
+      arr.slice(0,5).map(a => `<div class="border border-purple-100 rounded-xl p-2 mb-1 text-gray-700 flex justify-between items-center">
         ${a.text} <span class="text-xs text-gray-400">${a.date}</span>
+        <button onclick="enviarAlDiario('${a.text}')" class="ml-3 px-2 py-1 text-xs bg-purple-100 rounded hover:bg-purple-200">Registrar en Diario</button>
       </div>`).join('');
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('motivational-msg').textContent = frases[fraseIndex];
+    showAfirmacionHistory();
+    showEmocionHistory();
+    showMetaHistory();
+    showSesionMsg();
+    // Sugerencia según última emoción
+    const arr = JSON.parse(localStorage.getItem('psicoterapiaEmociones') || '[]');
+    if (arr.length) sugerirEjercicio(arr[0].text);
+  });
 </script>
