@@ -6,7 +6,7 @@
     </div>
     <div>
       <h2 class="text-3xl font-bold mb-1">Chat de Psicoterapia Virtual</h2>
-      <p class="text-gray-600">Asistencia personalizada en crisis, ejercicios guiados y audioterapia.</p>
+      <p class="text-gray-600">Asistencia en crisis, ejercicios guiados, audioterapia y herramientas personales.</p>
     </div>
   </div>
 
@@ -23,6 +23,10 @@
       <button onclick="setMode('breve')" id="btn-breve" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded active">Breve</button>
       <button onclick="setMode('extendida')" id="btn-extendida" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded">Extendida</button>
     </div>
+    <div class="flex gap-2 mt-2">
+      <button onclick="saveChatToJournal()" class="bg-green-600 text-white px-3 py-1 rounded">Guardar chat en diario</button>
+      <button onclick="showPlanEmergenciaModal()" class="bg-pink-600 text-white px-3 py-1 rounded">Crear plan de emergencia</button>
+    </div>
   </div>
 
   <!-- Ejercicio guiado sugerido -->
@@ -37,6 +41,38 @@
       <button onclick="playAudio('autoafirmacion')" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-800 transition">Autoafirmación positiva</button>
       <audio id="audio-player" controls style="display:none;margin-top:1rem;width:100%"></audio>
     </div>
+  </div>
+
+  <!-- Modal Plan de Emergencia -->
+  <div id="plan-emergencia-modal" class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50" style="display:none;">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-lg">
+      <h3 class="text-2xl font-bold mb-4">Plan de Emergencia Personal</h3>
+      <form id="plan-emergencia-form" class="flex flex-col gap-3">
+        <label>
+          <span class="font-medium">1. ¿Qué señales indican que estoy en crisis?</span>
+          <input type="text" name="senales" class="border rounded p-2 w-full" maxlength="100" required>
+        </label>
+        <label>
+          <span class="font-medium">2. ¿Qué puedo hacer para calmarme?</span>
+          <input type="text" name="acciones" class="border rounded p-2 w-full" maxlength="100" required>
+        </label>
+        <label>
+          <span class="font-medium">3. ¿A qué persona puedo contactar?</span>
+          <input type="text" name="contacto" class="border rounded p-2 w-full" maxlength="80" required>
+        </label>
+        <label>
+          <span class="font-medium">4. Recursos o teléfonos útiles</span>
+          <input type="text" name="recursos" class="border rounded p-2 w-full" maxlength="100">
+        </label>
+        <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded shadow hover:bg-pink-700">Guardar plan</button>
+        <button type="button" onclick="closePlanEmergenciaModal()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded shadow">Cancelar</button>
+      </form>
+    </div>
+  </div>
+  <div id="plan-emergencia-vista" class="bg-pink-50 rounded-2xl shadow p-6 mb-6" style="display:none;">
+    <h3 class="text-xl font-semibold mb-3">Mi plan de emergencia</h3>
+    <div id="plan-emergencia-content"></div>
+    <button onclick="editPlanEmergencia()" class="bg-pink-600 text-white px-3 py-1 rounded mt-2">Editar plan</button>
   </div>
 </section>
 <script>
@@ -245,6 +281,60 @@
     `;
   }
 
+  // Guardar chat en diario
+  function saveChatToJournal() {
+    const plainChat = chatHistory.map(msg => (msg.author === 'user' ? "Yo: " : "Psicólogo: ") + msg.text.replace(/<br>/g,"\n").replace(/<[^>]+>/g,'')).join('\n---\n');
+    localStorage.setItem('diarioDraft', plainChat);
+    location.hash = "#/journal";
+  }
+
+  // Plan de emergencia
+  function showPlanEmergenciaModal() {
+    document.getElementById('plan-emergencia-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    // Si hay datos previos, precargar
+    const plan = JSON.parse(localStorage.getItem('planEmergencia') || '{}');
+    if (plan && Object.keys(plan).length > 0) {
+      document.querySelector("#plan-emergencia-form [name=senales]").value = plan.senales || '';
+      document.querySelector("#plan-emergencia-form [name=acciones]").value = plan.acciones || '';
+      document.querySelector("#plan-emergencia-form [name=contacto]").value = plan.contacto || '';
+      document.querySelector("#plan-emergencia-form [name=recursos]").value = plan.recursos || '';
+    }
+  }
+  function closePlanEmergenciaModal() {
+    document.getElementById('plan-emergencia-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  document.getElementById('plan-emergencia-form').onsubmit = function(e) {
+    e.preventDefault();
+    const plan = {
+      senales: this.senales.value,
+      acciones: this.acciones.value,
+      contacto: this.contacto.value,
+      recursos: this.recursos.value
+    };
+    localStorage.setItem('planEmergencia', JSON.stringify(plan));
+    closePlanEmergenciaModal();
+    showPlanEmergencia();
+  };
+  function showPlanEmergencia() {
+    const plan = JSON.parse(localStorage.getItem('planEmergencia') || '{}');
+    if (!plan || !plan.senales) {
+      document.getElementById('plan-emergencia-vista').style.display = 'none';
+      return;
+    }
+    document.getElementById('plan-emergencia-vista').style.display = 'block';
+    document.getElementById('plan-emergencia-content').innerHTML = `
+      <div class="mb-2"><span class="font-semibold">Señales de crisis:</span> ${plan.senales}</div>
+      <div class="mb-2"><span class="font-semibold">Acciones para calmarme:</span> ${plan.acciones}</div>
+      <div class="mb-2"><span class="font-semibold">Contacto de apoyo:</span> ${plan.contacto}</div>
+      <div class="mb-2"><span class="font-semibold">Recursos útiles:</span> ${plan.recursos}</div>
+    `;
+  }
+  function editPlanEmergencia() {
+    showPlanEmergenciaModal();
+  }
+
   // Enviar mensaje
   document.getElementById('chat-form').onsubmit = function(e) {
     e.preventDefault();
@@ -258,6 +348,7 @@
     input.value = '';
   };
 
-  // Render inicial
+  // Render inicial y plan emergencia
   renderChat();
+  showPlanEmergencia();
 </script>
