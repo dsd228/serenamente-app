@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import PatologiaFichas from './PatologiaFichas.jsx';
+export default function App() { return <PatologiaFichas /> }
 // Base de datos de fichas (puedes ampliar cada área con funciones/test/ejercicios)
 const fichas = [
   {
