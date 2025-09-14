@@ -1,66 +1,54 @@
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Estrés | Serenamente</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="area-estres">
-  <nav class="glass-nav">
-    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
-    <ul>
-      <li><a href="/index.html" class="nav-link">Inicio</a></li>
-      <li><a href="/areas/estres.html" class="nav-link area-estres active">Estrés</a></li>
-      <!-- ...otras áreas... -->
+<section class="py-8 max-w-2xl mx-auto fadein">
+  <div class="flex items-center gap-4 mb-6">
+    <div class="w-14 h-14 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center">
+      <i class="fas fa-burn text-red-700 text-3xl"></i>
+    </div>
+    <div>
+      <h2 class="text-3xl font-bold mb-1">Estrés</h2>
+      <p class="text-gray-600">Pruebas y recursos para el manejo del estrés.</p>
+    </div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Test rápido de estrés</h3>
+    <form id="estres-form" aria-label="Test de estrés">
+      <label class="block mb-2 font-medium">¿Sientes que te cuesta relajarte?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="relajacion" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <label class="block mb-2 font-medium">¿Has tenido síntomas físicos como dolor de cabeza o insomnio?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="fisico" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <button type="submit" class="bg-red-700 text-white px-4 py-2 rounded shadow hover:bg-red-800 transition">Enviar</button>
+    </form>
+    <div id="estres-result" class="mt-4 text-red-700"></div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6">
+    <h3 class="text-xl font-semibold mb-3">Recursos y técnicas</h3>
+    <ul class="list-disc pl-6 space-y-2">
+      <li><a href="https://www.psicologiaymente.com/clinica/estres" target="_blank" class="text-red-700 underline hover:text-red-900">Psicología y Mente</a></li>
+      <li><a href="https://www.mindful.org/" target="_blank" class="text-red-700 underline hover:text-red-900">Mindful.org</a></li>
+      <li><a href="https://www.fundacionmanantiales.org.ar/" target="_blank" class="text-red-700 underline hover:text-red-900">Fundación Manantiales</a></li>
     </ul>
-  </nav>
-  <main>
-    <section class="glass-card area-card area-estres">
-      <img src="/icons/icon-estres.png" class="area-icon" alt="Estrés">
-      <h1>Estrés</h1>
-      <p>Mindfulness, gestión del tiempo, técnicas de respiración, autoevaluación de estrés, recursos y ejercicios.</p>
-      <div class="glass-section">
-        <h2>Autoevaluación de Estrés</h2>
-        <form id="estresform">
-          <ol>
-            <li>¿Te sientes tenso o inquieto la mayor parte del día? <select name="q0"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Casi siempre</option></select></li>
-            <li>¿Tienes problemas para dormir por preocupaciones? <select name="q1"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Casi siempre</option></select></li>
-            <li>¿Te sientes sobrepasado por tus responsabilidades? <select name="q2"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Casi siempre</option></select></li>
-          </ol>
-          <button type="submit" class="btn">Interpretar</button>
-        </form>
-        <div id="estresresult"></div>
-      </div>
-      <div class="glass-section">
-        <h2>Técnicas recomendadas</h2>
-        <ul>
-          <li>Mindfulness guiado</li>
-          <li>Respiración consciente</li>
-          <li>Rutinas de autocuidado</li>
-          <li>Organización del tiempo</li>
-        </ul>
-      </div>
-      <div class="glass-section">
-        <h2>Recursos y ayuda</h2>
-        <p>Busca ayuda profesional si el estrés te impide funcionar.</p>
-      </div>
-    </section>
-  </main>
+  </div>
   <script>
-    document.getElementById('estresform').onsubmit=function(e){
+    document.getElementById('estres-form').onsubmit = function(e) {
       e.preventDefault();
-      let score=0;
-      for(let i=0;i<3;i++){score+=parseInt(this['q'+i].value);}
-      let result;
-      if(score<3)result='Estrés bajo';
-      else if(score<6)result='Moderado';
-      else result='Alto';
-      document.getElementById('estresresult').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
-      if(score>=5){document.getElementById('estresresult').innerHTML += "<br><strong>Considera pedir ayuda o descansar.</strong>";}
+      const relajacion = this.relajacion.value;
+      const fisico = this.fisico.value;
+      let msg = '';
+      if (relajacion === 'si' || fisico === 'si') {
+        msg = 'Tus respuestas indican estrés significativo. Prueba técnicas de relajación y consulta ayuda profesional si persiste.';
+      } else if (relajacion === 'no' && fisico === 'no') {
+        msg = '¡Bien! Mantén tus rutinas de autocuidado.';
+      } else {
+        msg = 'Completa las respuestas para obtener orientación.';
+      }
+      document.getElementById('estres-result').textContent = msg;
     }
   </script>
-</body>
-</html>
+</section>
