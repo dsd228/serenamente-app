@@ -4,52 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Serenamente - App de Salud Mental</title>
-  <!-- TailwindCSS CDN for utility-first design (can replace with custom CSS if needed) -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Font Awesome for icons (can replace with SVG icons as needed) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    /* Theme classes for switching */
-    .theme-dark { background: #1a202c; color: #f7fafc; }
-    .theme-nature { background: linear-gradient(135deg,#e6fffa,#d1fae5); color: #065f46; }
-    .theme-calm { background: linear-gradient(135deg,#e0f2fe,#dbeafe); color: #2563eb; }
-    /* Utility classes for gradients, rounded, etc. (if not using Tailwind) */
-    /* Add custom CSS as needed for additional styling */
-    .sw-status { position:fixed; top:1rem; left:1rem; z-index:50; background:#1a202c; color:#fff; padding:0.5rem 1rem; border-radius:9999px; font-size:0.875rem; display:flex; align-items:center;}
-    .sw-dot { width:0.5rem; height:0.5rem; border-radius:9999px; margin-right:0.5rem;}
-    .sw-dot.active { background:#38d9a9;}
-    .sw-dot.pending { background:#fbbf24;}
-    .sw-dot.error { background:#f87171;}
-    .install-btn { position:fixed; bottom:5rem; right:1rem; z-index:50; background:#6366F1; color:#fff; padding:1rem; border-radius:9999px; font-size:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:background .2s;}
-    .install-btn:hover { background:#4f46e5;}
-    .theme-selector { position:fixed; top:1rem; right:1rem; z-index:50; background:#fff; border-radius:9999px; box-shadow:0 2px 8px rgba(0,0,0,0.06); display:flex; gap:0.25rem; padding:0.25rem;}
-    .theme-btn { padding:0.5rem; border-radius:9999px; border:none; background:transparent; cursor:pointer; transition:transform .2s;}
-    .theme-btn.active { background:#e0e7ff; transform:scale(1.1);}
+    .container { max-width:1100px; margin:0 auto; padding:0 1rem;}
     .nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #e5e7eb; display:flex; justify-content:space-around; z-index:50; }
     .nav-item { flex:1; text-align:center; padding:1rem 0; color:#6366F1; font-weight:500; display:flex; flex-direction:column; align-items:center; transition:color .2s;}
     .nav-item.active { color:#1e3a8a;}
     .nav-item i { font-size:1.5rem; margin-bottom:0.25rem;}
-    /* Footer */
-    footer { background:#f3f4f6; color:#6b7280; padding:2rem 0; text-align:center; font-size:0.9rem; margin-top:3rem;}
-    /* Responsive Container */
-    .container { max-width:1200px; margin:0 auto; padding:0 1rem;}
+    body { background: #f4f6fa;}
+    .area-card:hover { box-shadow: 0 8px 24px rgba(99,102,241,.11);}
+    .fadein { animation: fadein .6s;}
+    @keyframes fadein { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
   </style>
 </head>
-<body class="theme-default">
-  <!-- Service Worker Status -->
-  <div id="sw-status" class="sw-status" style="display:none;">
-    <span id="sw-dot" class="sw-dot"></span>
-    <span id="sw-msg">Verificando Service Worker...</span>
-  </div>
-  <!-- Theme Selector -->
-  <div class="theme-selector" id="theme-selector">
-    <button class="theme-btn active" data-theme="default" title="Predeterminado">☀️</button>
-    <button class="theme-btn" data-theme="dark" title="Oscuro">🌙</button>
-    <button class="theme-btn" data-theme="nature" title="Naturaleza">🌿</button>
-    <button class="theme-btn" data-theme="calm" title="Calma">🌊</button>
-  </div>
-  <!-- Install Button -->
-  <button class="install-btn" id="install-btn" title="Instalar aplicación" style="display:none;"><i class="fas fa-cloud-download-alt"></i></button>
+<body>
   <!-- Header -->
   <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg sticky top-0 z-40">
     <div class="container flex flex-col md:flex-row justify-between items-center py-4">
@@ -58,297 +27,215 @@
           <i class="fas fa-meditation text-white"></i>
         </div>
         <div>
-          <h1 class="text-xl font-bold">Serenamente</h1>
+          <h1 class="text-xl md:text-2xl font-bold">Serenamente</h1>
           <p class="text-sm opacity-90">Tu santuario digital para el bienestar emocional</p>
         </div>
       </div>
-      <div class="flex space-x-2" id="theme-selector-header">
-        <!-- Theme buttons will be cloned here -->
-      </div>
+      <nav class="flex space-x-6 font-semibold text-base">
+        <a href="#/" class="hover:underline">Inicio</a>
+        <a href="#/areas" class="hover:underline">Áreas</a>
+        <a href="#/journal" class="hover:underline">Diario</a>
+      </nav>
     </div>
   </header>
-  <!-- Main Content Container -->
-  <main class="container mt-8" id="main-content">
-    <!-- Content will be injected here by JS routing -->
+  <!-- Main Content -->
+  <main class="container mt-8 mb-24" id="main-content">
+    <!-- Aquí se carga el contenido dinámico -->
   </main>
-  <!-- Navigation -->
+  <!-- Navegación inferior -->
   <nav class="nav" id="main-nav">
     <a href="#/" class="nav-item active" data-route="/">
       <i class="fas fa-home"></i> <span>Inicio</span>
     </a>
+    <a href="#/areas" class="nav-item" data-route="areas">
+      <i class="fas fa-heart"></i> <span>Áreas</span>
+    </a>
     <a href="#/journal" class="nav-item" data-route="journal">
       <i class="fas fa-book"></i> <span>Diario</span>
     </a>
-    <a href="#/meditation" class="nav-item" data-route="meditation">
-      <i class="fas fa-meditation"></i> <span>Meditación</span>
-    </a>
-    <a href="#/breathing" class="nav-item" data-route="breathing">
-      <i class="fas fa-wind"></i> <span>Respiración</span>
-    </a>
-    <a href="#/progress" class="nav-item" data-route="progress">
-      <i class="fas fa-chart-line"></i> <span>Progreso</span>
-    </a>
   </nav>
   <!-- Footer -->
-  <footer>
-    © 2024 Serenamente - Una aplicación ilustrativa para bienestar emocional<br>
-    Esta aplicación no reemplaza la terapia profesional. Si estás pasando por un momento difícil, busca ayuda de un profesional de la salud mental.
+  <footer class="bg-gray-100 text-gray-600 py-6 text-center mt-8">
+    © 2024 Serenamente<br>
+    Esta aplicación no reemplaza la terapia profesional.
   </footer>
-  <!-- App JS -->
+  <!-- JS Router dinámico -->
   <script>
-    // --- THEME SWITCHING ---
-    function setTheme(theme) {
-      document.body.className = '';
-      if (theme !== 'default') document.body.classList.add('theme-' + theme);
-      localStorage.setItem('serenamente-theme', theme);
-
-      // Update theme selectors
-      document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.theme === theme);
-      });
-    }
-    // Theme selector listeners
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-      btn.addEventListener('click', () => setTheme(btn.dataset.theme));
-    });
-    // Load theme on DOMContentLoaded
-    document.addEventListener('DOMContentLoaded', () => {
-      let saved = localStorage.getItem('serenamente-theme') || 'default';
-      setTheme(saved);
-    });
-    // Clone theme buttons for header
-    document.getElementById('theme-selector-header').innerHTML =
-      document.getElementById('theme-selector').innerHTML;
-    document.querySelectorAll('#theme-selector-header .theme-btn').forEach(btn => {
-      btn.addEventListener('click', () => setTheme(btn.dataset.theme));
-    });
-
-    // --- SERVICE WORKER STATUS ---
-    let swStatus = 'pending';
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js').then(function(reg) {
-          swStatus = 'active';
-          updateSWStatus();
-          reg.onupdatefound = function() {
-            const worker = reg.installing;
-            worker.onstatechange = function() {
-              if (worker.state === 'installed') {
-                if (navigator.serviceWorker.controller) {
-                  swStatus = 'pending';
-                  updateSWStatus();
-                  setTimeout(() => {
-                    if (confirm('Nueva versión disponible. ¿Desea actualizar ahora?')) window.location.reload();
-                  }, 1000);
-                } else {
-                  swStatus = 'active';
-                  updateSWStatus();
-                }
-              }
-            }
-          }
-        }).catch(function() {
-          swStatus = 'error';
-          updateSWStatus();
-        });
-      });
-    }
-    function updateSWStatus() {
-      let swDiv = document.getElementById('sw-status');
-      swDiv.style.display = 'flex';
-      let dot = document.getElementById('sw-dot');
-      let msg = document.getElementById('sw-msg');
-      dot.className = 'sw-dot ' + swStatus;
-      if (swStatus === 'active') msg.textContent = 'Service Worker activado';
-      else if (swStatus === 'pending') msg.textContent = 'Actualización disponible';
-      else msg.textContent = 'Error en servicio';
-    }
-    // --- PWA INSTALL ---
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('install-btn').style.display = 'block';
-    });
-    document.getElementById('install-btn').addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const choice = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        document.getElementById('install-btn').style.display = 'none';
-      }
-    });
-
-    // --- SIMPLE ROUTER ---
-    function render(route, params = {}) {
-      // Main routes
-      let html = '';
-      if (!route || route === '/') html = homePage();
-      else if (route === 'journal') html = journalPage();
-      else if (route === 'meditation') html = meditationPage();
-      else if (route === 'breathing') html = breathingPage();
-      else if (route === 'progress') html = progressPage();
-      else if (route === 'habits') html = habitsPage();
-      else if (route === 'areas') html = areasPage();
-      else if (route.startsWith('area/')) html = areaDetailPage(route.split('/')[1]);
-      else html = homePage();
-      document.getElementById('main-content').innerHTML = html;
-      // Update nav active
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.toggle('active', item.getAttribute('href') === '#/' + route);
-      });
-    }
-    // Listen hashchange
-    window.addEventListener('hashchange', () => {
-      let route = location.hash.replace(/^#\/?/, '');
-      render(route);
-    });
-    // Initial render
-    document.addEventListener('DOMContentLoaded', () => {
-      let route = location.hash.replace(/^#\/?/, '');
-      render(route);
-    });
-
-    // --- PAGE HTML TEMPLATES (simplified, can be expanded as needed) ---
-    function homePage(){
+    // Home
+    function homePage() {
       return `
-      <section class="text-center py-16">
-        <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-          Bienvenido a <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Serenamente</span>
-        </h1>
-        <p class="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed">
-          Tu santuario digital para el bienestar emocional. Explora herramientas diseñadas para nutrir tu mente y alma.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-          <a href="#/areas" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2">
-            <i class="fas fa-book-open"></i> Explorar Áreas
-          </a>
-          <a href="#/journal" class="border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 flex items-center gap-2">
-            <i class="fas fa-book"></i> Iniciar Diario
-          </a>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          ${featureCard('fa-book-open','Diario Emocional','Registra tus sentimientos diarios y descubre patrones en tu bienestar emocional.','#/journal')}
-          ${featureCard('fa-meditation','Meditaciones Guiadas','Accede a sesiones de meditación para reducir el estrés y encontrar la calma interior.','#/meditation')}
-          ${featureCard('fa-wind','Ejercicios de Respiración','Practica técnicas de respiración consciente para calmar tu sistema nervioso.','#/breathing')}
-          ${featureCard('fa-chart-line','Panel de Progreso','Sigue tu evolución emocional con estadísticas visuales y análisis personalizados.','#/progress')}
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div class="space-y-8">
-            <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100">
-              <div class="flex items-start mb-6">
-                <div class="w-16 h-16 bg-gradient-to-br from-red-100 to-pink-100 rounded-2xl flex items-center justify-center mr-6">
-                  <i class="fas fa-heart text-red-600"></i>
-                </div>
-                <div>
-                  <h3 class="text-2xl font-bold mb-3">Áreas de Apoyo</h3>
-                  <p class="text-lg">Ofrecemos recursos específicos para manejar ansiedad, depresión, estrés, trauma, TOC, adicciones y más.</p>
-                </div>
-              </div>
-              <a href="#/areas" class="bg-gradient-to-r from-red-600 to-pink-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl">Ver todas las áreas</a>
-            </div>
-            <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100">
-              <div class="flex items-start mb-6">
-                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mr-6">
-                  <i class="fas fa-calendar text-green-600"></i>
-                </div>
-                <div>
-                  <h3 class="text-2xl font-bold mb-3">Hábitos Saludables</h3>
-                  <p class="text-lg">Registro y seguimiento de rutinas que mejoran tu bienestar: meditación, ejercicio, sueño, gratitud y respiración consciente.</p>
-                </div>
-              </div>
-              <a href="#/habits" class="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl">Registrar hábitos</a>
-            </div>
+        <section class="text-center py-16 fadein">
+          <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            Bienvenido a <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Serenamente</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed">
+            Tu santuario digital para el bienestar emocional. Explora herramientas para cuidar tu mente y tu vida emocional.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <a href="#/areas" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2">
+              <i class="fas fa-heart"></i> Explorar Áreas
+            </a>
+            <a href="#/journal" class="border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 flex items-center gap-2">
+              <i class="fas fa-book"></i> Iniciar Diario
+            </a>
           </div>
-          <div class="relative">
-            <img src="https://placehold.co/600x500/f5f5f5/4e54c8?text=Bienestar+Emocional" alt="Bienestar emocional" class="rounded-3xl shadow-2xl"/>
-            <div class="absolute -bottom-6 -left-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-2xl shadow-xl">
-              <div class="flex items-center gap-2"><i class="fas fa-check-circle"></i> <span class="font-semibold">100% Gratuito</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100 mt-16">
-          <h2 class="text-3xl font-bold text-center mb-12">Recomendaciones de Mejora</h2>
-          <ul class="list-disc pl-8 text-lg">
-            <li><strong>Alta prioridad:</strong> Agregar autenticación y sincronización en la nube</li>
-            <li><strong>Alta prioridad:</strong> Mejorar la accesibilidad con etiquetas ARIA</li>
-            <li><strong>Media prioridad:</strong> Minificar recursos estáticos y optimizar imágenes</li>
-            <li><strong>Media prioridad:</strong> Internacionalización para soporte de múltiples idiomas</li>
-            <li><strong>Baja prioridad:</strong> Reorganizar la estructura de archivos y eliminar redundancias</li>
-          </ul>
-        </div>
-        <section class="py-16 bg-gradient-to-r from-indigo-600 to-purple-600 text-white mt-12">
-          <h2 class="text-4xl font-bold mb-6">¿Listo para comenzar tu camino hacia el bienestar?</h2>
-          <p class="text-xl mb-10 opacity-90">Serenamente te acompaña en cada paso de tu jornada emocional. No estás solo.</p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#/journal" class="bg-white text-indigo-600 px-10 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl">Iniciar Diario Emocional</a>
-            <a href="#/areas" class="border-2 border-white text-white px-10 py-4 rounded-2xl text-lg font-semibold hover:bg-white hover:text-indigo-600">Explorar Áreas de Apoyo</a>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            ${featureCard('fa-book-open','Diario Emocional','Registra tus sentimientos diarios y descubre patrones en tu bienestar emocional.','#/journal')}
+            ${featureCard('fa-meditation','Meditaciones Guiadas','Accede a sesiones de meditación para reducir el estrés y encontrar la calma interior.','#/meditation')}
+            ${featureCard('fa-wind','Ejercicios de Respiración','Practica técnicas de respiración consciente para calmar tu sistema nervioso.','#/breathing')}
+            ${featureCard('fa-chart-line','Panel de Progreso','Sigue tu evolución emocional con estadísticas visuales y análisis personalizados.','#/progress')}
           </div>
         </section>
-      </section>`;
+      `;
     }
-    function featureCard(icon,title,desc,link){
-      return `<div class="relative group cursor-pointer transition-all duration-500 hover:-translate-y-2">
-        <div class="relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl border border-gray-100 h-full flex flex-col items-center text-center transition-all duration-500 hover:scale-105">
-          <div class="w-20 h-20 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-full flex items-center justify-center mb-6">
-            <i class="fas ${icon} text-indigo-600" style="font-size:2.5rem;"></i>
+    function featureCard(icon, title, desc, link) {
+      return `<div class="relative group cursor-pointer transition-all duration-500 hover:-translate-y-2 area-card fadein">
+        <div class="relative bg-white rounded-2xl p-8 shadow-xl border border-gray-100 h-full flex flex-col items-center text-center transition-all duration-500 hover:scale-105">
+          <div class="w-16 h-16 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-full flex items-center justify-center mb-5">
+            <i class="fas ${icon} text-indigo-600" style="font-size:2rem;"></i>
           </div>
-          <h3 class="text-xl font-bold mb-4">${title}</h3>
-          <p class="text-gray-600 mb-6 flex-1">${desc}</p>
+          <h3 class="text-xl font-bold mb-2">${title}</h3>
+          <p class="text-gray-600 mb-4 flex-1">${desc}</p>
           <a href="${link}" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center gap-2">
             Explorar <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </div>`;
     }
-    // More page templates (journalPage, meditationPage, etc.) would follow with similar structure.
-    // For brevity, you can expand the rest with matching HTML/CSS as above, using icons and classes.
-
-    // Example: Journal Page
-    function journalPage(){
+    // Áreas (tarjetas)
+    function areasPage() {
+      const areas = [
+        { name: "Adicciones", icon: "fa-prescription-bottle-alt", color:"from-pink-100 to-pink-200", file: "adicciones", desc: "Recursos y apoyo para superar adicciones y dependencias." },
+        { name: "Alimentación", icon: "fa-apple-alt", color:"from-green-100 to-green-200", file: "alimentacion", desc: "Evaluación y consejos para mejorar tu relación con la comida." },
+        { name: "Ansiedad", icon: "fa-bolt", color:"from-blue-100 to-blue-200", file: "ansiedad", desc: "Herramientas para manejar la ansiedad y el miedo." },
+        { name: "Bipolaridad", icon: "fa-adjust", color:"from-purple-100 to-purple-200", file: "bipolar", desc: "Monitoreo y recursos para el trastorno bipolar." },
+        { name: "Depresión", icon: "fa-cloud-rain", color:"from-indigo-100 to-indigo-200", file: "depresion", desc: "Apoyo y autoevaluación para la depresión." },
+        { name: "Esquizofrenia", icon: "fa-brain", color:"from-yellow-100 to-yellow-200", file: "esquizofrenia", desc: "Información y seguimiento de síntomas." },
+        { name: "Estrés", icon: "fa-burn", color:"from-red-100 to-red-200", file: "estres", desc: "Pruebas y recursos para el manejo del estrés." },
+        { name: "TOC", icon: "fa-sync", color:"from-teal-100 to-teal-200", file: "toc", desc: "Herramientas y ayuda para trastorno obsesivo-compulsivo." },
+        { name: "Trauma", icon: "fa-heart-broken", color:"from-gray-100 to-gray-200", file: "trauma", desc: "Recursos para superar experiencias traumáticas." }
+      ];
       return `
-      <section class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-16">
-        <div class="max-w-4xl mx-auto">
-          <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold mb-4">Diario Emocional</h1>
-            <p class="text-xl text-gray-600">Registra tus sentimientos diarios y descubre patrones en tu bienestar emocional.</p>
-          </div>
-          <div class="bg-white rounded-3xl shadow-xl p-10 border border-gray-100 mb-8">
-            <h2 class="text-2xl font-bold mb-6">¿Cómo te sientes hoy?</h2>
-            <textarea class="w-full h-64 p-6 border-2 border-gray-200 rounded-2xl text-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition-all duration-300 resize-none mb-8"
-              placeholder="Escribe sobre tus emociones, pensamientos y experiencias de hoy..."></textarea>
-            <div class="flex justify-between items-center">
-              <div class="flex space-x-4">
-                <button class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300">Guardar</button>
-                <button class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-2xl text-lg font-semibold hover:bg-gray-50 transition-all duration-300">Borrar</button>
-              </div>
-              <div class="text-gray-500">Última entrada: Hoy, 10:30 AM</div>
-            </div>
-          </div>
-          <div class="bg-white rounded-3xl shadow-xl p-10 border border-gray-100">
-            <h2 class="text-2xl font-bold mb-8">Historial reciente</h2>
-            <div class="space-y-6">
-              <div class="border border-gray-200 rounded-2xl p-6">
-                <div class="flex justify-between items-start">
-                  <div>
-                    <p class="text-gray-800 text-lg mb-4">
-                      Hoy me sentí particularmente ansioso al tener que presentar mi proyecto en la reunión. Me costó concentrarme y tuve pensamientos negativos sobre mi capacidad. Después de practicar respiración consciente durante 5 minutos, me sentí un poco mejor.
-                    </p>
-                    <p class="text-gray-500 text-sm">Hoy, 10:30 AM</p>
-                  </div>
-                  <div class="flex space-x-2">
-                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Ansiedad</span>
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Estrés</span>
-                  </div>
+        <section class="py-10 fadein">
+          <h2 class="text-4xl font-bold text-center mb-10">Áreas de Apoyo</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            ${areas.map(area => `
+              <a href="#/area/${area.file}" class="block bg-white rounded-3xl shadow-lg hover:shadow-xl transition p-6 area-card fadein">
+                <div class="w-12 h-12 mb-4 bg-gradient-to-br ${area.color} rounded-full flex items-center justify-center mx-auto">
+                  <i class="fas ${area.icon} text-indigo-600 text-2xl"></i>
                 </div>
-              </div>
+                <h3 class="text-xl font-semibold text-center mb-2">${area.name}</h3>
+                <p class="text-gray-600 text-center mb-2">${area.desc}</p>
+                <div class="w-full text-center mt-2">
+                  <span class="inline-block bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-1 rounded-full text-xs font-medium">Ver más</span>
+                </div>
+              </a>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+    // Diario
+    function journalPage() {
+      return `
+        <section class="py-12 max-w-2xl mx-auto fadein">
+          <h2 class="text-3xl font-bold mb-6 text-center">Diario Emocional</h2>
+          <textarea id="journal-text" class="w-full h-40 p-4 border-2 border-indigo-100 rounded-2xl mb-4 text-gray-700 focus:ring-2 focus:ring-indigo-200" placeholder="¿Cómo te sientes hoy?"></textarea>
+          <div class="flex justify-center gap-4 mb-6">
+            <button class="bg-indigo-600 text-white px-6 py-2 rounded-2xl shadow hover:bg-indigo-700 transition" onclick="saveJournalEntry()">Guardar</button>
+            <button class="border-2 border-gray-300 text-gray-700 px-6 py-2 rounded-2xl hover:bg-gray-50" onclick="clearJournalEntry()">Borrar</button>
+          </div>
+          <h3 class="text-xl font-semibold mt-8 mb-4">Historial reciente</h3>
+          <div id="journal-history" class="space-y-4"></div>
+        </section>
+      `;
+    }
+    // JS de Diario funcional
+    function saveJournalEntry() {
+      const textArea = document.getElementById('journal-text');
+      const entry = textArea.value.trim();
+      if (!entry) return alert('Escribe algo antes de guardar.');
+      const history = JSON.parse(localStorage.getItem('journalHistory') || '[]');
+      const now = new Date();
+      history.unshift({
+        text: entry,
+        date: now.toLocaleString(),
+        tags: [] // Puedes agregar lógica para detectar emociones
+      });
+      localStorage.setItem('journalHistory', JSON.stringify(history));
+      textArea.value = '';
+      showJournalHistory();
+    }
+    function clearJournalEntry() {
+      document.getElementById('journal-text').value = '';
+    }
+    function showJournalHistory() {
+      const history = JSON.parse(localStorage.getItem('journalHistory') || '[]');
+      const historyDiv = document.getElementById('journal-history');
+      if (!historyDiv) return;
+      if (history.length === 0) {
+        historyDiv.innerHTML = '<div class="text-gray-500 text-center">Sin entradas recientes.</div>';
+        return;
+      }
+      historyDiv.innerHTML = history.slice(0,5).map(entry => `
+        <div class="border border-gray-200 rounded-2xl p-4 bg-white">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-800 text-lg mb-2">${entry.text}</p>
+              <p class="text-gray-500 text-sm">${entry.date}</p>
             </div>
           </div>
         </div>
-      </section>`;
+      `).join('');
     }
-    // Add meditationPage, breathingPage, progressPage, habitsPage, areasPage, areaDetailPage, etc. similarly
-
+    // Router para cargar contenido
+    function render(route) {
+      let html = '';
+      if (!route || route === '/') {
+        html = homePage();
+      } else if (route === 'areas') {
+        html = areasPage();
+      } else if (route === 'journal') {
+        html = journalPage();
+      } else if (route.startsWith('area/')) {
+        let areaName = route.split('/')[1];
+        loadAreaHtml(areaName);
+        return; // Salimos, porque la carga es asíncrona
+      } else {
+        html = homePage();
+      }
+      document.getElementById('main-content').innerHTML = html;
+      if (route === 'journal') setTimeout(showJournalHistory, 10);
+      // Nav activa
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === '#/' + route);
+      });
+    }
+    // Cargar archivo HTML de área
+    function loadAreaHtml(areaName) {
+      document.getElementById('main-content').innerHTML = '<div class="py-10 text-center">Cargando...</div>';
+      fetch('areas/' + areaName + '.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('main-content').innerHTML = `<div class="fadein">${html}</div>`;
+        })
+        .catch(err => {
+          document.getElementById('main-content').innerHTML = 
+            `<div class="p-8 text-center text-red-700">
+               <h2 class="text-2xl font-bold mb-4">Área no encontrada</h2>
+               <p>No se pudo cargar el área <b>${areaName}</b>. ¿Está el archivo correcto?</p>
+             </div>`;
+        });
+    }
+    // Inicializar router
+    window.addEventListener('hashchange', () => {
+      let route = location.hash.replace(/^#\/?/, '');
+      render(route);
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      let route = location.hash.replace(/^#\/?/, '');
+      render(route);
+    });
   </script>
 </body>
 </html>
