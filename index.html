@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Serenamente - App de Salud Mental</title>
+  <!-- TailwindCSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     .container { max-width:1100px; margin:0 auto; padding:0 1rem;}
@@ -35,6 +37,7 @@
         <a href="#/" class="hover:underline">Inicio</a>
         <a href="#/areas" class="hover:underline">Áreas</a>
         <a href="#/journal" class="hover:underline">Diario</a>
+        <a href="#/psicoterapia" class="hover:underline">Psicoterapia</a>
       </nav>
     </div>
   </header>
@@ -53,15 +56,85 @@
     <a href="#/journal" class="nav-item" data-route="journal">
       <i class="fas fa-book"></i> <span>Diario</span>
     </a>
+    <a href="#/psicoterapia" class="nav-item" data-route="psicoterapia">
+      <i class="fas fa-user-md"></i> <span>Psicoterapia</span>
+    </a>
   </nav>
   <!-- Footer -->
   <footer class="bg-gray-100 text-gray-600 py-6 text-center mt-8">
-    © 2024 Serenamente<br>
+    © 2025 Serenamente<br>
     Esta aplicación no reemplaza la terapia profesional.
   </footer>
-  <!-- JS Router dinámico -->
+  <!-- JS Router modular -->
   <script>
-    // Home
+    // Modular: Ejercicios guiados, puedes ampliar el objeto exercises fácilmente
+    const exercises = {
+      respiracion: {
+        icon: "fa-wind",
+        color: "from-blue-100 to-blue-200",
+        title: "Respiración consciente",
+        description: "Reduce el estrés y la ansiedad con respiraciones profundas.",
+        html: `
+          <h3 class="text-xl font-semibold mb-3">Respiración consciente</h3>
+          <ol class="list-decimal pl-6 mb-3">
+            <li>Siéntate cómodo y cierra los ojos.</li>
+            <li>Inhala lento contando hasta 4.</li>
+            <li>Retén el aire 2 segundos.</li>
+            <li>Exhala contando hasta 6.</li>
+            <li>Repite 5 veces.</li>
+          </ol>
+          <button onclick="closeExercise()" class="mt-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded">Cerrar</button>
+        `
+      },
+      meditacion: {
+        icon: "fa-meditation",
+        color: "from-purple-100 to-purple-200",
+        title: "Meditación breve",
+        description: "Encuentra calma y foco con una pausa guiada.",
+        html: `
+          <h3 class="text-xl font-semibold mb-3">Meditación guiada</h3>
+          <ol class="list-decimal pl-6 mb-3">
+            <li>Colócate cómodo/a y cierra los ojos.</li>
+            <li>Respira profundo varias veces.</li>
+            <li>Imagina una luz que te recarga.</li>
+            <li>Permanece así 3 minutos y vuelve lentamente.</li>
+          </ol>
+          <button onclick="closeExercise()" class="mt-2 bg-purple-100 text-purple-700 px-4 py-2 rounded">Cerrar</button>
+        `
+      },
+      visualizacion: {
+        icon: "fa-eye",
+        color: "from-green-100 to-green-200",
+        title: "Visualización positiva",
+        description: "Imagina tu lugar seguro y conecta con emociones agradables.",
+        html: `
+          <h3 class="text-xl font-semibold mb-3">Visualización positiva</h3>
+          <ol class="list-decimal pl-6 mb-3">
+            <li>Imagina un lugar seguro y feliz.</li>
+            <li>Siente la calma y seguridad.</li>
+            <li>Mantén esa imagen por 2 minutos.</li>
+            <li>Respira profundo y abre los ojos.</li>
+          </ol>
+          <button onclick="closeExercise()" class="mt-2 bg-green-100 text-green-700 px-4 py-2 rounded">Cerrar</button>
+        `
+      },
+      autoafirmacion: {
+        icon: "fa-star",
+        color: "from-yellow-100 to-yellow-200",
+        title: "Autoafirmación guiada",
+        description: "Reconoce tu valor y fortalece tu autoestima.",
+        html: `
+          <h3 class="text-xl font-semibold mb-3">Autoafirmación guiada</h3>
+          <form id="afirmacion-form" class="flex flex-col gap-2 mt-3" onsubmit="saveAfirmacion(event)">
+            <input type="text" id="afirmacion" class="border rounded p-2 w-full" maxlength="80" required placeholder="Escribe tu afirmación...">
+            <button type="submit" class="bg-yellow-600 text-white px-4 py-2 rounded">Guardar afirmación</button>
+          </form>
+          <div id="afirmacion-msg" class="mt-2 text-green-700 font-semibold"></div>
+          <button onclick="closeExercise()" class="mt-4 bg-yellow-100 text-yellow-700 px-4 py-2 rounded">Cerrar</button>
+        `
+      }
+    };
+
     function homePage() {
       return `
         <section class="text-center py-16 fadein">
@@ -78,12 +151,15 @@
             <a href="#/journal" class="border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 flex items-center gap-2">
               <i class="fas fa-book"></i> Iniciar Diario
             </a>
+            <a href="#/psicoterapia" class="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 flex items-center gap-2">
+              <i class="fas fa-user-md"></i> Psicoterapia
+            </a>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             ${featureCard('fa-book-open','Diario Emocional','Registra tus sentimientos diarios y descubre patrones en tu bienestar emocional.','#/journal')}
-            ${featureCard('fa-meditation','Meditaciones Guiadas','Accede a sesiones de meditación para reducir el estrés y encontrar la calma interior.','#/meditation')}
-            ${featureCard('fa-wind','Ejercicios de Respiración','Practica técnicas de respiración consciente para calmar tu sistema nervioso.','#/breathing')}
-            ${featureCard('fa-chart-line','Panel de Progreso','Sigue tu evolución emocional con estadísticas visuales y análisis personalizados.','#/progress')}
+            ${featureCard('fa-meditation','Meditaciones Guiadas','Accede a sesiones de meditación para reducir el estrés y encontrar la calma interior.','#/psicoterapia')}
+            ${featureCard('fa-wind','Ejercicios de Respiración','Practica técnicas de respiración consciente para calmar tu sistema nervioso.','#/psicoterapia')}
+            ${featureCard('fa-chart-line','Panel de Progreso','Sigue tu evolución emocional con estadísticas visuales y análisis personalizados.','#/journal')}
           </div>
         </section>
       `;
@@ -102,7 +178,6 @@
         </div>
       </div>`;
     }
-    // Áreas (tarjetas)
     function areasPage() {
       const areas = [
         { name: "Adicciones", icon: "fa-prescription-bottle-alt", color:"from-pink-100 to-pink-200", file: "adicciones", desc: "Recursos y apoyo para superar adicciones y dependencias." },
@@ -113,7 +188,8 @@
         { name: "Esquizofrenia", icon: "fa-brain", color:"from-yellow-100 to-yellow-200", file: "esquizofrenia", desc: "Información y seguimiento de síntomas." },
         { name: "Estrés", icon: "fa-burn", color:"from-red-100 to-red-200", file: "estres", desc: "Pruebas y recursos para el manejo del estrés." },
         { name: "TOC", icon: "fa-sync", color:"from-teal-100 to-teal-200", file: "toc", desc: "Herramientas y ayuda para trastorno obsesivo-compulsivo." },
-        { name: "Trauma", icon: "fa-heart-broken", color:"from-gray-100 to-gray-200", file: "trauma", desc: "Recursos para superar experiencias traumáticas." }
+        { name: "Trauma", icon: "fa-heart-broken", color:"from-gray-100 to-gray-200", file: "trauma", desc: "Recursos para superar experiencias traumáticas." },
+        { name: "Psicoterapia", icon: "fa-user-md", color:"from-indigo-100 to-purple-200", file: "psicoterapia", desc: "Ejercicios guiados y herramientas para tu proceso psicoterapéutico." }
       ];
       return `
         <section class="py-10 fadein">
@@ -135,11 +211,11 @@
         </section>
       `;
     }
-    // Diario
     function journalPage() {
       return `
         <section class="py-12 max-w-2xl mx-auto fadein">
           <h2 class="text-3xl font-bold mb-6 text-center">Diario Emocional</h2>
+          <div id="journal-suggestions"></div>
           <textarea id="journal-text" class="w-full h-40 p-4 border-2 border-indigo-100 rounded-2xl mb-4 text-gray-700 focus:ring-2 focus:ring-indigo-200" placeholder="¿Cómo te sientes hoy?"></textarea>
           <div class="flex justify-center gap-4 mb-6">
             <button class="bg-indigo-600 text-white px-6 py-2 rounded-2xl shadow hover:bg-indigo-700 transition" onclick="saveJournalEntry()">Guardar</button>
@@ -150,7 +226,89 @@
         </section>
       `;
     }
-    // JS de Diario funcional
+    // Modular: Ejercicios guiados desde index
+    function exercisePage(key) {
+      const ex = exercises[key];
+      if (!ex) return `<div class="p-8 text-center text-red-700">Ejercicio no encontrado.</div>`;
+      return `
+        <section class="py-10 max-w-xl mx-auto fadein">
+          <div class="flex flex-col items-center mb-6">
+            <div class="w-14 h-14 bg-gradient-to-br ${ex.color} rounded-full flex items-center justify-center">
+              <i class="fas ${ex.icon} text-indigo-600 text-3xl"></i>
+            </div>
+            <h2 class="text-3xl font-bold mt-2 mb-1">${ex.title}</h2>
+            <p class="text-gray-600 text-center">${ex.description}</p>
+          </div>
+          <div class="bg-white rounded-3xl shadow p-6">
+            ${ex.html}
+          </div>
+        </section>
+      `;
+    }
+    // Router para cargar contenido
+    function render(route) {
+      let html = '';
+      if (!route || route === '/') {
+        html = homePage();
+      } else if (route === 'areas') {
+        html = areasPage();
+      } else if (route === 'journal') {
+        html = journalPage();
+      } else if (route === 'psicoterapia') {
+        loadAreaHtml('psicoterapia');
+        return;
+      } else if (route.startsWith('area/')) {
+        let areaName = route.split('/')[1];
+        loadAreaHtml(areaName);
+        return;
+      } else if (route.startsWith('ejercicio/')) {
+        let exerciseKey = route.split('/')[1];
+        html = exercisePage(exerciseKey);
+      } else {
+        html = homePage();
+      }
+      document.getElementById('main-content').innerHTML = html;
+      if (route === 'journal') setTimeout(() => {
+        showSuggestionsInJournal();
+        showJournalHistory();
+        const draft = localStorage.getItem('diarioDraft') || '';
+        if (draft) {
+          setTimeout(() => {
+            const el = document.getElementById('journal-text');
+            if (el) el.value = draft;
+            localStorage.removeItem('diarioDraft');
+          }, 100);
+        }
+      }, 10);
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === '#/' + route);
+      });
+    }
+    // Cargar archivo HTML de área (psicoterapia incluida)
+    function loadAreaHtml(areaName) {
+      document.getElementById('main-content').innerHTML = '<div class="py-10 text-center">Cargando...</div>';
+      fetch('areas/' + areaName + '.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('main-content').innerHTML = `<div class="fadein">${html}</div>`;
+        })
+        .catch(err => {
+          document.getElementById('main-content').innerHTML =
+            `<div class="p-8 text-center text-red-700">
+               <h2 class="text-2xl font-bold mb-4">Área no encontrada</h2>
+               <p>No se pudo cargar el área <b>${areaName}</b>. ¿Está el archivo correcto?</p>
+             </div>`;
+        });
+    }
+    // Diario funciones
+    function showSuggestionsInJournal() {
+      const emociones = JSON.parse(localStorage.getItem('psicoterapiaEmociones') || '[]');
+      const metas = JSON.parse(localStorage.getItem('psicoterapiaMetas') || '[]');
+      let html = '';
+      if (emociones.length) html += `<div class="mb-2 text-sm text-indigo-600">Última emoción registrada: <b>${emociones[0].text}</b></div>`;
+      if (metas.length) html += `<div class="mb-2 text-sm text-purple-600">Meta reciente: <b>${metas[0].text}</b></div>`;
+      document.getElementById('journal-suggestions').innerHTML = html;
+    }
     function saveJournalEntry() {
       const textArea = document.getElementById('journal-text');
       const entry = textArea.value.trim();
@@ -160,7 +318,7 @@
       history.unshift({
         text: entry,
         date: now.toLocaleString(),
-        tags: [] // Puedes agregar lógica para detectar emociones
+        tags: []
       });
       localStorage.setItem('journalHistory', JSON.stringify(history));
       textArea.value = '';
@@ -188,46 +346,21 @@
         </div>
       `).join('');
     }
-    // Router para cargar contenido
-    function render(route) {
-      let html = '';
-      if (!route || route === '/') {
-        html = homePage();
-      } else if (route === 'areas') {
-        html = areasPage();
-      } else if (route === 'journal') {
-        html = journalPage();
-      } else if (route.startsWith('area/')) {
-        let areaName = route.split('/')[1];
-        loadAreaHtml(areaName);
-        return; // Salimos, porque la carga es asíncrona
-      } else {
-        html = homePage();
-      }
-      document.getElementById('main-content').innerHTML = html;
-      if (route === 'journal') setTimeout(showJournalHistory, 10);
-      // Nav activa
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.toggle('active', item.getAttribute('href') === '#/' + route);
-      });
+    // Ejercicios: funciones globales para modularidad
+    window.closeExercise = function() {
+      location.hash = "#/psicoterapia";
     }
-    // Cargar archivo HTML de área
-    function loadAreaHtml(areaName) {
-      document.getElementById('main-content').innerHTML = '<div class="py-10 text-center">Cargando...</div>';
-      fetch('areas/' + areaName + '.html')
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('main-content').innerHTML = `<div class="fadein">${html}</div>`;
-        })
-        .catch(err => {
-          document.getElementById('main-content').innerHTML = 
-            `<div class="p-8 text-center text-red-700">
-               <h2 class="text-2xl font-bold mb-4">Área no encontrada</h2>
-               <p>No se pudo cargar el área <b>${areaName}</b>. ¿Está el archivo correcto?</p>
-             </div>`;
-        });
+    window.saveAfirmacion = function(e) {
+      e.preventDefault();
+      const txt = document.getElementById('afirmacion').value.trim();
+      let arr = JSON.parse(localStorage.getItem('psicoterapiaAfirmaciones') || '[]');
+      const now = new Date();
+      arr.unshift({text: txt, date: now.toLocaleString()});
+      localStorage.setItem('psicoterapiaAfirmaciones', JSON.stringify(arr));
+      document.getElementById('afirmacion').value = '';
+      document.getElementById('afirmacion-msg').textContent = "¡Afirmación guardada!";
     }
-    // Inicializar router
+    // Router
     window.addEventListener('hashchange', () => {
       let route = location.hash.replace(/^#\/?/, '');
       render(route);
