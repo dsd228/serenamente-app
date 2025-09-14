@@ -1,63 +1,56 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Adicciones | Serenamente</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="area-adicciones">
-  <nav class="glass-nav">
-    <a href="/index.html" class="nav-logo"><img src="/icons/icon-192.png" alt="Serenamente"></a>
-    <ul>
-      <li><a href="/index.html" class="nav-link">Inicio</a></li>
-      <li><a href="/areas/adicciones.html" class="nav-link area-adicciones active">Adicciones</a></li>
-      <!-- ...otras áreas... -->
+<section class="py-8 max-w-2xl mx-auto fadein">
+  <div class="flex items-center gap-4 mb-6">
+    <div class="w-14 h-14 bg-gradient-to-br from-pink-100 to-pink-200 rounded-full flex items-center justify-center">
+      <i class="fas fa-prescription-bottle-alt text-indigo-600 text-3xl"></i>
+    </div>
+    <div>
+      <h2 class="text-3xl font-bold mb-1">Adicciones</h2>
+      <p class="text-gray-600">Recursos y apoyo para superar adicciones y dependencias.</p>
+    </div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-3">Autoevaluación rápida</h3>
+    <form id="adicciones-form" aria-label="Autoevaluación de adicciones">
+      <label class="block mb-2 font-medium">¿Sientes que has perdido el control sobre alguna sustancia o hábito?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="control" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <label class="block mb-2 font-medium">¿Buscas ayuda profesional?</label>
+      <select class="border rounded p-2 mb-4 w-full" name="ayuda" required>
+        <option value="">Selecciona...</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 transition">Enviar</button>
+    </form>
+    <div id="adicciones-result" class="mt-4 text-green-700"></div>
+  </div>
+  <div class="bg-white rounded-3xl shadow p-6">
+    <h3 class="text-xl font-semibold mb-3">Recursos útiles</h3>
+    <ul class="list-disc pl-6 space-y-2">
+      <li><a href="https://www.sedronar.gob.ar/" target="_blank" class="text-indigo-600 underline hover:text-indigo-800">SEDRONAR - Servicio de atención nacional</a></li>
+      <li><a href="https://www.fundacionmanantiales.org.ar/" target="_blank" class="text-indigo-600 underline hover:text-indigo-800">Fundación Manantiales</a></li>
+      <li><a href="https://www.alcoholicos-anonimos.org.ar/" target="_blank" class="text-indigo-600 underline hover:text-indigo-800">Alcohólicos Anónimos</a></li>
     </ul>
-  </nav>
-  <main>
-    <section class="glass-card area-card area-adicciones">
-      <img src="/icons/icon-adicciones.png" class="area-icon" alt="Adicciones">
-      <h1>Adicciones</h1>
-      <p>TCC para adicciones, terapia motivacional, autoevaluación AUDIT, recursos y ejercicios.</p>
-      <div class="glass-section">
-        <h2>Autoevaluación AUDIT</h2>
-        <form id="auditform">
-          <ol>
-            <li>Consumo de alcohol semanal <select name="q0"><option value="0">Nunca</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
-            <li>Problemas derivados del consumo <select name="q1"><option value="0">No</option><option value="1">A veces</option><option value="2">Frecuente</option><option value="3">Muy frecuente</option></select></li>
-          </ol>
-          <button type="submit" class="btn">Interpretar</button>
-        </form>
-        <div id="auditresult"></div>
-      </div>
-      <div class="glass-section">
-        <h2>Técnicas recomendadas</h2>
-        <ul>
-          <li>Evitar disparadores</li>
-          <li>Grupos de apoyo</li>
-          <li>Terapia motivacional</li>
-        </ul>
-      </div>
-      <div class="glass-section">
-        <h2>Recursos y ayuda</h2>
-        <p>Busca ayuda profesional si tienes problemas con sustancias.</p>
-      </div>
-    </section>
-  </main>
+  </div>
   <script>
-    document.getElementById('auditform').onsubmit=function(e){
+    document.getElementById('adicciones-form').onsubmit = function(e) {
       e.preventDefault();
-      let score=0;
-      for(let i=0;i<2;i++){score+=parseInt(this['q'+i].value);}
-      let result;
-      if(score<3)result='Sin riesgo';
-      else if(score<5)result='Riesgo moderado';
-      else result='Riesgo alto';
-      document.getElementById('auditresult').innerHTML = `<strong>Puntaje: ${score}</strong><br>Interpretación: ${result}`;
-      if(score>=3){document.getElementById('auditresult').innerHTML += "<br><strong>Busca ayuda profesional.</strong>";}
+      const control = this.control.value;
+      const ayuda = this.ayuda.value;
+      let msg = '';
+      if (control === 'si' && ayuda === 'si') {
+        msg = '¡Excelente decisión! Buscar ayuda profesional es el mejor camino.';
+      } else if (control === 'si') {
+        msg = 'Considera pedir ayuda profesional. ¡No estás solo!';
+      } else if (control === 'no') {
+        msg = '¡Bien! Mantén hábitos saludables y consulta si lo necesitas.';
+      } else {
+        msg = 'Completa las respuestas para obtener orientación.';
+      }
+      document.getElementById('adicciones-result').textContent = msg;
     }
   </script>
-</body>
-</html>
+</section>
