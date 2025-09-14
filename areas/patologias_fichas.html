@@ -1,0 +1,366 @@
+<!-- Fichas interactivas de patologías de salud mental -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<div id="fichas-container" style="max-width:800px;margin:2rem auto;">
+</div>
+
+<!-- Modal interactivo -->
+<div id="modal-ejercicio" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(60,60,90,.17);z-index:900;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:2em;padding:2em;max-width:430px;box-shadow:0 8px 36px #ecebff;position:relative;">
+    <button onclick="closeModal()" style="position:absolute;top:0.8em;right:1em;font-size:1.5em;background:none;border:none;color:#A81E3A;"><i class="fas fa-times"></i></button>
+    <h3 id="modal-title" style="margin-bottom:1em;"></h3>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// Base de datos de fichas
+const fichas = [
+  {
+    key: "ansiedad",
+    titulo: "Ansiedad (GAD, pánico, TOC)",
+    descripcion: "Ansiedad excesiva, miedos, ataques de pánico o rituales que interfieren en la vida.",
+    tecnicas: [
+      "TCC: psicoeducación, registro de síntomas, reestructuración cognitiva, exposición gradual.",
+      "ERP para TOC: exposición + prevención de respuesta.",
+      "Relajación y mindfulness."
+    ],
+    ejercicios: [
+      "Respiración diafragmática guiada.",
+      "Registro de pensamientos automáticos.",
+      "Ejercicio 5-4-3-2-1 (anclaje al presente).",
+      "Exposición gradual (jerarquía de miedos)."
+    ],
+    farmacologia: [
+      "ISRS/SNRI (sertralina, escitalopram, venlafaxina).",
+      "Benzodiacepinas solo en crisis (corto plazo)."
+    ],
+    otras: "Hospitalización si riesgo suicida o incapacidad severa. Psicoeducación familiar.",
+    alarma: [
+      "Ideación suicida.",
+      "Ataques de pánico graves.",
+      "Incapacidad funcional."
+    ],
+    fuente: "NICE, WHO"
+  },
+  {
+    key: "depresion",
+    titulo: "Depresión / Bipolaridad",
+    descripcion: "Tristeza profunda, anhedonia, alteración del ánimo; manía/hipomanía en bipolaridad.",
+    tecnicas: [
+      "TCC: activación conductual, agenda de actividades graduales, reestructuración cognitiva.",
+      "TIP: mejora de relaciones y rol social.",
+      "IPSRT: estabilización de rutinas (bipolaridad)."
+    ],
+    ejercicios: [
+      "Agenda de actividades placenteras y funcionales.",
+      "Registro de emociones y pensamientos.",
+      "Técnica de las 3 cosas buenas.",
+      "Mindfulness guiado."
+    ],
+    farmacologia: [
+      "ISRS (depresión unipolar).",
+      "Litio, valproato, antipsicóticos (bipolaridad)."
+    ],
+    otras: "ECT, rTMS, hospitalización si grave.",
+    alarma: [
+      "Ideación suicida.",
+      "Deterioro funcional grave."
+    ],
+    fuente: "NICE, NIMH"
+  },
+  {
+    key: "psicosis",
+    titulo: "Psicosis / Esquizofrenia",
+    descripcion: "Delirios, alucinaciones, pensamiento desorganizado.",
+    tecnicas: [
+      "Terapia cognitiva para psicosis.",
+      "Entrenamiento en habilidades sociales.",
+      "Rehabilitación vocacional.",
+      "Psicoeducación familiar."
+    ],
+    ejercicios: [
+      "Técnicas de grounding (anclaje al presente).",
+      "Reconocimiento de síntomas y señales de recaída.",
+      "Rutinas estructuradas diarias.",
+      "Ejercicios de manejo de voces."
+    ],
+    farmacologia: [
+      "Antipsicóticos atípicos/típicos."
+    ],
+    otras: "Hospitalización si riesgo, programas de adherencia.",
+    alarma: [
+      "Riesgo auto/heteroagresión.",
+      "Pérdida de contacto con la realidad."
+    ],
+    fuente: "NICE"
+  },
+  {
+    key: "adicciones",
+    titulo: "Adicciones",
+    descripcion: "Uso problemático, dependencia.",
+    tecnicas: [
+      "Entrevista motivacional.",
+      "TCC para adicciones.",
+      "Grupos de ayuda mutua (AA, NA)."
+    ],
+    ejercicios: [
+      "Identificar desencadenantes.",
+      "Plan de manejo de impulsos.",
+      "Técnica de tiempo de espera.",
+      "Distracción positiva."
+    ],
+    farmacologia: [
+      "Metadona, buprenorfina (opioides).",
+      "Naltrexona, acamprosato, disulfiram (alcohol).",
+      "Naloxona (sobredosis)."
+    ],
+    otras: "Detox supervisado, redes comunitarias.",
+    alarma: [
+      "Sobredosis.",
+      "Abstinencia grave.",
+      "Ideación suicida."
+    ],
+    fuente: "WHO, SAMHSA"
+  },
+  {
+    key: "trauma",
+    titulo: "Trauma (PTSD)",
+    descripcion: "Reviviscencias, evitación, hiperalerta tras trauma.",
+    tecnicas: [
+      "TF-CBT.",
+      "Prolonged Exposure (PE).",
+      "CPT.",
+      "EMDR."
+    ],
+    ejercicios: [
+      "Ejercicios de grounding.",
+      "Exposición gradual a recuerdos (guiada).",
+      "Reestructuración de creencias.",
+      "EMDR (movimientos oculares guiados)."
+    ],
+    farmacologia: [
+      "ISRS (sertralina, paroxetina)."
+    ],
+    otras: "Hospitalización si riesgo grave.",
+    alarma: [
+      "Riesgo suicida.",
+      "Disfunción severa.",
+      "Comorbilidad grave."
+    ],
+    fuente: "APA, WHO"
+  },
+  {
+    key: "alimentario",
+    titulo: "Trastornos alimentarios",
+    descripcion: "Anorexia, bulimia, binge-eating.",
+    tecnicas: [
+      "TCC-E (bulimia, binge-eating).",
+      "FBT (Maudsley) en adolescentes.",
+      "Multidisciplinario/adaptada adultos."
+    ],
+    ejercicios: [
+      "Registro alimentario.",
+      "Identificación de emociones asociadas a la ingesta.",
+      "Técnicas de afrontamiento y manejo de impulsos.",
+      "Psicoeducación nutricional."
+    ],
+    farmacologia: [
+      "Reposición médica supervisada.",
+      "Farmacología según riesgo."
+    ],
+    otras: "Hospitalización si riesgo vital.",
+    alarma: [
+      "IMC muy bajo.",
+      "Alteración electrolitos.",
+      "Deshidratación."
+    ],
+    fuente: "NICE"
+  },
+  {
+    key: "personalidad",
+    titulo: "Personalidad (Borderline/BPD)",
+    descripcion: "Patrones persistentes, inestabilidad afectiva, impulsividad, autolesiones.",
+    tecnicas: [
+      "DBT (mindfulness, tolerancia al malestar, regulación emocional).",
+      "MBT.",
+      "Terapia de esquemas."
+    ],
+    ejercicios: [
+      "Mindfulness guiado.",
+      "Ejercicios de tolerancia al malestar.",
+      "Registro de emociones y autolesiones.",
+      "Entrenamiento en habilidades sociales."
+    ],
+    farmacologia: [
+      "No específicos; medicación sintomática temporal."
+    ],
+    otras: "Hospitalización si riesgo suicida, coaching telefónico.",
+    alarma: [
+      "Autolesión grave.",
+      "Suicidio."
+    ],
+    fuente: "Cochrane"
+  },
+  {
+    key: "neurocognitivo",
+    titulo: "Neurocognitivos (demencias)",
+    descripcion: "Deterioro cognitivo progresivo, pérdida funcional.",
+    tecnicas: [
+      "Estimulación cognitiva.",
+      "Soporte al cuidador.",
+      "Manejo conductual (BPSD)."
+    ],
+    ejercicios: [
+      "Ejercicios de memoria y atención.",
+      "Rutinas diarias.",
+      "Apoyo emocional a cuidadores.",
+      "Planificación anticipada de cuidados."
+    ],
+    farmacologia: [
+      "Inhibidores colinesterasa.",
+      "Memantina."
+    ],
+    otras: "Planificación de cuidados, hospitalización si delirium.",
+    alarma: [
+      "Deterioro rápido.",
+      "Abandono/maltrato.",
+      "Delirium."
+    ],
+    fuente: "NICE"
+  },
+  {
+    key: "tdah_tea",
+    titulo: "TDAH / TEA",
+    descripcion: "Déficit de atención, hiperactividad; espectro autista.",
+    tecnicas: [
+      "Entrenamiento parental.",
+      "Intervención conductual (TDAH).",
+      "ABA, habilidades sociales (TEA)."
+    ],
+    ejercicios: [
+      "Rutinas estructuradas.",
+      "Ejercicios de atención y autocontrol.",
+      "Entrenamiento en habilidades sociales.",
+      "Apoyo educativo individualizado."
+    ],
+    farmacologia: [
+      "Estimulantes, atomoxetina (TDAH).",
+      "Manejo comorbilidades (TEA)."
+    ],
+    otras: "Apoyos educativos, psicoeducación.",
+    alarma: [
+      "Deterioro funcional grave.",
+      "Riesgo social."
+    ],
+    fuente: "NICE"
+  },
+  {
+    key: "neuromodulacion",
+    titulo: "Intervenciones somáticas (neuromodulación)",
+    descripcion: "Neuroestimulación en depresión resistente, catatonia.",
+    tecnicas: [
+      "ECT (electroconvulsivo).",
+      "rTMS (estimulación magnética)."
+    ],
+    ejercicios: [
+      "Psicoeducación sobre tratamiento.",
+      "Registro de efectos y evolución.",
+      "Apoyo emocional pre y post tratamiento."
+    ],
+    farmacologia: [
+      "-"
+    ],
+    otras: "Hospitalización, monitoreo médico.",
+    alarma: [
+      "Depresión psicótica.",
+      "Suicidio.",
+      "Catatonia."
+    ],
+    fuente: "NICE"
+  }
+];
+
+// Render fichas
+function renderFichas() {
+  let html = '';
+  fichas.forEach(ficha => {
+    html += `
+    <div class="ficha-patologia" style="background:linear-gradient(110deg,#AEE6E6 60%,#ecebff 100%);border-radius:1.5rem;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 24px #ecebff;">
+      <h2 style="color:#2d3b6a;font-size:1.5rem;font-weight:bold;margin-bottom:0.5rem;">${ficha.titulo}</h2>
+      <div><b>¿Qué es?</b> ${ficha.descripcion}</div>
+      <div style="margin-top:0.7em;"><b>Técnicas/Terapias Psicológicas:</b>
+        <ul>${ficha.tecnicas.map(t => `<li>${t}</li>`).join('')}</ul>
+      </div>
+      <div style="margin-top:0.7em;"><b>Farmacología:</b>
+        <ul>${ficha.farmacologia.map(f => `<li>${f}</li>`).join('')}</ul>
+      </div>
+      <div style="margin-top:0.7em;"><b>Otras intervenciones:</b> ${ficha.otras}</div>
+      <div style="margin-top:0.7em;"><b>Señales de alarma:</b><ul>${ficha.alarma.map(a=>`<li>${a}</li>`).join('')}</ul></div>
+      <div style="margin-top:0.7em;color:#6366F1;"><b>Guía/Fuente:</b> ${ficha.fuente}</div>
+      <div class="ficha-buttons" style="display:flex;flex-wrap:wrap;gap:1em;margin-top:1.2em;">
+        <button onclick="openModal('${ficha.key}','Técnicas',${JSON.stringify(ficha.tecnicas)})" style="background:linear-gradient(90deg,#AEE6E6,#B9AEDC);color:#2d3b6a;border:none;padding:0.7em 1.2em;border-radius:1em;font-weight:bold;cursor:pointer;"><i class="fas fa-lightbulb"></i> Ver técnicas</button>
+        <button onclick="openModal('${ficha.key}','Ejercicios prácticos',${JSON.stringify(ficha.ejercicios)})" style="background:linear-gradient(90deg,#C2E9D3,#ecebff);color:#2d3b6a;border:none;padding:0.7em 1.2em;border-radius:1em;font-weight:bold;cursor:pointer;"><i class="fas fa-dumbbell"></i> Ejercicios prácticos</button>
+        <button onclick="exportarPDF('${ficha.key}')" style="background:linear-gradient(90deg,#B9AEDC,#A7C7E7);color:#2d3b6a;border:none;padding:0.7em 1.2em;border-radius:1em;font-weight:bold;cursor:pointer;"><i class="fas fa-file-pdf"></i> Exportar ficha PDF</button>
+        <button onclick="derivacionAlarma('${ficha.key}')" style="background:linear-gradient(90deg,#F7D6E0,#AEE6E6);color:#a81e3a;border:none;padding:0.7em 1.2em;border-radius:1em;font-weight:bold;cursor:pointer;"><i class="fas fa-exclamation-triangle"></i> Derivación / Alarma</button>
+        <button onclick="enviarFichaMail('${ficha.key}')" style="background:linear-gradient(90deg,#C2E9D3,#F7D6E0);color:#2d3b6a;border:none;padding:0.7em 1.2em;border-radius:1em;font-weight:bold;cursor:pointer;"><i class="fas fa-envelope"></i> Enviar por mail</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('fichas-container').innerHTML = html;
+}
+renderFichas();
+
+// Modal interactivo para técnicas/ejercicios
+function openModal(key, title, items) {
+  document.getElementById('modal-title').textContent = `${title} (${getFichaTitulo(key)})`;
+  document.getElementById('modal-content').innerHTML = `<ul style="line-height:1.8;">${items.map(it=>`<li>${it}</li>`).join('')}</ul>`;
+  document.getElementById('modal-ejercicio').style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('modal-ejercicio').style.display = 'none';
+}
+function getFichaByKey(key) {
+  return fichas.find(f => f.key === key);
+}
+function getFichaTitulo(key) {
+  let f = getFichaByKey(key); return f ? f.titulo : '';
+}
+
+// Exportar ficha a PDF
+function exportarPDF(key) {
+  const ficha = getFichaByKey(key);
+  if (!ficha) return;
+  const { jsPDF } = window.jspdf || {};
+  if (!jsPDF) return alert("jsPDF no cargado.");
+  let doc = new jsPDF();
+  doc.setFontSize(16);
+  doc.text("Ficha: " + ficha.titulo, 20, 20);
+  doc.setFontSize(12);
+  doc.text("¿Qué es? " + ficha.descripcion, 20, 35);
+  doc.text("Técnicas/Terapias Psicológicas:", 20, 50); doc.text(ficha.tecnicas.join('\n'), 20, 57);
+  doc.text("Ejercicios prácticos:", 20, 72); doc.text(ficha.ejercicios.join('\n'), 20, 79);
+  doc.text("Farmacología:", 20, 94); doc.text(ficha.farmacologia.join('\n'), 20, 101);
+  doc.text("Otras intervenciones: " + ficha.otras, 20, 116);
+  doc.text("Señales de alarma:", 20, 124); doc.text(ficha.alarma.join('\n'), 20, 131);
+  doc.text("Guía/Fuente: " + ficha.fuente, 20, 146);
+  doc.save(`ficha_${key}.pdf`);
+}
+
+// Derivación/alarma
+function derivacionAlarma(key) {
+  const ficha = getFichaByKey(key);
+  if (!ficha) return;
+  alert(`Derivación/Alarma para ${ficha.titulo}:\n- ${ficha.alarma.join('\n- ')}\n\nContactar servicios de emergencia o profesional de salud mental.`);
+  // Aquí puedes integrar tu sistema de notificaciones/alarma.
+}
+
+// Enviar ficha por mail
+function enviarFichaMail(key) {
+  const ficha = getFichaByKey(key);
+  if (!ficha) return;
+  let body = `Ficha: ${ficha.titulo}\n\n¿Que es?: ${ficha.descripcion}\n\nTécnicas:\n- ${ficha.tecnicas.join('\n- ')}\n\nEjercicios:\n- ${ficha.ejercicios.join('\n- ')}\n\nFarmacología:\n- ${ficha.farmacologia.join('\n- ')}\n\nOtras intervenciones:\n${ficha.otras}\n\nSeñales de alarma:\n- ${ficha.alarma.join('\n- ')}\n\nGuía/Fuente: ${ficha.fuente}`;
+  let subject = `Ficha Salud Mental: ${ficha.titulo}`;
+  window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+</script>
