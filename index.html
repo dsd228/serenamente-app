@@ -1580,6 +1580,16 @@
         <div class="progress-value" id="techniques-tried">0</div>
         <div class="progress-label">Técnicas probadas</div>
       </div>
+      <div class="progress-item">
+        <i class="fas fa-robot" style="font-size: 2rem; color: var(--primary);"></i>
+        <div class="progress-value" id="chatbot-sessions">0</div>
+        <div class="progress-label">Sesiones de chatbot</div>
+      </div>
+      <div class="progress-item">
+        <i class="fas fa-brain" style="font-size: 2rem; color: var(--primary);"></i>
+        <div class="progress-value" id="therapy-types-used">0</div>
+        <div class="progress-label">Terapias exploradas</div>
+      </div>
     </div>
     
     <h2>Tu estado de ánimo esta semana</h2>
@@ -3129,7 +3139,7 @@
       const optionsContainer = document.getElementById('chatbot-options');
       optionsContainer.innerHTML = '';
       
-      ['Ver resumen de la sesión', 'Hacer otra terapia', 'Volver al inicio'].forEach(option => {
+      ['Ver resumen de la sesión', 'Ver recursos educativos', 'Hacer otra terapia', 'Volver al inicio'].forEach(option => {
         const optionBtn = document.createElement('div');
         optionBtn.className = 'chatbot-option';
         optionBtn.textContent = option;
@@ -3146,6 +3156,9 @@
     switch(option) {
       case 'Ver resumen de la sesión':
         showSessionSummary();
+        break;
+      case 'Ver recursos educativos':
+        showEducationalResources(currentChatbotTherapy);
         break;
       case 'Hacer otra terapia':
         nextStep('chatbot-section', 'activities-section');
@@ -3171,14 +3184,73 @@
       date: new Date().toLocaleString('es-AR'),
       content: `Sesión de ${chatbotTherapies[currentChatbotTherapy].title}`,
       responses: chatbotResponses,
-      type: 'chatbot-session'
+      type: 'chatbot-session',
+      therapyType: currentChatbotTherapy
     };
     
     let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
     journalEntries.unshift(journalEntry);
     localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
     
+    // Actualizar estadísticas de terapias utilizadas
+    updateTherapyStats(currentChatbotTherapy);
+    
+    // Configurar recordatorio para próxima sesión
+    setupTherapyReminder();
+    
     updateProgressStats();
+  }
+  
+  function updateTherapyStats(therapyType) {
+    let therapyStats = JSON.parse(localStorage.getItem('therapyStats') || '{}');
+    
+    if (!therapyStats[therapyType]) {
+      therapyStats[therapyType] = {
+        sessionsCompleted: 0,
+        lastSession: null,
+        firstSession: null
+      };
+    }
+    
+    therapyStats[therapyType].sessionsCompleted++;
+    therapyStats[therapyType].lastSession = new Date().toISOString();
+    
+    if (!therapyStats[therapyType].firstSession) {
+      therapyStats[therapyType].firstSession = new Date().toISOString();
+    }
+    
+    localStorage.setItem('therapyStats', JSON.stringify(therapyStats));
+  }
+  
+  function setupTherapyReminder() {
+    const reminderTime = new Date();
+    reminderTime.setDate(reminderTime.getDate() + 1); // Recordatorio para mañana
+    
+    localStorage.setItem('nextTherapyReminder', reminderTime.toISOString());
+    localStorage.setItem('reminderTherapyType', currentChatbotTherapy);
+    
+    addChatbotMessage("💡 Recordatorio configurado: Te sugiero practicar nuevamente mañana para mejores resultados.", 'bot');
+  }
+  
+  function checkTherapyReminders() {
+    const reminderTime = localStorage.getItem('nextTherapyReminder');
+    const therapyType = localStorage.getItem('reminderTherapyType');
+    
+    if (reminderTime && new Date() >= new Date(reminderTime)) {
+      const therapy = chatbotTherapies[therapyType];
+      if (therapy) {
+        // Mostrar notificación de recordatorio
+        setTimeout(() => {
+          if (confirm(`💡 ¡Es hora de tu sesión de ${therapy.title}! ¿Te gustaría comenzar ahora?`)) {
+            startChatbotTherapy(therapyType);
+          }
+        }, 2000);
+        
+        // Limpiar recordatorio usado
+        localStorage.removeItem('nextTherapyReminder');
+        localStorage.removeItem('reminderTherapyType');
+      }
+    }
   }
   
   function exitChatbot() {
@@ -3193,6 +3265,166 @@
     if (currentChatbotTherapy) {
       startChatbotTherapy(currentChatbotTherapy);
     }
+  }
+  
+  // Recursos educativos y enlaces externos
+  const therapeuticResources = {
+    "tcc": {
+      title: "Recursos de Terapia Cognitivo-Conductual",
+      description: "La TCC es un enfoque terapéutico respaldado por décadas de investigación científica.",
+      benefits: [
+        "Identificación de patrones de pensamiento negativos",
+        "Desarrollo de habilidades de afrontamiento",
+        "Reducción significativa de ansiedad y depresión",
+        "Mejora en la resolución de problemas"
+      ],
+      externalLinks: [
+        {
+          title: "Instituto Beck para Terapia Cognitiva",
+          url: "https://www.beckinstitute.org/",
+          description: "Recursos oficiales del Dr. Aaron Beck, fundador de la TCC"
+        },
+        {
+          title: "Asociación de Terapias Cognitivas y Comportamentales",
+          url: "https://www.abct.org/",
+          description: "Información científica sobre TCC y sus aplicaciones"
+        },
+        {
+          title: "Centro de Terapia Cognitiva - Universidad de Pensilvania",
+          url: "https://www.med.upenn.edu/ctc/",
+          description: "Investigación y recursos académicos en TCC"
+        }
+      ],
+      exercises: [
+        "Registro diario de pensamientos automáticos",
+        "Técnica de las columnas para evaluar evidencias",
+        "Ejercicios de reestructuración cognitiva",
+        "Planificación de actividades placenteras"
+      ]
+    },
+    "mindfulness": {
+      title: "Recursos de Mindfulness y Atención Plena",
+      description: "El mindfulness ha demostrado ser efectivo para reducir el estrés y mejorar el bienestar mental.",
+      benefits: [
+        "Reducción del estrés y la ansiedad",
+        "Mejora de la concentración y el enfoque",
+        "Mayor autoconciencia emocional",
+        "Desarrollo de la compasión hacia uno mismo"
+      ],
+      externalLinks: [
+        {
+          title: "Centro de Mindfulness - Universidad de Massachusetts",
+          url: "https://www.umassmed.edu/cfm/",
+          description: "Programas oficiales de Jon Kabat-Zinn, pionero del mindfulness médico"
+        },
+        {
+          title: "Mindful.org",
+          url: "https://www.mindful.org/",
+          description: "Revista y recursos sobre mindfulness y meditación"
+        },
+        {
+          title: "Insight Timer",
+          url: "https://insighttimer.com/",
+          description: "Aplicación gratuita con miles de meditaciones guiadas"
+        }
+      ],
+      exercises: [
+        "Meditación de respiración consciente (5-20 minutos)",
+        "Escaneo corporal progresivo",
+        "Mindfulness en actividades cotidianas",
+        "Meditación caminando"
+      ]
+    },
+    "act": {
+      title: "Recursos de Terapia de Aceptación y Compromiso",
+      description: "ACT combina estrategias de aceptación con técnicas de compromiso con valores personales.",
+      benefits: [
+        "Aceptación de emociones difíciles sin evitación",
+        "Clarificación de valores personales",
+        "Desarrollo de flexibilidad psicológica",
+        "Acción comprometida hacia objetivos significativos"
+      ],
+      externalLinks: [
+        {
+          title: "Association for Contextual Behavioral Science",
+          url: "https://contextualscience.org/",
+          description: "Comunidad científica internacional de ACT"
+        },
+        {
+          title: "Centro de Mindfulness y Compasión - Universidad de Texas",
+          url: "https://self-compassion.org/",
+          description: "Recursos de la Dra. Kristin Neff sobre autocompasión"
+        },
+        {
+          title: "ACT Mindfully",
+          url: "https://www.actmindfully.com.au/",
+          description: "Recursos y ejercicios prácticos de ACT"
+        }
+      ],
+      exercises: [
+        "Ejercicio de clarificación de valores",
+        "Técnica de defusión cognitiva",
+        "Meditación de aceptación radical",
+        "Planificación de acciones comprometidas"
+      ]
+    },
+    "musicoterapia": {
+      title: "Recursos de Musicoterapia",
+      description: "La musicoterapia utiliza la música como herramienta terapéutica para mejorar el bienestar emocional.",
+      benefits: [
+        "Regulación emocional efectiva",
+        "Reducción del estrés y la tensión",
+        "Mejora del estado de ánimo",
+        "Facilitación de la expresión emocional"
+      ],
+      externalLinks: [
+        {
+          title: "Asociación Americana de Musicoterapia",
+          url: "https://www.musictherapy.org/",
+          description: "Recursos profesionales y científicos sobre musicoterapia"
+        },
+        {
+          title: "Biblioteca Nacional de Medicina - Musicoterapia",
+          url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6142234/",
+          description: "Investigaciones científicas sobre los beneficios de la musicoterapia"
+        },
+        {
+          title: "Brain.fm",
+          url: "https://www.brain.fm/",
+          description: "Música diseñada científicamente para mejorar el enfoque y relajación"
+        }
+      ],
+      exercises: [
+        "Sesiones de escucha activa (15-30 minutos)",
+        "Creación de playlists emocionales",
+        "Respiración sincronizada con música",
+        "Ejercicios de movimiento con música"
+      ]
+    }
+  };
+  
+  // Función para mostrar recursos educativos
+  function showEducationalResources(therapyType) {
+    const resources = therapeuticResources[therapyType];
+    if (!resources) return;
+    
+    let resourceMessage = `📚 ${resources.title}\n\n${resources.description}\n\n`;
+    resourceMessage += "🎯 Beneficios principales:\n";
+    resources.benefits.forEach(benefit => {
+      resourceMessage += `• ${benefit}\n`;
+    });
+    
+    resourceMessage += "\n🔗 Enlaces recomendados:\n";
+    resources.externalLinks.forEach(link => {
+      resourceMessage += `• ${link.title}: ${link.description}\n`;
+    });
+    
+    resourceMessage += "\n💪 Ejercicios recomendados:\n";
+    resources.exercises.forEach(exercise => {
+      resourceMessage += `• ${exercise}\n`;
+    });
+    
+    addChatbotMessage(resourceMessage, 'bot');
   }
   
   // Mostrar técnicas
@@ -3725,6 +3957,31 @@
     if (currentCrisis && crisisTechniques[currentCrisis]) {
       document.getElementById('techniques-tried').textContent = currentTechniqueIndex + 1;
     }
+    
+    // Estadísticas de chatbot (nuevo)
+    updateChatbotStats();
+  }
+  
+  function updateChatbotStats() {
+    const therapyStats = JSON.parse(localStorage.getItem('therapyStats') || '{}');
+    const chatbotEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]')
+      .filter(entry => entry.type === 'chatbot-session');
+    
+    // Contar sesiones totales de chatbot
+    const totalSessions = chatbotEntries.length;
+    const therapyTypesUsed = Object.keys(therapyStats).length;
+    
+    // Actualizar elementos si existen
+    const totalSessionsElement = document.getElementById('chatbot-sessions');
+    const therapyTypesElement = document.getElementById('therapy-types-used');
+    
+    if (totalSessionsElement) {
+      totalSessionsElement.textContent = totalSessions;
+    }
+    
+    if (therapyTypesElement) {
+      therapyTypesElement.textContent = therapyTypesUsed;
+    }
   }
   
   // Guardar y cargar datos
@@ -3768,6 +4025,9 @@
     updateHabitCounts();
     renderGoals();
     analyzeRiskLevel();
+    
+    // Verificar recordatorios de terapia
+    checkTherapyReminders();
     
     // Configurar modo oscuro
     document.getElementById('darkModeToggle').addEventListener('change', function(){
