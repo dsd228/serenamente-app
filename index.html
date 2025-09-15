@@ -600,6 +600,35 @@
   .nav-icon:hover {
     color: var(--secondary);
   }
+  /* Chatbot button */
+  .chatbot-button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1.2rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .chatbot-button:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+  .dark-mode .chatbot-button {
+    background: var(--accent);
+    color: var(--dark);
+  }
+  .dark-mode .chatbot-button:hover {
+    background: var(--primary);
+    color: white;
+  }
   .app-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -1040,6 +1069,9 @@
       <span>Serenamente</span>
     </div>
     <div style="display: flex; align-items: center; gap: 15px;">
+      <button id="chatbot-btn" class="chatbot-button" onclick="openChatbot()" title="Abrir chatbot de apoyo">
+        <i class="fas fa-robot"></i>
+      </button>
       <label class="theme-switch">
         <input type="checkbox" id="darkModeToggle">
         <span class="slider"></span>
@@ -1769,6 +1801,11 @@
     document.body.className = document.body.className.replace(/theme-\w+/g, '').trim();
     // Añadir el nuevo tema
     document.body.classList.add(`theme-${theme}`);
+  }
+  
+  // Función del chatbot
+  function openChatbot() {
+    alert('¡Hola! Soy tu asistente de apoyo emocional. ¿En qué puedo ayudarte hoy?\n\nEsta es una demostración del chatbot. En una implementación completa, aquí se abriría una interfaz de chat interactiva.');
   }
   
   // Guardar nombre y malestar
