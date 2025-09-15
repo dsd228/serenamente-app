@@ -1060,23 +1060,13 @@
       <p>Centro de Asistencia al Suicida - Disponible 8 a 00 hs</p>
     </div>
     <label><input type="checkbox" id="consentCheck"> Acepto continuar y entiendo esta advertencia</label>
-    <button id="consentBtn" disabled onclick="nextStep('consent-section','name-section')">Continuar</button>
+    <button id="consentBtn" disabled onclick="nextStep('consent-section','mood-section')">Continuar</button>
   </section>
-  <!-- Nombre y malestar -->
-  <section id="name-section" class="hidden">
-    <div class="section-header">
-      <i class="fas fa-user-circle"></i>
-      <h1>¿Cómo te llamás?</h1>
-    </div>
-    <input type="text" id="userName" placeholder="Escribí tu nombre">
-    <h2>¿Qué te preocupa hoy?</h2>
-    <textarea id="userMood" placeholder="Describí brevemente lo que estás experimentando..." rows="3"></textarea>
-    <button onclick="saveName()">Siguiente</button>
-  </section>
+
   <!-- Estado de ánimo -->
   <section id="mood-section" class="hidden">
     <div class="section-header">
-      <h1>Hola <span id="displayName"></span> 👋</h1>
+      <h1>¡Hola! 👋</h1>
       <p>¿Cómo te sentís hoy?</p>
     </div>
     <div class="mood-container">
@@ -1571,7 +1561,6 @@
   // Variables globales
   let currentCrisis = "";
   let currentTechniqueIndex = 0;
-  let userName = "";
   let breathingInterval;
   let bodyScanInterval;
   let mindfulnessInterval;
@@ -1743,6 +1732,12 @@
           mood: crisis,
           date: new Date().toISOString()
         });
+        
+        // Guardar fecha de primer uso
+        if (!localStorage.getItem('firstEntryDate')) {
+          localStorage.setItem('firstEntryDate', new Date().toISOString());
+        }
+        
         saveToStorage();
         analyzeRiskLevel();
         
@@ -1771,22 +1766,6 @@
     document.body.classList.add(`theme-${theme}`);
   }
   
-  // Guardar nombre y malestar
-  function saveName() {
-    const name = document.getElementById('userName').value.trim();
-    if(name) {
-      userName = name;
-      document.getElementById('displayName').textContent = name;
-      nextStep('name-section','mood-section');
-      // Guardar fecha de primer uso
-      if (!localStorage.getItem('firstEntryDate')) {
-        localStorage.setItem('firstEntryDate', new Date().toISOString());
-      }
-      saveToStorage();
-    } else {
-      alert('Por favor, ingresá tu nombre para continuar.');
-    }
-  }
   
   // Técnicas profesionales mejoradas basadas en investigación
   const crisisTechniques = {
@@ -3015,32 +2994,6 @@
     // Configurar consentimiento
     document.getElementById('consentCheck').addEventListener('change', function(){
       document.getElementById('consentBtn').disabled = !this.checked;
-    });
-    
-    // Configurar selección de estado de ánimo
-    document.querySelectorAll('.mood').forEach(el => {
-      el.addEventListener('click', function() {
-        document.querySelectorAll('.mood').forEach(m => m.classList.remove('selected'));
-        this.classList.add('selected');
-        const crisis = this.dataset.value;
-        currentCrisis = crisis;
-        setTheme(crisis);
-        
-        // Guardar en historial de ánimo
-        moodHistory.push({
-          mood: crisis,
-          date: new Date().toISOString()
-        });
-        saveToStorage();
-        analyzeRiskLevel();
-        
-        if(crisis === 'suicida') {
-          nextStep('mood-section','crisis-section');
-        } else {
-          nextStep('mood-section','techniques-section');
-          showCrisisTechniques(crisis);
-        }
-      });
     });
   });
 </script>
