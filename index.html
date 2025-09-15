@@ -1,101 +1,2897 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Serenamente - Apoyo Emocional Integral</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* (puedes pegar aquí tus estilos existentes...) */
-    /* ...botón y ventana de chatbot como en ejemplos anteriores... */
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serenamente - Apoyo Emocional Integral</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary: #4361ee;
+    --secondary: #3a0ca3;
+    --accent: #4cc9f0;
+    --light: #f8fafc;
+    --dark: #1e293b;
+    --success: #4ade80;
+    --warning: #facc15;
+    --danger: #f87171;
+    --calm-1: #8ac6d1;
+    --calm-2: #bbdefb;
+    --calm-3: #b3e5fc;
+    --gradient: linear-gradient(135deg, #4361ee, #3a0ca3);
+    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --radius: 16px;
+    --transition: all 0.3s ease;
+  }
+  /* Colores según estado de ánimo */
+  .theme-duelo {
+    --primary: #5b6c5d;
+    --secondary: #3a4a3b;
+    --accent: #7d9d80;
+    --gradient: linear-gradient(135deg, #5b6c5d, #3a4a3b);
+    --bg-image: url('https://images.unsplash.com/photo-1504198322253-cfa87a0ff25f?ixlib=rb-4.0.3');
+  }
+  .theme-ansiedad {
+    --primary: #8ac6d1;
+    --secondary: #4a8fa1;
+    --accent: #c6e5e9;
+    --gradient: linear-gradient(135deg, #8ac6d1, #4a8fa1);
+    --bg-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3');
+  }
+  .theme-suicida {
+    --primary: #7d3c5d;
+    --secondary: #512b3b;
+    --accent: #a76c89;
+    --gradient: linear-gradient(135deg, #7d3c5d, #512b3b);
+    --bg-image: url('https://images.unsplash.com/photo-1519327232521-1ea2c736d34d?ixlib=rb-4.0.3');
+  }
+  .theme-trauma {
+    --primary: #6d6875;
+    --secondary: #4a4458;
+    --accent: #9a94a8;
+    --gradient: linear-gradient(135deg, #6d6875, #4a4458);
+    --bg-image: url('https://images.unsplash.com/photo-1513173867069-d4f0619b1643?ixlib=rb-4.0.3');
+  }
+  .theme-desesperanza {
+    --primary: #a1887f;
+    --secondary: #7d5c53;
+    --accent: #d7ccc8;
+    --gradient: linear-gradient(135deg, #a1887f, #7d5c53);
+    --bg-image: url('https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3');
+  }
+  .theme-estres {
+    --primary: #7e8d85;
+    --secondary: #57655c;
+    --accent: #aabdb2;
+    --gradient: linear-gradient(135deg, #7e8d85, #57655c);
+    --bg-image: url('https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?ixlib=rb-4.0.3');
+  }
+  .theme-depresion {
+    --primary: #5d4a7d;
+    --secondary: #3a2b5c;
+    --accent: #8a77ac;
+    --gradient: linear-gradient(135deg, #5d4a7d, #3a2b5c);
+    --bg-image: url('https://images.unsplash.com/photo-1536491233558-d860c5398176?ixlib=rb-4.0.3');
+  }
+  .theme-toc {
+    --primary: #7d5d5d;
+    --secondary: #5c3a3a;
+    --accent: #ac8a8a;
+    --gradient: linear-gradient(135deg, #7d5d5d, #5c3a3a);
+    --bg-image: url('https://images.unsplash.com/photo-1531373867069-d4f0619b1643?ixlib=rb-4.0.3');
+  }
+  .theme-panico {
+    --primary: #7d7d5d;
+    --secondary: #5c5c3a;
+    --accent: #acac8a;
+    --gradient: linear-gradient(135deg, #7d7d5d, #5c5c3a);
+    --bg-image: url('https://images.unsplash.com/photo-1528852479415-9ce3297352d5?ixlib=rb-4.0.3');
+  }
+  .theme-default {
+    --primary: #4361ee;
+    --secondary: #3a0ca3;
+    --accent: #4cc9f0;
+    --gradient: linear-gradient(135deg, #4361ee, #3a0ca3);
+    --bg-image: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3');
+  }
+  .dark-mode {
+    --light: #1e293b;
+    --dark: #f8fafc;
+    --bg-image: url('https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3');
+    filter: brightness(0.8);
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-image) no-repeat center center fixed;
+    background-size: cover;
+    color: var(--dark);
+    min-height: 100vh;
+    padding: 20px;
+    transition: var(--transition);
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: -1;
+  }
+  body.dark-mode::before {
+    background: rgba(30, 41, 59, 0.9);
+  }
+  .container {
+    background: white;
+    border-radius: var(--radius);
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+    margin: 20px auto;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+  }
+  .dark-mode .container {
+    background: #1e293b;
+  }
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--gradient);
+  }
+  .hidden {
+    display: none;
+  }
+  h1, h2, h3 {
+    color: var(--secondary);
+    margin-bottom: 15px;
+    transition: var(--transition);
+  }
+  .dark-mode h1, 
+  .dark-mode h2, 
+  .dark-mode h3 {
+    color: var(--accent);
+  }
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #64748b;
+    transition: var(--transition);
+  }
+  .dark-mode p {
+    color: #cbd5e1;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  .section-header i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+    display: block;
+  }
+  input, textarea, button, select {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    transition: var(--transition);
+  }
+  .dark-mode input,
+  .dark-mode textarea,
+  .dark-mode select {
+    background: #334155;
+    color: white;
+    border-color: #475569;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+  }
+  button {
+    background: var(--gradient);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  button:hover::after {
+    transform: translateX(0);
+  }
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  }
+  button:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  button:disabled:hover::after {
+    transform: translateX(-100%);
+  }
+  .btn-secondary {
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+  }
+  .dark-mode .btn-secondary {
+    background: #334155;
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .btn-secondary:hover {
+    background: #f0f9ff;
+  }
+  .dark-mode .btn-secondary:hover {
+    background: #475569;
+  }
+  .mood-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+  }
+  .mood {
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 15px 10px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 2px solid transparent;
+  }
+  .dark-mode .mood {
+    background: #334155;
+  }
+  .mood:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+    border-color: var(--accent);
+  }
+  .mood.selected {
+    transform: scale(1.05);
+    border-color: var(--primary);
+    background: #e0f2fe;
+    box-shadow: var(--shadow);
+  }
+  .dark-mode .mood.selected {
+    background: #475569;
+  }
+  .mood img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: contain;
+    margin-bottom: 10px;
+    transition: var(--transition);
+  }
+  .mood.selected img {
+    transform: scale(1.2);
+    animation: bounce 0.6s;
+  }
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0) scale(1.2);}
+    40% {transform: translateY(-10px) scale(1.2);}
+    60% {transform: translateY(-5px) scale(1.2);}
+  }
+  .technique-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius);
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.5s;
+  }
+  .dark-mode .technique-card {
+    background: #334155;
+    border-color: #475569;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .technique-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .technique-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--primary);
+    font-size: 1.5rem;
+  }
+  .dark-mode .technique-icon {
+    background: #475569;
+  }
+  .nav-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .nav-buttons button {
+    width: auto;
+    flex: 1;
+  }
+  .footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 0.9rem;
+    transition: var(--transition);
+  }
+  .dark-mode .footer {
+    border-color: #475569;
+    color: #cbd5e1;
+  }
+  .crisis-box {
+    background: #fef2f2;
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    margin: 20px 0;
+    border-left: 4px solid var(--danger);
+  }
+  .dark-mode .crisis-box {
+    background: #7f1d1d;
+  }
+  .breathing-exercise {
+    text-align: center;
+    margin: 20px 0;
+  }
+  .circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: var(--gradient);
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: all 1s ease;
+  }
+  .breath-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+  .dark-mode .progress-bar {
+    background: #475569;
+  }
+  .progress {
+    height: 100%;
+    background: var(--gradient);
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+  }
+  .step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #cbd5e1;
+  }
+  .step-dot.active {
+    background: var(--primary);
+    transform: scale(1.2);
+  }
+  /* Estilos para el diario */
+  .journal-container {
+    margin: 20px 0;
+  }
+  .journal-entry {
+    background: #f8fafc;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--primary);
+    transition: var(--transition);
+  }
+  .dark-mode .journal-entry {
+    background: #334155;
+  }
+  .journal-date {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 10px;
+    transition: var(--transition);
+  }
+  .dark-mode .journal-date {
+    color: #cbd5e1;
+  }
+  .journal-content {
+    line-height: 1.6;
+  }
+  .journal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  .journal-actions button {
+    flex: 1;
+  }
+  .empty-journal {
+    text-align: center;
+    padding: 30px;
+    color: #94a3b8;
+  }
+  .empty-journal i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+    color: #cbd5e1;
+  }
+  /* Nuevos estilos para meditaciones */
+  .meditation-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+  }
+  .dark-mode .meditation-card {
+    background: #334155;
+  }
+  .meditation-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .meditation-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--primary);
+    font-size: 1.5rem;
+  }
+  .dark-mode .meditation-icon {
+    background: #475569;
+  }
+  .meditation-player {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .play-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .play-btn:hover {
+    transform: scale(1.1);
+  }
+  .meditation-timer {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-left: 15px;
+    color: var(--secondary);
+  }
+  .dark-mode .meditation-timer {
+    color: var(--accent);
+  }
+  /* Panel de progreso */
+  .progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .progress-item {
+    background: white;
+    border-radius: var(--radius);
+    padding: 15px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+  }
+  .dark-mode .progress-item {
+    background: #334155;
+  }
+  .progress-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 10px 0;
+  }
+  .progress-label {
+    font-size: 0.9rem;
+    color: #64748b;
+  }
+  .dark-mode .progress-label {
+    color: #cbd5e1;
+  }
+  /* Barra de navegación */
+  .app-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .dark-mode .app-nav {
+    border-color: #475569;
+  }
+  .nav-icon {
+    font-size: 1.5rem;
+    color: var(--primary);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .nav-icon:hover {
+    color: var(--secondary);
+  }
+  .app-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dark-mode .app-title {
+    color: var(--accent);
+  }
+  /* Modo oscuro */
+  .theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  .theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: var(--primary);
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  /* Animación de respiración */
+  @keyframes breathe {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  .breathing {
+    animation: breathe 4s infinite;
+  }
+  /* Nuevos estilos para técnicas mejoradas */
+  .technique-step {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    border-left: 3px solid var(--primary);
+  }
+  .dark-mode .technique-step {
+    background: #475569;
+  }
+  .technique-resources {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #e2e8f0;
+  }
+  .resource-link {
+    display: block;
+    padding: 10px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    margin: 8px 0;
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  .resource-link:hover {
+    background: #e0f2fe;
+  }
+  .dark-mode .resource-link {
+    background: #475569;
+    color: var(--accent);
+  }
+  .dark-mode .resource-link:hover {
+    background: #4a5568;
+  }
+  /* Tarjetas de actividades */
+  .activity-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    cursor: pointer;
+  }
+  .dark-mode .activity-card {
+    background: #334155;
+  }
+  .activity-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.15);
+  }
+  .activity-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    color: var(--primary);
+    font-size: 1.8rem;
+  }
+  .dark-mode .activity-icon {
+    background: #475569;
+  }
+  /* Estilos para el cuestionario de pensamientos */
+  .thought-record {
+    background: #f8fafc;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 20px 0;
+  }
+  .dark-mode .thought-record {
+    background: #334155;
+  }
+  .thought-record h3 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .thought-field {
+    margin-bottom: 15px;
+  }
+  .thought-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  /* Estilos para el registro de hábitos */
+  .habits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .habit-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 15px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+  }
+  .dark-mode .habit-card {
+    background: #334155;
+  }
+  .habit-count {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 10px 0;
+  }
+  .habit-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  /* Estilos para metas */
+  .goals-container {
+    margin: 20px 0;
+  }
+  .goal-item {
+    background: #f8fafc;
+    border-radius: var(--radius);
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition);
+  }
+  .dark-mode .goal-item {
+    background: #334155;
+  }
+  .goal-text {
+    flex: 1;
+    margin-right: 15px;
+  }
+  .goal-completed {
+    text-decoration: line-through;
+    color: #94a3b8;
+  }
+  .dark-mode .goal-completed {
+    color: #64748b;
+  }
+  .goal-actions button {
+    margin-left: 5px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+  }
+  /* Estilos para gráficos */
+  .chart-container {
+    height: 200px;
+    background: #f1f5f9;
+    border-radius: var(--radius);
+    margin: 20px 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 20px 10px;
+  }
+  .dark-mode .chart-container {
+    background: #334155;
+  }
+  .chart-bar {
+    width: 30px;
+    background: var(--primary);
+    border-radius: 5px 5px 0 0;
+    transition: height 0.5s ease;
+    position: relative;
+  }
+  .chart-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    color: #64748b;
+  }
+  .dark-mode .chart-label {
+    color: #cbd5e1;
+  }
+  /* Estilos para alertas de riesgo */
+  .risk-indicator {
+    padding: 15px;
+    border-radius: var(--radius);
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+  }
+  .risk-low {
+    background: #dcfce7;
+    border-left: 4px solid #22c55e;
+  }
+  .risk-medium {
+    background: #fef9c3;
+    border-left: 4px solid #eab308;
+  }
+  .risk-high {
+    background: #fed7aa;
+    border-left: 4px solid #ea580c;
+  }
+  .risk-critical {
+    background: #fee2e2;
+    border-left: 4px solid #ef4444;
+  }
+  .dark-mode .risk-low {
+    background: #166534;
+  }
+  .dark-mode .risk-medium {
+    background: #713f12;
+  }
+  .dark-mode .risk-high {
+    background: #9a3412;
+  }
+  .dark-mode .risk-critical {
+    background: #991b1b;
+  }
+  .risk-icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+  }
+  .risk-low .risk-icon {
+    color: #22c55e;
+  }
+  .risk-medium .risk-icon {
+    color: #eab308;
+  }
+  .risk-high .risk-icon {
+    color: #ea580c;
+  }
+  .risk-critical .risk-icon {
+    color: #ef4444;
+  }
+  /* Estilos para el módulo de audioterapia */
+  .audiotherapy-section {
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: var(--radius);
+    margin: 20px 0;
+    transition: var(--transition);
+  }
+  .dark-mode .audiotherapy-section {
+    background: #334155;
+  }
+  .audio-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+  }
+  .dark-mode .audio-card {
+    background: #475569;
+  }
+  .audio-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .audio-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--primary);
+    font-size: 1.5rem;
+  }
+  .dark-mode .audio-icon {
+    background: #475569;
+  }
+  .audio-player {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0;
+  }
+  .audio-controls {
+    display: flex;
+    gap: 10px;
+  }
+  .audio-control-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .audio-control-btn:hover {
+    transform: scale(1.1);
+  }
+  .volume-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 5px;
+    border-radius: 5px;
+    background: #e2e8f0;
+    outline: none;
+  }
+  .dark-mode .volume-slider {
+    background: #475569;
+  }
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+  }
+  .audio-duration {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-left: 15px;
+  }
+  .dark-mode .audio-duration {
+    color: #cbd5e1;
+  }
+  .audio-description {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  .dark-mode .audio-description {
+    color: #cbd5e1;
+  }
+  @media (max-width: 600px) {
+    .container {
+      padding: 20px;
+    }
+    h1 {
+      font-size: 1.5rem;
+    }
+    .mood-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .mood img {
+      width: 70px;
+      height: 70px;
+    }
+    .nav-buttons {
+      flex-direction: column;
+    }
+    .app-nav {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .progress-grid, .habits-grid {
+      grid-template-columns: 1fr;
+    }
+    .chart-container {
+      height: 150px;
+    }
+  }
+</style>
 </head>
-<body>
-  <!-- Botón flotante del chatbot -->
-  <button class="chatbot-button" id="openChatbotBtn" aria-label="Abrir Chatbot" style="position: fixed; bottom: 30px; right: 30px; z-index: 1001;">
-    <i class="fa-solid fa-comments"></i>
-  </button>
-  <!-- Ventana del chatbot -->
-  <div id="chatbotWindow" class="chatbot-window hidden" style="position: fixed; bottom: 90px; right: 30px; width: 330px; max-width: 90vw; background: white; border-radius: 18px; box-shadow: 0 10px 24px rgba(67, 97, 238, 0.18); z-index: 1002; display: flex; flex-direction: column; overflow: hidden; border: 2px solid #4361ee;">
-    <div style="background: linear-gradient(135deg, #4361ee, #3a0ca3); color: white; padding: 18px; font-weight: 600; display: flex; align-items: center; justify-content: space-between;">
-      <span><i class="fa-solid fa-robot"></i> Chatbot Serenamente</span>
-      <button id="closeChatbotBtn" aria-label="Cerrar Chatbot" style="background:none;border:none;color:white;font-size:1.3rem;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+<body class="theme-default">
+<div class="container">
+  <!-- Barra de navegación -->
+  <div class="app-nav">
+    <div class="app-title">
+      <i class="fas fa-spa"></i>
+      <span>Serenamente</span>
     </div>
-    <div id="chatbotMessages" style="flex:1; padding:16px; background: #f8fafc; overflow-y:auto; font-size: 1rem;">
-      <div style="margin-bottom: 12px; color: #64748b;">¡Hola! Soy tu asistente virtual, especializado en bienestar emocional. ¿Cómo puedo apoyarte hoy?</div>
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <label class="theme-switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
+      </label>
+      <i class="fas fa-moon nav-icon"></i>
     </div>
-    <form id="chatbotForm" style="display:flex;gap:8px;padding:12px;background:#f1f5f9;border-top:1px solid #e2e8f0;">
-      <input id="chatbotInput" type="text" autocomplete="off" placeholder="Escribe tu mensaje..." style="flex:1;padding:10px;border-radius:8px;border:1px solid #ddd;">
-      <button type="submit" style="background:#4361ee;color:white;border:none;border-radius:8px;padding:0 14px;cursor:pointer;font-size:1.1rem;"><i class="fa-solid fa-paper-plane"></i></button>
-    </form>
   </div>
-  <script>
-    const openBtn = document.getElementById('openChatbotBtn');
-    const closeBtn = document.getElementById('closeChatbotBtn');
-    const chatbotWindow = document.getElementById('chatbotWindow');
-    const chatbotForm = document.getElementById('chatbotForm');
-    const chatbotInput = document.getElementById('chatbotInput');
-    const chatbotMessages = document.getElementById('chatbotMessages');
-
-    openBtn.addEventListener('click', () => {
-      chatbotWindow.classList.remove('hidden');
-      chatbotInput.focus();
-    });
-    closeBtn.addEventListener('click', () => {
-      chatbotWindow.classList.add('hidden');
-    });
-
-    chatbotForm.addEventListener('submit', async function(e){
-      e.preventDefault();
-      const msg = chatbotInput.value.trim();
-      if(!msg) return;
-      appendMessage(msg, 'user');
-      chatbotInput.value = '';
-      appendMessage("Escribiendo...", 'bot', true);
-
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ message: msg })
+  <!-- Consentimiento -->
+  <section id="consent-section">
+    <div class="section-header">
+      <i class="fas fa-hands-helping"></i>
+      <h1>Bienvenido/a a Serenamente 👋</h1>
+    </div>
+    <p>Esta aplicación ofrece apoyo emocional inicial mediante técnicas basadas en evidencia científica, pero <strong>no reemplaza la atención profesional</strong>.</p>
+    <div class="crisis-box">
+      <p><i class="fas fa-exclamation-triangle"></i> Si estás en crisis, llamá inmediatamente al:</p>
+      <h3>0800 345 1435</h3>
+      <p>Centro de Asistencia al Suicida - Disponible 8 a 00 hs</p>
+    </div>
+    <label><input type="checkbox" id="consentCheck"> Acepto continuar y entiendo esta advertencia</label>
+    <button id="consentBtn" disabled onclick="nextStep('consent-section','mood-section')">Continuar</button>
+  </section>
+  <!-- Estado de ánimo -->
+  <section id="mood-section" class="hidden">
+    <div class="section-header">
+      <h1>¡Hola! 👋</h1>
+      <p>¿Cómo te sentís hoy?</p>
+    </div>
+    <div class="mood-container">
+      <div class="mood" data-value="duelo">
+        <img src="https://cdn-icons-png.flaticon.com/512/3586/3586985.png" alt="Duelo">
+        <p>Estoy en duelo</p>
+      </div>
+      <div class="mood" data-value="ansiedad">
+        <img src="https://cdn-icons-png.flaticon.com/512/10591/10591942.png" alt="Ansiedad">
+        <p>Siento ansiedad</p>
+      </div>
+      <div class="mood" data-value="suicida">
+        <img src="https://cdn-icons-png.flaticon.com/512/10591/10591952.png" alt="Crisis">
+        <p>Tengo pensamientos suicidas</p>
+      </div>
+      <div class="mood" data-value="trauma">
+        <img src="https://cdn-icons-png.flaticon.com/512/10591/10591957.png" alt="Trauma">
+        <p>Estoy afectado por un trauma</p>
+      </div>
+      <div class="mood" data-value="desesperanza">
+        <img src="https://cdn-icons-png.flaticon.com/512/10591/10591949.png" alt="Desesperanza">
+        <p>Me siento desesperanzado/a</p>
+      </div>
+      <div class="mood" data-value="estres">
+        <img src="https://cdn-icons-png.flaticon.com/512/10591/10591954.png" alt="Estrés">
+        <p>Estoy estresado/a</p>
+      </div>
+      <div class="mood" data-value="depresion">
+        <img src="https://cdn-icons-png.flaticon.com/512/10591/10591946.png" alt="Depresión">
+        <p>Estoy deprimido/a</p>
+      </div>
+      <div class="mood" data-value="toc">
+        <img src="https://cdn-icons-png.flaticon.com/512/10591/10591956.png" alt="TOC">
+        <p>Tengo TOC</p>
+      </div>
+      <div class="mood" data-value="panico">
+        <img src="https://cdn-icons-png.flaticon.com/512/10591/10591953.png" alt="Pánico">
+        <p>Tengo ataques de pánico</p>
+      </div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" style="width: 33%"></div>
+    </div>
+    <div class="step-indicator">
+      <div class="step-dot"></div>
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+    </div>
+  </section>
+  <!-- Crisis -->
+  <section id="crisis-section" class="hidden">
+    <div class="crisis-box">
+      <div class="section-header">
+        <i class="fas fa-life-ring"></i>
+        <h2>Estamos acá para ayudarte 💙</h2>
+      </div>
+      <p>No estás solo/a. Podés llamar ya al:</p>
+      <p><strong>Centro de Asistencia al Suicida</strong><br>0800 345 1435<br>Horario: 8 a 00 hs</p>
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="nextStep('crisis-section','mood-section')">Volver</button>
+        <button onclick="window.location.href='tel:08003451435'"><i class="fas fa-phone"></i> Llamar ahora</button>
+      </div>
+      <p style="margin-top: 15px;">También podés contactar con:</p>
+      <p><strong>Línea de prevención suicide</strong><br>135 (todo el país)</p>
+      <button onclick="nextStep('crisis-section','techniques-section')">Ver técnicas de apoyo</button>
+    </div>
+  </section>
+  <!-- Técnicas -->
+  <section id="techniques-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-heart"></i>
+      <h1>Técnicas de Apoyo Emocional</h1>
+      <p>Seleccioná una técnica para empezar:</p>
+    </div>
+    <div id="technique-content" class="technique-card"></div>
+    <div class="nav-buttons">
+      <button id="prevBtn" onclick="prevTechnique()" disabled><i class="fas fa-arrow-left"></i> Anterior</button>
+      <button id="nextBtn" onclick="nextTechnique()">Siguiente <i class="fas fa-arrow-right"></i></button>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" id="technique-progress"></div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('techniques-section','mood-section')">Volver al inicio</button>
+      <button onclick="nextStep('techniques-section','meditation-section')"><i class="fas fa-music"></i> Meditaciones</button>
+      <button onclick="nextStep('techniques-section','activities-section')"><i class="fas fa-hands-helping"></i> Actividades</button>
+    </div>
+  </section>
+  <!-- Meditaciones -->
+  <section id="meditation-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-music"></i>
+      <h1>Meditaciones Guiadas</h1>
+      <p>Seleccioná una meditación para relajar tu mente:</p>
+    </div>
+    <div class="meditation-card">
+      <div class="meditation-header">
+        <div class="meditation-icon">
+          <i class="fas fa-wind"></i>
+        </div>
+        <h3>Respiración Consciente</h3>
+      </div>
+      <p>Meditación de 5 minutos para centrarte en tu respiración y calmar la mente.</p>
+      <div class="meditation-player">
+        <div class="play-btn" onclick="toggleBreathing()">
+          <i class="fas fa-play" id="breath-play-icon"></i>
+        </div>
+        <div class="meditation-timer" id="breath-timer">05:00</div>
+      </div>
+      <div class="circle breathing hidden" id="breath-circle">Inhalar</div>
+    </div>
+    <div class="meditation-card">
+      <div class="meditation-header">
+        <div class="meditation-icon">
+          <i class="fas fa-mountain"></i>
+        </div>
+        <h3>Relajación Corporal</h3>
+      </div>
+      <p>Meditación de 10 minutos para liberar tensiones físicas y mentales.</p>
+      <div class="meditation-player">
+        <div class="play-btn" onclick="toggleBodyScan()">
+          <i class="fas fa-play" id="bodyscan-play-icon"></i>
+        </div>
+        <div class="meditation-timer" id="bodyscan-timer">10:00</div>
+      </div>
+    </div>
+    <div class="meditation-card">
+      <div class="meditation-header">
+        <div class="meditation-icon">
+          <i class="fas fa-leaf"></i>
+        </div>
+        <h3>Mindfulness</h3>
+      </div>
+      <p>Meditación de 8 minutos para practicar atención plena y reducir el estrés.</p>
+      <div class="meditation-player">
+        <div class="play-btn" onclick="toggleMindfulness()">
+          <i class="fas fa-play" id="mindfulness-play-icon"></i>
+        </div>
+        <div class="meditation-timer" id="mindfulness-timer">08:00</div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('meditation-section','techniques-section')"><i class="fas fa-arrow-left"></i> Volver a técnicas</button>
+      <button onclick="nextStep('meditation-section','audiotherapy-section')"><i class="fas fa-headphones"></i> Audioterapia</button>
+    </div>
+  </section>
+  <!-- Audioterapia -->
+  <section id="audiotherapy-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-headphones"></i>
+      <h1>Audioterapia Curativa</h1>
+      <p>Seleccioná un sonido terapéutico para calmar tu mente y cuerpo:</p>
+    </div>
+    <div class="audiotherapy-section">
+      <div class="audio-card">
+        <div class="audio-header">
+          <div class="audio-icon">
+            <i class="fas fa-water"></i>
+          </div>
+          <div>
+            <h3>Sonidos de Agua</h3>
+            <p>Olás del mar, lluvia suave, arroyos</p>
+          </div>
+        </div>
+        <div class="audio-description">
+          Los sonidos de agua tienen un efecto calmante en el sistema nervioso, reduciendo los niveles de cortisol (hormona del estrés) y promoviendo la relajación profunda. Ideal para ansiedad y estrés.
+        </div>
+        <div class="audio-player">
+          <div class="audio-controls">
+            <button class="audio-control-btn" onclick="toggleAudio('water')">
+              <i class="fas fa-play" id="water-play-icon"></i>
+            </button>
+            <button class="audio-control-btn" onclick="stopAudio('water')">
+              <i class="fas fa-stop"></i>
+            </button>
+          </div>
+          <input type="range" class="volume-slider" id="water-volume" min="0" max="1" step="0.1" value="0.7">
+          <div class="audio-duration" id="water-duration">00:00 / 60:00</div>
+        </div>
+      </div>
+      <div class="audio-card">
+        <div class="audio-header">
+          <div class="audio-icon">
+            <i class="fas fa-tree"></i>
+          </div>
+          <div>
+            <h3>Sonidos de la Naturaleza</h3>
+            <p>Bosques, pájaros, viento en los árboles</p>
+          </div>
+        </div>
+        <div class="audio-description">
+          La biofilia, nuestra conexión innata con la naturaleza, se activa con estos sonidos. Estudios muestran que reducen la presión arterial, mejoran el estado de ánimo y aumentan la sensación de bienestar. Perfecto para duelo y desesperanza.
+        </div>
+        <div class="audio-player">
+          <div class="audio-controls">
+            <button class="audio-control-btn" onclick="toggleAudio('nature')">
+              <i class="fas fa-play" id="nature-play-icon"></i>
+            </button>
+            <button class="audio-control-btn" onclick="stopAudio('nature')">
+              <i class="fas fa-stop"></i>
+            </button>
+          </div>
+          <input type="range" class="volume-slider" id="nature-volume" min="0" max="1" step="0.1" value="0.7">
+          <div class="audio-duration" id="nature-duration">00:00 / 60:00</div>
+        </div>
+      </div>
+      <div class="audio-card">
+        <div class="audio-header">
+          <div class="audio-icon">
+            <i class="fas fa-music"></i>
+          </div>
+          <div>
+            <h3>Música Binaural</h3>
+            <p>Frecuencias para equilibrar ondas cerebrales</p>
+          </div>
+        </div>
+        <div class="audio-description">
+          Las frecuencias binaurales sincronizan las ondas cerebrales, induciendo estados de relajación profunda (theta) o meditación (alpha). Eficaz para insomnio, ansiedad y concentración. Usa audífonos para mejor efecto.
+        </div>
+        <div class="audio-player">
+          <div class="audio-controls">
+            <button class="audio-control-btn" onclick="toggleAudio('binaural')">
+              <i class="fas fa-play" id="binaural-play-icon"></i>
+            </button>
+            <button class="audio-control-btn" onclick="stopAudio('binaural')">
+              <i class="fas fa-stop"></i>
+            </button>
+          </div>
+          <input type="range" class="volume-slider" id="binaural-volume" min="0" max="1" step="0.1" value="0.7">
+          <div class="audio-duration" id="binaural-duration">00:00 / 30:00</div>
+        </div>
+      </div>
+      <div class="audio-card">
+        <div class="audio-header">
+          <div class="audio-icon">
+            <i class="fas fa-moon"></i>
+          </div>
+          <div>
+            <h3>Sonidos para Dormir</h3>
+            <p>Ruido blanco, rosa y marrón</p>
+          </div>
+        </div>
+        <div class="audio-description">
+          El ruido rosa y marrón son especialmente efectivos para mejorar la calidad del sueño, al enmascarar sonidos disruptivos y promover ondas cerebrales delta. Recomendado para insomnio y estrés.
+        </div>
+        <div class="audio-player">
+          <div class="audio-controls">
+            <button class="audio-control-btn" onclick="toggleAudio('sleep')">
+              <i class="fas fa-play" id="sleep-play-icon"></i>
+            </button>
+            <button class="audio-control-btn" onclick="stopAudio('sleep')">
+              <i class="fas fa-stop"></i>
+            </button>
+          </div>
+          <input type="range" class="volume-slider" id="sleep-volume" min="0" max="1" step="0.1" value="0.7">
+          <div class="audio-duration" id="sleep-duration">00:00 / 120:00</div>
+        </div>
+      </div>
+      <div class="audio-card">
+        <div class="audio-header">
+          <div class="audio-icon">
+            <i class="fas fa-spa"></i>
+          </div>
+          <div>
+            <h3>Tibetan Singing Bowls</h3>
+            <p>Sonidos armónicos de cuencos tibetanos</p>
+          </div>
+        </div>
+        <div class="audio-description">
+          Los cuencos tibetanos producen armónicos que resuenan con el cuerpo, promoviendo la relajación profunda y la meditación. Estudios muestran reducción significativa de ansiedad y mejora en la calidad de vida.
+        </div>
+        <div class="audio-player">
+          <div class="audio-controls">
+            <button class="audio-control-btn" onclick="toggleAudio('tibetan')">
+              <i class="fas fa-play" id="tibetan-play-icon"></i>
+            </button>
+            <button class="audio-control-btn" onclick="stopAudio('tibetan')">
+              <i class="fas fa-stop"></i>
+            </button>
+          </div>
+          <input type="range" class="volume-slider" id="tibetan-volume" min="0" max="1" step="0.1" value="0.7">
+          <div class="audio-duration" id="tibetan-duration">00:00 / 45:00</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('audiotherapy-section','meditation-section')"><i class="fas fa-arrow-left"></i> Volver a meditaciones</button>
+      <button onclick="nextStep('audiotherapy-section','progress-section')"><i class="fas fa-chart-line"></i> Ver mi progreso</button>
+    </div>
+  </section>
+  <!-- Panel de Progreso -->
+  <section id="progress-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-chart-line"></i>
+      <h1>Mi Progreso</h1>
+      <p>Seguimiento de tu bienestar emocional:</p>
+    </div>
+    <!-- Risk Indicator -->
+    <div id="risk-indicator" class="risk-indicator risk-low hidden">
+      <i class="fas fa-check-circle risk-icon"></i>
+      <div>
+        <h3 class="font-bold">Nivel de Riesgo: Bajo</h3>
+        <p>Continuá con tus prácticas de autocuidado.</p>
+      </div>
+    </div>
+    <div class="progress-grid">
+      <div class="progress-item">
+        <i class="fas fa-calendar-check" style="font-size: 2rem; color: var(--primary);"></i>
+        <div class="progress-value" id="days-tracked">0</div>
+        <div class="progress-label">Días registrados</div>
+      </div>
+      <div class="progress-item">
+        <i class="fas fa-pen-fancy" style="font-size: 2rem; color: var(--primary);"></i>
+        <div class="progress-value" id="entries-count">0</div>
+        <div class="progress-label">Entradas en diario</div>
+      </div>
+      <div class="progress-item">
+        <i class="fas fa-medal" style="font-size: 2rem; color: var(--primary);"></i>
+        <div class="progress-value" id="techniques-tried">0</div>
+        <div class="progress-label">Técnicas probadas</div>
+      </div>
+    </div>
+    <h2>Tu estado de ánimo esta semana</h2>
+    <div class="chart-container" id="mood-chart">
+      <!-- Las barras se generarán dinámicamente con JavaScript -->
+    </div>
+    <h2 class="mt-8">Tus hábitos saludables</h2>
+    <div class="habits-grid">
+      <div class="habit-card">
+        <i class="fas fa-running" style="font-size: 2rem; color: var(--primary);"></i>
+        <div class="habit-count" id="exercise-count">0</div>
+        <div class="progress-label">Ejercicio</div>
+        <button class="habit-btn" onclick="recordHabit('exercise')">Registrar hoy</button>
+      </div>
+      <div class="habit-card">
+        <i class="fas fa-brain" style="font-size: 2rem; color: var(--primary);"></i>
+        <div class="habit-count" id="meditation-count">0</div>
+        <div class="progress-label">Meditación</div>
+        <button class="habit-btn" onclick="recordHabit('meditation')">Registrar hoy</button>
+      </div>
+      <div class="habit-card">
+        <i class="fas fa-tree" style="font-size: 2rem; color: var(--primary);"></i>
+        <div class="habit-count" id="nature-count">0</div>
+        <div class="progress-label">Naturaleza</div>
+        <button class="habit-btn" onclick="recordHabit('nature')">Registrar hoy</button>
+      </div>
+      <div class="habit-card">
+        <i class="fas fa-heart" style="font-size: 2rem; color: var(--primary);"></i>
+        <div class="habit-count" id="gratitude-count">0</div>
+        <div class="progress-label">Gratitud</div>
+        <button class="habit-btn" onclick="recordHabit('gratitude')">Registrar hoy</button>
+      </div>
+    </div>
+    <h2 class="mt-8">Tus metas</h2>
+    <div class="goals-container">
+      <div class="mb-4">
+        <input type="text" id="goalInput" placeholder="Ej: Meditar 3 veces por semana" class="w-full">
+        <button onclick="addGoal()" class="w-full mt-2">Agregar meta</button>
+      </div>
+      <div id="goals-list">
+        <!-- Las metas se generarán dinámicamente con JavaScript -->
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('progress-section','audiotherapy-section')"><i class="fas fa-arrow-left"></i> Volver a audioterapia</button>
+      <button onclick="nextStep('progress-section','journal-section')"><i class="fas fa-book"></i> Ir al diario</button>
+    </div>
+  </section>
+  <!-- Diario Personal -->
+  <section id="journal-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-book"></i>
+      <h1>Mi Diario Personal</h1>
+      <p>Escribí tus pensamientos y sentimientos. Podés descargarlos luego.</p>
+    </div>
+    <div class="journal-container">
+      <textarea id="journalEntry" placeholder="¿Cómo te sentís hoy? Escribí lo que necesites expresar..." rows="6"></textarea>
+      <button onclick="saveJournalEntry()"><i class="fas fa-save"></i> Guardar entrada</button>
+    </div>
+    <h2>Tus entradas anteriores</h2>
+    <div id="journal-entries">
+      <div class="empty-journal">
+        <i class="fas fa-book-open"></i>
+        <p>No tenés entradas en tu diario todavía.</p>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('journal-section','progress-section')"><i class="fas fa-arrow-left"></i> Volver a progreso</button>
+      <button onclick="downloadJournal()"><i class="fas fa-download"></i> Descargar diario</button>
+    </div>
+  </section>
+  <!-- Actividades de bienestar -->
+  <section id="activities-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-hands-helping"></i>
+      <h1>Actividades de Bienestar</h1>
+      <p>Seleccioná una actividad para mejorar tu estado de ánimo:</p>
+    </div>
+    <div class="activity-card" onclick="startActivity('gratitude')">
+      <div class="activity-icon">
+        <i class="fas fa-heart"></i>
+      </div>
+      <h3>Diario de Gratitud</h3>
+      <p>Escribe tres cosas por las que estés agradecido hoy</p>
+    </div>
+    <div class="activity-card" onclick="startActivity('pleasure')">
+      <div class="activity-icon">
+        <i class="fas fa-smile"></i>
+      </div>
+      <h3>Actividades Placenteras</h3>
+      <p>Planifica actividades que disfrutes para los próximos días</p>
+    </div>
+    <div class="activity-card" onclick="startActivity('cognitive')">
+      <div class="activity-icon">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h3>Registro de Pensamientos</h3>
+      <p>Identifica y desafía pensamientos negativos automáticos</p>
+    </div>
+    <div class="activity-card" onclick="nextStep('activities-section','thought-record-section')">
+      <div class="activity-icon">
+        <i class="fas fa-file-alt"></i>
+      </div>
+      <h3>Hoja de Trabajo Cognitiva</h3>
+      <p>Completa una hoja estructurada para reestructurar pensamientos</p>
+    </div>
+    <div class="activity-card" onclick="nextStep('activities-section','audiotherapy-section')">
+      <div class="activity-icon">
+        <i class="fas fa-headphones"></i>
+      </div>
+      <h3>Audioterapia Curativa</h3>
+      <p>Escucha sonidos terapéuticos para calmar tu mente</p>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('activities-section','techniques-section')"><i class="fas fa-arrow-left"></i> Volver a técnicas</button>
+      <button onclick="nextStep('activities-section','journal-section')"><i class="fas fa-book"></i> Ir al diario</button>
+    </div>
+  </section>
+  <!-- Registro de Pensamientos -->
+  <section id="thought-record-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-brain"></i>
+      <h1>Registro de Pensamientos</h1>
+      <p>Identificá y desafía pensamientos negativos automáticos</p>
+    </div>
+    <div class="thought-record">
+      <div class="thought-field">
+        <label for="situation">Situación:</label>
+        <input type="text" id="situation" placeholder="Describe brevemente la situación que desencadenó el pensamiento">
+      </div>
+      <div class="thought-field">
+        <label for="emotion">Emoción:</label>
+        <input type="text" id="emotion" placeholder="¿Qué emoción sentiste? (tristeza, ira, ansiedad, etc.)">
+      </div>
+      <div class="thought-field">
+        <label for="automaticThought">Pensamiento automático:</label>
+        <textarea id="automaticThought" rows="3" placeholder="¿Qué pensamiento automático tuviste? (Ej: 'Soy un fracaso', 'Nunca podré superar esto')"></textarea>
+      </div>
+      <div class="thought-field">
+        <label for="evidenceFor">Evidencia a favor del pensamiento:</label>
+        <textarea id="evidenceFor" rows="3" placeholder="¿Qué evidencia apoya este pensamiento?"></textarea>
+      </div>
+      <div class="thought-field">
+        <label for="evidenceAgainst">Evidencia en contra del pensamiento:</label>
+        <textarea id="evidenceAgainst" rows="3" placeholder="¿Qué evidencia contradice este pensamiento?"></textarea>
+      </div>
+      <div class="thought-field">
+        <label for="balancedThought">Pensamiento más equilibrado:</label>
+        <textarea id="balancedThought" rows="3" placeholder="¿Qué pensamiento más equilibrado y realista podrías tener?"></textarea>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="nextStep('thought-record-section','activities-section')"><i class="fas fa-arrow-left"></i> Volver</button>
+        <button onclick="saveThoughtRecord()"><i class="fas fa-save"></i> Guardar en diario</button>
+      </div>
+    </div>
+  </section>
+  <div class="footer">© 2025 Serenamente – Apoyo Emocional Basado en Evidencia – No reemplaza atención profesional.</div>
+</div>
+<script>
+  // Variables globales
+  let currentCrisis = "";
+  let currentTechniqueIndex = 0;
+  let breathingInterval;
+  let bodyScanInterval;
+  let mindfulnessInterval;
+  let moodHistory = [];
+  let habits = {
+    exercise: 0,
+    meditation: 0,
+    nature: 0,
+    gratitude: 0
+  };
+  let goals = [];
+  let audioPlayers = {};
+  // Inicializar reproductores de audio
+  function initAudioPlayers() {
+    // Crear objetos de audio con sonidos de ejemplo (en una app real, usarías URLs reales)
+    audioPlayers.water = {
+      audio: new Audio('https://cdn.pixabay.com/download/audio/2022/01/20/audio_b226d58548.mp3'),
+      isPlaying: false,
+      duration: 3600 // 60 minutos en segundos
+    };
+    audioPlayers.nature = {
+      audio: new Audio('https://cdn.pixabay.com/download/audio/2022/03/10/audio_7a7b0c3f9c.mp3'),
+      isPlaying: false,
+      duration: 3600 // 60 minutos en segundos
+    };
+    audioPlayers.binaural = {
+      audio: new Audio('https://cdn.pixabay.com/download/audio/2022/03/10/audio_7a7b0c3f9c.mp3'),
+      isPlaying: false,
+      duration: 1800 // 30 minutos en segundos
+    };
+    audioPlayers.sleep = {
+      audio: new Audio('https://cdn.pixabay.com/download/audio/2022/03/10/audio_371cc01150.mp3'),
+      isPlaying: false,
+      duration: 7200 // 120 minutos en segundos
+    };
+    audioPlayers.tibetan = {
+      audio: new Audio('https://cdn.pixabay.com/download/audio/2022/03/10/audio_371cc01150.mp3'),
+      isPlaying: false,
+      duration: 2700 // 45 minutos en segundos
+    };
+    // Configurar eventos para todos los reproductores
+    Object.keys(audioPlayers).forEach(key => {
+      const player = audioPlayers[key];
+      // Configurar volumen inicial
+      const volumeSlider = document.getElementById(`${key}-volume`);
+      if (volumeSlider) {
+        player.audio.volume = parseFloat(volumeSlider.value);
+        volumeSlider.addEventListener('input', function() {
+          player.audio.volume = parseFloat(this.value);
         });
-        const data = await res.json();
-        removeWriting();
-        appendMessage(data.reply, 'bot');
-      } catch {
-        removeWriting();
-        appendMessage('Lo siento, hubo un error al conectar con el asistente.', 'bot');
       }
+      // Evento cuando termina el audio
+      player.audio.addEventListener('ended', function() {
+        stopAudio(key);
+      });
+      // Evento para actualizar la duración
+      player.audio.addEventListener('timeupdate', function() {
+        updateAudioDuration(key);
+      });
     });
-
-    function appendMessage(text, sender, writing){
-      const msgDiv = document.createElement('div');
-      msgDiv.style.margin = '8px 0';
-      msgDiv.style.maxWidth = '80%';
-      msgDiv.style.padding = '9px 13px';
-      msgDiv.style.borderRadius = '12px';
-      msgDiv.style.wordBreak = 'break-word';
-      msgDiv.style.fontSize = '1rem';
-      msgDiv.className = writing ? 'writing-msg' : '';
-      if(sender === 'user'){
-        msgDiv.style.background = '#4361ee';
-        msgDiv.style.color = 'white';
-        msgDiv.style.marginLeft = 'auto';
-        msgDiv.style.textAlign = 'right';
-      } else {
-        msgDiv.style.background = '#e0e7ef';
-        msgDiv.style.color = '#475569';
-        msgDiv.style.marginRight = 'auto';
-        msgDiv.style.textAlign = 'left';
+  }
+  // Función para reproducir/pausar audio
+  function toggleAudio(audioType) {
+    const player = audioPlayers[audioType];
+    const playIcon = document.getElementById(`${audioType}-play-icon`);
+    if (player.isPlaying) {
+      player.audio.pause();
+      playIcon.classList.remove('fa-pause');
+      playIcon.classList.add('fa-play');
+      player.isPlaying = false;
+    } else {
+      // Pausar otros audios
+      Object.keys(audioPlayers).forEach(key => {
+        if (key !== audioType && audioPlayers[key].isPlaying) {
+          audioPlayers[key].audio.pause();
+          document.getElementById(`${key}-play-icon`).classList.remove('fa-pause');
+          document.getElementById(`${key}-play-icon`).classList.add('fa-play');
+          audioPlayers[key].isPlaying = false;
+        }
+      });
+      player.audio.play();
+      playIcon.classList.remove('fa-play');
+      playIcon.classList.add('fa-pause');
+      player.isPlaying = true;
+    }
+  }
+  // Función para detener audio
+  function stopAudio(audioType) {
+    const player = audioPlayers[audioType];
+    const playIcon = document.getElementById(`${audioType}-play-icon`);
+    player.audio.pause();
+    player.audio.currentTime = 0;
+    playIcon.classList.remove('fa-pause');
+    playIcon.classList.add('fa-play');
+    player.isPlaying = false;
+    updateAudioDuration(audioType);
+  }
+  // Función para actualizar la duración del audio
+  function updateAudioDuration(audioType) {
+    const player = audioPlayers[audioType];
+    const durationElement = document.getElementById(`${audioType}-duration`);
+    if (durationElement && player.audio) {
+      const currentMinutes = Math.floor(player.audio.currentTime / 60);
+      const currentSeconds = Math.floor(player.audio.currentTime % 60);
+      const totalMinutes = Math.floor(player.duration / 60);
+      const totalSeconds = Math.floor(player.duration % 60);
+      durationElement.textContent = `${currentMinutes.toString().padStart(2, '0')}:${currentSeconds.toString().padStart(2, '0')} / ${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
+    }
+  }
+  // Cargar datos desde localStorage al iniciar
+  document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar reproductores de audio
+    initAudioPlayers();
+    // Cargar datos guardados
+    loadFromStorage();
+    // Inicializar contadores
+    updateProgressStats();
+    // Generar gráfico de ánimo
+    generateMoodChart();
+    // Configurar modo oscuro
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    darkModeToggle.addEventListener('change', function(){
+      document.body.classList.toggle('dark-mode');
+    });
+    // Configurar consentimiento
+    document.getElementById('consentCheck').addEventListener('change', function(){
+      document.getElementById('consentBtn').disabled = !this.checked;
+    });
+    // Configurar selección de estado de ánimo
+    document.querySelectorAll('.mood').forEach(el => {
+      el.addEventListener('click', function() {
+        document.querySelectorAll('.mood').forEach(m => m.classList.remove('selected'));
+        this.classList.add('selected');
+        const crisis = this.dataset.value;
+        currentCrisis = crisis;
+        setTheme(crisis);
+        // Guardar en historial de ánimo
+        moodHistory.push({
+          mood: crisis,
+          date: new Date().toISOString()
+        });
+        // Guardar fecha de primer uso
+        if (!localStorage.getItem('firstEntryDate')) {
+          localStorage.setItem('firstEntryDate', new Date().toISOString());
+        }
+        saveToStorage();
+        analyzeRiskLevel();
+        if(crisis === 'suicida') {
+          nextStep('mood-section','crisis-section');
+        } else {
+          nextStep('mood-section','techniques-section');
+          showCrisisTechniques(crisis);
+        }
+      });
+    });
+  });
+  // Funciones de navegación
+  function nextStep(current, next) {
+    document.getElementById(current).classList.add('hidden');
+    document.getElementById(next).classList.remove('hidden');
+    window.scrollTo(0, 0);
+  }
+  // Cambiar tema según estado de ánimo
+  function setTheme(theme) {
+    // Remover todos los temas actuales
+    document.body.className = document.body.className.replace(/theme-\w+/g, '').trim();
+    // Añadir el nuevo tema
+    document.body.classList.add(`theme-${theme}`);
+  }
+  // Técnicas profesionales mejoradas basadas en investigación
+  const crisisTechniques = {
+    "duelo": [
+      {
+        title: "Ejercicio de Letter Writing (Universidad de Texas)", 
+        text: "Escribir una carta a la persona o situación perdida puede ayudar a procesar emociones. Investigación de la Universidad de Texas muestra que esta técnica facilita la elaboración del duelo.",
+        icon: "fas fa-envelope",
+        steps: [
+          "Tomate 15-20 minutos sin interrupciones",
+          "Escribí una carta expresando tus sentimientos: lo que extrañás, lo que lamentás, lo que agradecés",
+          "No es necesario enviarla, el beneficio está en el proceso de expresión",
+          "Podés guardarla, romperla o quemarla simbólicamente según te haga sentir mejor"
+        ],
+        duration: "15-20 minutos",
+        research: "Basado en investigación de la Universidad de Texas sobre procesamiento emocional"
+      },
+      {
+        title: "Técnica de Silla Vacía (Gestalt Therapy)", 
+        text: "Esta técnica de la terapia Gestalt ayuda a dialogar con la persona perdida para cerrar asuntos pendientes y expresar emociones no dichas.",
+        icon: "fas fa-chair",
+        steps: [
+          "Colocá una silla vacía frente a vos",
+          "Imaginá que la persona está sentada allí",
+          "Decile todo lo que necesites expresar: lo que no tuviste chance de decir, tus sentimientos",
+          "Ahora sentate en la silla y respondé como si fueras esa persona",
+          "Alterná entre sillas según lo necesites"
+        ],
+        duration: "20-30 minutos",
+        research: "Técnica validada de la Terapia Gestalt"
+      },
+      {
+        title: "Práctica de Autocompasión (Dr. Kristin Neff - Universidad de Texas)", 
+        text: "Investigación muestra que la autocompasión es fundamental para procesar el duelo de manera saludable.",
+        icon: "fas fa-hands-heart",
+        steps: [
+          "Reconocé tu dolor: 'Estoy pasando por un momento muy difícil'",
+          "Recordá que el duelo es una experiencia humana universal",
+          "Ofrecete palabras de bondad: 'Que me sea fácil transitar este dolor'",
+          "Colocá las manos sobre el corazón y sentí el calor reconfortante",
+          "Repetí frases compasivas: 'Merezco cuidado y comprensión en este momento'"
+        ],
+        duration: "10-15 minutos",
+        research: "Basado en investigación de la Dra. Kristin Neff, Universidad de Texas"
+      },
+      {
+        title: "Ritual de Despedida (Terapia Narrativa)", 
+        text: "Crear un ritual simbólico para honrar la pérdida puede facilitar el proceso de duelo y proporcionar cierre emocional.",
+        icon: "fas fa-candle-holder",
+        steps: [
+          "Elige un objeto simbólico que represente tu relación con lo perdido",
+          "Crea un espacio sagrado en tu hogar para realizar el ritual",
+          "Escribe una carta o poema expresando tus sentimientos",
+          "Lee en voz alta tu carta/poema",
+          "Realiza una acción simbólica (encender una vela, soltar un globo, plantar una flor)",
+          "Guarda el objeto simbólico en un lugar especial o libéralo simbólicamente"
+        ],
+        duration: "30-45 minutos",
+        research: "Basado en Terapia Narrativa y estudios sobre rituales en el duelo"
       }
-      msgDiv.textContent = text;
-      chatbotMessages.appendChild(msgDiv);
-      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    ],
+    "ansiedad": [
+      {
+        title: "Respiración 4-7-8 (Dr. Andrew Weil - Harvard)", 
+        text: "Técnica de respiración profunda que activa el sistema nervioso parasimpático y reduce la ansiedad en minutos. Validada por investigaciones de Harvard.",
+        icon: "fas fa-lungs",
+        steps: [
+          "Inhalá por la nariz durante 4 segundos",
+          "Mantené la respiración durante 7 segundos",
+          "Exhalá lentamente por la boca durante 8 segundos",
+          "Repetí este ciclo 4 veces",
+          "Practicá esta técnica dos veces al día para mejores resultados"
+        ],
+        duration: "5 minutos",
+        research: "Técnica popularizada por el Dr. Andrew Weil de Harvard"
+      },
+      {
+        title: "Técnica 5-4-3-2-1 (Terapia Cognitivo-Conductual)", 
+        text: "Ejercicio de grounding que te ayuda a conectar con el presente usando tus sentidos, alejando pensamientos ansiosos. Efectiva según múltiples estudios.",
+        icon: "fas fa-mountain",
+        steps: [
+          "Identificá 5 cosas que podés VER a tu alrededor",
+          "Identificá 4 cosas que podés TOCAR (texturas, temperaturas)",
+          "Identificá 3 cosas que podés OÍR (sonidos cercanos y lejanos)",
+          "Identificá 2 cosas que podés OLER",
+          "Identificá 1 cosa que podés SABOREAR",
+          "Repetí si es necesario hasta sentir mayor conexión con el presente"
+        ],
+        duration: "3-5 minutos",
+        research: "Técnica de grounding validada en terapia cognitivo-conductual"
+      },
+      {
+        title: "Exposición Gradual (TCC - Universidad de Boston)", 
+        text: "Enfrentar gradualmente las situaciones que generan ansiedad ayuda a reducirla significativamente según investigaciones.",
+        icon: "fas fa-chart-line",
+        steps: [
+          "Creá una lista de situaciones que te generan ansiedad, del 1 (menos ansiedad) al 10 (máxima ansiedad)",
+          "Empezá por la situación que genere ansiedad nivel 2-3",
+          "Exponete a esta situación hasta que tu ansiedad disminuya a la mitad",
+          "Celebrá tus logros y pasá al siguiente nivel",
+          "Practicá regularmente para consolidar los avances"
+        ],
+        duration: "Variable",
+        research: "Técnica de exposición validada en la TCC (Universidad de Boston)"
+      },
+      {
+        title: "Desensibilización Sistemática (Wolpe)", 
+        text: "Combinar relajación profunda con visualización gradual de situaciones ansiosas para reducir la respuesta de ansiedad.",
+        icon: "fas fa-brain",
+        steps: [
+          "Aprendé una técnica de relajación profunda (respiración diafragmática o relajación muscular progresiva)",
+          "Creá una jerarquía de miedos (lista de situaciones ansiosas de menor a mayor intensidad)",
+          "Mientras estás completamente relajado, visualizá la situación menos ansiosa de tu lista",
+          "Mantené la visualización hasta que puedas hacerlo sin ansiedad",
+          "Pasá a la siguiente situación en tu jerarquía",
+          "Continuá hasta dominar todas las situaciones en tu lista"
+        ],
+        duration: "20-30 minutos por sesión",
+        research: "Técnica desarrollada por Joseph Wolpe, ampliamente validada"
+      },
+      {
+        title: "Técnica de la Hoja de Trabajo de Ansiedad (Terapia de Aceptación y Compromiso)", 
+        text: "Ejercicio para externalizar y desidentificarte de tus pensamientos ansiosos, reduciendo su poder sobre ti.",
+        icon: "fas fa-file-alt",
+        steps: [
+          "Identificá tu pensamiento ansioso más fuerte en este momento",
+          "Escribilo en una hoja de papel",
+          "Dibujá una caja alrededor del pensamiento",
+          "Etiquetalo: 'Esto es solo un pensamiento, no un hecho'",
+          "Preguntate: '¿Este pensamiento me está ayudando a vivir según mis valores?'",
+          "Si no, decidí conscientemente dejarlo de lado y enfocarte en algo que sí te acerque a tus valores"
+        ],
+        duration: "10-15 minutos",
+        research: "Basado en Terapia de Aceptación y Compromiso (ACT)"
+      }
+    ],
+    "suicida": [
+      {
+        title: "Plan de Seguridad (DBT - Universidad de Washington)", 
+        text: "Crear un plan por escrito con estrategias concretas para momentos de crisis puede salvar vidas. Desarrollado por la Dra. Marsha Linehan.",
+        icon: "fas fa-shield-alt",
+        steps: [
+          "Identificá señales de alerta temprana (pensamientos, emociones, comportamientos)",
+          "Listá estrategias de distracción (música, ejercicio, llamar a alguien)",
+          "Anotá contactos de apoyo (amigos, familia, profesionales) con sus teléfonos",
+          "Incluí números de líneas de crisis y servicios de emergencia",
+          "Listá razones para vivir (cosas importantes, personas, metas)",
+          "Asegurate de tener el plan accesible en todo momento"
+        ],
+        duration: "20-30 minutos",
+        research: "Basado en Terapia Dialéctica Conductual (DBT) - Universidad de Washington"
+      },
+      {
+        title: "Conectarse con el Presente (DBT - Mindfulness)", 
+        text: "Técnicas para anclarse en el momento presente cuando los pensamientos abrumadores aparecen.",
+        icon: "fas fa-anchor",
+        steps: [
+          "Enfocá tu atención en tu respiración por un minuto",
+          "Describí 3 objetos a tu alrededor en detalle (color, forma, textura)",
+          "Prendé una vela y concentrate en la llama",
+          "Sosté un cubo de hielo y concentrate en la sensación de frío",
+          "Repetí un mantra: 'Esto pasará', 'Soy más que mis pensamientos'"
+        ],
+        duration: "5-10 minutos",
+        research: "Técnicas de distress tolerance de DBT - Universidad de Washington"
+      },
+      {
+        title: "Técnica de la Caja de Herramientas de Supervivencia", 
+        text: "Crear una caja física con objetos que te recuerden tus razones para vivir y te proporcionen consuelo en momentos de crisis.",
+        icon: "fas fa-box",
+        steps: [
+          "Consiguí una caja decorativa o una caja de zapatos",
+          "Llenala con objetos que representen tus razones para vivir: fotos de seres queridos, cartas, recuerdos especiales",
+          "Incluí objetos sensoriales que te calmen: una manta suave, aceites esenciales, música relajante",
+          "Agregá notas de aliento escritas por vos mismo/a en momentos de mayor fortaleza",
+          "Guardá tu plan de seguridad en la caja",
+          "Cuando sientas impulsos suicidas, abrí la caja y utilizá sus contenidos"
+        ],
+        duration: "30-60 minutos para crear, luego usar según necesidad",
+        research: "Adaptado de técnicas de DBT y terapia centrada en soluciones"
+      },
+      {
+        title: "Carta a Mi Yo Futuro", 
+        text: "Escribir una carta a tu yo futuro describiendo cómo superaste esta crisis puede proporcionar esperanza y perspectiva.",
+        icon: "fas fa-envelope-open-text",
+        steps: [
+          "Imaginá que estás 6 meses en el futuro, habiendo superado esta crisis",
+          "Escribí una carta a tu yo actual desde esa perspectiva futura",
+          "Describí cómo superaste los desafíos actuales",
+          "Mencioná las lecciones aprendidas y la fuerza que descubriste en ti mismo/a",
+          "Hablá de las cosas buenas que están por venir",
+          "Guardá la carta y léela cuando necesites recordar que hay esperanza"
+        ],
+        duration: "20-30 minutos",
+        research: "Técnica basada en terapia narrativa y terapia centrada en soluciones"
+      }
+    ],
+    "trauma": [
+      {
+        title: "Técnica de Grounding (Universidad de Harvard)", 
+        text: "Ejercicios para reconectar con el presente cuando surgen flashbacks o disociación relacionados con trauma.",
+        icon: "fas fa-leaf",
+        steps: [
+          "Apretá tus pies contra el piso y sentí la conexión con la tierra",
+          "Salpicá agua fría en tu rostro o tomá una bebida fría/caliente",
+          "Tocá diferentes texturas a tu alrededor (suave, áspero, frío, caliente)",
+          "Nombrá objetos que ves en la habitación (5 azules, 5 redondos)",
+          "Usá aromas fuertes (café, menta, limón) para reconectar con el presente"
+        ],
+        duration: "5-10 minutos",
+        research: "Técnicas de grounding validadas para trauma (Universidad de Harvard)"
+      },
+      {
+        title: "Respiración Segura (Trauma-Informed Yoga)", 
+        text: "Patrones de respiración que ayudan a regular el sistema nervioso después de experiencias traumáticas.",
+        icon: "fas fa-wind",
+        steps: [
+          "Acostate boca arriba con las manos sobre el abdomen",
+          "Inhalá profundamente por la nariz durante 4 segundos, sintiendo cómo se expande tu abdomen",
+          "Exhalá lentamente por la boca durante 6 segundos, sintiendo cómo se contrae tu abdomen",
+          "Repetí durante 5-10 minutos",
+          "Imaginá que con cada exhalación liberás tensión y con cada inhalación recibís calma"
+        ],
+        duration: "5-10 minutos",
+        research: "Basado en trauma-informed yoga y prácticas somáticas"
+      },
+      {
+        title: "Ventana de Tolerancia (Terapia Sensoriomotora)", 
+        text: "Aprender a identificar tu 'ventana de tolerancia' emocional y técnicas para regresar a ella cuando estés hiperactivado o hipoactivado.",
+        icon: "fas fa-window-restore",
+        steps: [
+          "Dibujá una ventana en una hoja de papel",
+          "En el centro, escribí 'Zona de Tolerancia' (donde te sentís regulado/a)",
+          "Arriba de la ventana, escribí 'Hiperactivación' (ansiedad, pánico, ira)",
+          "Debajo de la ventana, escribí 'Hipoactivación' (entumecimiento, desconexión, fatiga)",
+          "Identificá tus señales personales de hiperactivación e hipoactivación",
+          "Para hiperactivación: usa técnicas de grounding, respiración profunda, movimiento físico",
+          "Para hipoactivación: usa estimulación sensorial (aromas fuertes, música energética, movimiento)",
+          "Practicá regularmente para reconocer y regular tu estado"
+        ],
+        duration: "15-20 minutos",
+        research: "Basado en Terapia Sensoriomotora y Neurobiología del Trauma (Dr. Dan Siegel)"
+      },
+      {
+        title: "Narrativa Traumática Gradual (Terapia de Procesamiento de Trauma)", 
+        text: "Contar tu historia traumática de manera gradual y controlada para procesarla y reducir su impacto emocional.",
+        icon: "fas fa-book",
+        steps: [
+          "Elegí un entorno seguro y sin interrupciones",
+          "Empezá contando solo los hechos básicos del evento traumático",
+          "En sesiones posteriores, añadí más detalles emocionales y sensoriales",
+          "Permitite sentir las emociones que surgen, pero detenete si te sientes abrumado/a",
+          "Usá técnicas de grounding para volver al presente si es necesario",
+          "Terminá cada sesión con una actividad placentera o calmante",
+          "Considerá hacer esto con un terapeuta si el trauma es severo"
+        ],
+        duration: "20-30 minutos por sesión",
+        research: "Adaptado de Terapia de Procesamiento de Trauma y EMDR"
+      }
+    ],
+    "desesperanza": [
+      {
+        title: "Reestructuración Cognitiva (TCC - Universidad de Pennsylvania)", 
+        text: "Técnica de terapia cognitiva para identificar y desafiar pensamientos negativos automáticos que alimentan la desesperanza. Desarrollada por el Dr. Aaron Beck.",
+        icon: "fas fa-sync-alt",
+        steps: [
+          "Identificá el pensamiento negativo (Ej: 'Nada mejorará nunca')",
+          "Cuestioná su veracidad: ¿Qué evidencia tengo a favor y en contra?",
+          "Buscá interpretaciones alternativas más equilibradas",
+          "Preguntate: '¿Qué le diría a un amigo que tuviera este pensamiento?'",
+          "Formulá un nuevo pensamiento más realista y compasivo"
+        ],
+        duration: "10-15 minutos",
+        research: "Técnica de TCC desarrollada por el Dr. Aaron Beck - Universidad de Pennsylvania"
+      },
+      {
+        title: "Activación Conductual (Universidad de Washington)", 
+        text: "La desesperanza often lleva a la inacción, creando un círculo vicioso. La activación conductual rompe este ciclo.",
+        icon: "fas fa-walking",
+        steps: [
+          "Listá actividades que antes disfrutabas o que te daban sentido",
+          "Empezá con actividades pequeñas y manejables (ej: dar una caminata de 5 minutos)",
+          "Programá estas actividades en tu día",
+          "Reflexioná después: ¿Cómo te sentiste durante y después?",
+          "Aumentá gradualmente la dificultad y variedad de actividades"
+        ],
+        duration: "Variable",
+        research: "Activación conductual para depresión - Universidad de Washington"
+      },
+      {
+        title: "Visualización de Futuros Posibles (Terapia de Aceptación y Compromiso)", 
+        text: "La desesperanza nubla la capacidad de imaginar futuros positivos. Esta técnica ayuda a recuperar esa capacidad.",
+        icon: "fas fa-cloud-sun",
+        steps: [
+          "Imaginá que mientras dormís, ocurre un milagro y tu vida mejora significativamente",
+          "Al despertar, ¿qué indicios notarías de que tu vida mejoró?",
+          "¿Qué estarías haciendo diferente? ¿Cómo te sentirías?",
+          "Identificá una pequeña acción que refleje este futuro mejor",
+          "Realizá esa acción hoy, por pequeña que sea"
+        ],
+        duration: "10-15 minutos",
+        research: "Adaptado de Terapia de Aceptación y Compromiso (ACT)"
+      },
+      {
+        title: "Diario de Pequeñas Victorias", 
+        text: "Registrar logros pequeños y momentos positivos diarios para contrarrestar la tendencia a enfocarse solo en lo negativo.",
+        icon: "fas fa-trophy",
+        steps: [
+          "Cada día, anotá al menos 3 cosas que hiciste bien, por pequeñas que sean",
+          "Incluí momentos en los que te cuidaste o mostraste compasión hacia ti mismo/a",
+          "Anotá cualquier cosa positiva que ocurrió, incluso si no fue por tu acción directa",
+          "Revisá tu diario semanalmente para ver patrones de progreso",
+          "Celebra cada victoria, por pequeña que sea"
+        ],
+        duration: "5-10 minutos diarios",
+        research: "Basado en técnicas de TCC y psicología positiva"
+      },
+      {
+        title: "Técnica del Espectador Compasivo", 
+        text: "Visualizar a un observador compasivo que te ve con bondad y comprensión, ayudando a desarrollar autocompasión.",
+        icon: "fas fa-hands-helping",
+        steps: [
+          "Imaginá a una figura compasiva (puede ser real, ficticia, espiritual o una versión futura de ti mismo/a)",
+          "Visualizá a esta figura observándote con ojos llenos de compasión y comprensión",
+          "Imaginá lo que esta figura diría sobre tu situación actual",
+          "Visualizá cómo esta figura te abraza o te ofrece consuelo",
+          "Permítete recibir esta compasión, incluso si al principio se siente incómodo",
+          "Practicá regularmente para fortalecer tu capacidad de autocompasión"
+        ],
+        duration: "10-15 minutos",
+        research: "Adaptado de Terapia Centrada en la Compasión (Dr. Paul Gilbert)"
+      }
+    ],
+    "estres": [
+      {
+        title: "Relajación Muscular Progressiva (Edmund Jacobson - Harvard)", 
+        text: "Técnica que alterna tensión y relajación de grupos musculares para reducir la tensión física del estrés. Validada por investigación de Harvard.",
+        icon: "fas fa-spa",
+        steps: [
+          "Tensá los músculos de tus pies durante 5 segundos",
+          "Relajalos completamente por 10 segundos, notando la diferencia",
+          "Subí gradualmente por todo tu cuerpo (piernas, glúteos, abdomen, pecho, brazos, manos, cuello, rostro)",
+          "Tensá cada grupo muscular por 5 segundos y relajá por 10",
+          "Terminá con una respiración profunda y scan corporal completo"
+        ],
+        duration: "15-20 minutos",
+        research: "Técnica desarrollada por Edmund Jacobson, validada en Harvard"
+      },
+      {
+        title: "Mindfulness del Body Scan (Universidad de Massachusetts)", 
+        text: "Práctica de atención plena al cuerpo que reduce el estrés y aumenta la conciencia corporal. Del programa MBSR del Dr. Jon Kabat-Zinn.",
+        icon: "fas fa-search",
+        steps: [
+          "Acostate boca arriba en un lugar cómodo",
+          "Llevá tu atención a los dedos de los pies, notando sensaciones",
+          "Mové lentamente tu atención por todo el cuerpo, parte por parte",
+          "Cuando encuentres tensión, respirá hacia esa área",
+          "No intentes cambiar nada, solo observá con curiosidad",
+          "Completá el scan de todo el cuerpo de pies a cabeza"
+        ],
+        duration: "20-30 minutos",
+        research: "Body Scan del programa MBSR - Universidad de Massachusetts"
+      },
+      {
+        title: "Autocuidado Basado en Valores (Terapia de Aceptación y Compromiso)", 
+        text: "Conectar con tus valores profundos te ayuda a elegir acciones de autocuidado significativas y sostenibles.",
+        icon: "fas fa-heart",
+        steps: [
+          "Identificá 3-5 valores importantes para vos (ej: salud, familia, crecimiento, comunidad)",
+          "Preguntate: ¿Cómo podría honrar estos valores en mi autocuidado?",
+          "Planificá una acción pequeña para cada valor esta semana",
+          "Reflexioná: ¿Cómo te sentís al cuidarte de manera alineada con tus valores?",
+          "Ajustá según necesites para mantener la consistencia"
+        ],
+        duration: "15-20 minutos",
+        research: "Basado en Terapia de Aceptación y Compromiso (ACT)"
+      },
+      {
+        title: "Técnica de Contención Emocional (DBT)", 
+        text: "Estrategias para manejar emociones intensas sin actuar impulsivamente, especialmente útil en momentos de estrés agudo.",
+        icon: "fas fa-shield-alt",
+        steps: [
+          "DISTRAER: Haz algo que capture completamente tu atención (juego, película, conversación)",
+          "AUTOCALMAR: Usa tus sentidos para calmarte (baño caliente, música relajante, aromaterapia)",
+          "MEJORAR EL MOMENTO: Imagina un lugar seguro, reza o medita, encuentra el significado en el dolor",
+          "PENSAR EN PROS Y CONTRAS: Considera las consecuencias a corto y largo plazo de actuar impulsivamente vs. resistir el impulso",
+          "COMPARAR RADICALMENTE: Contrasta tu situación actual con situaciones peores para ganar perspectiva"
+        ],
+        duration: "Variable según la técnica elegida",
+        research: "Técnicas de Distress Tolerance de DBT - Universidad de Washington"
+      },
+      {
+        title: "Visualización de Lugar Seguro", 
+        text: "Crear un refugio mental donde puedas retirarte cuando el estrés se vuelva abrumador, proporcionando un sentido de seguridad y calma.",
+        icon: "fas fa-home",
+        steps: [
+          "Cierrá los ojos y respirá profundamente varias veces",
+          "Imaginá un lugar donde te sientas completamente seguro, tranquilo y en paz",
+          "Puede ser real o imaginario, interior o exterior",
+          "Usá todos tus sentidos para enriquecer la visualización: ¿Qué ves? ¿Qué oyes? ¿Qué olores percibes? ¿Qué texturas sientes?",
+          "Permanecé en este lugar el tiempo que necesites",
+          "Cuando estés listo/a, regresá gradualmente a tu entorno actual",
+          "Practicá regularmente para fortalecer este recurso mental"
+        ],
+        duration: "10-15 minutos",
+        research: "Técnica utilizada en terapia de trauma, EMDR y terapia centrada en soluciones"
+      }
+    ],
+    "depresion": [
+      {
+        title: "Activación Conductual (Universidad de Washington)", 
+        text: "La depresión a menudo lleva a la inactividad, lo que empeora los síntomas. Esta técnica rompe el ciclo mediante la programación gradual de actividades.",
+        icon: "fas fa-calendar-check",
+        steps: [
+          "Monitoreá tus actividades y estado de ánimo durante una semana para identificar patrones",
+          "Listá actividades que antes disfrutabas o que te daban sentido",
+          "Empezá con actividades pequeñas y manejables (ej: ducharte, salir a caminar 5 minutos)",
+          "Programá estas actividades en tu calendario como citas importantes",
+          "Cumplí con las actividades independientemente de cómo te sientas",
+          "Reflexioná después: ¿Cómo te sentiste durante y después?",
+          "Aumentá gradualmente la dificultad y variedad de actividades"
+        ],
+        duration: "Variable",
+        research: "Activación conductual para depresión - Universidad de Washington"
+      },
+      {
+        title: "Reestructuración Cognitiva (TCC - Universidad de Pennsylvania)", 
+        text: "Identificar y desafiar pensamientos negativos automáticos que mantienen la depresión. Desarrollada por el Dr. Aaron Beck.",
+        icon: "fas fa-brain",
+        steps: [
+          "Identificá pensamientos negativos recurrentes (Ej: 'Soy inútil', 'Nada vale la pena')",
+          "Examiná la evidencia a favor y en contra de estos pensamientos",
+          "Buscá interpretaciones alternativas más equilibradas y realistas",
+          "Preguntate: '¿Qué le diría a un amigo que tuviera este pensamiento?'",
+          "Desarrollá pensamientos más compasivos y realistas",
+          "Practicá regularmente hasta que los nuevos pensamientos se vuelvan automáticos"
+        ],
+        duration: "15-20 minutos",
+        research: "Técnica de TCC desarrollada por el Dr. Aaron Beck - Universidad de Pennsylvania"
+      },
+      {
+        title: "Diario de Gratitud y Logros", 
+        text: "Contrarrestar la tendencia depresiva a enfocarse en lo negativo mediante el registro diario de cosas positivas y logros.",
+        icon: "fas fa-star",
+        steps: [
+          "Cada noche, anotá 3 cosas por las que estés agradecido/a ese día",
+          "Anotá 3 cosas que hiciste bien, por pequeñas que sean",
+          "Incluí momentos en los que te cuidaste o mostraste compasión hacia ti mismo/a",
+          "Revisá tu diario semanalmente para ver patrones positivos",
+          "Celebra cada logro y momento de gratitud"
+        ],
+        duration: "10 minutos diarios",
+        research: "Basado en psicología positiva y TCC"
+      },
+      {
+        title: "Técnica de la Silla Vacía (Terapia Gestalt)", 
+        text: "Dialogar con diferentes partes de ti mismo/a o con figuras significativas para procesar emociones no resueltas que contribuyen a la depresión.",
+        icon: "fas fa-chair",
+        steps: [
+          "Colocá dos sillas frente a frente",
+          "Siéntate en una silla representando tu yo actual",
+          "Imaginá que en la otra silla está otra parte de ti (ej: tu yo crítico, tu yo vulnerable) o una figura significativa",
+          "Habla con esta parte/figura expresando lo que necesitas decir",
+          "Cambia de silla y responde desde la perspectiva de la otra parte/figura",
+          "Continuá el diálogo hasta que sientas cierto cierre o comprensión",
+          "Terminá con una afirmación de autocompasión"
+        ],
+        duration: "20-30 minutos",
+        research: "Técnica de Terapia Gestalt"
+      },
+      {
+        title: "Compromiso con Valores (Terapia de Aceptación y Compromiso)", 
+        text: "Conectar con tus valores profundos y comprometerte con acciones alineadas con ellos, incluso cuando te sientas deprimido/a.",
+        icon: "fas fa-compass",
+        steps: [
+          "Identificá tus valores fundamentales en diferentes áreas (relaciones, trabajo, salud, crecimiento personal, etc.)",
+          "Preguntate: '¿Qué tipo de persona quiero ser en esta área de mi vida?'",
+          "Elige una acción pequeña y concreta que puedas hacer hoy para vivir según ese valor",
+          "Haz esa acción independientemente de cómo te sientas",
+          "Reflexioná: ¿Cómo te sentiste al actuar según tus valores?",
+          "Repite diariamente con diferentes valores"
+        ],
+        duration: "15-20 minutos",
+        research: "Basado en Terapia de Aceptación y Compromiso (ACT)"
+      }
+    ],
+    "toc": [
+      {
+        title: "Exposición con Prevención de Respuesta (TCC - Universidad de Pennsylvania)", 
+        text: "Técnica gold standard para TOC: exponerse gradualmente a los desencadenantes de obsesiones sin realizar las compulsiones.",
+        icon: "fas fa-shield-virus",
+        steps: [
+          "Identificá tus obsesiones y compulsiones principales",
+          "Creá una jerarquía de miedos (situaciones que desencadenan obsesiones, de menor a mayor ansiedad)",
+          "Exponte a la situación menos ansiosa sin realizar la compulsión",
+          "Permanecé en la situación hasta que tu ansiedad disminuya significativamente (al menos 50%)",
+          "Repetí la exposición hasta que ya no genere ansiedad",
+          "Pasá a la siguiente situación en tu jerarquía",
+          "Practicá regularmente para consolidar los avances"
+        ],
+        duration: "30-60 minutos por sesión",
+        research: "Técnica de TCC validada para TOC - Universidad de Pennsylvania"
+      },
+      {
+        title: "Reestructuración Cognitiva para TOC", 
+        text: "Desafiar las creencias subyacentes que alimentan las obsesiones y compulsiones.",
+        icon: "fas fa-brain",
+        steps: [
+          "Identificá las creencias subyacentes a tus obsesiones (Ej: 'Si no verifico la puerta 10 veces, algo terrible ocurrirá')",
+          "Examiná la evidencia a favor y en contra de estas creencias",
+          "Calculá la probabilidad real de que ocurra lo que temes",
+          "Considerá las consecuencias de tus compulsiones (¿Qué te cuestan en tiempo, energía, calidad de vida?)",
+          "Desarrollá creencias más realistas y equilibradas",
+          "Practicá regularmente, especialmente antes de las exposiciones"
+        ],
+        duration: "20-30 minutos",
+        research: "Adaptado de TCC para TOC"
+      },
+      {
+        title: "Mindfulness para Pensamientos Intrusivos", 
+        text: "Aprender a observar los pensamientos obsesivos sin juzgarlos ni intentar eliminarlos, reduciendo su poder.",
+        icon: "fas fa-leaf",
+        steps: [
+          "Cuando surja un pensamiento obsesivo, reconocelo: 'Ah, ahí está ese pensamiento otra vez'",
+          "Imaginá los pensamientos como hojas flotando en un río, o nubes pasando en el cielo",
+          "No intentes empujarlos lejos ni analizarlos",
+          "Simplemente obsérvalos venir y irse",
+          "Volvé suavemente tu atención a tu respiración o a tu actividad actual",
+          "Practicá regularmente, especialmente cuando los pensamientos son menos intensos"
+        ],
+        duration: "10-15 minutos",
+        research: "Basado en Terapia de Aceptación y Compromiso (ACT) y Mindfulness"
+      },
+      {
+        title: "Retraso de la Compulsión", 
+        text: "Técnica de reducción gradual de compulsiones mediante el retraso progresivo de su realización.",
+        icon: "fas fa-clock",
+        steps: [
+          "Cuando sientas el impulso de realizar una compulsión, decidí retrasarla por un tiempo específico (empezá con 5-10 minutos)",
+          "Durante el retraso, usá técnicas de distracción o mindfulness",
+          "Cuando termine el tiempo, evaluá si aún necesitás realizar la compulsión",
+          "Si la realizás, anotá cuánto alivio proporcionó y por cuánto tiempo",
+          "Gradualmente aumentá el tiempo de retraso (15 min, 30 min, 1 hora, etc.)",
+          "Celebrá cada vez que logres retrasar o evitar una compulsión"
+        ],
+        duration: "Variable",
+        research: "Técnica de modificación de conducta para TOC"
+      },
+      {
+        title: "Técnica de la Cinta de Correr Mental", 
+        text: "Ejercicio para reducir la importancia asignada a los pensamientos obsesivos mediante la repetición hasta el aburrimiento.",
+        icon: "fas fa-running",
+        steps: [
+          "Identificá tu pensamiento obsesivo más perturbador",
+          "Grabalo en tu teléfono o escríbelo en una tarjeta",
+          "Repetí el pensamiento en voz alta o en tu mente durante 15-20 minutos",
+          "Hacelo de manera monótona, sin emoción, como un robot",
+          "Continuá incluso si te aburrís o el pensamiento pierde su impacto emocional",
+          "Repetí diariamente hasta que el pensamiento pierda su poder perturbador"
+        ],
+        duration: "15-20 minutos diarios",
+        research: "Técnica basada en la habituación y la terapia cognitiva"
+      }
+    ],
+    "panico": [
+      {
+        title: "Reestructuración Cognitiva de Catastrofización", 
+        text: "Desafiar la interpretación catastrófica de las sensaciones corporales que caracteriza los ataques de pánico.",
+        icon: "fas fa-brain",
+        steps: [
+          "Identificá las sensaciones corporales que te asustan durante un ataque de pánico",
+          "Anotá tus interpretaciones catastróficas de estas sensaciones (Ej: 'Me voy a morir', 'Voy a enloquecer')",
+          "Buscá explicaciones alternativas más realistas (Ej: 'Es solo ansiedad, no es peligroso', 'Estas sensaciones son desagradables pero no dañinas')",
+          "Reuní evidencia de que has tenido estas sensaciones antes y no ha ocurrido lo que temías",
+          "Desarrollá afirmaciones realistas para repetir cuando surjan las sensaciones ('Esto es incómodo pero pasará', 'Mi cuerpo está reaccionando al estrés, no al peligro')",
+          "Practicá regularmente, especialmente cuando no estás en crisis"
+        ],
+        duration: "20-30 minutos",
+        research: "Técnica de TCC para trastorno de pánico"
+      },
+      {
+        title: "Exposición Interoceptiva", 
+        text: "Exponerte deliberadamente a las sensaciones corporales temidas para aprender que no son peligrosas.",
+        icon: "fas fa-heartbeat",
+        steps: [
+          "Identificá las sensaciones corporales que más miedo te causan (mareo, palpitaciones, falta de aire, etc.)",
+          "Elige ejercicios que produzcan esas sensaciones de manera segura (girar en silla para mareo, correr en lugar para palpitaciones, respirar por pajita para falta de aire)",
+          "Realizá el ejercicio durante 1-2 minutos",
+          "Permanecé con la sensación sin escapar, observándola con curiosidad",
+          "Notá cómo la sensación alcanza un pico y luego disminuye naturalmente",
+          "Repetí hasta que la sensación ya no genere miedo",
+          "Pasá a la siguiente sensación en tu lista"
+        ],
+        duration: "20-30 minutos por sesión",
+        research: "Técnica de TCC validada para trastorno de pánico"
+      },
+      {
+        title: "Respiración Diafragmática Controlada", 
+        text: "Aprender a respirar desde el diafragma en lugar del pecho para reducir la hiperventilación y las sensaciones de pánico.",
+        icon: "fas fa-wind",
+        steps: [
+          "Acostate boca arriba con una mano en el pecho y otra en el abdomen",
+          "Inhalá lentamente por la nariz, permitiendo que tu abdomen se eleve (la mano en el pecho debe moverse poco)",
+          "Exhalá lentamente por la boca, permitiendo que tu abdomen baje",
+          "Mantené un ritmo de 6-8 respiraciones por minuto (inhalar 4 segundos, exhalar 6 segundos)",
+          "Practicá 10-15 minutos diarios hasta que se vuelva automático",
+          "Usá esta respiración cuando sientas que un ataque de pánico se aproxima"
+        ],
+        duration: "10-15 minutos diarios",
+        research: "Técnica de manejo de ansiedad validada"
+      },
+      {
+        title: "Técnica de Anclaje en el Presente", 
+        text: "Técnicas para reconectar con el entorno actual cuando sientes que un ataque de pánico se aproxima.",
+        icon: "fas fa-anchor",
+        steps: [
+          "MIRAR: Identificá 5 cosas que puedes ver a tu alrededor, descríbelas en detalle",
+          "TOCAR: Identificá 4 cosas que puedes tocar, enfócate en sus texturas y temperaturas",
+          "OÍR: Identificá 3 sonidos que puedes oír, descríbelos",
+          "OLER: Identificá 2 aromas que puedes oler (o recuerda aromas agradables)",
+          "SABOREAR: Identificá 1 cosa que puedes saborear (o mueve la lengua por tu boca)",
+          "Respirá profundamente entre cada paso",
+          "Repetí si es necesario hasta sentirte más conectado/a con el presente"
+        ],
+        duration: "3-5 minutos",
+        research: "Técnica de grounding para ansiedad y pánico"
+      },
+      {
+        title: "Registro de Ataques de Pánico", 
+        text: "Monitorear tus ataques de pánico para identificar patrones, desencadenantes y progreso en el tratamiento.",
+        icon: "fas fa-clipboard-list",
+        steps: [
+          "Cada vez que tengas un ataque de pánico, registrá la fecha y hora",
+          "Anotá dónde estabas y qué estabas haciendo",
+          "Identificá qué pensamientos tuviste antes y durante el ataque",
+          "Registra las sensaciones corporales que experimentaste y su intensidad (1-10)",
+          "Anotá qué estrategias usaste para manejarlo y qué tan efectivas fueron",
+          "Registra cuánto duró el ataque y cómo te sentiste después",
+          "Revisa tu registro semanalmente para identificar patrones y progreso"
+        ],
+        duration: "5-10 minutos por ataque",
+        research: "Técnica de auto-monitoreo en TCC para trastorno de pánico"
+      }
+    ]
+  };
+  // Mostrar técnicas
+  function showCrisisTechniques(crisis) {
+    currentCrisis = crisis;
+    currentTechniqueIndex = 0;
+    updateProgressBar();
+    renderTechnique();
+    document.getElementById("prevBtn").disabled = true;
+    document.getElementById("nextBtn").disabled = !crisisTechniques[currentCrisis] || crisisTechniques[currentCrisis].length <= 1;
+  }
+  function renderTechnique() {
+    const container = document.getElementById("technique-content");
+    if (!currentCrisis || !crisisTechniques[currentCrisis]) return;
+    const technique = crisisTechniques[currentCrisis][currentTechniqueIndex];
+    let stepsHTML = '';
+    if (technique.steps) {
+      stepsHTML = '<div class="technique-steps">';
+      technique.steps.forEach((step, index) => {
+        stepsHTML += `
+          <div class="technique-step">
+            <strong>Paso ${index + 1}:</strong> ${step}
+          </div>
+        `;
+      });
+      stepsHTML += '</div>';
     }
-    function removeWriting(){
-      const writing = chatbotMessages.querySelector('.writing-msg');
-      if(writing) writing.remove();
+    let researchHTML = '';
+    if (technique.research) {
+      researchHTML = `
+        <div class="technique-resources">
+          <p><i class="fas fa-graduation-cap"></i> <strong>Base científica:</strong> ${technique.research}</p>
+        </div>
+      `;
     }
-  </script>
+    container.innerHTML = `
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="${technique.icon}"></i>
+        </div>
+        <div>
+          <h3>${technique.title}</h3>
+          <p><i class="fas fa-clock"></i> Duración recomendada: ${technique.duration}</p>
+        </div>
+      </div>
+      <p>${technique.text}</p>
+      ${stepsHTML}
+      ${researchHTML}
+    `;
+    // Actualizar estado de botones
+    document.getElementById("prevBtn").disabled = currentTechniqueIndex === 0;
+    document.getElementById("nextBtn").disabled = currentTechniqueIndex === crisisTechniques[currentCrisis].length - 1;
+  }
+  function nextTechnique() {
+    if (!currentCrisis || !crisisTechniques[currentCrisis]) return;
+    if (currentTechniqueIndex < crisisTechniques[currentCrisis].length - 1) {
+      currentTechniqueIndex++;
+      updateProgressBar();
+      renderTechnique();
+    }
+  }
+  function prevTechnique() {
+    if (!currentCrisis || !crisisTechniques[currentCrisis]) return;
+    if (currentTechniqueIndex > 0) {
+      currentTechniqueIndex--;
+      updateProgressBar();
+      renderTechnique();
+    }
+  }
+  function updateProgressBar() {
+    if (!currentCrisis || !crisisTechniques[currentCrisis]) return;
+    const progress = ((currentTechniqueIndex + 1) / crisisTechniques[currentCrisis].length) * 100;
+    document.getElementById("technique-progress").style.width = `${progress}%`;
+  }
+  // Temporizador de respiración
+  function toggleBreathing() {
+    const playIcon = document.getElementById('breath-play-icon');
+    const circle = document.getElementById('breath-circle');
+    if (playIcon.classList.contains('fa-play')) {
+      // Iniciar respiración
+      playIcon.classList.remove('fa-play');
+      playIcon.classList.add('fa-pause');
+      circle.classList.remove('hidden');
+      let seconds = 300; // 5 minutos
+      let phase = 'inhalar';
+      let phaseCount = 0;
+      breathingInterval = setInterval(() => {
+        seconds--;
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        document.getElementById('breath-timer').textContent = 
+          `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        // Cambiar fases de respiración cada 4 segundos
+        if (phaseCount % 4 === 0) {
+          if (phase === 'inhalar') {
+            phase = 'mantener';
+            circle.textContent = 'Mantener';
+          } else if (phase === 'mantener') {
+            phase = 'exhalar';
+            circle.textContent = 'Exhalar';
+          } else {
+            phase = 'inhalar';
+            circle.textContent = 'Inhalar';
+          }
+        }
+        phaseCount++;
+        if (seconds <= 0) {
+          clearInterval(breathingInterval);
+          playIcon.classList.remove('fa-pause');
+          playIcon.classList.add('fa-play');
+          circle.classList.add('hidden');
+          document.getElementById('breath-timer').textContent = '05:00';
+        }
+      }, 1000);
+    } else {
+      // Pausar respiración
+      playIcon.classList.remove('fa-pause');
+      playIcon.classList.add('fa-play');
+      clearInterval(breathingInterval);
+    }
+  }
+  // Temporizador de body scan
+  function toggleBodyScan() {
+    const playIcon = document.getElementById('bodyscan-play-icon');
+    if (playIcon.classList.contains('fa-play')) {
+      playIcon.classList.remove('fa-play');
+      playIcon.classList.add('fa-pause');
+      let seconds = 600; // 10 minutos
+      bodyScanInterval = setInterval(() => {
+        seconds--;
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        document.getElementById('bodyscan-timer').textContent = 
+          `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        if (seconds <= 0) {
+          clearInterval(bodyScanInterval);
+          playIcon.classList.remove('fa-pause');
+          playIcon.classList.add('fa-play');
+          document.getElementById('bodyscan-timer').textContent = '10:00';
+          alert('Meditación de body scan completada. ¿Cómo te sentís?');
+        }
+      }, 1000);
+    } else {
+      playIcon.classList.remove('fa-pause');
+      playIcon.classList.add('fa-play');
+      clearInterval(bodyScanInterval);
+    }
+  }
+  // Temporizador de mindfulness
+  function toggleMindfulness() {
+    const playIcon = document.getElementById('mindfulness-play-icon');
+    if (playIcon.classList.contains('fa-play')) {
+      playIcon.classList.remove('fa-play');
+      playIcon.classList.add('fa-pause');
+      let seconds = 480; // 8 minutos
+      mindfulnessInterval = setInterval(() => {
+        seconds--;
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        document.getElementById('mindfulness-timer').textContent = 
+          `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        if (seconds <= 0) {
+          clearInterval(mindfulnessInterval);
+          playIcon.classList.remove('fa-pause');
+          playIcon.classList.add('fa-play');
+          document.getElementById('mindfulness-timer').textContent = '08:00';
+          alert('Meditación de mindfulness completada. Esperamos que te sientas más presente y centrado.');
+        }
+      }, 1000);
+    } else {
+      playIcon.classList.remove('fa-pause');
+      playIcon.classList.add('fa-play');
+      clearInterval(mindfulnessInterval);
+    }
+  }
+  // Diario personal
+  function saveJournalEntry() {
+    const entryText = document.getElementById('journalEntry').value.trim();
+    if (!entryText) {
+      alert('Por favor, escribí algo antes de guardar.');
+      return;
+    }
+    const entry = {
+      date: new Date().toLocaleString('es-AR'),
+      content: entryText
+    };
+    let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    journalEntries.push(entry);
+    localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+    document.getElementById('journalEntry').value = '';
+    loadJournalEntries();
+    alert('Entrada guardada correctamente.');
+    updateProgressStats();
+  }
+  function loadJournalEntries() {
+    const journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    const entriesContainer = document.getElementById('journal-entries');
+    if (journalEntries.length === 0) {
+      entriesContainer.innerHTML = `
+        <div class="empty-journal">
+          <i class="fas fa-book-open"></i>
+          <p>No tenés entradas en tu diario todavía.</p>
+        </div>
+      `;
+      return;
+    }
+    entriesContainer.innerHTML = journalEntries.map((entry, index) => `
+      <div class="journal-entry">
+        <div class="journal-date">${entry.date}</div>
+        <div class="journal-content">${entry.content}</div>
+        <div class="journal-actions">
+          <button class="btn-secondary" onclick="deleteJournalEntry(${index})"><i class="fas fa-trash"></i> Eliminar</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  function deleteJournalEntry(index) {
+    let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    journalEntries.splice(index, 1);
+    localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+    loadJournalEntries();
+    updateProgressStats();
+  }
+  function downloadJournal() {
+    const journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    if (journalEntries.length === 0) {
+      alert('No hay entradas para descargar.');
+      return;
+    }
+    let content = 'Mi Diario - Serenamente\n';
+    journalEntries.forEach(entry => {
+      content += `Fecha: ${entry.date}\n`;
+      content += `Contenido: ${entry.content}\n\n`;
+    });
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `mi-diario-serenamente-${new Date().toISOString().slice(0, 10)}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+  // Actividades de bienestar
+  function startActivity(activityType) {
+    switch(activityType) {
+      case 'gratitude':
+        const gratitudeText = prompt("Escribí tres cosas por las que estés agradecido hoy:");
+        if (gratitudeText) {
+          saveJournalEntryWithPrefix("Diario de Gratitud: " + gratitudeText);
+          habits.gratitude++;
+          saveToStorage();
+          updateHabitCounts();
+          alert("¡Excelente! Practicar gratitud regularmente puede cambiar tu perspectiva. Se ha guardado en tu diario.");
+        }
+        break;
+      case 'pleasure':
+        const pleasureText = prompt("Planificá 2-3 actividades placenteras para los próximos días. Podrían ser cosas simples como leer, caminar, o llamar a un amigo:");
+        if (pleasureText) {
+          saveJournalEntryWithPrefix("Actividades Placenteras: " + pleasureText);
+          alert("¡Perfecto! Programar actividades placenteras es clave para el bienestar. Se ha guardado en tu diario.");
+        }
+        break;
+      case 'cognitive':
+        nextStep('activities-section', 'thought-record-section');
+        break;
+    }
+  }
+  function saveJournalEntryWithPrefix(text) {
+    const entry = {
+      date: new Date().toLocaleString('es-AR'),
+      content: text
+    };
+    let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    journalEntries.push(entry);
+    localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+    loadJournalEntries();
+    updateProgressStats();
+  }
+  // Registro de pensamientos
+  function saveThoughtRecord() {
+    const situation = document.getElementById('situation').value.trim();
+    const emotion = document.getElementById('emotion').value.trim();
+    const automaticThought = document.getElementById('automaticThought').value.trim();
+    if (!situation || !emotion || !automaticThought) {
+      alert('Por favor, completá al menos la situación, emoción y pensamiento automático.');
+      return;
+    }
+    const thoughtRecord = {
+      situation: situation,
+      emotion: emotion,
+      automaticThought: automaticThought,
+      evidenceFor: document.getElementById('evidenceFor').value.trim(),
+      evidenceAgainst: document.getElementById('evidenceAgainst').value.trim(),
+      balancedThought: document.getElementById('balancedThought').value.trim(),
+      date: new Date().toLocaleString('es-AR')
+    };
+    // Guardar en el diario
+    const journalEntry = {
+      date: thoughtRecord.date,
+      content: `REGISTRO DE PENSAMIENTOS\nSituación: ${thoughtRecord.situation}\nEmoción: ${thoughtRecord.emotion}\nPensamiento automático: ${thoughtRecord.automaticThought}\nEvidencia a favor: ${thoughtRecord.evidenceFor}\nEvidencia en contra: ${thoughtRecord.evidenceAgainst}\nPensamiento equilibrado: ${thoughtRecord.balancedThought}`
+    };
+    let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    journalEntries.push(journalEntry);
+    localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+    // Limpiar formulario
+    document.getElementById('situation').value = '';
+    document.getElementById('emotion').value = '';
+    document.getElementById('automaticThought').value = '';
+    document.getElementById('evidenceFor').value = '';
+    document.getElementById('evidenceAgainst').value = '';
+    document.getElementById('balancedThought').value = '';
+    loadJournalEntries();
+    alert('Registro de pensamientos guardado en tu diario.');
+    nextStep('thought-record-section', 'activities-section');
+  }
+  // Registro de hábitos
+  function recordHabit(habit) {
+    habits[habit]++;
+    saveToStorage();
+    updateHabitCounts();
+    alert(`¡Excelente! Has registrado tu actividad de ${habit}.`);
+  }
+  function updateHabitCounts() {
+    document.getElementById('exercise-count').textContent = habits.exercise;
+    document.getElementById('meditation-count').textContent = habits.meditation;
+    document.getElementById('nature-count').textContent = habits.nature;
+    document.getElementById('gratitude-count').textContent = habits.gratitude;
+  }
+  // Gestión de metas
+  function addGoal() {
+    const goalText = document.getElementById('goalInput').value.trim();
+    if (!goalText) {
+      alert('Por favor, escribí una meta antes de agregarla.');
+      return;
+    }
+    const newGoal = {
+      id: Date.now(),
+      text: goalText,
+      completed: false,
+      createdAt: new Date().toISOString()
+    };
+    goals.push(newGoal);
+    saveToStorage();
+    renderGoals();
+    document.getElementById('goalInput').value = '';
+    alert('Meta agregada correctamente.');
+  }
+  function toggleGoal(id) {
+    goals = goals.map(goal => {
+      if (goal.id === id) {
+        return { ...goal, completed: !goal.completed };
+      }
+      return goal;
+    });
+    saveToStorage();
+    renderGoals();
+  }
+  function deleteGoal(id) {
+    goals = goals.filter(goal => goal.id !== id);
+    saveToStorage();
+    renderGoals();
+  }
+  function renderGoals() {
+    const goalsList = document.getElementById('goals-list');
+    if (goals.length === 0) {
+      goalsList.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">No tenés metas establecidas todavía.</p>';
+      return;
+    }
+    goalsList.innerHTML = goals.map(goal => `
+      <div class="goal-item">
+        <div class="goal-text ${goal.completed ? 'goal-completed' : ''}">
+          ${goal.text}
+        </div>
+        <div class="goal-actions">
+          <button onclick="toggleGoal(${goal.id})" class="btn-secondary">
+            <i class="fas ${goal.completed ? 'fa-undo' : 'fa-check'}"></i>
+          </button>
+          <button onclick="deleteGoal(${goal.id})" class="btn-secondary">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+  // Análisis de nivel de riesgo
+  function analyzeRiskLevel() {
+    if (moodHistory.length === 0) return;
+    const recentEntries = moodHistory.slice(-7); // Last 7 entries
+    const suicidalEntries = recentEntries.filter(entry => entry.mood === 'suicida').length;
+    const severeMoodEntries = recentEntries.filter(entry => 
+      ['suicida', 'trauma', 'desesperanza'].includes(entry.mood)
+    ).length;
+    const riskIndicator = document.getElementById('risk-indicator');
+    riskIndicator.classList.remove('hidden', 'risk-low', 'risk-medium', 'risk-high', 'risk-critical');
+    if (suicidalEntries > 0) {
+      riskIndicator.classList.add('risk-critical');
+      riskIndicator.innerHTML = `
+        <i class="fas fa-skull-crossbones risk-icon"></i>
+        <div>
+          <h3 class="font-bold text-red-800 dark:text-red-300">Nivel de Riesgo: Crítico</h3>
+          <p class="text-red-700 dark:text-red-300">Por favor, contactá inmediatamente con servicios de emergencia o líneas de crisis.</p>
+          <p class="font-bold text-red-800 dark:text-red-300 mt-2">0800 345 1435 - Centro de Asistencia al Suicida</p>
+        </div>
+      `;
+    } else if (severeMoodEntries >= 3) {
+      riskIndicator.classList.add('risk-high');
+      riskIndicator.innerHTML = `
+        <i class="fas fa-exclamation-circle risk-icon"></i>
+        <div>
+          <h3 class="font-bold text-orange-800 dark:text-orange-300">Nivel de Riesgo: Alto</h3>
+          <p class="text-orange-700 dark:text-orange-300">Te recomendamos contactar con un profesional de salud mental lo antes posible.</p>
+        </div>
+      `;
+    } else if (severeMoodEntries >= 1) {
+      riskIndicator.classList.add('risk-medium');
+      riskIndicator.innerHTML = `
+        <i class="fas fa-exclamation-triangle risk-icon"></i>
+        <div>
+          <h3 class="font-bold text-yellow-800 dark:text-yellow-300">Nivel de Riesgo: Medio</h3>
+          <p class="text-yellow-700 dark:text-yellow-300">Considerá buscar apoyo profesional para manejar mejor tus síntomas.</p>
+        </div>
+      `;
+    } else {
+      riskIndicator.classList.add('risk-low');
+      riskIndicator.innerHTML = `
+        <i class="fas fa-check-circle risk-icon"></i>
+        <div>
+          <h3 class="font-bold text-green-800 dark:text-green-300">Nivel de Riesgo: Bajo</h3>
+          <p class="text-green-700 dark:text-green-300">Continuá con tus prácticas de autocuidado.</p>
+        </div>
+      `;
+    }
+  }
+  // Generar gráfico de ánimo
+  function generateMoodChart() {
+    if (moodHistory.length === 0) return;
+    const chartContainer = document.getElementById('mood-chart');
+    chartContainer.innerHTML = '';
+    const recentEntries = moodHistory.slice(-7);
+    const moodColors = {
+      'suicida': '#ef4444',
+      'desesperanza': '#f97316',
+      'trauma': '#9333ea',
+      'ansiedad': '#f59e0b',
+      'estres': '#3b82f6',
+      'duelo': '#6b7280',
+      'depresion': '#8b5cf6',
+      'toc': '#ec4899',
+      'panico': '#10b981'
+    };
+    recentEntries.forEach((entry, index) => {
+      const date = new Date(entry.date);
+      const day = date.getDate();
+      const height = Math.random() * 80 + 20; // Random height between 20% and 100%
+      const mood = entry.mood;
+      const bar = document.createElement('div');
+      bar.className = 'chart-bar';
+      bar.style.height = `${height}%`;
+      bar.style.backgroundColor = moodColors[mood] || '#3b82f6';
+      const label = document.createElement('div');
+      label.className = 'chart-label';
+      label.textContent = `${day}`;
+      bar.appendChild(label);
+      chartContainer.appendChild(bar);
+    });
+  }
+  // Actualizar estadísticas de progreso
+  function updateProgressStats() {
+    const journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    document.getElementById('entries-count').textContent = journalEntries.length;
+    // Días registrados
+    const firstEntryDate = localStorage.getItem('firstEntryDate');
+    if (firstEntryDate) {
+      const firstDate = new Date(firstEntryDate);
+      const today = new Date();
+      const diffTime = Math.abs(today - firstDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      document.getElementById('days-tracked').textContent = diffDays;
+    }
+    // Técnicas probadas
+    if (currentCrisis && crisisTechniques[currentCrisis]) {
+      document.getElementById('techniques-tried').textContent = currentTechniqueIndex + 1;
+    }
+  }
+  // Guardar y cargar datos
+  function saveToStorage() {
+    localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+    localStorage.setItem('habits', JSON.stringify(habits));
+    localStorage.setItem('goals', JSON.stringify(goals));
+  }
+  function loadFromStorage() {
+    // Cargar historial de ánimo
+    const savedMoodHistory = localStorage.getItem('moodHistory');
+    if (savedMoodHistory) {
+      moodHistory = JSON.parse(savedMoodHistory);
+      analyzeRiskLevel();
+    }
+    // Cargar hábitos
+    const savedHabits = localStorage.getItem('habits');
+    if (savedHabits) {
+      habits = JSON.parse(savedHabits);
+      updateHabitCounts();
+    }
+    // Cargar metas
+    const savedGoals = localStorage.getItem('goals');
+    if (savedGoals) {
+      goals = JSON.parse(savedGoals);
+      renderGoals();
+    }
+    // Cargar entradas de diario
+    loadJournalEntries();
+  }
+  // Inicializar
+  document.addEventListener('DOMContentLoaded', function() {
+    loadFromStorage();
+    updateProgressStats();
+    generateMoodChart();
+    updateHabitCounts();
+    renderGoals();
+    analyzeRiskLevel();
+    // Configurar modo oscuro
+    document.getElementById('darkModeToggle').addEventListener('change', function(){
+      document.body.classList.toggle('dark-mode');
+    });
+    // Configurar consentimiento
+    document.getElementById('consentCheck').addEventListener('change', function(){
+      document.getElementById('consentBtn').disabled = !this.checked;
+    });
+  });
+</script>
 </body>
 </html>
+```
