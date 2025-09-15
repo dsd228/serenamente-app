@@ -1029,6 +1029,182 @@
       height: 150px;
     }
   }
+  
+  /* Estilos para el Chatbot Terapéutico */
+  .chatbot-container {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+  }
+  .dark-mode .chatbot-container {
+    background: #334155;
+  }
+  .chatbot-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f8fafc;
+  }
+  .dark-mode .chatbot-messages {
+    background: #1e293b;
+  }
+  .chatbot-message {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    animation: fadeInUp 0.3s ease;
+  }
+  .chatbot-message.bot {
+    background: var(--primary);
+    color: white;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .chatbot-message.user {
+    background: #e2e8f0;
+    color: var(--dark);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .dark-mode .chatbot-message.user {
+    background: #475569;
+    color: #f1f5f9;
+  }
+  .chatbot-input-area {
+    border-top: 1px solid #e2e8f0;
+    padding: 20px;
+    background: white;
+  }
+  .dark-mode .chatbot-input-area {
+    border-top-color: #475569;
+    background: #334155;
+  }
+  .chatbot-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .chatbot-option {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 25px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.9rem;
+  }
+  .dark-mode .chatbot-option {
+    background: #475569;
+    border-color: #64748b;
+    color: #f1f5f9;
+  }
+  .chatbot-option:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  .chatbot-text-input {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .chatbot-text-input input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 25px;
+    outline: none;
+    font-size: 0.9rem;
+  }
+  .dark-mode .chatbot-text-input input {
+    background: #475569;
+    border-color: #64748b;
+    color: #f1f5f9;
+  }
+  .chatbot-text-input button {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .chatbot-text-input button:hover {
+    transform: scale(1.1);
+  }
+  .chatbot-progress {
+    padding: 15px 20px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+  }
+  .dark-mode .chatbot-progress {
+    background: #1e293b;
+    border-top-color: #475569;
+  }
+  .progress-text {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 8px;
+  }
+  .dark-mode .progress-text {
+    color: #94a3b8;
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 16px;
+    background: var(--primary);
+    color: white;
+    border-radius: 18px;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    max-width: 70px;
+  }
+  .typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: typingAnimation 1.4s infinite ease-in-out;
+  }
+  .typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+  @keyframes typingAnimation {
+    0%, 60%, 100% {
+      opacity: 0.3;
+    }
+    30% {
+      opacity: 1;
+    }
+  }
 </style>
 </head>
 <body class="theme-default">
@@ -1499,12 +1675,33 @@
       <h3>Actividades Placenteras</h3>
       <p>Planifica actividades que disfrutes para los próximos días</p>
     </div>
-    <div class="activity-card" onclick="startActivity('cognitive')">
+    <div class="activity-card" onclick="startChatbotTherapy('tcc')">
       <div class="activity-icon">
         <i class="fas fa-brain"></i>
       </div>
-      <h3>Registro de Pensamientos</h3>
-      <p>Identifica y desafía pensamientos negativos automáticos</p>
+      <h3>Chatbot TCC</h3>
+      <p>Conversa interactivamente para identificar y reestructurar pensamientos</p>
+    </div>
+    <div class="activity-card" onclick="startChatbotTherapy('mindfulness')">
+      <div class="activity-icon">
+        <i class="fas fa-leaf"></i>
+      </div>
+      <h3>Chatbot Mindfulness</h3>
+      <p>Ejercicios guiados de atención plena y meditación</p>
+    </div>
+    <div class="activity-card" onclick="startChatbotTherapy('act')">
+      <div class="activity-icon">
+        <i class="fas fa-heart"></i>
+      </div>
+      <h3>Chatbot ACT</h3>
+      <p>Terapia de Aceptación y Compromiso interactiva</p>
+    </div>
+    <div class="activity-card" onclick="startChatbotTherapy('musicoterapia')">
+      <div class="activity-icon">
+        <i class="fas fa-music"></i>
+      </div>
+      <h3>Chatbot Musicoterapia</h3>
+      <p>Recomendaciones personalizadas de música terapéutica</p>
     </div>
     <div class="activity-card" onclick="nextStep('activities-section','thought-record-section')">
       <div class="activity-icon">
@@ -1564,6 +1761,43 @@
       </div>
     </div>
   </section>
+
+  <!-- Chatbot Terapéutico -->
+  <section id="chatbot-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-robot" id="chatbot-icon"></i>
+      <h1 id="chatbot-title">Chatbot Terapéutico</h1>
+      <p id="chatbot-subtitle">Conversación guiada basada en evidencia científica</p>
+    </div>
+    
+    <div class="chatbot-container">
+      <div class="chatbot-messages" id="chatbot-messages">
+        <!-- Los mensajes aparecerán aquí dinámicamente -->
+      </div>
+      
+      <div class="chatbot-input-area" id="chatbot-input-area">
+        <div class="chatbot-options" id="chatbot-options">
+          <!-- Las opciones aparecerán aquí -->
+        </div>
+        <div class="chatbot-text-input hidden" id="chatbot-text-input">
+          <input type="text" id="chatbot-user-input" placeholder="Escribe tu respuesta...">
+          <button onclick="sendChatbotMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+      
+      <div class="chatbot-progress">
+        <div class="progress-bar">
+          <div class="progress" id="chatbot-progress-bar" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="chatbot-progress-text">Paso 1 de 8</div>
+      </div>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="exitChatbot()"><i class="fas fa-arrow-left"></i> Salir del chatbot</button>
+      <button onclick="restartChatbot()" id="restart-chatbot-btn" class="hidden"><i class="fas fa-redo"></i> Reiniciar sesión</button>
+    </div>
+  </section>
   
   <div class="footer">© 2025 Serenamente – Apoyo Emocional Basado en Evidencia – No reemplaza atención profesional.</div>
 </div>
@@ -1584,6 +1818,12 @@
   };
   let goals = [];
   let audioPlayers = {};
+  
+  // Variables del chatbot terapéutico
+  let currentChatbotTherapy = "";
+  let chatbotStep = 0;
+  let chatbotResponses = {};
+  let chatbotActive = false;
   
   // Inicializar reproductores de audio
   function initAudioPlayers() {
@@ -2433,6 +2673,528 @@
     ]
   };
   
+  // Configuración de flujos de chatbot terapéutico
+  const chatbotTherapies = {
+    "tcc": {
+      title: "Terapia Cognitivo-Conductual",
+      icon: "fas fa-brain",
+      description: "Identificar y reestructurar pensamientos negativos automáticos",
+      flows: [
+        {
+          type: "bot",
+          message: "¡Hola! Soy tu asistente de Terapia Cognitivo-Conductual. Te ayudaré a identificar y trabajar con pensamientos que pueden estar afectando tu bienestar.",
+          options: ["Empecemos", "¿Qué es la TCC?"]
+        },
+        {
+          type: "conditional",
+          conditions: {
+            "Empecemos": {
+              type: "bot",
+              message: "Perfecto. Para comenzar, piensa en una situación reciente que te causó malestar emocional. ¿Podrías describirme brevemente qué pasó?",
+              input: "text",
+              variable: "situation"
+            },
+            "¿Qué es la TCC?": {
+              type: "bot",
+              message: "La Terapia Cognitivo-Conductual es un enfoque terapéutico que nos ayuda a identificar cómo nuestros pensamientos influyen en nuestras emociones y comportamientos. ¿Te gustaría empezar con un ejercicio?",
+              options: ["Sí, empecemos", "Cuéntame más"]
+            }
+          }
+        },
+        {
+          type: "bot",
+          message: "Ahora, ¿qué emociones experimentaste en esa situación? Por ejemplo: tristeza, ansiedad, enojo, frustración...",
+          input: "text",
+          variable: "emotion"
+        },
+        {
+          type: "bot",
+          message: "¿Qué pensamientos automáticos vinieron a tu mente durante esa situación? Los pensamientos automáticos son esos que aparecen sin que los busquemos conscientemente.",
+          input: "text",
+          variable: "automatic_thought"
+        },
+        {
+          type: "bot",
+          message: "Excelente. Ahora analicemos ese pensamiento. En una escala del 1 al 10, ¿qué tan cierto crees que es ese pensamiento?",
+          options: ["1-3 (Poco cierto)", "4-6 (Moderadamente cierto)", "7-10 (Muy cierto)"]
+        },
+        {
+          type: "bot",
+          message: "¿Qué evidencia tienes A FAVOR de ese pensamiento? Es decir, ¿qué hechos concretos lo apoyan?",
+          input: "text",
+          variable: "evidence_for"
+        },
+        {
+          type: "bot",
+          message: "Ahora, ¿qué evidencia tienes EN CONTRA de ese pensamiento? ¿Hay hechos que lo contradigan o lo hagan menos absoluto?",
+          input: "text",
+          variable: "evidence_against"
+        },
+        {
+          type: "bot",
+          message: "Basándote en toda esta información, ¿podrías formular un pensamiento más equilibrado y realista sobre la situación?",
+          input: "text",
+          variable: "balanced_thought"
+        },
+        {
+          type: "bot",
+          message: "¡Excelente trabajo! Has completado un ejercicio de reestructuración cognitiva. Este proceso te ayuda a ver las situaciones desde una perspectiva más equilibrada.",
+          options: ["Ver mi resumen", "Hacer otro ejercicio", "Finalizar sesión"]
+        }
+      ]
+    },
+    "mindfulness": {
+      title: "Mindfulness y Atención Plena",
+      icon: "fas fa-leaf",
+      description: "Ejercicios guiados de respiración, meditación y atención plena",
+      flows: [
+        {
+          type: "bot",
+          message: "Bienvenido/a a tu sesión de Mindfulness. Te guiaré a través de ejercicios de atención plena para ayudarte a conectar con el momento presente.",
+          options: ["Ejercicio de respiración", "Meditación corporal", "¿Qué es mindfulness?"]
+        },
+        {
+          type: "conditional",
+          conditions: {
+            "Ejercicio de respiración": {
+              type: "bot",
+              message: "Perfecto. Encuentra una posición cómoda, ya sea sentado/a o acostado/a. ¿Estás listo/a para comenzar?",
+              options: ["Estoy listo/a", "Necesito un momento"]
+            },
+            "Meditación corporal": {
+              type: "bot",
+              message: "Haremos un escaneo corporal. Busca un lugar tranquilo donde puedas relajarte. ¿Estás preparado/a?",
+              options: ["Sí, estoy preparado/a", "Necesito prepararme"]
+            },
+            "¿Qué es mindfulness?": {
+              type: "bot",
+              message: "Mindfulness es la práctica de prestar atención al momento presente con aceptación y sin juicio. Te ayuda a reducir el estrés y la ansiedad.",
+              options: ["Quiero practicar", "Cuéntame los beneficios"]
+            }
+          }
+        },
+        {
+          type: "bot",
+          message: "Comencemos con la respiración consciente. Respira normalmente y simplemente observa tu respiración sin tratar de cambiarla.",
+          options: ["Continuar"]
+        },
+        {
+          type: "bot",
+          message: "Inhala lentamente por la nariz durante 4 segundos... 1... 2... 3... 4...",
+          options: ["Continuar"]
+        },
+        {
+          type: "bot",
+          message: "Mantén el aire por 4 segundos... 1... 2... 3... 4...",
+          options: ["Continuar"]
+        },
+        {
+          type: "bot",
+          message: "Exhala lentamente por la boca durante 6 segundos... 1... 2... 3... 4... 5... 6...",
+          options: ["Continuar"]
+        },
+        {
+          type: "bot",
+          message: "¡Excelente! ¿Cómo te sientes después de estos ejercicios de respiración?",
+          options: ["Más relajado/a", "Igual que antes", "Un poco ansioso/a"]
+        },
+        {
+          type: "bot",
+          message: "Cuando notes que tu mente se dispersa, simplemente vuelve gentilmente a tu respiración. Es normal que la mente divague.",
+          options: ["Entiendo", "¿Puedo hacer más ejercicios?"]
+        }
+      ]
+    },
+    "act": {
+      title: "Terapia de Aceptación y Compromiso",
+      icon: "fas fa-heart",
+      description: "Aceptar emociones difíciles y comprometerse con acciones alineadas con valores",
+      flows: [
+        {
+          type: "bot",
+          message: "Hola, soy tu guía de Terapia de Aceptación y Compromiso (ACT). Te ayudaré a explorar tus valores y trabajar con emociones difíciles de manera saludable.",
+          options: ["Explorar mis valores", "Trabajar con emociones", "¿Qué es ACT?"]
+        },
+        {
+          type: "conditional",
+          conditions: {
+            "Explorar mis valores": {
+              type: "bot",
+              message: "Los valores son direcciones importantes en tu vida, como ser un buen amigo, cuidar tu salud, o contribuir a tu comunidad. ¿Qué es realmente importante para ti?",
+              input: "text",
+              variable: "values"
+            },
+            "Trabajar con emociones": {
+              type: "bot",
+              message: "¿Hay alguna emoción difícil que estés experimentando en este momento? Por ejemplo: tristeza, ansiedad, enojo...",
+              input: "text",
+              variable: "difficult_emotion"
+            },
+            "¿Qué es ACT?": {
+              type: "bot",
+              message: "ACT nos enseña a aceptar nuestras experiencias internas (pensamientos, emociones) sin luchar contra ellas, y a comprometernos con acciones que reflejen nuestros valores.",
+              options: ["Quiero practicar", "Cuéntame más"]
+            }
+          }
+        },
+        {
+          type: "bot",
+          message: "Excelente. Ahora, en una escala del 1 al 10, ¿qué tan conectado/a te sientes actualmente con esos valores en tu vida diaria?",
+          options: ["1-3 (Poco conectado)", "4-6 (Moderadamente conectado)", "7-10 (Muy conectado)"]
+        },
+        {
+          type: "bot",
+          message: "¿Qué pequeña acción podrías tomar HOY que te acerque más a vivir según esos valores?",
+          input: "text",
+          variable: "action_today"
+        },
+        {
+          type: "bot",
+          message: "Practicamos la aceptación de emociones difíciles. Imagina que tu emoción es como el clima: puedes observarla sin tratar de cambiarla inmediatamente.",
+          options: ["Continuar"]
+        },
+        {
+          type: "bot",
+          message: "¿Qué emociones están presentes ahora mismo? Obsérvalas con curiosidad, no con juicio.",
+          options: ["Las observo", "Es difícil observar"]
+        },
+        {
+          type: "bot",
+          message: "Perfecto. Recuerda: puedes tener emociones difíciles y aún así tomar acciones hacia lo que valoras. ¿Te comprometes a realizar esa acción que mencionaste?",
+          options: ["Sí, me comprometo", "Necesito pensarlo más", "Quiero una acción más pequeña"]
+        }
+      ]
+    },
+    "musicoterapia": {
+      title: "Musicoterapia",
+      icon: "fas fa-music",
+      description: "Recomendaciones personalizadas de música terapéutica",
+      flows: [
+        {
+          type: "bot",
+          message: "¡Bienvenido/a a tu sesión de Musicoterapia! La música puede ser una herramienta poderosa para regular emociones y mejorar el bienestar.",
+          options: ["Busco relajarme", "Necesito energía", "Quiero procesar emociones"]
+        },
+        {
+          type: "conditional",
+          conditions: {
+            "Busco relajarme": {
+              type: "bot",
+              message: "Perfecto para relajación. ¿Prefieres sonidos de la naturaleza, música instrumental clásica, o melodías ambientales?",
+              options: ["Sonidos de naturaleza", "Música clásica", "Melodías ambientales"]
+            },
+            "Necesito energía": {
+              type: "bot",
+              message: "Para energizarte, ¿qué tipo de música te motiva más?",
+              options: ["Música upbeat", "Música instrumental energética", "Cantos o mantras"]
+            },
+            "Quiero procesar emociones": {
+              type: "bot",
+              message: "La música puede ayudarte a explorar emociones. ¿Qué sientes principalmente en este momento?",
+              options: ["Tristeza", "Ansiedad", "Confusión", "Enojo"]
+            }
+          }
+        },
+        {
+          type: "bot",
+          message: "Basándome en tu elección, te recomiendo crear un ambiente tranquilo. ¿Tienes auriculares o parlantes disponibles?",
+          options: ["Sí, tengo auriculares", "Tengo parlantes", "Solo el dispositivo"]
+        },
+        {
+          type: "bot",
+          message: "Te sugiero escuchar por 10-15 minutos. Mientras escuchas, trata de estar presente con la música. ¿Estás listo/a para comenzar?",
+          options: ["Sí, comenzar", "Cuéntame más sobre musicoterapia"]
+        },
+        {
+          type: "bot",
+          message: "Durante la sesión, permite que la música fluya através de ti. No hay forma correcta o incorrecta de experimentarla.",
+          options: ["Entiendo"]
+        },
+        {
+          type: "bot",
+          message: "Si surge alguna emoción durante la música, está bien. Simplemente obsérvalas y déjalas estar.",
+          options: ["De acuerdo"]
+        },
+        {
+          type: "bot",
+          message: "¿Cómo fue tu experiencia con la música? ¿Notaste algún cambio en cómo te sientes?",
+          input: "text",
+          variable: "music_experience"
+        },
+        {
+          type: "bot",
+          message: "¡Excelente! La musicoterapia puede ser una herramienta diaria para tu bienestar. ¿Te gustaría guardar esta recomendación para el futuro?",
+          options: ["Sí, guardar", "No necesito guardarla", "Quiero otra recomendación"]
+        }
+      ]
+    }
+  };
+  
+  // Funciones del Chatbot Terapéutico
+  function startChatbotTherapy(therapyType) {
+    currentChatbotTherapy = therapyType;
+    chatbotStep = 0;
+    chatbotResponses = {};
+    chatbotActive = true;
+    
+    // Configurar la interfaz del chatbot
+    const therapy = chatbotTherapies[therapyType];
+    document.getElementById('chatbot-title').textContent = therapy.title;
+    document.getElementById('chatbot-subtitle').textContent = therapy.description;
+    document.getElementById('chatbot-icon').className = therapy.icon;
+    
+    // Limpiar mensajes previos
+    document.getElementById('chatbot-messages').innerHTML = '';
+    
+    // Mostrar la sección del chatbot
+    nextStep('activities-section', 'chatbot-section');
+    
+    // Iniciar el primer mensaje
+    setTimeout(() => {
+      processChatbotStep();
+    }, 500);
+  }
+  
+  function processChatbotStep() {
+    const therapy = chatbotTherapies[currentChatbotTherapy];
+    const currentFlow = therapy.flows[chatbotStep];
+    
+    if (!currentFlow) {
+      // Fin del flujo
+      completeChatbotSession();
+      return;
+    }
+    
+    // Mostrar indicador de escritura
+    showTypingIndicator();
+    
+    setTimeout(() => {
+      hideTypingIndicator();
+      
+      if (currentFlow.type === 'bot') {
+        addChatbotMessage(currentFlow.message, 'bot');
+        
+        if (currentFlow.options) {
+          showChatbotOptions(currentFlow.options);
+        } else if (currentFlow.input) {
+          showChatbotTextInput(currentFlow.variable);
+        } else {
+          // Continuar automáticamente
+          setTimeout(() => {
+            chatbotStep++;
+            processChatbotStep();
+          }, 1000);
+        }
+      } else if (currentFlow.type === 'conditional') {
+        // Manejar flujos condicionales
+        handleConditionalFlow(currentFlow);
+      }
+      
+      updateChatbotProgress();
+    }, 1500);
+  }
+  
+  function handleConditionalFlow(conditionalFlow) {
+    // Para flujos condicionales, necesitamos la respuesta previa del usuario
+    const lastUserResponse = document.querySelector('.chatbot-message.user:last-child')?.textContent;
+    
+    if (lastUserResponse && conditionalFlow.conditions[lastUserResponse]) {
+      const nextFlow = conditionalFlow.conditions[lastUserResponse];
+      addChatbotMessage(nextFlow.message, 'bot');
+      
+      if (nextFlow.options) {
+        showChatbotOptions(nextFlow.options);
+      } else if (nextFlow.input) {
+        showChatbotTextInput(nextFlow.variable);
+      }
+    } else {
+      // Si no hay coincidencia, continuar con el siguiente paso
+      chatbotStep++;
+      processChatbotStep();
+    }
+  }
+  
+  function addChatbotMessage(message, sender) {
+    const messagesContainer = document.getElementById('chatbot-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chatbot-message ${sender}`;
+    messageDiv.textContent = message;
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+  
+  function showChatbotOptions(options) {
+    const optionsContainer = document.getElementById('chatbot-options');
+    const textInput = document.getElementById('chatbot-text-input');
+    
+    optionsContainer.innerHTML = '';
+    textInput.classList.add('hidden');
+    
+    options.forEach(option => {
+      const optionBtn = document.createElement('div');
+      optionBtn.className = 'chatbot-option';
+      optionBtn.textContent = option;
+      optionBtn.onclick = () => selectChatbotOption(option);
+      optionsContainer.appendChild(optionBtn);
+    });
+    
+    optionsContainer.classList.remove('hidden');
+  }
+  
+  function showChatbotTextInput(variable) {
+    const optionsContainer = document.getElementById('chatbot-options');
+    const textInput = document.getElementById('chatbot-text-input');
+    const input = document.getElementById('chatbot-user-input');
+    
+    optionsContainer.classList.add('hidden');
+    textInput.classList.remove('hidden');
+    input.value = '';
+    input.focus();
+    input.dataset.variable = variable;
+  }
+  
+  function selectChatbotOption(option) {
+    addChatbotMessage(option, 'user');
+    document.getElementById('chatbot-options').classList.add('hidden');
+    
+    // Guardar la respuesta si hay una variable asociada
+    const currentFlow = chatbotTherapies[currentChatbotTherapy].flows[chatbotStep];
+    if (currentFlow.variable) {
+      chatbotResponses[currentFlow.variable] = option;
+    }
+    
+    chatbotStep++;
+    setTimeout(() => {
+      processChatbotStep();
+    }, 1000);
+  }
+  
+  function sendChatbotMessage() {
+    const input = document.getElementById('chatbot-user-input');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    addChatbotMessage(message, 'user');
+    
+    // Guardar la respuesta
+    const variable = input.dataset.variable;
+    if (variable) {
+      chatbotResponses[variable] = message;
+    }
+    
+    input.value = '';
+    document.getElementById('chatbot-text-input').classList.add('hidden');
+    
+    chatbotStep++;
+    setTimeout(() => {
+      processChatbotStep();
+    }, 1000);
+  }
+  
+  function showTypingIndicator() {
+    const messagesContainer = document.getElementById('chatbot-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'typing-indicator';
+    typingDiv.id = 'typing-indicator';
+    typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    messagesContainer.appendChild(typingDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+  
+  function hideTypingIndicator() {
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) {
+      indicator.remove();
+    }
+  }
+  
+  function updateChatbotProgress() {
+    const therapy = chatbotTherapies[currentChatbotTherapy];
+    const totalSteps = therapy.flows.length;
+    const progress = ((chatbotStep + 1) / totalSteps) * 100;
+    
+    document.getElementById('chatbot-progress-bar').style.width = `${Math.min(progress, 100)}%`;
+    document.getElementById('chatbot-progress-text').textContent = `Paso ${chatbotStep + 1} de ${totalSteps}`;
+  }
+  
+  function completeChatbotSession() {
+    addChatbotMessage("¡Hemos completado la sesión! Gracias por participar en esta experiencia terapéutica.", 'bot');
+    
+    // Guardar la sesión en el diario
+    saveChatbotSession();
+    
+    // Mostrar opciones finales
+    setTimeout(() => {
+      const optionsContainer = document.getElementById('chatbot-options');
+      optionsContainer.innerHTML = '';
+      
+      ['Ver resumen de la sesión', 'Hacer otra terapia', 'Volver al inicio'].forEach(option => {
+        const optionBtn = document.createElement('div');
+        optionBtn.className = 'chatbot-option';
+        optionBtn.textContent = option;
+        optionBtn.onclick = () => handleSessionComplete(option);
+        optionsContainer.appendChild(optionBtn);
+      });
+      
+      optionsContainer.classList.remove('hidden');
+      document.getElementById('restart-chatbot-btn').classList.remove('hidden');
+    }, 2000);
+  }
+  
+  function handleSessionComplete(option) {
+    switch(option) {
+      case 'Ver resumen de la sesión':
+        showSessionSummary();
+        break;
+      case 'Hacer otra terapia':
+        nextStep('chatbot-section', 'activities-section');
+        break;
+      case 'Volver al inicio':
+        exitChatbot();
+        break;
+    }
+  }
+  
+  function showSessionSummary() {
+    let summary = `Resumen de tu sesión de ${chatbotTherapies[currentChatbotTherapy].title}:\n\n`;
+    
+    Object.keys(chatbotResponses).forEach(key => {
+      summary += `${key}: ${chatbotResponses[key]}\n`;
+    });
+    
+    addChatbotMessage(summary, 'bot');
+  }
+  
+  function saveChatbotSession() {
+    const journalEntry = {
+      date: new Date().toLocaleString('es-AR'),
+      content: `Sesión de ${chatbotTherapies[currentChatbotTherapy].title}`,
+      responses: chatbotResponses,
+      type: 'chatbot-session'
+    };
+    
+    let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    journalEntries.unshift(journalEntry);
+    localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+    
+    updateProgressStats();
+  }
+  
+  function exitChatbot() {
+    chatbotActive = false;
+    currentChatbotTherapy = "";
+    chatbotStep = 0;
+    chatbotResponses = {};
+    nextStep('chatbot-section', 'activities-section');
+  }
+  
+  function restartChatbot() {
+    if (currentChatbotTherapy) {
+      startChatbotTherapy(currentChatbotTherapy);
+    }
+  }
+  
   // Mostrar técnicas
   function showCrisisTechniques(crisis) {
     currentCrisis = crisis;
@@ -3042,6 +3804,17 @@
         }
       });
     });
+  });
+</script>
+<script>
+  // Event listener for Enter key in chatbot text input
+  document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && chatbotActive) {
+      const textInput = document.getElementById('chatbot-text-input');
+      if (!textInput.classList.contains('hidden')) {
+        sendChatbotMessage();
+      }
+    }
   });
 </script>
 </body>
