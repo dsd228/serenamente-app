@@ -1001,6 +1001,309 @@
   .dark-mode .audio-description {
     color: #cbd5e1;
   }
+  
+  /* Estilos para módulos avanzados de terapia */
+  .distortion-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .distortion-item {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius);
+    padding: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dark-mode .distortion-item {
+    background: #334155;
+    border-color: #475569;
+  }
+  .distortion-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .distortion-item i {
+    color: var(--primary);
+    font-size: 1.2rem;
+  }
+  .abc-record {
+    background: #f8fafc;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 20px 0;
+  }
+  .dark-mode .abc-record {
+    background: #334155;
+  }
+  .behavior-tracking {
+    background: #f8fafc;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 20px 0;
+  }
+  .dark-mode .behavior-tracking {
+    background: #334155;
+  }
+  .tracking-input {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .tracking-input label {
+    min-width: 200px;
+    font-weight: 500;
+  }
+  .tracking-input input[type="range"] {
+    flex: 1;
+    max-width: 200px;
+  }
+  .tracking-input span {
+    min-width: 30px;
+    font-weight: bold;
+    color: var(--primary);
+  }
+  .behavior-log {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+  }
+  .dark-mode .behavior-log {
+    border-color: #475569;
+  }
+  .behavior-entry {
+    background: white;
+    border-radius: var(--radius);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--primary);
+  }
+  .dark-mode .behavior-entry {
+    background: #475569;
+  }
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .value-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius);
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .dark-mode .value-card {
+    background: #334155;
+    border-color: #475569;
+  }
+  .value-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .value-card.selected {
+    border-color: var(--primary);
+    background: #e0f2fe;
+  }
+  .dark-mode .value-card.selected {
+    background: #475569;
+  }
+  .music-library {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+  }
+  .music-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+  }
+  .dark-mode .music-card {
+    background: #334155;
+  }
+  .music-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .music-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--primary);
+    font-size: 1.5rem;
+  }
+  .dark-mode .music-icon {
+    background: #475569;
+  }
+  .music-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+  }
+  .frequency-display {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin: 15px 0;
+  }
+  
+  /* Estilos adicionales para módulos de terapia */
+  .mindfulness-exercise, .walking-meditation, .progressive-relaxation {
+    margin: 20px 0;
+  }
+  .mindful-eating-guide {
+    margin: 20px 0;
+  }
+  .sense-instruction {
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 20px;
+    background: #f0f9ff;
+    border-radius: var(--radius);
+    margin: 15px 0;
+  }
+  .dark-mode .sense-instruction {
+    background: #475569;
+  }
+  .metronome-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+  }
+  .rhythm-breathing {
+    margin: 20px 0;
+  }
+  .vocalization-exercises {
+    margin: 20px 0;
+  }
+  .mantras-list {
+    margin: 15px 0;
+  }
+  .mantra-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius);
+    padding: 15px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .dark-mode .mantra-item {
+    background: #334155;
+    border-color: #475569;
+  }
+  .mantra-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .vowel-toning {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 15px 0;
+  }
+  .receptive-music {
+    margin: 20px 0;
+  }
+  .mood-music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .mood-music-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius);
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .dark-mode .mood-music-btn {
+    background: #334155;
+    border-color: #475569;
+    color: white;
+  }
+  .mood-music-btn:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .mood-music-btn i {
+    font-size: 1.5rem;
+    color: var(--primary);
+  }
+  .assessment-questions {
+    margin: 20px 0;
+  }
+  .question-item {
+    background: #f8fafc;
+    border-radius: var(--radius);
+    padding: 15px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .dark-mode .question-item {
+    background: #334155;
+  }
+  .question-item p {
+    flex: 1;
+    margin: 0;
+    min-width: 300px;
+  }
+  .question-item input[type="range"] {
+    width: 100px;
+  }
+  .question-item span {
+    min-width: 30px;
+    font-weight: bold;
+    color: var(--primary);
+  }
+  .flexibility-result {
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px;
+    background: #f0f9ff;
+    border-radius: var(--radius);
+  }
+  .dark-mode .flexibility-result {
+    background: #475569;
+  }
+  
   @media (max-width: 600px) {
     .container {
       padding: 20px;
@@ -1027,6 +1330,39 @@
     }
     .chart-container {
       height: 150px;
+    }
+    .distortion-list {
+      grid-template-columns: 1fr;
+    }
+    .values-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .music-library {
+      grid-template-columns: 1fr;
+    }
+    .tracking-input {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .tracking-input label {
+      min-width: auto;
+    }
+    .mood-music-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .metronome-controls {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .vowel-toning {
+      flex-direction: column;
+    }
+    .question-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .question-item p {
+      min-width: auto;
     }
   }
 </style>
@@ -1161,7 +1497,11 @@
     </div>
     <div class="nav-buttons">
       <button class="btn-secondary" onclick="nextStep('techniques-section','mood-section')">Volver al inicio</button>
-      <button onclick="nextStep('techniques-section','meditation-section')"><i class="fas fa-music"></i> Meditaciones</button>
+      <button onclick="nextStep('techniques-section','cbt-module-section')"><i class="fas fa-brain"></i> TCC Avanzada</button>
+      <button onclick="nextStep('techniques-section','mindfulness-module-section')"><i class="fas fa-leaf"></i> Mindfulness</button>
+      <button onclick="nextStep('techniques-section','act-module-section')"><i class="fas fa-compass"></i> ACT</button>
+      <button onclick="nextStep('techniques-section','music-therapy-section')"><i class="fas fa-music"></i> Musicoterapia</button>
+      <button onclick="nextStep('techniques-section','meditation-section')"><i class="fas fa-meditation"></i> Meditaciones</button>
       <button onclick="nextStep('techniques-section','activities-section')"><i class="fas fa-hands-helping"></i> Actividades</button>
     </div>
   </section>
@@ -1562,6 +1902,733 @@
         <button class="btn-secondary" onclick="nextStep('thought-record-section','activities-section')"><i class="fas fa-arrow-left"></i> Volver</button>
         <button onclick="saveThoughtRecord()"><i class="fas fa-save"></i> Guardar en diario</button>
       </div>
+    </div>
+  </section>
+  
+  <!-- Módulo TCC Avanzada -->
+  <section id="cbt-module-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-brain"></i>
+      <h1>Terapia Cognitivo-Conductual Avanzada</h1>
+      <p>Herramientas científicamente validadas para identificar y modificar patrones de pensamiento negativos</p>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-magnifying-glass"></i>
+        </div>
+        <h3>Identificación de Distorsiones Cognitivas</h3>
+      </div>
+      <p>Aprende a reconocer los 10 tipos más comunes de pensamientos distorsionados que pueden afectar tu bienestar emocional.</p>
+      
+      <div class="distortion-list">
+        <div class="distortion-item" onclick="showDistortionInfo('catastrophizing')">
+          <i class="fas fa-bolt"></i>
+          <span>Catastrofización</span>
+        </div>
+        <div class="distortion-item" onclick="showDistortionInfo('allOrNothing')">
+          <i class="fas fa-balance-scale"></i>
+          <span>Pensamiento Todo o Nada</span>
+        </div>
+        <div class="distortion-item" onclick="showDistortionInfo('mindReading')">
+          <i class="fas fa-head-side-brain"></i>
+          <span>Lectura Mental</span>
+        </div>
+        <div class="distortion-item" onclick="showDistortionInfo('personalization')">
+          <i class="fas fa-user-circle"></i>
+          <span>Personalización</span>
+        </div>
+        <div class="distortion-item" onclick="showDistortionInfo('filtering')">
+          <i class="fas fa-filter"></i>
+          <span>Filtro Mental</span>
+        </div>
+        <div class="distortion-item" onclick="showDistortionInfo('labeling')">
+          <i class="fas fa-tag"></i>
+          <span>Etiquetado</span>
+        </div>
+      </div>
+      
+      <div id="distortion-info" class="hidden technique-step">
+        <h4 id="distortion-title"></h4>
+        <p id="distortion-description"></p>
+        <div id="distortion-example"></div>
+        <div id="distortion-challenge"></div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-clipboard-check"></i>
+        </div>
+        <h3>Registro ABC de Emociones</h3>
+      </div>
+      <p>Analiza la conexión entre situaciones (A), creencias (B) y consecuencias emocionales (C) para entender mejor tus reacciones.</p>
+      
+      <div class="abc-record">
+        <div class="thought-field">
+          <label><strong>A - Activador (Situación):</strong></label>
+          <textarea id="abc-activator" placeholder="Describe la situación específica que desencadenó tu malestar..." rows="2"></textarea>
+        </div>
+        <div class="thought-field">
+          <label><strong>B - Belief (Creencia/Pensamiento):</strong></label>
+          <textarea id="abc-belief" placeholder="¿Qué pensaste exactamente? ¿Qué interpretación hiciste?" rows="2"></textarea>
+        </div>
+        <div class="thought-field">
+          <label><strong>C - Consecuencia (Emoción/Comportamiento):</strong></label>
+          <textarea id="abc-consequence" placeholder="¿Cómo te sentiste? ¿Qué hiciste?" rows="2"></textarea>
+        </div>
+        <div class="thought-field">
+          <label><strong>D - Disputa (Cuestionamiento):</strong></label>
+          <textarea id="abc-dispute" placeholder="¿Qué evidencia tengo de este pensamiento? ¿Hay interpretaciones alternativas?" rows="2"></textarea>
+        </div>
+        <div class="thought-field">
+          <label><strong>E - Efectivo nuevo (Nueva respuesta):</strong></label>
+          <textarea id="abc-effective" placeholder="Reformula de manera más equilibrada y realista..." rows="2"></textarea>
+        </div>
+        <button onclick="saveABCRecord()" class="btn-primary">Guardar Análisis ABC</button>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3>Seguimiento Conductual</h3>
+      </div>
+      <p>Registra tus actividades y estado de ánimo para identificar patrones y mejorar tu activación conductual.</p>
+      
+      <div class="behavior-tracking">
+        <div class="tracking-input">
+          <label>Actividad realizada:</label>
+          <input type="text" id="activity-input" placeholder="Ej: Caminata de 20 minutos">
+        </div>
+        <div class="tracking-input">
+          <label>Estado de ánimo antes (1-10):</label>
+          <input type="range" id="mood-before" min="1" max="10" value="5">
+          <span id="mood-before-value">5</span>
+        </div>
+        <div class="tracking-input">
+          <label>Estado de ánimo después (1-10):</label>
+          <input type="range" id="mood-after" min="1" max="10" value="5">
+          <span id="mood-after-value">5</span>
+        </div>
+        <div class="tracking-input">
+          <label>Nivel de satisfacción (1-10):</label>
+          <input type="range" id="satisfaction-level" min="1" max="10" value="5">
+          <span id="satisfaction-value">5</span>
+        </div>
+        <button onclick="saveBehaviorTracking()" class="btn-primary">Registrar Actividad</button>
+      </div>
+      
+      <div id="behavior-log" class="behavior-log">
+        <h4>Registro de Actividades</h4>
+        <div id="behavior-entries"></div>
+      </div>
+    </div>
+    
+    <div class="technique-resources">
+      <h3><i class="fas fa-books"></i> Recursos de TCC</h3>
+      <a href="https://www.cognitivetherapyassociation.org/" target="_blank" class="resource-link">
+        <i class="fas fa-external-link-alt"></i> Asociación Internacional de Terapia Cognitiva
+      </a>
+      <a href="https://www.beckinstitute.org/" target="_blank" class="resource-link">
+        <i class="fas fa-graduation-cap"></i> Instituto Beck - Recursos TCC
+      </a>
+      <a href="https://www.apa.org/ptsd-guideline/patients-and-families/cognitive-behavioral" target="_blank" class="resource-link">
+        <i class="fas fa-file-medical"></i> APA - Guía TCC
+      </a>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('cbt-module-section','techniques-section')"><i class="fas fa-arrow-left"></i> Volver a Técnicas</button>
+      <button onclick="nextStep('cbt-module-section','mindfulness-module-section')"><i class="fas fa-leaf"></i> Mindfulness</button>
+    </div>
+  </section>
+  
+  <!-- Módulo Mindfulness Avanzado -->
+  <section id="mindfulness-module-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-leaf"></i>
+      <h1>Mindfulness y Atención Plena</h1>
+      <p>Prácticas basadas en la reducción del estrés por mindfulness (MBSR) del Dr. Jon Kabat-Zinn</p>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-eye"></i>
+        </div>
+        <h3>Ejercicio de los Cinco Sentidos</h3>
+      </div>
+      <p>Una técnica de grounding que te conecta con el momento presente usando todos tus sentidos.</p>
+      
+      <div class="mindfulness-exercise">
+        <button onclick="startFiveSensesExercise()" class="btn-primary">
+          <i class="fas fa-play"></i> Comenzar Ejercicio Guiado
+        </button>
+        <div id="five-senses-guide" class="hidden">
+          <div id="sense-instruction" class="technique-step"></div>
+          <div class="meditation-timer" id="sense-timer">00:30</div>
+          <button onclick="nextSenseStep()" id="next-sense-btn" class="btn-secondary">Siguiente</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-apple-alt"></i>
+        </div>
+        <h3>Alimentación Consciente</h3>
+      </div>
+      <p>Practica mindfulness mientras comes, desarrollando una relación más saludable con la comida.</p>
+      
+      <div class="mindful-eating-guide">
+        <div class="technique-step">
+          <h4>🍇 Paso 1: Observación Visual</h4>
+          <p>Mirá tu comida como si la vieras por primera vez. Notá colores, texturas, formas.</p>
+        </div>
+        <div class="technique-step">
+          <h4>👃 Paso 2: Aromas</h4>
+          <p>Acercá la comida a tu nariz. ¿Qué aromas detectás? ¿Cómo responde tu cuerpo?</p>
+        </div>
+        <div class="technique-step">
+          <h4>🤲 Paso 3: Tacto</h4>
+          <p>Si es apropiado, tocá la comida. ¿Está suave, áspera, fría, tibia?</p>
+        </div>
+        <div class="technique-step">
+          <h4>👅 Paso 4: Primer Bocado</h4>
+          <p>Ponéla en tu boca sin masticar aún. ¿Qué sabores aparecen inmediatamente?</p>
+        </div>
+        <div class="technique-step">
+          <h4>🦷 Paso 5: Masticación Consciente</h4>
+          <p>Masticá lentamente, notando cómo cambian los sabores y texturas.</p>
+        </div>
+        <div class="technique-step">
+          <h4>😌 Paso 6: Deglución Mindful</h4>
+          <p>Tragá conscientemente, siguiendo la comida por tu garganta.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-walking"></i>
+        </div>
+        <h3>Caminata Mindful</h3>
+      </div>
+      <p>Transforma una caminata ordinaria en una práctica de meditación activa.</p>
+      
+      <div class="walking-meditation">
+        <div class="technique-step">
+          <h4>🚶‍♀️ Preparación</h4>
+          <p>Comenzá parado/a. Sentí tus pies en contacto con el suelo, tu postura, el aire en tu piel.</p>
+        </div>
+        <div class="technique-step">
+          <h4>👣 Primer Paso</h4>
+          <p>Levantá un pie lentamente, notando el cambio de peso, el movimiento de los músculos.</p>
+        </div>
+        <div class="technique-step">
+          <h4>🌍 Caminata Consciente</h4>
+          <p>Caminá más lento de lo normal. Con cada paso, notá: levantar, mover, apoyar.</p>
+        </div>
+        <div class="technique-step">
+          <h4>🧠 Cuando la Mente Divague</h4>
+          <p>Es normal que tu mente se distraiga. Suavemente volvé tu atención a tus pasos.</p>
+        </div>
+        <button onclick="startWalkingTimer()" class="btn-primary">
+          <i class="fas fa-stopwatch"></i> Cronómetro para Caminata (10 min)
+        </button>
+        <div class="meditation-timer" id="walking-timer">10:00</div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-spa"></i>
+        </div>
+        <h3>Relajación Muscular Progresiva Mindful</h3>
+      </div>
+      <p>Combina mindfulness con relajación muscular profunda para liberar tensión física y mental.</p>
+      
+      <div class="progressive-relaxation">
+        <button onclick="startProgressiveRelaxation()" class="btn-primary">
+          <i class="fas fa-play"></i> Iniciar Relajación Guiada (15 min)
+        </button>
+        <div id="relaxation-guide" class="hidden">
+          <div id="relaxation-instruction" class="technique-step"></div>
+          <div class="meditation-timer" id="relaxation-timer">15:00</div>
+          <div class="progress-bar">
+            <div class="progress" id="relaxation-progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-resources">
+      <h3><i class="fas fa-books"></i> Recursos de Mindfulness</h3>
+      <a href="https://www.mindfulnessmbsr.com/" target="_blank" class="resource-link">
+        <i class="fas fa-graduation-cap"></i> MBSR - Programa de Jon Kabat-Zinn
+      </a>
+      <a href="https://www.mindful.org/" target="_blank" class="resource-link">
+        <i class="fas fa-leaf"></i> Mindful.org - Recursos y Artículos
+      </a>
+      <a href="https://palousemindfulness.com/" target="_blank" class="resource-link">
+        <i class="fas fa-laptop"></i> Curso MBSR Online Gratuito
+      </a>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('mindfulness-module-section','cbt-module-section')"><i class="fas fa-arrow-left"></i> TCC</button>
+      <button onclick="nextStep('mindfulness-module-section','act-module-section')"><i class="fas fa-compass"></i> ACT</button>
+    </div>
+  </section>
+  
+  <!-- Módulo ACT (Terapia de Aceptación y Compromiso) -->
+  <section id="act-module-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-compass"></i>
+      <h1>Terapia de Aceptación y Compromiso (ACT)</h1>
+      <p>Desarrolla flexibilidad psicológica y vive según tus valores más profundos</p>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-heart"></i>
+        </div>
+        <h3>Exploración de Valores</h3>
+      </div>
+      <p>Identifica qué es realmente importante para ti en diferentes áreas de tu vida.</p>
+      
+      <div class="values-exploration">
+        <div class="values-grid">
+          <div class="value-card" onclick="selectValue('family')">
+            <i class="fas fa-home"></i>
+            <h4>Familia</h4>
+          </div>
+          <div class="value-card" onclick="selectValue('health')">
+            <i class="fas fa-heartbeat"></i>
+            <h4>Salud</h4>
+          </div>
+          <div class="value-card" onclick="selectValue('growth')">
+            <i class="fas fa-seedling"></i>
+            <h4>Crecimiento</h4>
+          </div>
+          <div class="value-card" onclick="selectValue('creativity')">
+            <i class="fas fa-palette"></i>
+            <h4>Creatividad</h4>
+          </div>
+          <div class="value-card" onclick="selectValue('community')">
+            <i class="fas fa-users"></i>
+            <h4>Comunidad</h4>
+          </div>
+          <div class="value-card" onclick="selectValue('knowledge')">
+            <i class="fas fa-book"></i>
+            <h4>Conocimiento</h4>
+          </div>
+          <div class="value-card" onclick="selectValue('spirituality')">
+            <i class="fas fa-om"></i>
+            <h4>Espiritualidad</h4>
+          </div>
+          <div class="value-card" onclick="selectValue('adventure')">
+            <i class="fas fa-mountain"></i>
+            <h4>Aventura</h4>
+          </div>
+        </div>
+        
+        <div id="selected-values" class="technique-step hidden">
+          <h4>Valores Seleccionados:</h4>
+          <div id="values-list"></div>
+          <textarea id="values-reflection" placeholder="Reflexiona: ¿Por qué estos valores son importantes para ti? ¿Cómo te sentís cuando vivís alineado/a con ellos?" rows="4"></textarea>
+          <button onclick="saveValuesReflection()" class="btn-primary">Guardar Reflexión</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-cloud"></i>
+        </div>
+        <h3>Defusión Cognitiva</h3>
+      </div>
+      <p>Aprende a observar tus pensamientos sin quedar atrapado/a en ellos.</p>
+      
+      <div class="defusion-exercises">
+        <div class="technique-step">
+          <h4>🎭 Ejercicio: "Gracias, Mente"</h4>
+          <p>Cuando tengas un pensamiento problemático, decí: "Gracias, mente, por ese pensamiento."</p>
+          <button onclick="practiceThanksMind()" class="btn-secondary">Practicar</button>
+        </div>
+        
+        <div class="technique-step">
+          <h4>🎵 Ejercicio: Cantar el Pensamiento</h4>
+          <p>Tomá tu pensamiento negativo y cantalo con la melodía de "Cumpleaños Feliz".</p>
+          <input type="text" id="thought-to-sing" placeholder="Escribí un pensamiento problemático aquí...">
+          <button onclick="singThought()" class="btn-secondary">Cantar Pensamiento</button>
+        </div>
+        
+        <div class="technique-step">
+          <h4>🏷️ Ejercicio: "Estoy Teniendo el Pensamiento..."</h4>
+          <p>Reformula tus pensamientos: En lugar de "Soy un fracaso", decí "Estoy teniendo el pensamiento de que soy un fracaso".</p>
+          <input type="text" id="original-thought" placeholder="Pensamiento original...">
+          <button onclick="reformulateThought()" class="btn-secondary">Reformular</button>
+          <div id="reformulated-thought" class="technique-step hidden"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-target"></i>
+        </div>
+        <h3>Acciones Comprometidas</h3>
+      </div>
+      <p>Planifica acciones concretas alineadas con tus valores, independientemente de cómo te sientas.</p>
+      
+      <div class="committed-actions">
+        <div class="thought-field">
+          <label><strong>Valor elegido:</strong></label>
+          <select id="chosen-value">
+            <option value="">Selecciona un valor...</option>
+            <option value="family">Familia</option>
+            <option value="health">Salud</option>
+            <option value="growth">Crecimiento Personal</option>
+            <option value="creativity">Creatividad</option>
+            <option value="community">Comunidad</option>
+            <option value="knowledge">Conocimiento</option>
+            <option value="spirituality">Espiritualidad</option>
+            <option value="adventure">Aventura</option>
+          </select>
+        </div>
+        
+        <div class="thought-field">
+          <label><strong>Acción específica (pequeña y concreta):</strong></label>
+          <textarea id="specific-action" placeholder="Ej: Llamar a mi hermana por 10 minutos, caminar 15 minutos, leer un capítulo..." rows="2"></textarea>
+        </div>
+        
+        <div class="thought-field">
+          <label><strong>¿Cuándo lo vas a hacer?</strong></label>
+          <input type="datetime-local" id="action-when">
+        </div>
+        
+        <div class="thought-field">
+          <label><strong>Obstáculos emocionales esperados:</strong></label>
+          <textarea id="emotional-obstacles" placeholder="Ej: Podría sentir pereza, ansiedad, tristeza..." rows="2"></textarea>
+        </div>
+        
+        <div class="thought-field">
+          <label><strong>Compromiso (del 1 al 10):</strong></label>
+          <input type="range" id="commitment-level" min="1" max="10" value="8">
+          <span id="commitment-value">8</span>
+        </div>
+        
+        <button onclick="saveCommittedAction()" class="btn-primary">Crear Compromiso</button>
+        
+        <div id="committed-actions-list" class="behavior-log">
+          <h4>Mis Compromisos</h4>
+          <div id="actions-entries"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-scale-balanced"></i>
+        </div>
+        <h3>Flexibilidad Psicológica</h3>
+      </div>
+      <p>Evalúa tu capacidad de adaptarte a las circunstancias y actuar según tus valores.</p>
+      
+      <div class="flexibility-assessment">
+        <div class="technique-step">
+          <h4>📊 Auto-Evaluación de Flexibilidad</h4>
+          <p>Responde en una escala del 1 (nunca) al 5 (siempre):</p>
+        </div>
+        
+        <div class="assessment-questions">
+          <div class="question-item">
+            <p>1. Puedo continuar trabajando hacia mis metas incluso cuando me siento mal emocionalmente.</p>
+            <input type="range" id="q1" min="1" max="5" value="3" onchange="updateFlexibilityScore()">
+            <span id="q1-value">3</span>
+          </div>
+          <div class="question-item">
+            <p>2. Acepto mis pensamientos y sentimientos negativos sin intentar cambiarlos inmediatamente.</p>
+            <input type="range" id="q2" min="1" max="5" value="3" onchange="updateFlexibilityScore()">
+            <span id="q2-value">3</span>
+          </div>
+          <div class="question-item">
+            <p>3. Me mantengo presente y consciente en lugar de quedar atrapado/a en preocupaciones.</p>
+            <input type="range" id="q3" min="1" max="5" value="3" onchange="updateFlexibilityScore()">
+            <span id="q3-value">3</span>
+          </div>
+          <div class="question-item">
+            <p>4. Mis valores guían mis acciones más que mis emociones del momento.</p>
+            <input type="range" id="q4" min="1" max="5" value="3" onchange="updateFlexibilityScore()">
+            <span id="q4-value">3</span>
+          </div>
+          <div class="question-item">
+            <p>5. Veo mis pensamientos como eventos mentales, no como verdades absolutas.</p>
+            <input type="range" id="q5" min="1" max="5" value="3" onchange="updateFlexibilityScore()">
+            <span id="q5-value">3</span>
+          </div>
+        </div>
+        
+        <div class="flexibility-result">
+          <h4>Tu Puntuación de Flexibilidad: <span id="flexibility-score">15</span>/25</h4>
+          <div id="flexibility-feedback" class="technique-step"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-resources">
+      <h3><i class="fas fa-books"></i> Recursos de ACT</h3>
+      <a href="https://www.actmindfully.com.au/" target="_blank" class="resource-link">
+        <i class="fas fa-compass"></i> ACT Mindfully - Recursos y Ejercicios
+      </a>
+      <a href="https://contextualscience.org/" target="_blank" class="resource-link">
+        <i class="fas fa-university"></i> Association for Contextual Behavioral Science
+      </a>
+      <a href="https://stevenchayes.com/" target="_blank" class="resource-link">
+        <i class="fas fa-user-graduate"></i> Steven Hayes - Creador de ACT
+      </a>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('act-module-section','mindfulness-module-section')"><i class="fas fa-arrow-left"></i> Mindfulness</button>
+      <button onclick="nextStep('act-module-section','music-therapy-section')"><i class="fas fa-music"></i> Musicoterapia</button>
+    </div>
+  </section>
+  
+  <!-- Módulo Musicoterapia -->
+  <section id="music-therapy-section" class="hidden">
+    <div class="section-header">
+      <i class="fas fa-music"></i>
+      <h1>Musicoterapia Terapéutica</h1>
+      <p>Utiliza el poder curativo de la música y el sonido para el bienestar emocional</p>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-headphones"></i>
+        </div>
+        <h3>Frecuencias Terapéuticas</h3>
+      </div>
+      <p>Diferentes frecuencias de sonido pueden influir en tu estado emocional y mental.</p>
+      
+      <div class="music-library">
+        <div class="music-card">
+          <div class="music-header">
+            <div class="music-icon">
+              <i class="fas fa-spa"></i>
+            </div>
+            <h4>528 Hz - Frecuencia del Amor</h4>
+          </div>
+          <p>Conocida como la "frecuencia de la transformación". Ayuda a reparar el ADN y promueve sentimientos de amor y paz.</p>
+          <div class="frequency-display">528 Hz</div>
+          <div class="music-controls">
+            <button class="audio-control-btn" onclick="playFrequency('528')">
+              <i class="fas fa-play" id="freq-528-icon"></i>
+            </button>
+            <button class="audio-control-btn" onclick="stopFrequency('528')">
+              <i class="fas fa-stop"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="music-card">
+          <div class="music-header">
+            <div class="music-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h4>432 Hz - Frecuencia Natural</h4>
+          </div>
+          <p>Sintonizada con la naturaleza. Reduce la ansiedad y promueve la relajación profunda y la claridad mental.</p>
+          <div class="frequency-display">432 Hz</div>
+          <div class="music-controls">
+            <button class="audio-control-btn" onclick="playFrequency('432')">
+              <i class="fas fa-play" id="freq-432-icon"></i>
+            </button>
+            <button class="audio-control-btn" onclick="stopFrequency('432')">
+              <i class="fas fa-stop"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="music-card">
+          <div class="music-header">
+            <div class="music-icon">
+              <i class="fas fa-moon"></i>
+            </div>
+            <h4>40 Hz - Ondas Gamma</h4>
+          </div>
+          <p>Estimula las ondas cerebrales gamma, mejorando la concentración, memoria y estados de flujo consciente.</p>
+          <div class="frequency-display">40 Hz</div>
+          <div class="music-controls">
+            <button class="audio-control-btn" onclick="playFrequency('40')">
+              <i class="fas fa-play" id="freq-40-icon"></i>
+            </button>
+            <button class="audio-control-btn" onclick="stopFrequency('40')">
+              <i class="fas fa-stop"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-drum"></i>
+        </div>
+        <h3>Ritmo y Respiración</h3>
+      </div>
+      <p>Sincroniza tu respiración con ritmos específicos para regular tu sistema nervioso.</p>
+      
+      <div class="rhythm-breathing">
+        <div class="technique-step">
+          <h4>🥁 Ejercicio de Tambor Cardíaco</h4>
+          <p>Usa el ritmo para estabilizar tu frecuencia cardíaca y calmar tu mente.</p>
+          <button onclick="startHeartDrumming()" class="btn-primary">
+            <i class="fas fa-play"></i> Iniciar Tambor Cardíaco
+          </button>
+          <div id="heart-drum-guide" class="hidden">
+            <div class="circle" id="heart-drum-circle">♥</div>
+            <p id="drum-instruction">Respirá siguiendo el pulso del corazón</p>
+            <div class="meditation-timer" id="drum-timer">05:00</div>
+          </div>
+        </div>
+        
+        <div class="technique-step">
+          <h4>🎵 Respiración con Metrónomo</h4>
+          <p>Sincroniza tu respiración con un metrónomo para crear coherencia cardíaca.</p>
+          <div class="metronome-controls">
+            <label>BPM (respiraciones por minuto):</label>
+            <input type="range" id="bpm-slider" min="6" max="12" value="8">
+            <span id="bpm-value">8</span>
+            <button onclick="startMetronomeBreathing()" class="btn-primary">
+              <i class="fas fa-play"></i> Iniciar Metrónomo
+            </button>
+          </div>
+          <div id="metronome-guide" class="hidden">
+            <div class="circle" id="metronome-circle">Inhalar</div>
+            <div class="meditation-timer" id="metronome-timer">05:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-microphone"></i>
+        </div>
+        <h3>Vocalización Terapéutica</h3>
+      </div>
+      <p>Utiliza tu propia voz como herramienta de sanación y liberación emocional.</p>
+      
+      <div class="vocalization-exercises">
+        <div class="technique-step">
+          <h4>🎤 Mantras Curativos</h4>
+          <p>Repite estos mantras en voz alta o mental para diferentes propósitos:</p>
+          <div class="mantras-list">
+            <div class="mantra-item" onclick="playMantra('om')">
+              <strong>OM</strong> - Para centrarse y conectar con el universo
+            </div>
+            <div class="mantra-item" onclick="playMantra('soham')">
+              <strong>SO HAM</strong> - "Yo soy eso" - Para la autoconciencia
+            </div>
+            <div class="mantra-item" onclick="playMantra('peace')">
+              <strong>Que haya paz</strong> - Para calmar conflictos internos
+            </div>
+            <div class="mantra-item" onclick="playMantra('love')">
+              <strong>Que todos los seres sean felices</strong> - Para generar compasión
+            </div>
+          </div>
+        </div>
+        
+        <div class="technique-step">
+          <h4>🌬️ Tonificación con Vocales</h4>
+          <p>Cada vocal resuena en diferentes partes del cuerpo:</p>
+          <div class="vowel-toning">
+            <button onclick="toneVowel('A')" class="btn-secondary">A (Corazón)</button>
+            <button onclick="toneVowel('E')" class="btn-secondary">E (Garganta)</button>
+            <button onclick="toneVowel('I')" class="btn-secondary">I (Cabeza)</button>
+            <button onclick="toneVowel('O')" class="btn-secondary">O (Pecho)</button>
+            <button onclick="toneVowel('U')" class="btn-secondary">U (Abdomen)</button>
+          </div>
+          <div id="vowel-instruction" class="technique-step hidden"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-card">
+      <div class="technique-header">
+        <div class="technique-icon">
+          <i class="fas fa-music-note"></i>
+        </div>
+        <h3>Música Receptiva</h3>
+      </div>
+      <p>Escucha música seleccionada específicamente para diferentes estados emocionales.</p>
+      
+      <div class="receptive-music">
+        <div class="music-mood-selector">
+          <h4>Selecciona tu estado emocional actual:</h4>
+          <div class="mood-music-grid">
+            <button onclick="selectMusicMood('anxiety')" class="mood-music-btn">
+              <i class="fas fa-wind"></i> Ansiedad
+            </button>
+            <button onclick="selectMusicMood('sadness')" class="mood-music-btn">
+              <i class="fas fa-cloud-rain"></i> Tristeza
+            </button>
+            <button onclick="selectMusicMood('anger')" class="mood-music-btn">
+              <i class="fas fa-fire"></i> Ira
+            </button>
+            <button onclick="selectMusicMood('stress')" class="mood-music-btn">
+              <i class="fas fa-bolt"></i> Estrés
+            </button>
+            <button onclick="selectMusicMood('grief')" class="mood-music-btn">
+              <i class="fas fa-heart-broken"></i> Duelo
+            </button>
+            <button onclick="selectMusicMood('peace')" class="mood-music-btn">
+              <i class="fas fa-dove"></i> Busco Paz
+            </button>
+          </div>
+        </div>
+        
+        <div id="music-recommendation" class="technique-step hidden">
+          <h4 id="music-mood-title"></h4>
+          <p id="music-description"></p>
+          <div id="music-playlist"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technique-resources">
+      <h3><i class="fas fa-books"></i> Recursos de Musicoterapia</h3>
+      <a href="https://www.musictherapy.org/" target="_blank" class="resource-link">
+        <i class="fas fa-music"></i> American Music Therapy Association
+      </a>
+      <a href="https://www.musictherapyworld.net/" target="_blank" class="resource-link">
+        <i class="fas fa-globe"></i> World Federation of Music Therapy
+      </a>
+      <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3734071/" target="_blank" class="resource-link">
+        <i class="fas fa-file-medical"></i> Investigación Científica en Musicoterapia
+      </a>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn-secondary" onclick="nextStep('music-therapy-section','act-module-section')"><i class="fas fa-arrow-left"></i> ACT</button>
+      <button onclick="nextStep('music-therapy-section','techniques-section')"><i class="fas fa-heart"></i> Volver a Técnicas</button>
     </div>
   </section>
   
@@ -3042,6 +4109,696 @@
         }
       });
     });
+  
+  // Funciones para módulo CBT avanzado
+  const cognitiveDistortions = {
+    catastrophizing: {
+      title: "Catastrofización",
+      description: "Imaginar el peor escenario posible o exagerar las consecuencias negativas de una situación.",
+      example: "Ejemplo: 'Si cometo un error en esta presentación, me van a despedir y nunca voy a conseguir otro trabajo.'",
+      challenge: "Desafío: Preguntate: ¿Cuál es la probabilidad real de que ocurra el peor escenario? ¿Qué evidencia tengo de que esto realmente va a pasar? ¿Hay resultados menos extremos más probables?"
+    },
+    allOrNothing: {
+      title: "Pensamiento Todo o Nada",
+      description: "Ver las situaciones en términos absolutos, sin considerar los grises intermedios.",
+      example: "Ejemplo: 'Soy un completo fracaso' o 'Si no es perfecto, no vale la pena.'",
+      challenge: "Desafío: Buscá evidencia de términos medios. ¿Realmente es 'todo' o 'nada'? ¿Podés pensar en una escala del 1 al 10 en lugar de solo 1 o 10?"
+    },
+    mindReading: {
+      title: "Lectura Mental",
+      description: "Asumir que sabés lo que otros están pensando sin evidencia real.",
+      example: "Ejemplo: 'Seguro que piensa que soy estúpido' o 'Todos me están juzgando.'",
+      challenge: "Desafío: Preguntate: ¿Tengo evidencia real de lo que está pensando esta persona? ¿Podría haber explicaciones alternativas para su comportamiento?"
+    },
+    personalization: {
+      title: "Personalización",
+      description: "Culparte por eventos que están fuera de tu control o asumir que todo es sobre ti.",
+      example: "Ejemplo: 'Mi amigo está de mal humor, debe ser por algo que hice' o 'El proyecto falló por mi culpa.'",
+      challenge: "Desafío: Considerá otros factores que podrían estar influyendo. ¿Qué porcentaje de responsabilidad realmente tenés en esta situación?"
+    },
+    filtering: {
+      title: "Filtro Mental",
+      description: "Enfocarse únicamente en los aspectos negativos mientras ignorás los positivos.",
+      example: "Ejemplo: Recibir 9 comentarios positivos y 1 negativo, pero solo recordar el negativo.",
+      challenge: "Desafío: Hacé una lista equilibrada de aspectos positivos y negativos. ¿Estás ignorando información importante?"
+    },
+    labeling: {
+      title: "Etiquetado",
+      description: "Asignar etiquetas globales negativas a vos mismo o a otros basándote en un solo evento.",
+      example: "Ejemplo: 'Soy un perdedor' después de un error, o 'Es un idiota' después de un desacuerdo.",
+      challenge: "Desafío: Reemplazá las etiquetas por descripciones específicas del comportamiento. En lugar de 'Soy tonto', decí 'Cometí un error en esta situación específica.'"
+    }
+  };
+
+  function showDistortionInfo(type) {
+    const distortion = cognitiveDistortions[type];
+    const infoDiv = document.getElementById('distortion-info');
+    
+    document.getElementById('distortion-title').textContent = distortion.title;
+    document.getElementById('distortion-description').textContent = distortion.description;
+    document.getElementById('distortion-example').innerHTML = `<strong>📝 ${distortion.example}</strong>`;
+    document.getElementById('distortion-challenge').innerHTML = `<strong>🎯 ${distortion.challenge}</strong>`;
+    
+    infoDiv.classList.remove('hidden');
+  }
+
+  function saveABCRecord() {
+    const activator = document.getElementById('abc-activator').value.trim();
+    const belief = document.getElementById('abc-belief').value.trim();
+    const consequence = document.getElementById('abc-consequence').value.trim();
+    const dispute = document.getElementById('abc-dispute').value.trim();
+    const effective = document.getElementById('abc-effective').value.trim();
+
+    if (!activator || !belief || !consequence) {
+      alert('Por favor, completá al menos los campos A, B y C.');
+      return;
+    }
+
+    const abcRecord = {
+      activator, belief, consequence, dispute, effective,
+      date: new Date().toLocaleString('es-AR')
+    };
+
+    // Guardar en el diario
+    const journalContent = `ANÁLISIS ABC - TCC
+Fecha: ${abcRecord.date}
+A (Activador): ${activator}
+B (Creencia): ${belief}
+C (Consecuencia): ${consequence}
+D (Disputa): ${dispute}
+E (Efectivo nuevo): ${effective}`;
+
+    saveJournalEntryWithPrefix(journalContent);
+    
+    // Limpiar formulario
+    document.getElementById('abc-activator').value = '';
+    document.getElementById('abc-belief').value = '';
+    document.getElementById('abc-consequence').value = '';
+    document.getElementById('abc-dispute').value = '';
+    document.getElementById('abc-effective').value = '';
+    
+    alert('Análisis ABC guardado en tu diario. ¡Excelente trabajo explorando tus patrones de pensamiento!');
+  }
+
+  let behaviorEntries = JSON.parse(localStorage.getItem('behaviorEntries') || '[]');
+
+  function saveBehaviorTracking() {
+    const activity = document.getElementById('activity-input').value.trim();
+    const moodBefore = document.getElementById('mood-before').value;
+    const moodAfter = document.getElementById('mood-after').value;
+    const satisfaction = document.getElementById('satisfaction-level').value;
+
+    if (!activity) {
+      alert('Por favor, describí la actividad realizada.');
+      return;
+    }
+
+    const entry = {
+      activity,
+      moodBefore: parseInt(moodBefore),
+      moodAfter: parseInt(moodAfter),
+      satisfaction: parseInt(satisfaction),
+      date: new Date().toLocaleString('es-AR')
+    };
+
+    behaviorEntries.push(entry);
+    localStorage.setItem('behaviorEntries', JSON.stringify(behaviorEntries));
+    
+    // Limpiar formulario
+    document.getElementById('activity-input').value = '';
+    document.getElementById('mood-before').value = 5;
+    document.getElementById('mood-after').value = 5;
+    document.getElementById('satisfaction-level').value = 5;
+    updateMoodValues();
+    
+    displayBehaviorEntries();
+    alert('Actividad registrada correctamente. ¡Seguí registrando para identificar patrones!');
+  }
+
+  function displayBehaviorEntries() {
+    const container = document.getElementById('behavior-entries');
+    if (behaviorEntries.length === 0) {
+      container.innerHTML = '<p class="text-gray-500">No hay actividades registradas todavía.</p>';
+      return;
+    }
+
+    container.innerHTML = behaviorEntries.slice(-5).reverse().map(entry => `
+      <div class="behavior-entry">
+        <strong>${entry.activity}</strong> - ${entry.date}<br>
+        Estado de ánimo: ${entry.moodBefore} → ${entry.moodAfter} 
+        ${entry.moodAfter > entry.moodBefore ? '📈' : entry.moodAfter < entry.moodBefore ? '📉' : '➡️'}<br>
+        Satisfacción: ${entry.satisfaction}/10 ${'⭐'.repeat(Math.ceil(entry.satisfaction/2))}
+      </div>
+    `).join('');
+  }
+
+  function updateMoodValues() {
+    const moodBeforeEl = document.getElementById('mood-before-value');
+    const moodAfterEl = document.getElementById('mood-after-value');
+    const satisfactionEl = document.getElementById('satisfaction-value');
+    
+    if (moodBeforeEl) moodBeforeEl.textContent = document.getElementById('mood-before').value;
+    if (moodAfterEl) moodAfterEl.textContent = document.getElementById('mood-after').value;
+    if (satisfactionEl) satisfactionEl.textContent = document.getElementById('satisfaction-level').value;
+  }
+
+  // Funciones para módulo Mindfulness
+  let senseExerciseStep = 0;
+  let senseTimer;
+  const senseSteps = [
+    "👀 Encuentra 5 cosas que puedas VER a tu alrededor. Observa sus colores, formas y detalles.",
+    "🤚 Encuentra 4 cosas que puedas TOCAR. Nota sus texturas, temperaturas y consistencias.",
+    "👂 Encuentra 3 sonidos que puedas OÍR. Escucha tanto sonidos cercanos como lejanos.",
+    "👃 Encuentra 2 aromas que puedas OLER. Pueden ser sutiles, toma tu tiempo.",
+    "👅 Encuentra 1 sabor que puedas SABOREAR. Puede ser el sabor actual en tu boca."
+  ];
+
+  function startFiveSensesExercise() {
+    senseExerciseStep = 0;
+    document.getElementById('five-senses-guide').classList.remove('hidden');
+    showNextSenseStep();
+  }
+
+  function showNextSenseStep() {
+    if (senseExerciseStep < senseSteps.length) {
+      document.getElementById('sense-instruction').innerHTML = senseSteps[senseExerciseStep];
+      startSenseTimer();
+    } else {
+      document.getElementById('sense-instruction').innerHTML = '🌟 ¡Excelente! Has completado el ejercicio de los cinco sentidos. ¿Te sientes más presente y conectado?';
+      document.getElementById('next-sense-btn').style.display = 'none';
+    }
+  }
+
+  function nextSenseStep() {
+    senseExerciseStep++;
+    showNextSenseStep();
+  }
+
+  function startSenseTimer() {
+    let seconds = 30;
+    const timerEl = document.getElementById('sense-timer');
+    
+    senseTimer = setInterval(() => {
+      seconds--;
+      timerEl.textContent = `00:${seconds.toString().padStart(2, '0')}`;
+      if (seconds <= 0) {
+        clearInterval(senseTimer);
+        timerEl.textContent = '00:30';
+      }
+    }, 1000);
+  }
+
+  let walkingTimer;
+  function startWalkingTimer() {
+    let seconds = 600; // 10 minutos
+    const timerEl = document.getElementById('walking-timer');
+    
+    walkingTimer = setInterval(() => {
+      seconds--;
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+      if (seconds <= 0) {
+        clearInterval(walkingTimer);
+        alert('¡Caminata mindful completada! ¿Cómo te sentís después de esta práctica consciente?');
+        timerEl.textContent = '10:00';
+      }
+    }, 1000);
+  }
+
+  let relaxationTimer;
+  let relaxationStep = 0;
+  const relaxationSteps = [
+    "Acomodate cómodamente. Respirá profundamente 3 veces.",
+    "Tensá los músculos de tus pies por 5 segundos, luego relajá completamente.",
+    "Tensá los músculos de tus pantorrillas, luego relajá y nota la diferencia.",
+    "Tensá los músculos de tus muslos, luego relajá completamente.",
+    "Tensá los músculos de tu abdomen, luego relajá y sentí el alivio.",
+    "Tensá los músculos de tus brazos, luego relajá completamente.",
+    "Tensá los músculos de tus hombros y cuello, luego relajá.",
+    "Tensá los músculos de tu rostro, luego relajá completamente.",
+    "Hacé un scan corporal completo, notando la relajación en todo tu cuerpo."
+  ];
+
+  function startProgressiveRelaxation() {
+    relaxationStep = 0;
+    document.getElementById('relaxation-guide').classList.remove('hidden');
+    showRelaxationStep();
+    
+    let seconds = 900; // 15 minutos
+    const timerEl = document.getElementById('relaxation-timer');
+    const progressEl = document.getElementById('relaxation-progress');
+    
+    relaxationTimer = setInterval(() => {
+      seconds--;
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+      
+      const progress = ((900 - seconds) / 900) * 100;
+      progressEl.style.width = `${progress}%`;
+      
+      if (seconds <= 0) {
+        clearInterval(relaxationTimer);
+        alert('¡Relajación progresiva completada! Tu cuerpo y mente están ahora más relajados.');
+        timerEl.textContent = '15:00';
+        progressEl.style.width = '0%';
+      }
+    }, 1000);
+    
+    // Cambiar instrucciones cada 100 segundos aproximadamente
+    setInterval(() => {
+      if (relaxationStep < relaxationSteps.length - 1) {
+        relaxationStep++;
+        showRelaxationStep();
+      }
+    }, 100000);
+  }
+
+  function showRelaxationStep() {
+    document.getElementById('relaxation-instruction').textContent = relaxationSteps[relaxationStep];
+  }
+
+  // Funciones para módulo ACT
+  let selectedValues = [];
+
+  function selectValue(value) {
+    const valueCard = event.target.closest('.value-card');
+    if (selectedValues.includes(value)) {
+      selectedValues = selectedValues.filter(v => v !== value);
+      valueCard.classList.remove('selected');
+    } else {
+      selectedValues.push(value);
+      valueCard.classList.add('selected');
+    }
+    
+    if (selectedValues.length > 0) {
+      document.getElementById('selected-values').classList.remove('hidden');
+      updateValuesList();
+    }
+  }
+
+  function updateValuesList() {
+    const valueNames = {
+      family: 'Familia', health: 'Salud', growth: 'Crecimiento', 
+      creativity: 'Creatividad', community: 'Comunidad', knowledge: 'Conocimiento',
+      spirituality: 'Espiritualidad', adventure: 'Aventura'
+    };
+    
+    const listHtml = selectedValues.map(v => `<span class="value-tag">• ${valueNames[v]}</span>`).join(' ');
+    document.getElementById('values-list').innerHTML = listHtml;
+  }
+
+  function saveValuesReflection() {
+    const reflection = document.getElementById('values-reflection').value.trim();
+    if (!reflection) {
+      alert('Por favor, escribe una reflexión sobre tus valores.');
+      return;
+    }
+    
+    const valueNames = {
+      family: 'Familia', health: 'Salud', growth: 'Crecimiento', 
+      creativity: 'Creatividad', community: 'Comunidad', knowledge: 'Conocimiento',
+      spirituality: 'Espiritualidad', adventure: 'Aventura'
+    };
+    
+    const valuesText = selectedValues.map(v => valueNames[v]).join(', ');
+    const journalContent = `EXPLORACIÓN DE VALORES - ACT
+Fecha: ${new Date().toLocaleString('es-AR')}
+Valores importantes para mí: ${valuesText}
+Reflexión: ${reflection}`;
+
+    saveJournalEntryWithPrefix(journalContent);
+    document.getElementById('values-reflection').value = '';
+    alert('Reflexión sobre valores guardada. ¡Excelente trabajo conectando con lo que es importante para ti!');
+  }
+
+  function practiceThanksMind() {
+    const thought = prompt("Escribe un pensamiento problemático que tengas:");
+    if (thought) {
+      alert(`Ahora repite en voz alta o mental: "Gracias, mente, por ese pensamiento de '${thought}'." Nota cómo cambia tu relación con el pensamiento.`);
+    }
+  }
+
+  function singThought() {
+    const thought = document.getElementById('thought-to-sing').value.trim();
+    if (!thought) {
+      alert('Por favor, escribe un pensamiento primero.');
+      return;
+    }
+    alert(`Ahora canta este pensamiento con la melodía de "Cumpleaños Feliz": "${thought}". ¿Nota cómo pierde su poder emocional?`);
+  }
+
+  function reformulateThought() {
+    const thought = document.getElementById('original-thought').value.trim();
+    if (!thought) {
+      alert('Por favor, escribe un pensamiento primero.');
+      return;
+    }
+    
+    const reformulated = `Estoy teniendo el pensamiento de que ${thought.toLowerCase()}`;
+    document.getElementById('reformulated-thought').innerHTML = `
+      <strong>Pensamiento reformulado:</strong><br>
+      "${reformulated}"<br>
+      <em>¿Notás cómo esto crea distancia del pensamiento?</em>
+    `;
+    document.getElementById('reformulated-thought').classList.remove('hidden');
+  }
+
+  let committedActions = JSON.parse(localStorage.getItem('committedActions') || '[]');
+
+  function saveCommittedAction() {
+    const value = document.getElementById('chosen-value').value;
+    const action = document.getElementById('specific-action').value.trim();
+    const when = document.getElementById('action-when').value;
+    const obstacles = document.getElementById('emotional-obstacles').value.trim();
+    const commitment = document.getElementById('commitment-level').value;
+
+    if (!value || !action || !when) {
+      alert('Por favor, completa al menos el valor, la acción y cuándo la vas a hacer.');
+      return;
+    }
+
+    const newAction = {
+      value, action, when, obstacles, commitment: parseInt(commitment),
+      date: new Date().toLocaleString('es-AR'),
+      completed: false
+    };
+
+    committedActions.push(newAction);
+    localStorage.setItem('committedActions', JSON.stringify(committedActions));
+    
+    // Limpiar formulario
+    document.getElementById('chosen-value').value = '';
+    document.getElementById('specific-action').value = '';
+    document.getElementById('action-when').value = '';
+    document.getElementById('emotional-obstacles').value = '';
+    document.getElementById('commitment-level').value = 8;
+    updateCommitmentValue();
+    
+    displayCommittedActions();
+    alert('¡Compromiso creado! Recorda que es importante seguir con la acción incluso si no te sentís motivado/a.');
+  }
+
+  function updateCommitmentValue() {
+    const valueEl = document.getElementById('commitment-value');
+    if (valueEl) valueEl.textContent = document.getElementById('commitment-level').value;
+  }
+
+  function displayCommittedActions() {
+    const container = document.getElementById('actions-entries');
+    if (committedActions.length === 0) {
+      container.innerHTML = '<p class="text-gray-500">No tienes compromisos creados todavía.</p>';
+      return;
+    }
+
+    container.innerHTML = committedActions.slice(-5).reverse().map((action, index) => `
+      <div class="behavior-entry">
+        <strong>${action.action}</strong><br>
+        Valor: ${action.value} | Compromiso: ${action.commitment}/10<br>
+        Fecha programada: ${new Date(action.when).toLocaleString('es-AR')}<br>
+        ${action.obstacles ? `Obstáculos previstos: ${action.obstacles}` : ''}
+      </div>
+    `).join('');
+  }
+
+  function updateFlexibilityScore() {
+    const q1 = parseInt(document.getElementById('q1').value);
+    const q2 = parseInt(document.getElementById('q2').value);
+    const q3 = parseInt(document.getElementById('q3').value);
+    const q4 = parseInt(document.getElementById('q4').value);
+    const q5 = parseInt(document.getElementById('q5').value);
+    
+    // Update individual displays
+    document.getElementById('q1-value').textContent = q1;
+    document.getElementById('q2-value').textContent = q2;
+    document.getElementById('q3-value').textContent = q3;
+    document.getElementById('q4-value').textContent = q4;
+    document.getElementById('q5-value').textContent = q5;
+    
+    const total = q1 + q2 + q3 + q4 + q5;
+    document.getElementById('flexibility-score').textContent = total;
+    
+    let feedback = '';
+    if (total >= 20) {
+      feedback = '🌟 Excelente flexibilidad psicológica. Continúa practicando estas habilidades.';
+    } else if (total >= 15) {
+      feedback = '👍 Buena flexibilidad psicológica. Hay áreas que pueden mejorar con práctica.';
+    } else if (total >= 10) {
+      feedback = '⚠️ Flexibilidad moderada. Considera practicar más técnicas de ACT.';
+    } else {
+      feedback = '🔄 La flexibilidad psicológica se puede desarrollar. Te recomendamos practicar regularmente estas técnicas.';
+    }
+    
+    document.getElementById('flexibility-feedback').innerHTML = feedback;
+  }
+
+  // Funciones para Musicoterapia
+  let frequencyAudios = {};
+
+  function playFrequency(freq) {
+    const iconId = `freq-${freq}-icon`;
+    const icon = document.getElementById(iconId);
+    
+    if (icon.classList.contains('fa-play')) {
+      // Simular reproducción de frecuencia (en una app real usarías Web Audio API)
+      icon.classList.remove('fa-play');
+      icon.classList.add('fa-pause');
+      
+      // Simular audio
+      alert(`🎵 Reproduciendo frecuencia ${freq} Hz. En una implementación real, esto reproduciría la frecuencia terapéutica usando Web Audio API.`);
+      
+      // Auto-parar después de unos segundos para demo
+      setTimeout(() => {
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+      }, 5000);
+    } else {
+      stopFrequency(freq);
+    }
+  }
+
+  function stopFrequency(freq) {
+    const iconId = `freq-${freq}-icon`;
+    const icon = document.getElementById(iconId);
+    icon.classList.remove('fa-pause');
+    icon.classList.add('fa-play');
+  }
+
+  let heartDrumTimer;
+  function startHeartDrumming() {
+    document.getElementById('heart-drum-guide').classList.remove('hidden');
+    const circle = document.getElementById('heart-drum-circle');
+    
+    let phase = 'inhale';
+    let seconds = 300; // 5 minutos
+    
+    const drumPattern = setInterval(() => {
+      if (phase === 'inhale') {
+        circle.style.transform = 'scale(1.2)';
+        circle.style.backgroundColor = '#4361ee';
+        document.getElementById('drum-instruction').textContent = 'Inhala con el latido ♥';
+        phase = 'exhale';
+      } else {
+        circle.style.transform = 'scale(1)';
+        circle.style.backgroundColor = '#3a0ca3';
+        document.getElementById('drum-instruction').textContent = 'Exhala con el latido ♥';
+        phase = 'inhale';
+      }
+    }, 1000); // Latido cada segundo
+    
+    heartDrumTimer = setInterval(() => {
+      seconds--;
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      document.getElementById('drum-timer').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+      
+      if (seconds <= 0) {
+        clearInterval(heartDrumTimer);
+        clearInterval(drumPattern);
+        document.getElementById('drum-timer').textContent = '05:00';
+        alert('¡Ejercicio de tambor cardíaco completado! ¿Sientes tu corazón más calmado?');
+      }
+    }, 1000);
+  }
+
+  let metronomeTimer;
+  function startMetronomeBreathing() {
+    const bpm = document.getElementById('bpm-slider').value;
+    const interval = 60000 / bpm; // ms per beat
+    
+    document.getElementById('metronome-guide').classList.remove('hidden');
+    const circle = document.getElementById('metronome-circle');
+    
+    let phase = 'inhale';
+    let seconds = 300; // 5 minutos
+    
+    const metronome = setInterval(() => {
+      if (phase === 'inhale') {
+        circle.textContent = 'Exhalar';
+        circle.style.transform = 'scale(0.8)';
+        phase = 'exhale';
+      } else {
+        circle.textContent = 'Inhalar';
+        circle.style.transform = 'scale(1.2)';
+        phase = 'inhale';
+      }
+    }, interval);
+    
+    metronomeTimer = setInterval(() => {
+      seconds--;
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      document.getElementById('metronome-timer').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+      
+      if (seconds <= 0) {
+        clearInterval(metronomeTimer);
+        clearInterval(metronome);
+        document.getElementById('metronome-timer').textContent = '05:00';
+        alert('¡Respiración con metrónomo completada! Tu sistema nervioso está más regulado.');
+      }
+    }, 1000);
+  }
+
+  function updateBPMValue() {
+    const bpmValue = document.getElementById('bpm-slider').value;
+    document.getElementById('bpm-value').textContent = bpmValue;
+  }
+
+  function playMantra(mantra) {
+    const mantras = {
+      om: 'OM - Repite este sonido sagrado por 1 minuto, sintiendo su vibración.',
+      soham: 'SO HAM - Inhala "SO", exhala "HAM". Significa "Yo soy eso".',
+      peace: 'QUE HAYA PAZ - Repite con intención amorosa por 2 minutos.',
+      love: 'QUE TODOS LOS SERES SEAN FELICES - Cultiva compasión universal.'
+    };
+    
+    alert(`🎵 ${mantras[mantra]}`);
+  }
+
+  function toneVowel(vowel) {
+    const vowelInfo = {
+      A: 'Ahhhh - Abre el corazón. Haz este sonido por 30 segundos.',
+      E: 'Eeee - Limpia la garganta. Vibra en tu cuello.',
+      I: 'Iiiii - Activa la mente. Siente la vibración en tu cabeza.',
+      O: 'Oooo - Expande el pecho. Vibra en tu torso.',
+      U: 'Uuuu - Centra el abdomen. Siente la vibración profunda.'
+    };
+    
+    document.getElementById('vowel-instruction').innerHTML = `
+      <h4>Vocal ${vowel}</h4>
+      <p>${vowelInfo[vowel]}</p>
+    `;
+    document.getElementById('vowel-instruction').classList.remove('hidden');
+  }
+
+  const musicRecommendations = {
+    anxiety: {
+      title: '🌬️ Música para Ansiedad',
+      description: 'Música específicamente diseñada para reducir la ansiedad y promover la calma.',
+      playlist: [
+        'Sonidos de naturaleza con frecuencias bajas',
+        'Música clásica baroque (60-70 BPM)',
+        'Ambient music con drones sostened',
+        'Sonidos binaurales alpha (8-12 Hz)'
+      ]
+    },
+    sadness: {
+      title: '🌧️ Música para Tristeza',
+      description: 'Música que honra la tristeza y gradualmente eleva el ánimo.',
+      playlist: [
+        'Música clásica melancólica (Chopin, Barber)',
+        'Sonidos de lluvia y océano',
+        'Música folk acústica suave',
+        'Gradualmente: música más alegre'
+      ]
+    },
+    anger: {
+      title: '🔥 Música para Ira',
+      description: 'Música que ayuda a procesar y liberar la ira de forma saludable.',
+      playlist: [
+        'Inicio: música que coincida con tu energía',
+        'Tambores africanos para liberar tensión',
+        'Música instrumental intensa',
+        'Gradualmente: música más calmante'
+      ]
+    },
+    stress: {
+      title: '⚡ Música para Estrés',
+      description: 'Música científicamente probada para reducir el cortisol y el estrés.',
+      playlist: [
+        'Música a 60 BPM para sincronizar ritmo cardíaco',
+        'Sonidos de agua corriente',
+        'Música new age instrumental',
+        'Frecuencias 528 Hz (reparadoras)'
+      ]
+    },
+    grief: {
+      title: '💔 Música para Duelo',
+      description: 'Música que acompaña el proceso de duelo con compasión.',
+      playlist: [
+        'Música espiritual tranquila',
+        'Sonidos de campanas tibetanas',
+        'Música clásica reflexiva',
+        'Canciones que honren la memoria'
+      ]
+    },
+    peace: {
+      title: '🕊️ Música para Paz',
+      description: 'Música para cultivar la paz interior y la serenidad.',
+      playlist: [
+        'Música meditativa con cuencos tibetanos',
+        'Cantos gregorianos o mantras',
+        'Sonidos de naturaleza (bosque, océano)',
+        'Música ambient espacial'
+      ]
+    }
+  };
+
+  function selectMusicMood(mood) {
+    const recommendation = musicRecommendations[mood];
+    document.getElementById('music-recommendation').classList.remove('hidden');
+    document.getElementById('music-mood-title').textContent = recommendation.title;
+    document.getElementById('music-description').textContent = recommendation.description;
+    
+    const playlistHtml = recommendation.playlist.map(item => 
+      `<div class="technique-step">🎵 ${item}</div>`
+    ).join('');
+    document.getElementById('music-playlist').innerHTML = playlistHtml;
+  }
+
+  // Event listeners para los sliders de comportamiento
+  document.addEventListener('DOMContentLoaded', function() {
+    const moodBeforeSlider = document.getElementById('mood-before');
+    const moodAfterSlider = document.getElementById('mood-after');
+    const satisfactionSlider = document.getElementById('satisfaction-level');
+    const commitmentSlider = document.getElementById('commitment-level');
+    const bpmSlider = document.getElementById('bpm-slider');
+    
+    if (moodBeforeSlider) {
+      moodBeforeSlider.addEventListener('input', updateMoodValues);
+      moodAfterSlider.addEventListener('input', updateMoodValues);
+      satisfactionSlider.addEventListener('input', updateMoodValues);
+      displayBehaviorEntries();
+    }
+    
+    if (commitmentSlider) {
+      commitmentSlider.addEventListener('input', updateCommitmentValue);
+      displayCommittedActions();
+    }
+    
+    if (bpmSlider) {
+      bpmSlider.addEventListener('input', updateBPMValue);
+    }
+    
+    // Inicializar evaluación de flexibilidad
+    if (document.getElementById('q1')) {
+      updateFlexibilityScore();
+    }
+  });
+  
   });
 </script>
 </body>
