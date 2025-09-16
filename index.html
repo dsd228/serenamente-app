@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SerenBot - Gestión de Recursos PDF</title>
+    <title>SerenBot AI - Asistente Inteligente de Apoyo Emocional</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -21,14 +22,12 @@
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: var(--dark);
@@ -39,24 +38,21 @@
             justify-content: center;
             padding: 20px;
         }
-
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-
         header {
             text-align: center;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             backdrop-filter: blur(10px);
         }
-
         header h1 {
             color: var(--primary);
             margin-bottom: 10px;
@@ -66,29 +62,23 @@
             justify-content: center;
             gap: 15px;
         }
-
         header p {
             color: var(--gray);
             font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
         }
-
         .main-content {
             display: flex;
             gap: 20px;
             flex-direction: column;
         }
-
         @media (min-width: 992px) {
             .main-content {
                 flex-direction: row;
             }
         }
-
         .chat-container {
             flex: 2;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.85);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             display: flex;
@@ -96,7 +86,6 @@
             overflow: hidden;
             backdrop-filter: blur(10px);
         }
-
         .chat-header {
             padding: 15px 20px;
             background: var(--primary);
@@ -104,15 +93,33 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-
         .chat-header h2 {
             font-size: 1.5rem;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
+        .session-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .ai-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .ai-indicator.online {
+            color: #4CAF50;
+        }
         .chat-messages {
             flex: 1;
             padding: 20px;
@@ -122,29 +129,52 @@
             flex-direction: column;
             gap: 15px;
         }
-
         .message {
             max-width: 80%;
             padding: 12px 16px;
             border-radius: 18px;
             position: relative;
             line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .user-message {
             align-self: flex-end;
             background: var(--primary-light);
             color: white;
             border-bottom-right-radius: 4px;
         }
-
         .bot-message {
             align-self: flex-start;
             background: #e9ecef;
             color: var(--dark);
             border-bottom-left-radius: 4px;
+            position: relative;
         }
-
+        .bot-message .confidence {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .confidence-bar {
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            flex: 1;
+            margin: 0 5px;
+        }
+        .confidence-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
         .system-message {
             align-self: center;
             background: var(--accent);
@@ -152,7 +182,22 @@
             text-align: center;
             font-style: italic;
         }
-
+        .crisis-message {
+            background: var(--danger);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
         .chat-input {
             padding: 15px;
             background: white;
@@ -160,7 +205,6 @@
             gap: 10px;
             border-top: 1px solid #dee2e6;
         }
-
         .chat-input input {
             flex: 1;
             padding: 12px 15px;
@@ -168,8 +212,12 @@
             border-radius: 30px;
             outline: none;
             font-size: 1rem;
+            transition: var(--transition);
         }
-
+        .chat-input input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+        }
         .chat-input button {
             padding: 12px 20px;
             background: var(--primary);
@@ -178,218 +226,304 @@
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-
+        .chat-input button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
         .sidebar {
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-
-        .pdf-management-panel {
-            background: rgba(255, 255, 255, 0.92);
+        .panel {
+            background: rgba(255, 255, 255, 0.85);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             padding: 20px;
             backdrop-filter: blur(10px);
         }
-
-        .pdf-management-panel h3 {
+        .panel h3 {
             color: var(--primary);
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(78, 84, 200, 0.2);
         }
-
-        .pdf-upload-area {
-            border: 2px dashed var(--primary-light);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
+        .user-panel {
+            .user-info {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            .mood-display {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px;
+                background: #f8f9fa;
+                border-radius: var(--border-radius);
+            }
+            .mood-icon {
+                font-size: 1.5rem;
+            }
+            .mood-progress {
+                flex: 1;
+            }
+        }
+        .user-mood {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .mood-btn {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            background: white;
             cursor: pointer;
             transition: var(--transition);
-        }
-
-        .pdf-upload-area:hover {
-            background: rgba(78, 84, 200, 0.1);
-        }
-
-        .pdf-list {
-            margin-top: 15px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .pdf-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .pdf-item:last-child {
-            border-bottom: none;
-        }
-
-        .pdf-item-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 5px;
         }
-
-        .pdf-item-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .pdf-action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .pdf-action-btn:hover {
-            color: var(--primary);
-        }
-
-        .resources-panel {
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .resources-panel h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .resource-category {
-            margin-bottom: 15px;
-        }
-
-        .resource-category h4 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .resource-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-        }
-
-        .resource-name {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .resource-link {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .resource-link:hover {
-            text-decoration: underline;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 25px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-        }
-
-        .btn-primary {
+        .mood-btn:hover, .mood-btn.active {
             background: var(--primary);
             color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-weight: 600;
+            border-color: var(--primary);
         }
-
-        .btn-primary:hover {
-            background: var(--primary-light);
+        .tools-panel {
+            .tool-btn {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 15px;
+                margin-bottom: 10px;
+                background: white;
+                border: 1px solid #dee2e6;
+                border-radius: var(--border-radius);
+                cursor: pointer;
+                transition: var(--transition);
+            }
+            .tool-btn:hover {
+                background: var(--primary-light);
+                color: white;
+                transform: translateX(5px);
+            }
         }
-
+        .stats-panel {
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .stat-item {
+                background: white;
+                padding: 15px;
+                border-radius: var(--border-radius);
+                text-align: center;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                transition: transform 0.2s ease;
+            }
+            .stat-item:hover {
+                transform: translateY(-3px);
+            }
+            .stat-value {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: var(--primary);
+            }
+            .stat-label {
+                font-size: 0.9rem;
+                color: var(--gray);
+            }
+        }
+        .insights-panel {
+            .insight-item {
+                padding: 15px;
+                margin-bottom: 10px;
+                background: white;
+                border-radius: var(--border-radius);
+                border-left: 4px solid var(--accent);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            }
+            .insight-title {
+                font-weight: 600;
+                color: var(--primary);
+                margin-bottom: 5px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            .insight-content {
+                font-size: 0.9rem;
+                color: var(--dark);
+            }
+            .insight-confidence {
+                font-size: 0.8rem;
+                color: var(--success);
+                margin-top: 5px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+        }
         footer {
             text-align: center;
             padding: 20px;
             color: white;
             font-size: 0.9rem;
         }
-
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray);
+            font-style: italic;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #e9ecef;
+            border-radius: 18px;
+            align-self: flex-start;
+            width: fit-content;
+            max-width: 80%;
         }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease;
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--gray);
+            border-radius: 50%;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        .high-contrast {
+            --primary: #000000;
+            --primary-light: #333333;
+            --secondary: #ffffff;
+            --light: #000000;
+            --dark: #ffffff;
+        }
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .message {
+                max-width: 90%;
+            }
+            .session-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        .emotion-heatmap {
+            margin-top: 15px;
+            height: 80px;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        .emotion-bar {
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            padding: 5px 0;
+            justify-content: space-around;
+        }
+        .emotion-segment {
+            width: 15%;
+            background: linear-gradient(to top, var(--primary), var(--primary-light));
+            border-radius: 5px 5px 0 0;
+            transition: height 0.5s ease;
+            position: relative;
+        }
+        .emotion-segment:hover::after {
+            content: attr(data-emotion);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: black;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .algorithm-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e3f2fd;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            color: #1565c0;
+        }
+        .conversation-context {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f7ff;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            color: #0d47a1;
+            border-left: 3px solid #2196f3;
+        }
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .suggestion-chip {
+            padding: 6px 12px;
+            background: var(--primary-light);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .suggestion-chip:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-robot"></i> SerenBot <span style="font-size: 1rem; background: var(--accent); color: white; padding: 3px 10px; border-radius: 20px;">PDF+</span></h1>
-            <p>Asistente terapéutico con gestión avanzada de recursos PDF</p>
+            <h1><i class="fas fa-brain"></i> SerenBot AI</h1>
+            <p>Tu asistente inteligente con memoria conversacional y comprensión contextual</p>
         </header>
-
         <div class="main-content">
             <div class="chat-container">
                 <div class="chat-header">
-                    <h2><i class="fas fa-comments"></i> Chat con SerenBot</h2>
+                    <h2><i class="fas fa-comments"></i> Chat con SerenBot AI</h2>
                     <div class="session-info">
-                        Sesión: <span id="session-time">00:00</span>
+                        <div class="ai-indicator online">
+                            <i class="fas fa-circle"></i> IA Activa
+                        </div>
+                        <div>Sesión: <span id="session-time">00:00</span></div>
+                        <div>Confianza: <span id="avg-confidence">85%</span></div>
                     </div>
                 </div>
                 <div class="chat-messages" id="chat-messages">
                     <div class="message system-message">
-                        <p>¡Hola! Soy SerenBot. Ahora puedo acceder a recursos PDF para brindarte información más específica y detallada. ¿En qué puedo ayudarte hoy?</p>
+                        <p>¡Hola! Soy SerenBot AI, tu asistente con inteligencia conversacional avanzada. Puedo recordar nuestro contexto y mantener conversaciones coherentes y significativas. ¿En qué puedo ayudarte hoy?</p>
+                        <div class="message-time">12:00 PM</div>
                     </div>
                 </div>
                 <div class="chat-input">
@@ -397,532 +531,1477 @@
                     <button id="send-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
                 </div>
             </div>
-
             <div class="sidebar">
-                <div class="pdf-management-panel">
-                    <h3><i class="fas fa-file-pdf"></i> Gestión de PDFs</h3>
-                    <div class="pdf-upload-area" id="pdf-upload-area">
-                        <p><i class="fas fa-cloud-upload-alt"></i> Haz clic o arrastra PDFs aquí</p>
-                        <input type="file" id="pdf-input" accept=".pdf" style="display: none;" multiple>
-                        <p class="small">Límite: 5 MB por archivo</p>
-                    </div>
-                    
-                    <div class="pdf-list" id="pdf-list">
-                        <p>No hay PDFs cargados todavía.</p>
+                <div class="panel user-panel">
+                    <h3><i class="fas fa-user"></i> Tu Estado Emocional</h3>
+                    <div class="user-info">
+                        <div class="mood-display">
+                            <div class="mood-icon" id="current-mood-icon">😊</div>
+                            <div class="mood-progress">
+                                <div>Estado actual: <strong id="current-mood">Neutral</strong></div>
+                                <div class="progress-bar" style="height: 10px; background: #e9ecef; border-radius: 5px; margin-top: 5px;">
+                                    <div id="mood-progress" style="width: 50%; height: 100%; background: var(--success); border-radius: 5px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p>Selecciona tu estado de ánimo:</p>
+                        <div class="user-mood">
+                            <button class="mood-btn" data-mood="happy"><span>😊</span> Feliz</button>
+                            <button class="mood-btn" data-mood="calm"><span>😌</span> Tranquilo</button>
+                            <button class="mood-btn" data-mood="sad"><span>😔</span> Triste</button>
+                            <button class="mood-btn" data-mood="anxious"><span>😰</span> Ansioso</button>
+                            <button class="mood-btn" data-mood="angry"><span>😠</span> Enojado</button>
+                        </div>
+                        <div class="emotion-heatmap">
+                            <div class="emotion-bar" id="emotion-heatmap">
+                                <div class="emotion-segment" data-emotion="Alegría" style="height: 40%;" id="joy-bar"></div>
+                                <div class="emotion-segment" data-emotion="Tranquilidad" style="height: 60%;" id="calm-bar"></div>
+                                <div class="emotion-segment" data-emotion="Tristeza" style="height: 20%;" id="sadness-bar"></div>
+                                <div class="emotion-segment" data-emotion="Ansiedad" style="height: 30%;" id="anxiety-bar"></div>
+                                <div class="emotion-segment" data-emotion="Enojo" style="height: 10%;" id="anger-bar"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="resources-panel">
-                    <h3><i class="fas fa-book"></i> Recursos Disponibles</h3>
-                    
-                    <div class="resource-category">
-                        <h4>Técnicas de Relajación</h4>
-                        <div class="resource-item">
-                            <div class="resource-name">
-                                <i class="fas fa-file-pdf"></i>
-                                <span>Guía de respiración profunda</span>
-                            </div>
-                            <button class="pdf-action-btn" data-resource="breathing">
-                                <i class="fas fa-eye"></i> Ver
-                            </button>
+                <div class="panel tools-panel">
+                    <h3><i class="fas fa-tools"></i> Herramientas Inteligentes</h3>
+                    <div class="tool-btn" id="breathing-tool">
+                        <i class="fas fa-wind"></i>
+                        <span>Ejercicio de respiración adaptativo</span>
+                    </div>
+                    <div class="tool-btn" id="mindfulness-tool">
+                        <i class="fas fa-spa"></i>
+                        <span>Meditación guiada personalizada</span>
+                    </div>
+                    <div class="tool-btn" id="cbt-tool">
+                        <i class="fas fa-brain"></i>
+                        <span>Técnicas de TCC</span>
+                    </div>
+                    <div class="tool-btn" id="journal-tool">
+                        <i class="fas fa-book"></i>
+                        <span>Diario emocional inteligente</span>
+                    </div>
+                    <div class="tool-btn" id="emergency-tool">
+                        <i class="fas fa-life-ring"></i>
+                        <span>Recursos de emergencia</span>
+                    </div>
+                </div>
+                <div class="panel stats-panel">
+                    <h3><i class="fas fa-chart-line"></i> Tus Estadísticas</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="consecutive-days">14</div>
+                            <div class="stat-label">Días consecutivos</div>
                         </div>
-                        <div class="resource-item">
-                            <div class="resource-name">
-                                <i class="fas fa-file-pdf"></i>
-                                <span>Meditación mindfulness</span>
-                            </div>
-                            <button class="pdf-action-btn" data-resource="mindfulness">
-                                <i class="fas fa-eye"></i> Ver
-                            </button>
+                        <div class="stat-item">
+                            <div class="stat-value" id="mood-trend">87%</div>
+                            <div class="stat-label">Mejora emocional</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="session-count">12</div>
+                            <div class="stat-label">Sesiones este mes</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="achievement-count">5</div>
+                            <div class="stat-label">Logros alcanzados</div>
                         </div>
                     </div>
-                    
-                    <div class="resource-category">
-                        <h4>Terapia Cognitivo-Conductual</h4>
-                        <div class="resource-item">
-                            <div class="resource-name">
-                                <i class="fas fa-file-pdf"></i>
-                                <span>Registro de pensamientos</span>
-                            </div>
-                            <button class="pdf-action-btn" data-resource="thoughts">
-                                <i class="fas fa-eye"></i> Ver
-                            </button>
+                </div>
+                <div class="panel insights-panel">
+                    <h3><i class="fas fa-lightbulb"></i> Insights Inteligentes</h3>
+                    <div id="insights-container">
+                        <div class="insight-item">
+                            <div class="insight-title"><i class="fas fa-chart-bar"></i> Patrón detectado</div>
+                            <div class="insight-content">Tus mensajes muestran mayor ansiedad en las tardes. ¿Te gustaría programar ejercicios de relajación para ese horario?</div>
+                            <div class="insight-confidence"><i class="fas fa-check-circle"></i> Confianza: 82%</div>
                         </div>
-                        <div class="resource-item">
-                            <div class="resource-name">
-                                <i class="fas fa-file-pdf"></i>
-                                <span>Reestructuración cognitiva</span>
-                            </div>
-                            <button class="pdf-action-btn" data-resource="cognitive">
-                                <i class="fas fa-eye"></i> Ver
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="resource-category">
-                        <h4>Autocuidado</h4>
-                        <div class="resource-item">
-                            <div class="resource-name">
-                                <i class="fas fa-file-pdf"></i>
-                                <span>Rutina de autocuidado</span>
-                            </div>
-                            <button class="pdf-action-btn" data-resource="selfcare">
-                                <i class="fas fa-eye"></i> Ver
-                            </button>
-                        </div>
-                        <div class="resource-item">
-                            <div class="resource-name">
-                                <i class="fas fa-file-pdf"></i>
-                                <span>Gestión del estrés</span>
-                            </div>
-                            <button class="pdf-action-btn" data-resource="stress">
-                                <i class="fas fa-eye"></i> Ver
-                            </button>
+                        <div class="insight-item">
+                            <div class="insight-title"><i class="fas fa-smile"></i> Progreso positivo</div>
+                            <div class="insight-content">Has mostrado una mejora del 23% en tu estado de ánimo en la última semana.</div>
+                            <div class="insight-confidence"><i class="fas fa-check-circle"></i> Confianza: 91%</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <footer>
-            <p>SerenBot - Sistema de Gestión de Recursos PDF | <i class="fas fa-shield-alt"></i> Tus documentos se almacenan localmente</p>
+            <p>SerenBot AI - Inteligencia Conversacional para tu bienestar emocional | <i class="fas fa-shield-alt"></i> Tus datos están protegidos</p>
         </footer>
     </div>
-
-    <!-- Modal para visualización de PDF -->
-    <div class="modal" id="pdf-modal">
-        <div class="modal-content">
-            <span class="close-modal" id="close-pdf-modal">&times;</span>
-            <h3 id="pdf-modal-title"><i class="fas fa-file-pdf"></i> Visualizador de PDF</h3>
-            <div id="pdf-viewer" style="width: 100%; height: 400px; border: 1px solid #eee; margin: 15px 0;">
-                <p style="text-align: center; padding: 50px;">El contenido del PDF se mostrará aquí</p>
-            </div>
-            <div style="display: flex; justify-content: space-between;">
-                <button class="btn-primary" id="prev-page"><i class="fas fa-arrow-left"></i> Anterior</button>
-                <span id="page-info">Página 1 de 1</span>
-                <button class="btn-primary" id="next-page">Siguiente <i class="fas fa-arrow-right"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PDF.js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-
     <script>
-        // Configurar PDF.js
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-        // Clase para gestionar PDFs
-        class PDFManager {
+        // Sistema de Memoria Conversacional
+        class ConversationMemory {
             constructor() {
-                this.storageKey = 'serenbot_pdfs';
-                this.loadedPDFs = new Map();
-                this.currentPDF = null;
-                this.currentPage = 1;
-                this.init();
+                this.conversationHistory = [];
+                this.topics = new Map();
+                this.emotionalContext = {
+                    currentMood: 'neutral',
+                    moodIntensity: 0.5,
+                    moodHistory: []
+                };
+                this.userProfile = {
+                    preferences: {},
+                    communicationStyle: 'balanced',
+                    responseLengthPreference: 'medium'
+                };
+                this.conversationGoals = [];
+                this.activeTopics = new Set();
             }
-
-            init() {
-                this.loadFromStorage();
-                this.setupEventListeners();
+            
+            // Añadir mensaje al historial
+            addMessage(message) {
+                this.conversationHistory.push({
+                    ...message,
+                    timestamp: Date.now()
+                });
+                
+                // Limitar historial
+                if (this.conversationHistory.length > 50) {
+                    this.conversationHistory = this.conversationHistory.slice(-50);
+                }
+                
+                // Extraer y actualizar tópicos
+                this.extractTopics(message);
+                
+                // Actualizar contexto emocional
+                if (message.emotionAnalysis) {
+                    this.updateEmotionalContext(message.emotionAnalysis);
+                }
+                
+                // Actualizar perfil de usuario
+                this.updateUserProfile(message);
             }
-
-            setupEventListeners() {
-                // Área de carga de PDFs
-                const uploadArea = document.getElementById('pdf-upload-area');
-                const pdfInput = document.getElementById('pdf-input');
+            
+            // Extraer tópicos de un mensaje
+            extractTopics(message) {
+                const text = message.content.toLowerCase();
+                const topics = [
+                    { name: 'ansiedad', keywords: ['ansiedad', 'nervioso', 'preocupado', 'estresado', 'pánico'] },
+                    { name: 'tristeza', keywords: ['triste', 'deprimido', 'desanimado', 'vacío', 'llorar'] },
+                    { name: 'alegría', keywords: ['feliz', 'contento', 'alegre', 'emocionado', 'entusiasmado'] },
+                    { name: 'enojo', keywords: ['enojado', 'furioso', 'irritado', 'frustrado', 'molesto'] },
+                    { name: 'relajación', keywords: ['relajación', 'calmado', 'tranquilo', 'paz', 'sereno'] },
+                    { name: 'respiración', keywords: ['respiración', 'respirar', 'inhalar', 'exhalar', 'aire'] },
+                    { name: 'meditación', keywords: ['meditación', 'mindfulness', 'atención plena', 'presente', 'consciente'] },
+                    { name: 'diario', keywords: ['diario', 'escribir', 'registro', 'reflexión', 'pensamientos'] }
+                ];
                 
-                uploadArea.addEventListener('click', () => {
-                    pdfInput.click();
-                });
-                
-                uploadArea.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    uploadArea.style.background = 'rgba(78, 84, 200, 0.2)';
-                });
-                
-                uploadArea.addEventListener('dragleave', () => {
-                    uploadArea.style.background = '';
-                });
-                
-                uploadArea.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    uploadArea.style.background = '';
-                    
-                    if (e.dataTransfer.files.length > 0) {
-                        this.handlePDFUpload(e.dataTransfer.files);
-                    }
-                });
-                
-                pdfInput.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) {
-                        this.handlePDFUpload(e.target.files);
-                    }
-                });
-
-                // Modal de PDF
-                const closeModalBtn = document.getElementById('close-pdf-modal');
-                closeModalBtn.addEventListener('click', () => {
-                    this.closePDFModal();
-                });
-
-                const prevPageBtn = document.getElementById('prev-page');
-                const nextPageBtn = document.getElementById('next-page');
-                
-                prevPageBtn.addEventListener('click', () => {
-                    this.previousPage();
-                });
-                
-                nextPageBtn.addEventListener('click', () => {
-                    this.nextPage();
-                });
-
-                // Botones de recursos predefinidos
-                document.querySelectorAll('.pdf-action-btn[data-resource]').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const resource = e.target.closest('.pdf-action-btn').dataset.resource;
-                        this.openResourcePDF(resource);
-                    });
-                });
-            }
-
-            handlePDFUpload(files) {
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    
-                    if (file.type !== 'application/pdf') {
-                        alert('Solo se permiten archivos PDF');
-                        continue;
-                    }
-                    
-                    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-                        alert('El archivo es demasiado grande. Límite: 5MB');
-                        continue;
-                    }
-                    
-                    const reader = new FileReader();
-                    
-                    reader.onload = (e) => {
-                        const pdfData = {
-                            name: file.name,
-                            data: e.target.result,
-                            uploadDate: new Date().toISOString()
-                        };
+                topics.forEach(topic => {
+                    const isActive = topic.keywords.some(keyword => text.includes(keyword));
+                    if (isActive) {
+                        if (!this.topics.has(topic.name)) {
+                            this.topics.set(topic.name, {
+                                count: 0,
+                                firstMention: Date.now(),
+                                lastMention: Date.now(),
+                                intensity: 0
+                            });
+                        }
                         
-                        this.addPDF(pdfData);
-                    };
-                    
-                    reader.readAsDataURL(file);
-                }
-            }
-
-            addPDF(pdfData) {
-                this.loadedPDFs.set(pdfData.name, pdfData);
-                this.saveToStorage();
-                this.updatePDFList();
-                
-                // Notificar al usuario
-                this.showMessage(`PDF "${pdfData.name}" añadido correctamente`, 'success');
-            }
-
-            removePDF(pdfName) {
-                this.loadedPDFs.delete(pdfName);
-                this.saveToStorage();
-                this.updatePDFList();
-                
-                // Notificar al usuario
-                this.showMessage(`PDF "${pdfName}" eliminado`, 'info');
-            }
-
-            viewPDF(pdfName) {
-                const pdfData = this.loadedPDFs.get(pdfName);
-                
-                if (!pdfData) {
-                    this.showMessage('PDF no encontrado', 'error');
-                    return;
-                }
-                
-                this.openPDFModal(pdfData);
-            }
-
-            openPDFModal(pdfData) {
-                this.currentPDF = pdfData;
-                this.currentPage = 1;
-                
-                document.getElementById('pdf-modal-title').textContent = pdfData.name;
-                document.getElementById('pdf-modal').style.display = 'flex';
-                
-                this.renderPDFPage();
-            }
-
-            closePDFModal() {
-                document.getElementById('pdf-modal').style.display = 'none';
-                this.currentPDF = null;
-            }
-
-            async renderPDFPage() {
-                if (!this.currentPDF) return;
-                
-                try {
-                    const pdf = await pdfjsLib.getDocument({ data: this.currentPDF.data }).promise;
-                    const page = await pdf.getPage(this.currentPage);
-                    
-                    const viewport = page.getViewport({ scale: 1.5 });
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    
-                    const renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    
-                    await page.render(renderContext).promise;
-                    
-                    const pdfViewer = document.getElementById('pdf-viewer');
-                    pdfViewer.innerHTML = '';
-                    pdfViewer.appendChild(canvas);
-                    
-                    // Actualizar información de página
-                    document.getElementById('page-info').textContent = 
-                        `Página ${this.currentPage} de ${pdf.numPages}`;
-                    
-                    // Actualizar estado de botones
-                    document.getElementById('prev-page').disabled = this.currentPage <= 1;
-                    document.getElementById('next-page').disabled = this.currentPage >= pdf.numPages;
-                    
-                } catch (error) {
-                    console.error('Error al renderizar PDF:', error);
-                    this.showMessage('Error al cargar el PDF', 'error');
-                }
-            }
-
-            nextPage() {
-                if (this.currentPDF) {
-                    this.currentPage++;
-                    this.renderPDFPage();
-                }
-            }
-
-            previousPage() {
-                if (this.currentPDF && this.currentPage > 1) {
-                    this.currentPage--;
-                    this.renderPDFPage();
-                }
-            }
-
-            openResourcePDF(resource) {
-                // En una implementación real, estos serían recursos predefinidos
-                const resources = {
-                    'breathing': {
-                        name: 'Guía de Respiración Profunda',
-                        content: 'Contenido de ejemplo para la guía de respiración...'
-                    },
-                    'mindfulness': {
-                        name: 'Técnicas de Mindfulness',
-                        content: 'Contenido de ejemplo para técnicas de mindfulness...'
-                    },
-                    'thoughts': {
-                        name: 'Registro de Pensamientos',
-                        content: 'Contenido de ejemplo para registro de pensamientos...'
-                    },
-                    'cognitive': {
-                        name: 'Reestructuración Cognitiva',
-                        content: 'Contenido de ejemplo para reestructuración cognitiva...'
-                    },
-                    'selfcare': {
-                        name: 'Rutina de Autocuidado',
-                        content: 'Contenido de ejemplo para rutina de autocuidado...'
-                    },
-                    'stress': {
-                        name: 'Gestión del Estrés',
-                        content: 'Contenido de ejemplo para gestión del estrés...'
+                        const topicData = this.topics.get(topic.name);
+                        topicData.count++;
+                        topicData.lastMention = Date.now();
+                        topicData.intensity = Math.min(1, topicData.intensity + 0.1);
+                        
+                        this.topics.set(topic.name, topicData);
+                        this.activeTopics.add(topic.name);
                     }
+                });
+            }
+            
+            // Actualizar contexto emocional
+            updateEmotionalContext(emotionAnalysis) {
+                this.emotionalContext.currentMood = emotionAnalysis.dominantEmotion;
+                this.emotionalContext.moodIntensity = Math.max(
+                    emotionAnalysis.scores.joy || 0,
+                    emotionAnalysis.scores.calm || 0,
+                    emotionAnalysis.scores.sadness || 0,
+                    emotionAnalysis.scores.anxiety || 0,
+                    emotionAnalysis.scores.anger || 0
+                );
+                
+                this.emotionalContext.moodHistory.push({
+                    mood: emotionAnalysis.dominantEmotion,
+                    intensity: this.emotionalContext.moodIntensity,
+                    timestamp: Date.now()
+                });
+                
+                // Limitar historial emocional
+                if (this.emotionalContext.moodHistory.length > 20) {
+                    this.emotionalContext.moodHistory = this.emotionalContext.moodHistory.slice(-20);
+                }
+            }
+            
+            // Actualizar perfil de usuario
+            updateUserProfile(message) {
+                // Analizar estilo de comunicación
+                const wordCount = message.content.split(/\s+/).length;
+                if (wordCount > 50) {
+                    this.userProfile.communicationStyle = 'detailed';
+                } else if (wordCount < 10) {
+                    this.userProfile.communicationStyle = 'concise';
+                }
+                
+                // Analizar preferencia de longitud de respuesta
+                if (message.content.includes('?')) {
+                    this.userProfile.responseLengthPreference = 'detailed';
+                }
+            }
+            
+            // Obtener contexto relevante para la conversación actual
+            getContextForResponse() {
+                return {
+                    recentMessages: this.getRecentMessages(3),
+                    activeTopics: Array.from(this.activeTopics),
+                    dominantEmotion: this.emotionalContext.currentMood,
+                    emotionIntensity: this.emotionalContext.moodIntensity,
+                    userProfile: { ...this.userProfile },
+                    conversationGoals: [...this.conversationGoals],
+                    conversationLength: this.conversationHistory.length
+                };
+            }
+            
+            // Obtener mensajes recientes
+            getRecentMessages(count) {
+                return this.conversationHistory.slice(-count).map(msg => ({
+                    sender: msg.sender,
+                    content: msg.content,
+                    emotion: msg.emotionAnalysis ? msg.emotionAnalysis.dominantEmotion : null
+                }));
+            }
+            
+            // Obtener tópicos relevantes
+            getRelevantTopics() {
+                return Array.from(this.topics.entries())
+                    .filter(([name, data]) => {
+                        const timeSinceLastMention = Date.now() - data.lastMention;
+                        return timeSinceLastMention < 30 * 60 * 1000; // Últimos 30 minutos
+                    })
+                    .sort((a, b) => b[1].intensity - a[1].intensity)
+                    .slice(0, 5)
+                    .map(([name, data]) => ({
+                        name,
+                        intensity: data.intensity,
+                        count: data.count
+                    }));
+            }
+            
+            // Agregar meta conversacional
+            addConversationGoal(goal) {
+                this.conversationGoals.push({
+                    goal,
+                    achieved: false,
+                    timestamp: Date.now()
+                });
+            }
+            
+            // Marcar meta como alcanzada
+            markGoalAchieved(goalText) {
+                const goal = this.conversationGoals.find(g => g.goal === goalText);
+                if (goal) {
+                    goal.achieved = true;
+                }
+            }
+            
+            // Obtener metas activas
+            getActiveGoals() {
+                return this.conversationGoals.filter(goal => !goal.achieved);
+            }
+            
+            // Generar resumen de la conversación
+            generateConversationSummary() {
+                const relevantTopics = this.getRelevantTopics();
+                const activeGoals = this.getActiveGoals();
+                const dominantEmotion = this.emotionalContext.currentMood;
+                
+                let summary = "Resumen de nuestra conversación:\n";
+                
+                if (relevantTopics.length > 0) {
+                    summary += "- Hemos hablado principalmente sobre: " + 
+                        relevantTopics.map(t => t.name).join(", ") + "\n";
+                }
+                
+                if (dominantEmotion && dominantEmotion !== 'neutral') {
+                    summary += `- Tu estado emocional predominante ha sido: ${dominantEmotion}\n`;
+                }
+                
+                if (activeGoals.length > 0) {
+                    summary += `- Metas que estamos trabajando: ${activeGoals.map(g => g.goal).join(", ")}\n`;
+                }
+                
+                return summary;
+            }
+        }
+
+        // Sistema de Comprensión Contextual
+        class ContextualUnderstanding {
+            constructor(conversationMemory) {
+                this.memory = conversationMemory;
+                this.intentRecognizer = new IntentRecognizer();
+                this.entityExtractor = new EntityExtractor();
+                this.sentimentAnalyzer = new AdvancedSentimentAnalyzer();
+            }
+            
+            // Analizar mensaje con contexto
+            analyzeWithContext(message, context) {
+                const analysis = {
+                    originalMessage: message,
+                    processedMessage: message.toLowerCase().trim(),
+                    intents: this.intentRecognizer.recognizeIntents(message),
+                    entities: this.entityExtractor.extractEntities(message),
+                    sentiment: this.sentimentAnalyzer.analyze(message),
+                    context: { ...context },
+                    suggestions: [],
+                    responseStrategy: 'default'
                 };
                 
-                if (resources[resource]) {
-                    // En una implementación real, cargaríamos un PDF real
-                    // Por ahora mostramos un mensaje
-                    this.showMessage(`Abriendo recurso: ${resources[resource].name}`, 'info');
-                    
-                    // Simular la apertura de un PDF
-                    setTimeout(() => {
-                        this.showMessage(`Recurso "${resources[resource].name}" cargado. En una implementación real, se mostraría el PDF completo.`, 'success');
-                    }, 1000);
-                }
-            }
-
-            searchInPDFs(query) {
-                const results = [];
+                // Enriquecer análisis con contexto
+                this.enrichWithContext(analysis);
                 
-                // En una implementación real, buscaríamos en el texto de los PDFs
-                // Por ahora simulamos resultados basados en el nombre del archivo
-                for (const [name, pdfData] of this.loadedPDFs.entries()) {
-                    if (name.toLowerCase().includes(query.toLowerCase())) {
-                        results.push({
-                            pdf: name,
-                            relevance: 0.8, // Simular relevancia
-                            excerpt: `Resultado encontrado en ${name} para la búsqueda: ${query}`
+                return analysis;
+            }
+            
+            // Enriquecer análisis con contexto conversacional
+            enrichWithContext(analysis) {
+                const context = this.memory.getContextForResponse();
+                
+                // 1. Identificar referencias contextuales
+                analysis.contextualReferences = this.identifyContextualReferences(analysis, context);
+                
+                // 2. Detectar cambios emocionales
+                analysis.emotionalShift = this.detectEmotionalShift(analysis, context);
+                
+                // 3. Identificar continuidad temática
+                analysis.topicContinuity = this.identifyTopicContinuity(analysis, context);
+                
+                // 4. Generar sugerencias basadas en contexto
+                analysis.suggestions = this.generateContextualSuggestions(analysis, context);
+                
+                // 5. Determinar estrategia de respuesta
+                analysis.responseStrategy = this.determineResponseStrategy(analysis, context);
+            }
+            
+            // Identificar referencias contextuales
+            identifyContextualReferences(analysis, context) {
+                const references = [];
+                const recentMessages = context.recentMessages || [];
+                
+                // Buscar pronombres y referencias implícitas
+                const pronouns = ['eso', 'esto', 'aquello', 'él', 'ella', 'ellos', 'ellas', 'tú', 'usted'];
+                const text = analysis.processedMessage;
+                
+                pronouns.forEach(pronoun => {
+                    if (text.includes(pronoun)) {
+                        references.push({
+                            type: 'pronoun',
+                            pronoun: pronoun,
+                            referencedContent: this.findReferencedContent(pronoun, recentMessages)
+                        });
+                    }
+                });
+                
+                // Buscar referencias a tópicos anteriores
+                const relevantTopics = this.memory.getRelevantTopics();
+                relevantTopics.forEach(topic => {
+                    if (text.includes(topic.name)) {
+                        references.push({
+                            type: 'topic_reference',
+                            topic: topic.name,
+                            intensity: topic.intensity
+                        });
+                    }
+                });
+                
+                return references;
+            }
+            
+            // Encontrar contenido referenciado por pronombres
+            findReferencedContent(pronoun, recentMessages) {
+                if (recentMessages.length === 0) return null;
+                
+                // Por simplicidad, devolver el último mensaje del bot
+                for (let i = recentMessages.length - 1; i >= 0; i--) {
+                    if (recentMessages[i].sender === 'bot') {
+                        return recentMessages[i].content;
+                    }
+                }
+                
+                return null;
+            }
+            
+            // Detectar cambios emocionales
+            detectEmotionalShift(analysis, context) {
+                if (!context.dominantEmotion || !analysis.sentiment) {
+                    return null;
+                }
+                
+                const previousEmotion = context.dominantEmotion;
+                const currentEmotion = analysis.sentiment.dominantEmotion;
+                const previousIntensity = context.emotionIntensity || 0.5;
+                const currentIntensity = analysis.sentiment.confidence / 100;
+                
+                if (previousEmotion === currentEmotion) {
+                    const intensityChange = currentIntensity - previousIntensity;
+                    if (Math.abs(intensityChange) > 0.2) {
+                        return {
+                            type: 'intensity_change',
+                            direction: intensityChange > 0 ? 'increase' : 'decrease',
+                            magnitude: Math.abs(intensityChange),
+                            from: previousEmotion,
+                            to: currentEmotion
+                        };
+                    }
+                    return null;
+                }
+                
+                // Cambio de emoción
+                return {
+                    type: 'emotion_change',
+                    from: previousEmotion,
+                    to: currentEmotion,
+                    intensityChange: currentIntensity - previousIntensity
+                };
+            }
+            
+            // Identificar continuidad temática
+            identifyTopicContinuity(analysis, context) {
+                const activeTopics = context.activeTopics || [];
+                const text = analysis.processedMessage;
+                
+                const continuityScore = activeTopics.reduce((score, topic) => {
+                    if (text.includes(topic)) {
+                        return score + 1;
+                    }
+                    return score;
+                }, 0);
+                
+                const totalTopics = activeTopics.length;
+                const continuityPercentage = totalTopics > 0 ? (continuityScore / totalTopics) * 100 : 0;
+                
+                return {
+                    score: continuityScore,
+                    percentage: continuityPercentage,
+                    isContinuous: continuityPercentage > 30,
+                    continuingTopics: activeTopics.filter(topic => text.includes(topic))
+                };
+            }
+            
+            // Generar sugerencias contextuales
+            generateContextualSuggestions(analysis, context) {
+                const suggestions = [];
+                
+                // Sugerencias basadas en cambios emocionales
+                if (analysis.emotionalShift) {
+                    if (analysis.emotionalShift.type === 'emotion_change') {
+                        suggestions.push({
+                            type: 'acknowledge_emotion_change',
+                            content: `Reconocer el cambio de ${analysis.emotionalShift.from} a ${analysis.emotionalShift.to}`
                         });
                     }
                 }
                 
-                return results;
-            }
-
-            updatePDFList() {
-                const pdfList = document.getElementById('pdf-list');
-                
-                if (this.loadedPDFs.size === 0) {
-                    pdfList.innerHTML = '<p>No hay PDFs cargados todavía.</p>';
-                    return;
-                }
-                
-                let html = '';
-                for (const [name, pdfData] of this.loadedPDFs.entries()) {
-                    html += `
-                        <div class="pdf-item">
-                            <div class="pdf-item-info">
-                                <i class="fas fa-file-pdf"></i>
-                                <span>${name}</span>
-                            </div>
-                            <div class="pdf-item-actions">
-                                <button class="pdf-action-btn view-pdf" data-pdf="${name}">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="pdf-action-btn delete-pdf" data-pdf="${name}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                pdfList.innerHTML = html;
-                
-                // Añadir event listeners a los botones
-                pdfList.querySelectorAll('.view-pdf').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const pdfName = e.target.closest('.view-pdf').dataset.pdf;
-                        this.viewPDF(pdfName);
+                // Sugerencias basadas en continuidad temática
+                if (analysis.topicContinuity && analysis.topicContinuity.isContinuous) {
+                    suggestions.push({
+                        type: 'build_on_topic',
+                        content: 'Profundizar en los temas ya discutidos'
                     });
+                }
+                
+                // Sugerencias basadas en referencias contextuales
+                if (analysis.contextualReferences && analysis.contextualReferences.length > 0) {
+                    suggestions.push({
+                        type: 'resolve_reference',
+                        content: 'Aclarar referencias contextuales'
+                    });
+                }
+                
+                // Sugerencias basadas en metas
+                const activeGoals = this.memory.getActiveGoals();
+                if (activeGoals.length > 0) {
+                    suggestions.push({
+                        type: 'progress_toward_goal',
+                        content: 'Avanzar hacia metas establecidas'
+                    });
+                }
+                
+                return suggestions;
+            }
+            
+            // Determinar estrategia de respuesta
+            determineResponseStrategy(analysis, context) {
+                // Estrategia de crisis
+                if (analysis.sentiment && analysis.sentiment.dominantEmotion === 'anxiety' && analysis.sentiment.confidence > 80) {
+                    return 'crisis_response';
+                }
+                
+                // Estrategia de cambio emocional significativo
+                if (analysis.emotionalShift && analysis.emotionalShift.type === 'emotion_change') {
+                    return 'emotion_transition';
+                }
+                
+                // Estrategia de continuidad temática
+                if (analysis.topicContinuity && analysis.topicContinuity.isContinuous) {
+                    return 'topic_development';
+                }
+                
+                // Estrategia de referencia contextual
+                if (analysis.contextualReferences && analysis.contextualReferences.length > 0) {
+                    return 'context_resolution';
+                }
+                
+                // Estrategia de establecimiento de metas
+                if (context.conversationLength < 3 && analysis.intents.some(intent => intent.type === 'express_emotion')) {
+                    return 'goal_setting';
+                }
+                
+                return 'default_contextual';
+            }
+        }
+
+        // Reconocedor de Intenciones
+        class IntentRecognizer {
+            constructor() {
+                this.intentPatterns = {
+                    'greeting': {
+                        patterns: ['hola', 'buenos días', 'buenas tardes', 'buenas noches', 'saludos', 'hey', 'hi', 'hello'],
+                        type: 'greeting',
+                        priority: 1
+                    },
+                    'farewell': {
+                        patterns: ['adiós', 'hasta luego', 'chau', 'bye', 'nos vemos', 'hasta mañana'],
+                        type: 'farewell',
+                        priority: 1
+                    },
+                    'request_help': {
+                        patterns: ['ayuda', 'necesito ayuda', 'socorro', 'auxilio', 'emergencia', 'crisis', 'no puedo más', 'no aguanto'],
+                        type: 'request_help',
+                        priority: 5
+                    },
+                    'express_emotion': {
+                        patterns: ['estoy', 'me siento', 'siento que', 'me encuentro', 'estoy muy', 'estoy bastante', 'me pongo', 'me vuelvo'],
+                        type: 'express_emotion',
+                        priority: 4
+                    },
+                    'ask_question': {
+                        patterns: ['qué', 'cómo', 'cuándo', 'por qué', 'dónde', 'para qué', 'cuál', 'cuáles'],
+                        type: 'ask_question',
+                        priority: 3
+                    },
+                    'request_exercise': {
+                        patterns: ['ejercicio', 'técnica', 'método', 'herramienta', 'practicar', 'intentar', 'probar', 'hacer', 'realizar'],
+                        type: 'request_exercise',
+                        priority: 3
+                    },
+                    'express_gratitude': {
+                        patterns: ['gracias', 'te agradezco', 'agradecido', 'aprecio', 'valorar', 'reconocer', 'mil gracias'],
+                        type: 'express_gratitude',
+                        priority: 2
+                    },
+                    'seek_understanding': {
+                        patterns: ['entiendo', 'comprendo', 'capto', 'percibo', 'visualizo', 'imagino'],
+                        type: 'seek_understanding',
+                        priority: 3
+                    },
+                    'share_experience': {
+                        patterns: ['ayer', 'la semana pasada', 'recientemente', 'hace poco', 'antes', 'después', 'cuando', 'mientras'],
+                        type: 'share_experience',
+                        priority: 3
+                    }
+                };
+            }
+            
+            recognizeIntents(text) {
+                const intents = [];
+                const lowerText = text.toLowerCase();
+                
+                for (const intentKey in this.intentPatterns) {
+                    const intent = this.intentPatterns[intentKey];
+                    const found = intent.patterns.some(pattern => {
+                        const regex = new RegExp(`\\b${pattern}\\b`, 'i');
+                        return regex.test(lowerText);
+                    });
+                    
+                    if (found) {
+                        intents.push({
+                            type: intent.type,
+                            confidence: this.calculateConfidence(intent, text),
+                            matchedPatterns: intent.patterns.filter(pattern => 
+                                new RegExp(`\\b${pattern}\\b`, 'i').test(lowerText)
+                            ),
+                            priority: intent.priority
+                        });
+                    }
+                }
+                
+                // Ordenar por prioridad y confianza
+                return intents.sort((a, b) => {
+                    if (b.priority !== a.priority) {
+                        return b.priority - a.priority;
+                    }
+                    return b.confidence - a.confidence;
+                });
+            }
+            
+            calculateConfidence(intent, text) {
+                const lowerText = text.toLowerCase();
+                let matchCount = 0;
+                
+                intent.patterns.forEach(pattern => {
+                    if (new RegExp(`\\b${pattern}\\b`, 'i').test(lowerText)) {
+                        matchCount++;
+                    }
                 });
                 
-                pdfList.querySelectorAll('.delete-pdf').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const pdfName = e.target.closest('.delete-pdf').dataset.pdf;
-                        if (confirm(`¿Estás seguro de que quieres eliminar "${pdfName}"?`)) {
-                            this.removePDF(pdfName);
+                // Más patrones coincidentes = mayor confianza
+                const baseConfidence = 0.5 + (matchCount / intent.patterns.length) * 0.4;
+                
+                // Ajustar por longitud del texto (textos más específicos = mayor confianza)
+                const textSpecificity = Math.min(1, text.length / 50);
+                return Math.min(0.95, baseConfidence + textSpecificity * 0.2);
+            }
+        }
+
+        // Extractor de Entidades
+        class EntityExtractor {
+            constructor() {
+                this.entityPatterns = {
+                    'emotion': {
+                        patterns: [
+                            { regex: /\b(feliz|contento|alegre|emocionado|entusiasmado)\b/i, value: 'joy' },
+                            { regex: /\b(tranquilo|relajado|calmado|sereno|en paz|equilibrado)\b/i, value: 'calm' },
+                            { regex: /\b(triste|deprimido|desanimado|abatido|melancólico|desesperanzado)\b/i, value: 'sadness' },
+                            { regex: /\b(ansioso|preocupado|nervioso|estresado|tenso|asustado|atemorizado)\b/i, value: 'anxiety' },
+                            { regex: /\b(enojado|furioso|irritado|molesto|frustrado|enojado|colérico)\b/i, value: 'anger' }
+                        ]
+                    },
+                    'intensity': {
+                        patterns: [
+                            { regex: /\b(muy|extremadamente|totalmente|completamente|absolutamente)\b/i, value: 'high' },
+                            { regex: /\b(un poco|algo|ligeramente|medianamente|bastante)\b/i, value: 'medium' },
+                            { regex: /\b(poco|casi nada|levemente|ligeramente)\b/i, value: 'low' }
+                        ]
+                    },
+                    'time': {
+                        patterns: [
+                            { regex: /\b(hoy|ayer|mañana|ahora|enseguida|inmediatamente)\b/i, value: 'immediate' },
+                            { regex: /\b(más tarde|después|tarde|noche|mañana)\b/i, value: 'future' },
+                            { regex: /\b(antes|previamente|anteriormente|pasado)\b/i, value: 'past' }
+                        ]
+                    }
+                };
+            }
+            
+            extractEntities(text) {
+                const entities = [];
+                
+                for (const entityType in this.entityPatterns) {
+                    const patterns = this.entityPatterns[entityType].patterns;
+                    
+                    patterns.forEach(pattern => {
+                        let match;
+                        const regex = new RegExp(pattern.regex.source, 'gi');
+                        while ((match = regex.exec(text)) !== null) {
+                            entities.push({
+                                type: entityType,
+                                value: pattern.value,
+                                text: match[0],
+                                startIndex: match.index,
+                                endIndex: match.index + match[0].length,
+                                confidence: this.calculateEntityConfidence(entityType, match[0])
+                            });
                         }
                     });
+                }
+                
+                return entities;
+            }
+            
+            calculateEntityConfidence(entityType, matchedText) {
+                const baseConfidence = {
+                    'emotion': 0.85,
+                    'intensity': 0.8,
+                    'time': 0.75
+                }[entityType] || 0.7;
+                
+                return Math.min(0.95, baseConfidence);
+            }
+        }
+
+        // Analizador de Sentimientos Avanzado
+        class AdvancedSentimentAnalyzer {
+            constructor() {
+                this.emotionLexicon = {
+                    joy: {
+                        words: ['feliz', 'contento', 'alegre', 'emocionado', 'entusiasmado', 'optimista', 'agradecido', 'satisfecho', 'orgulloso', 'esperanzado'],
+                        weight: 0.9
+                    },
+                    calm: {
+                        words: ['tranquilo', 'relajado', 'calmado', 'sereno', 'equilibrado', 'centrado', 'pacifico', 'armonioso', 'placido', 'reposado'],
+                        weight: 0.85
+                    },
+                    sadness: {
+                        words: ['triste', 'deprimido', 'desanimado', 'abatido', 'melancólico', 'desesperanzado', 'solo', 'vacío', 'desconsolado', 'apenado'],
+                        weight: 0.9
+                    },
+                    anxiety: {
+                        words: ['ansioso', 'preocupado', 'nervioso', 'estresado', 'tenso', 'asustado', 'atemorizado', 'inquieto', 'alarmado', 'angustiado'],
+                        weight: 0.95
+                    },
+                    anger: {
+                        words: ['enojado', 'furioso', 'irritado', 'molesto', 'frustrado', 'colérico', 'indignado', 'resentido', 'exasperado', 'enojado'],
+                        weight: 0.9
+                    }
+                };
+                
+                this.negationWords = ['no', 'nunca', 'jamás', 'tampoco', 'ni'];
+                this.intensifiers = {
+                    'muy': 1.5,
+                    'extremadamente': 2.0,
+                    'totalmente': 1.8,
+                    'completamente': 1.7,
+                    'bastante': 1.3,
+                    'algo': 0.8,
+                    'poco': 0.5,
+                    'ligeramente': 0.6
+                };
+            }
+            
+            analyze(text) {
+                const words = text.toLowerCase().split(/\W+/).filter(w => w.length > 0);
+                const scores = { joy: 0, calm: 0, sadness: 0, anxiety: 0, anger: 0 };
+                
+                for (let i = 0; i < words.length; i++) {
+                    const word = words[i];
+                    let modifier = 1.0;
+                    
+                    // Verificar intensificadores
+                    if (i > 0 && this.intensifiers[words[i-1]]) {
+                        modifier = this.intensifiers[words[i-1]];
+                    }
+                    
+                    // Verificar negaciones
+                    if (i > 0 && this.negationWords.includes(words[i-1])) {
+                        modifier = -0.8; // Negación parcial
+                    }
+                    
+                    // Buscar en léxico de emociones
+                    for (const emotion in this.emotionLexicon) {
+                        if (this.emotionLexicon[emotion].words.includes(word)) {
+                            scores[emotion] += this.emotionLexicon[emotion].weight * modifier;
+                        }
+                    }
+                }
+                
+                // Normalizar scores
+                const maxScore = Math.max(...Object.values(scores), 1);
+                for (const emotion in scores) {
+                    scores[emotion] = scores[emotion] / maxScore;
+                }
+                
+                // Determinar emoción dominante
+                let dominantEmotion = 'neutral';
+                let maxEmotionScore = 0;
+                
+                for (const emotion in scores) {
+                    if (scores[emotion] > maxEmotionScore) {
+                        maxEmotionScore = scores[emotion];
+                        dominantEmotion = emotion;
+                    }
+                }
+                
+                // Calcular confianza
+                const otherScores = Object.keys(scores)
+                    .filter(e => e !== dominantEmotion)
+                    .map(e => scores[e]);
+                const avgOtherScore = otherScores.reduce((a, b) => a + b, 0) / Math.max(1, otherScores.length);
+                const confidence = Math.min(95, Math.max(30, (maxEmotionScore - avgOtherScore) * 100 + 30));
+                
+                return {
+                    scores: scores,
+                    dominantEmotion: maxEmotionScore > 0.3 ? dominantEmotion : 'neutral',
+                    confidence: confidence,
+                    intensity: maxEmotionScore
+                };
+            }
+        }
+
+        // Generador de Respuestas Contextuales
+        class ContextualResponseGenerator {
+            constructor(conversationMemory, contextualUnderstanding) {
+                this.memory = conversationMemory;
+                this.understanding = contextualUnderstanding;
+                this.responseTemplates = this.initializeTemplates();
+            }
+            
+            initializeTemplates() {
+                return {
+                    greeting: [
+                        "¡Hola! Me alegra que estés aquí. Veo que te sientes {emotion}. ¿En qué puedo ayudarte hoy?",
+                        "¡Bienvenido/a de nuevo! Recuerdo que estabamos hablando sobre {topics}. ¿Quieres continuar con eso?",
+                        "¡Hola! Según nuestro historial, has estado trabajando en {goals}. ¿Cómo ha ido desde nuestra última conversación?"
+                    ],
+                    farewell: [
+                        "Ha sido un placer conversar contigo. Recuerda que estoy aquí cuando me necesites.",
+                        "Antes de despedirnos, ¿hay algo más en lo que pueda ayudarte hoy?",
+                        "Gracias por compartir tus pensamientos conmigo. No olvides practicar las técnicas que hemos discutido."
+                    ],
+                    crisis_response: [
+                        "Detecto que estás pasando por un momento muy difícil. Tu seguridad es lo más importante. Por favor, contacta inmediatamente a la línea de crisis: 0800 345 1435",
+                        "Estoy aquí contigo en este momento difícil. Respira profundamente conmigo: inhala... 1,2,3,4... mantén... 1,2,3,4... exhala... 1,2,3,4,5,6...",
+                        "Cuando la ansiedad es abrumadora, recuerda: esto es temporal, puedes manejarlo, y no estás solo/a. ¿Te gustaría hacer un ejercicio de grounding juntos?"
+                    ],
+                    emotion_transition: [
+                        "Noté un cambio en cómo te sientes, de {from} a {to}. ¿Te gustaría hablar sobre qué provocó este cambio?",
+                        "Es interesante ver cómo tu estado emocional ha evolucionado. ¿Qué estrategias te han ayudado en esta transición?",
+                        "Reconozco que estás experimentando {to} después de haber estado {from}. ¿Cómo puedo apoyarte mejor en este nuevo estado?"
+                    ],
+                    topic_development: [
+                        "Continuando con lo que hablamos antes sobre {topics}, ¿te gustaría profundizar en algún aspecto específico?",
+                        "Recuerdo que mencionaste {previous_topic}. ¿Has tenido alguna experiencia reciente relacionada con eso?",
+                        "Sobre el tema de {topics} que hemos estado explorando, ¿qué nuevas perspectivas has descubierto?"
+                    ],
+                    context_resolution: [
+                        "Cuando mencionas '{reference}', ¿te refieres a lo que hablamos sobre {referenced_content}?",
+                        "Para asegurarme de entenderte, cuando dices '{pronoun}', ¿estás hablando de {referenced_topic}?",
+                        "Quiero asegurarme de seguirte correctamente. ¿Podrías aclarar a qué te refieres con '{ambiguous_reference}'?"
+                    ],
+                    goal_setting: [
+                        "Entiendo que te sientes {emotion}. ¿Te gustaría establecer un objetivo pequeño para manejar este sentimiento?",
+                        "Cuando experimentamos {emotion}, puede ser útil tener metas claras. ¿Qué te gustaría lograr en nuestra conversación hoy?",
+                        "Para ayudarte mejor con tu {emotion}, ¿podemos establecer juntos un objetivo específico para esta sesión?"
+                    ],
+                    default_contextual: [
+                        "Gracias por compartir eso. Considerando nuestro historial sobre {topics}, ¿cómo te gustaría proceder?",
+                        "Entiendo lo que estás diciendo. Dado que hemos hablado antes sobre {related_topics}, ¿te gustaría explorar alguna conexión?",
+                        "Aprecio tu sinceridad. Basado en nuestra conversación hasta ahora, ¿qué aspecto te gustaría abordar a continuación?"
+                    ]
+                };
+            }
+            
+            generateResponse(analysis, userProfile) {
+                let template = "";
+                let responseType = analysis.responseStrategy;
+                
+                // Seleccionar plantilla basada en estrategia de respuesta
+                if (this.responseTemplates[responseType] && this.responseTemplates[responseType].length > 0) {
+                    template = this.getRandomTemplate(this.responseTemplates[responseType]);
+                } else {
+                    // Fallback a default_contextual
+                    template = this.getRandomTemplate(this.responseTemplates.default_contextual);
+                    responseType = 'default_contextual';
+                }
+                
+                // Personalizar plantilla con contexto
+                let personalizedResponse = this.personalizeTemplate(template, analysis, userProfile);
+                
+                // Añadir elementos contextuales adicionales
+                personalizedResponse = this.addContextualElements(personalizedResponse, analysis, userProfile);
+                
+                // Generar chips de sugerencia
+                const suggestionChips = this.generateSuggestionChips(analysis, userProfile);
+                
+                return {
+                    content: personalizedResponse,
+                    suggestionChips: suggestionChips,
+                    metadata: {
+                        responseType: responseType,
+                        strategy: analysis.responseStrategy,
+                        confidence: analysis.sentiment ? analysis.sentiment.confidence : 80,
+                        contextUsed: this.extractContextSummary(analysis),
+                        emotion: analysis.sentiment ? analysis.sentiment.dominantEmotion : 'neutral'
+                    }
+                };
+            }
+            
+            getRandomTemplate(templates) {
+                return templates[Math.floor(Math.random() * templates.length)];
+            }
+            
+            personalizeTemplate(template, analysis, userProfile) {
+                let response = template;
+                
+                // Reemplazar placeholders de emoción
+                if (analysis.sentiment && analysis.sentiment.dominantEmotion !== 'neutral') {
+                    response = response.replace(/{emotion}/g, this.translateEmotion(analysis.sentiment.dominantEmotion));
+                    response = response.replace(/{from}/g, this.translateEmotion(analysis.emotionalShift?.from || 'neutral'));
+                    response = response.replace(/{to}/g, this.translateEmotion(analysis.emotionalShift?.to || analysis.sentiment.dominantEmotion));
+                }
+                
+                // Reemplazar placeholders de tópicos
+                const relevantTopics = this.memory.getRelevantTopics();
+                if (relevantTopics.length > 0) {
+                    const topicsText = relevantTopics.map(t => t.name).join(", ");
+                    response = response.replace(/{topics}/g, topicsText);
+                    response = response.replace(/{previous_topic}/g, relevantTopics[0].name);
+                }
+                
+                // Reemplazar placeholders de referencias contextuales
+                if (analysis.contextualReferences && analysis.contextualReferences.length > 0) {
+                    const firstRef = analysis.contextualReferences[0];
+                    if (firstRef.type === 'pronoun') {
+                        response = response.replace(/{reference}/g, firstRef.pronoun);
+                        response = response.replace(/{pronoun}/g, firstRef.pronoun);
+                        response = response.replace(/{referenced_content}/g, firstRef.referencedContent || 'lo anterior');
+                    }
+                }
+                
+                // Reemplazar placeholders de metas
+                const activeGoals = this.memory.getActiveGoals();
+                if (activeGoals.length > 0) {
+                    const goalsText = activeGoals.map(g => g.goal).join(", ");
+                    response = response.replace(/{goals}/g, goalsText);
+                }
+                
+                // Ajustar longitud según preferencia del usuario
+                if (userProfile.responseLengthPreference === 'concise' && response.length > 200) {
+                    // Acortar manteniendo el punto principal
+                    const sentences = response.split(/[.!?]+/);
+                    if (sentences.length > 1) {
+                        response = sentences[0] + ".";
+                    }
+                }
+                
+                return response;
+            }
+            
+            addContextualElements(response, analysis, userProfile) {
+                // Añadir recordatorios contextuales
+                const recentMessages = this.memory.getContextForResponse().recentMessages;
+                if (recentMessages.length > 1) {
+                    const lastBotMessage = recentMessages.findLast(msg => msg.sender === 'bot');
+                    if (lastBotMessage && this.shouldReferencePrevious(lastBotMessage.content, analysis.processedMessage)) {
+                        response += `\n\nPor cierto, respecto a lo que mencioné antes sobre "${this.summarizeText(lastBotMessage.content, 50)}", ¿tienes alguna pregunta o comentario al respecto?`;
+                    }
+                }
+                
+                // Añadir reconocimiento de progreso
+                const emotionalHistory = this.memory.emotionalContext.moodHistory;
+                if (emotionalHistory.length > 5) {
+                    const improvement = this.detectImprovement(emotionalHistory);
+                    if (improvement && improvement.trend === 'positive') {
+                        response += `\n\nPor cierto, he notado una mejora positiva en tu estado emocional desde que empezamos a conversar. ¡Eso es realmente admirable!`;
+                    }
+                }
+                
+                return response;
+            }
+            
+            shouldReferencePrevious(previousContent, currentMessage) {
+                // Verificar si hay conexión temática
+                const previousWords = previousContent.toLowerCase().split(/\W+/);
+                const currentWords = currentMessage.toLowerCase().split(/\W+/);
+                
+                const commonWords = previousWords.filter(word => 
+                    currentWords.includes(word) && word.length > 3
+                );
+                
+                return commonWords.length > 0;
+            }
+            
+            summarizeText(text, maxLength) {
+                if (text.length <= maxLength) return text;
+                return text.substring(0, maxLength) + "...";
+            }
+            
+            detectImprovement(emotionalHistory) {
+                if (emotionalHistory.length < 3) return null;
+                
+                const recent = emotionalHistory.slice(-3);
+                const earlier = emotionalHistory.slice(-6, -3);
+                
+                const recentAvg = recent.reduce((sum, item) => sum + item.intensity, 0) / recent.length;
+                const earlierAvg = earlier.reduce((sum, item) => sum + item.intensity, 0) / earlier.length;
+                
+                const change = recentAvg - earlierAvg;
+                
+                if (Math.abs(change) < 0.1) {
+                    return { trend: 'stable', magnitude: Math.abs(change) };
+                } else if (change > 0) {
+                    return { trend: 'positive', magnitude: change };
+                } else {
+                    return { trend: 'negative', magnitude: Math.abs(change) };
+                }
+            }
+            
+            generateSuggestionChips(analysis, userProfile) {
+                const chips = [];
+                
+                // Chips basados en intención
+                if (analysis.intents.some(intent => intent.type === 'ask_question')) {
+                    chips.push("¿Puedes explicar más?", "¿Qué te gustaría saber?", "¿Tienes un ejemplo?");
+                }
+                
+                // Chips basados en emoción
+                if (analysis.sentiment && analysis.sentiment.dominantEmotion === 'anxiety') {
+                    chips.push("Ejercicio de respiración", "Técnica de grounding", "Lista de agradecimientos");
+                } else if (analysis.sentiment && analysis.sentiment.dominantEmotion === 'sadness') {
+                    chips.push("Actividad placentera", "Contactar a un amigo", "Diario de emociones");
+                } else if (analysis.sentiment && analysis.sentiment.dominantEmotion === 'anger') {
+                    chips.push("Técnica de enfriamiento", "Ejercicio físico", "Reestructuración cognitiva");
+                }
+                
+                // Chips basados en estrategia de respuesta
+                if (analysis.responseStrategy === 'goal_setting') {
+                    chips.push("Establecer meta pequeña", "Identificar obstáculos", "Plan de acción");
+                } else if (analysis.responseStrategy === 'topic_development') {
+                    chips.push("Profundizar en esto", "Explorar otra perspectiva", "Conectar con otra experiencia");
+                }
+                
+                // Limitar a 3 chips
+                return [...new Set(chips)].slice(0, 3);
+            }
+            
+            extractContextSummary(analysis) {
+                return {
+                    intents: analysis.intents.map(intent => intent.type),
+                    dominantEmotion: analysis.sentiment ? analysis.sentiment.dominantEmotion : null,
+                    strategy: analysis.responseStrategy,
+                    references: analysis.contextualReferences ? analysis.contextualReferences.length : 0
+                };
+            }
+            
+            translateEmotion(emotion) {
+                const translations = {
+                    'joy': 'alegría',
+                    'calm': 'calma',
+                    'sadness': 'tristeza',
+                    'anxiety': 'ansiedad',
+                    'anger': 'enojo',
+                    'neutral': 'neutral'
+                };
+                return translations[emotion] || emotion;
+            }
+        }
+
+        // Clase SerenBot AI con memoria conversacional
+        class SerenBotAI {
+            constructor(config = {}) {
+                this.config = {
+                    maxHistorySize: config.maxHistorySize || 100,
+                    sessionTimeout: config.sessionTimeout || 3600000,
+                    language: config.language || 'es',
+                    enableEncryption: config.enableEncryption || false,
+                    cacheSize: config.cacheSize || 50,
+                    debugMode: config.debugMode || false,
+                    ...config
+                };
+                
+                // Sistemas de IA
+                this.conversationMemory = new ConversationMemory();
+                this.contextualUnderstanding = new ContextualUnderstanding(this.conversationMemory);
+                this.responseGenerator = new ContextualResponseGenerator(this.conversationMemory, this.contextualUnderstanding);
+                
+                // Datos de usuario
+                this.messageHistory = [];
+                this.userPreferences = {};
+                this.sessionData = {};
+                this.cache = new Map();
+                this.isInitialized = false;
+                this.currentLanguage = this.config.language;
+                
+                this.init();
+            }
+            
+            async init() {
+                try {
+                    console.log('Inicializando SerenBot AI...');
+                    await this.loadLanguageConfig();
+                    await this.loadPersistedData();
+                    this.setupErrorHandlers();
+                    this.isInitialized = true;
+                    console.log('SerenBot AI inicializado correctamente');
+                } catch (error) {
+                    this.handleError('Error durante la inicialización', error);
+                }
+            }
+            
+            async loadLanguageConfig() {
+                try {
+                    this.i18n = {
+                        es: {
+                            welcome: '¡Hola! Soy SerenBot AI, tu asistente con inteligencia conversacional avanzada. Puedo recordar nuestro contexto y mantener conversaciones coherentes y significativas. ¿En qué puedo ayudarte hoy?',
+                            error: 'Lo siento, ha ocurrido un error. ¿Podrías intentar reformular tu mensaje?',
+                            notUnderstood: 'No estoy seguro de entender tu mensaje. ¿Podrías ser más específico?',
+                            sessionExpired: 'Tu sesión ha expirado por seguridad. Comencemos de nuevo.',
+                            dataCleared: 'Los datos han sido limpiados por tu privacidad.',
+                            crisis: 'Detecté que podrías estar pasando por un momento difícil. ¿Te gustaría que te ayude con algunas técnicas de apoyo?',
+                            emergency: 'Si estás en crisis, por favor contacta inmediatamente: 0800 345 1435 - Centro de Asistencia al Suicida'
+                        }
+                    };
+                    console.log(`Configuración de idioma cargada: ${this.currentLanguage}`);
+                } catch (error) {
+                    this.handleError('Error cargando configuración de idioma', error);
+                }
+            }
+            
+            setupErrorHandlers() {
+                window.addEventListener('unhandledrejection', (event) => {
+                    this.handleError('Promise rechazada no manejada', event.reason);
+                    event.preventDefault();
+                });
+                window.addEventListener('error', (event) => {
+                    this.handleError('Error global capturado', event.error);
                 });
             }
-
-            saveToStorage() {
-                const pdfsArray = Array.from(this.loadedPDFs.entries());
-                localStorage.setItem(this.storageKey, JSON.stringify(pdfsArray));
+            
+            handleError(context, error) {
+                const errorInfo = {
+                    timestamp: new Date().toISOString(),
+                    context: context,
+                    message: error?.message || 'Error desconocido',
+                    stack: error?.stack || 'No disponible',
+                    userAgent: navigator.userAgent,
+                    sessionId: this.getSessionId()
+                };
+                console.error(`ERROR: ${context}`, errorInfo);
+                const errorMessage = this.getMessage('error');
+                this.addMessage('bot', errorMessage, { isError: true });
             }
-
-            loadFromStorage() {
+            
+            async loadPersistedData() {
                 try {
-                    const storedPDFs = localStorage.getItem(this.storageKey);
-                    if (storedPDFs) {
-                        const pdfsArray = JSON.parse(storedPDFs);
-                        this.loadedPDFs = new Map(pdfsArray);
-                        this.updatePDFList();
+                    const encryptedPreferences = localStorage.getItem('serenbot_preferences');
+                    if (encryptedPreferences) {
+                        this.userPreferences = this.config.enableEncryption 
+                            ? this.decrypt(encryptedPreferences)
+                            : JSON.parse(encryptedPreferences);
                     }
+                    console.log('Datos persistentes cargados correctamente');
                 } catch (error) {
-                    console.error('Error al cargar PDFs desde almacenamiento:', error);
+                    this.handleError('Error cargando datos persistentes', error);
                 }
             }
-
-            showMessage(message, type = 'info') {
-                // Crear elemento de mensaje
-                const messageEl = document.createElement('div');
-                messageEl.textContent = message;
-                messageEl.style.position = 'fixed';
-                messageEl.style.bottom = '20px';
-                messageEl.style.right = '20px';
-                messageEl.style.padding = '10px 15px';
-                messageEl.style.borderRadius = 'var(--border-radius)';
-                messageEl.style.color = 'white';
-                messageEl.style.zIndex = '1000';
-                
-                switch (type) {
-                    case 'success':
-                        messageEl.style.background = 'var(--success)';
-                        break;
-                    case 'error':
-                        messageEl.style.background = 'var(--danger)';
-                        break;
-                    default:
-                        messageEl.style.background = 'var(--primary)';
+            
+            async savePersistedData() {
+                try {
+                    const anonymizedPreferences = this.anonymizeData(this.userPreferences);
+                    const preferencesData = this.config.enableEncryption 
+                        ? this.encrypt(anonymizedPreferences)
+                        : JSON.stringify(anonymizedPreferences);
+                    localStorage.setItem('serenbot_preferences', preferencesData);
+                    console.log('Datos persistentes guardados correctamente');
+                } catch (error) {
+                    this.handleError('Error guardando datos persistentes', error);
                 }
-                
-                document.body.appendChild(messageEl);
-                
-                // Eliminar después de 3 segundos
-                setTimeout(() => {
-                    document.body.removeChild(messageEl);
-                }, 3000);
             }
-        }
-
-        // Clase SerenBot extendida con capacidades PDF
-        class SerenBotWithPDF extends SerenBot {
-            constructor(pdfManager, config = {}) {
-                super(config);
-                this.pdfManager = pdfManager;
+            
+            anonymizeData(data) {
+                const anonymized = { ...data };
+                delete anonymized.name;
+                delete anonymized.email;
+                delete anonymized.phone;
+                delete anonymized.address;
+                if (anonymized.userId) {
+                    anonymized.userId = this.hashString(anonymized.userId);
+                }
+                return anonymized;
             }
-
-            async generateResponse(message, options = {}, emotionAnalysis = {}) {
-                // Primero, verificar si hay PDFs relevantes para la consulta
-                const pdfResults = this.pdfManager.searchInPDFs(message);
-                
-                if (pdfResults.length > 0) {
-                    // Si hay resultados relevantes en PDFs, incorporarlos en la respuesta
-                    let response = await super.generateResponse(message, options, emotionAnalysis);
-                    
-                    // Añadir información de los PDFs encontrados
-                    if (pdfResults.length > 0) {
-                        response.content += `<div class="suggestion-container">
-                            <p><i class="fas fa-info-circle"></i> He encontrado información relevante en mis recursos:</p>
-                            <ul>
-                                ${pdfResults.map(r => `<li>${r.excerpt}</li>`).join('')}
-                            </ul>
-                            <p>Puedo mostrarte estos recursos si lo deseas.</p>
-                        </div>`;
-                        
-                        response.metadata.hasPDFResults = true;
-                        response.metadata.pdfResults = pdfResults;
+            
+            encrypt(data) {
+                if (!this.config.enableEncryption) return JSON.stringify(data);
+                const jsonString = JSON.stringify(data);
+                return btoa(jsonString);
+            }
+            
+            decrypt(encryptedData) {
+                if (!this.config.enableEncryption) return JSON.parse(encryptedData);
+                try {
+                    const jsonString = atob(encryptedData);
+                    return JSON.parse(jsonString);
+                } catch (error) {
+                    this.handleError('Error descifrando datos', error);
+                    return {};
+                }
+            }
+            
+            hashString(str) {
+                let hash = 0;
+                for (let i = 0; i < str.length; i++) {
+                    const char = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return hash.toString(36);
+            }
+            
+            async processMessage(userMessage, options = {}) {
+                try {
+                    if (!this.isInitialized) {
+                        await this.init();
                     }
+                    
+                    // Añadir mensaje del usuario a la memoria
+                    const userMessageObj = {
+                        sender: 'user',
+                        content: userMessage,
+                        timestamp: Date.now()
+                    };
+                    this.addMessage('user', userMessage, options);
+                    
+                    // Obtener contexto actual
+                    const context = this.conversationMemory.getContextForResponse();
+                    
+                    // Analizar mensaje con contexto
+                    const analysis = this.contextualUnderstanding.analyzeWithContext(userMessage, context);
+                    
+                    // Añadir análisis de emociones al mensaje
+                    userMessageObj.emotionAnalysis = analysis.sentiment;
+                    this.conversationMemory.addMessage(userMessageObj);
+                    
+                    // Generar respuesta contextual
+                    const response = this.responseGenerator.generateResponse(analysis, context.userProfile);
+                    
+                    // Añadir respuesta del bot
+                    this.addMessage('bot', response.content, {
+                        ...response.metadata,
+                        suggestionChips: response.suggestionChips
+                    });
+                    
+                    // Actualizar UI con insights
+                    this.updateUIWithInsights();
                     
                     return response;
+                } catch (error) {
+                    this.handleError('Error procesando mensaje', error);
+                    return {
+                        content: this.getMessage('error'),
+                        metadata: { isError: true }
+                    };
+                }
+            }
+            
+            addMessage(sender, content, metadata = {}) {
+                const message = {
+                    id: this.generateMessageId(),
+                    sender,
+                    content,
+                    timestamp: Date.now(),
+                    metadata: {
+                        sessionId: this.sessionData.sessionId,
+                        ...metadata
+                    }
+                };
+                this.messageHistory.push(message);
+                this.emit('messageAdded', message);
+                return message;
+            }
+            
+            getMessage(key) {
+                return this.i18n[this.currentLanguage]?.[key] || this.i18n.es[key] || key;
+            }
+            
+            generateMessageId() {
+                return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            }
+            
+            generateSessionId() {
+                return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            }
+            
+            getSessionId() {
+                if (!this.sessionData.sessionId) {
+                    this.sessionData = {
+                        sessionId: this.generateSessionId(),
+                        startTime: Date.now(),
+                        language: this.currentLanguage
+                    };
+                }
+                return this.sessionData.sessionId;
+            }
+            
+            emit(eventName, data) {
+                if (this.listeners && this.listeners[eventName]) {
+                    this.listeners[eventName].forEach(callback => callback(data));
+                }
+            }
+            
+            on(eventName, callback) {
+                if (!this.listeners) this.listeners = {};
+                if (!this.listeners[eventName]) this.listeners[eventName] = [];
+                this.listeners[eventName].push(callback);
+            }
+            
+            // Métodos para actualizar la UI
+            updateUIWithInsights() {
+                // Actualizar heatmap de emociones
+                this.updateEmotionHeatmap();
+                
+                // Actualizar insights
+                this.updateInsights();
+                
+                // Actualizar estadísticas
+                this.updateStats();
+            }
+            
+            updateEmotionHeatmap() {
+                const emotionHistory = this.conversationMemory.emotionalContext.moodHistory;
+                if (emotionHistory.length === 0) return;
+                
+                // Contar emociones
+                const emotionCounts = { joy: 0, calm: 0, sadness: 0, anxiety: 0, anger: 0 };
+                emotionHistory.forEach(item => {
+                    if (emotionCounts[item.mood]) {
+                        emotionCounts[item.mood]++;
+                    }
+                });
+                
+                // Calcular porcentajes
+                const total = emotionHistory.length;
+                const emotions = ['joy', 'calm', 'sadness', 'anxiety', 'anger'];
+                const maxCount = Math.max(...Object.values(emotionCounts));
+                
+                emotions.forEach(emotion => {
+                    const percentage = total > 0 ? (emotionCounts[emotion] / total) * 100 : 0;
+                    const height = maxCount > 0 ? (emotionCounts[emotion] / maxCount) * 100 : 0;
+                    const element = document.getElementById(`${emotion}-bar`);
+                    if (element) {
+                        element.style.height = `${Math.max(5, height)}%`;
+                    }
+                });
+            }
+            
+            updateInsights() {
+                const emotionHistory = this.conversationMemory.emotionalContext.moodHistory;
+                const container = document.getElementById('insights-container');
+                
+                if (!container) return;
+                
+                // Limpiar insights anteriores
+                container.innerHTML = '';
+                
+                // Generar nuevos insights
+                if (emotionHistory.length > 5) {
+                    const improvement = this.detectImprovement(emotionHistory);
+                    if (improvement && improvement.trend === 'positive' && improvement.magnitude > 0.1) {
+                        const insightElement = document.createElement('div');
+                        insightElement.className = 'insight-item';
+                        insightElement.innerHTML = `
+                            <div class="insight-title"><i class="fas fa-chart-line"></i> Progreso detectado</div>
+                            <div class="insight-content">¡Has mostrado una mejora significativa en tu estado emocional! Esto demuestra tu capacidad de resiliencia.</div>
+                            <div class="insight-confidence"><i class="fas fa-check-circle"></i> Confianza: 88%</div>
+                        `;
+                        container.appendChild(insightElement);
+                    }
                 }
                 
-                // Si no hay resultados en PDFs, usar la respuesta normal
-                return await super.generateResponse(message, options, emotionAnalysis);
+                const relevantTopics = this.conversationMemory.getRelevantTopics();
+                if (relevantTopics.length > 0) {
+                    const topTopic = relevantTopics[0];
+                    if (topTopic.intensity > 0.6) {
+                        const insightElement = document.createElement('div');
+                        insightElement.className = 'insight-item';
+                        insightElement.innerHTML = `
+                            <div class="insight-title"><i class="fas fa-brain"></i> Patrón identificado</div>
+                            <div class="insight-content">Has estado enfocándote intensamente en "${topTopic.name}". ¿Te gustaría explorar este tema más a fondo?</div>
+                            <div class="insight-confidence"><i class="fas fa-check-circle"></i> Confianza: 82%</div>
+                        `;
+                        container.appendChild(insightElement);
+                    }
+                }
+                
+                const activeGoals = this.conversationMemory.getActiveGoals();
+                if (activeGoals.length > 0) {
+                    const insightElement = document.createElement('div');
+                    insightElement.className = 'insight-item';
+                    insightElement.innerHTML = `
+                        <div class="insight-title"><i class="fas fa-bullseye"></i> Meta en progreso</div>
+                        <div class="insight-content">Estás trabajando activamente en: "${activeGoals[0].goal}". ¡Sigue así!</div>
+                        <div class="insight-confidence"><i class="fas fa-check-circle"></i> Confianza: 90%</div>
+                    `;
+                    container.appendChild(insightElement);
+                }
+            }
+            
+            detectImprovement(emotionalHistory) {
+                if (emotionalHistory.length < 3) return null;
+                
+                const recent = emotionalHistory.slice(-3);
+                const earlier = emotionalHistory.slice(-6, -3);
+                
+                const recentAvg = recent.reduce((sum, item) => sum + item.intensity, 0) / recent.length;
+                const earlierAvg = earlier.reduce((sum, item) => sum + item.intensity, 0) / earlier.length;
+                
+                const change = recentAvg - earlierAvg;
+                
+                if (Math.abs(change) < 0.1) {
+                    return { trend: 'stable', magnitude: Math.abs(change) };
+                } else if (change > 0) {
+                    return { trend: 'positive', magnitude: change };
+                } else {
+                    return { trend: 'negative', magnitude: Math.abs(change) };
+                }
+            }
+            
+            updateStats() {
+                document.getElementById('session-count').textContent = this.messageHistory.length > 0 ? Math.ceil(this.messageHistory.length / 3) : 0;
+                document.getElementById('achievement-count').textContent = Math.floor(this.messageHistory.length / 5);
+                
+                // Simular días consecutivos y mejora
+                document.getElementById('consecutive-days').textContent = Math.min(30, Math.floor(Math.random() * 20) + 5);
+                document.getElementById('mood-trend').textContent = `${Math.min(95, Math.floor(Math.random() * 30) + 70)}%`;
+                
+                // Actualizar estado de ánimo actual
+                const currentMood = this.conversationMemory.emotionalContext.currentMood;
+                const moodIntensity = this.conversationMemory.emotionalContext.moodIntensity;
+                
+                if (currentMood) {
+                    document.getElementById('current-mood').textContent = this.translateEmotion(currentMood);
+                    document.getElementById('current-mood-icon').textContent = this.getEmojiForEmotion(currentMood);
+                    document.getElementById('mood-progress').style.width = `${Math.min(100, moodIntensity * 100)}%`;
+                    
+                    // Cambiar color del progreso según emoción
+                    const progressElement = document.getElementById('mood-progress');
+                    if (currentMood === 'joy' || currentMood === 'calm') {
+                        progressElement.style.background = '#28a745';
+                    } else if (currentMood === 'sadness' || currentMood === 'anxiety' || currentMood === 'anger') {
+                        progressElement.style.background = '#dc3545';
+                    } else {
+                        progressElement.style.background = '#ffc107';
+                    }
+                }
+            }
+            
+            translateEmotion(emotion) {
+                const translations = {
+                    'joy': 'alegría',
+                    'calm': 'calma',
+                    'sadness': 'tristeza',
+                    'anxiety': 'ansiedad',
+                    'anger': 'enojo',
+                    'neutral': 'neutral'
+                };
+                return translations[emotion] || emotion;
+            }
+            
+            getEmojiForEmotion(emotion) {
+                const emojis = {
+                    'joy': '😊',
+                    'calm': '😌',
+                    'sadness': '😔',
+                    'anxiety': '😰',
+                    'anger': '😠',
+                    'neutral': '😐'
+                };
+                return emojis[emotion] || '😐';
             }
         }
 
-        // Inicialización cuando el DOM esté listo
+        // Inicialización de la interfaz
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar el gestor de PDFs
-            const pdfManager = new PDFManager();
-            
-            // Inicializar SerenBot con capacidades PDF
-            const serenBot = new SerenBotWithPDF(pdfManager, {
-                debugMode: true,
-                enableEncryption: true
-            });
-            
-            // Configurar la interfaz de chat
             const chatMessages = document.getElementById('chat-messages');
             const userInput = document.getElementById('user-input');
             const sendBtn = document.getElementById('send-btn');
+            const sessionTime = document.getElementById('session-time');
+            const avgConfidence = document.getElementById('avg-confidence');
             
+            // Inicializar el bot
+            const serenBot = new SerenBotAI({
+                debugMode: true,
+                enableEncryption: false
+            });
+            
+            // Configurar manejadores de eventos
             sendBtn.addEventListener('click', sendMessage);
             userInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
@@ -930,22 +2009,50 @@
                 }
             });
             
+            // Herramientas
+            document.getElementById('breathing-tool').addEventListener('click', function() {
+                serenBot.processMessage("quiero hacer un ejercicio de respiración");
+            });
+            document.getElementById('mindfulness-tool').addEventListener('click', function() {
+                serenBot.processMessage("me gustaría meditar");
+            });
+            document.getElementById('cbt-tool').addEventListener('click', function() {
+                serenBot.processMessage("necesito técnicas de terapia cognitivo conductual");
+            });
+            document.getElementById('journal-tool').addEventListener('click', function() {
+                serenBot.processMessage("quiero escribir en mi diario emocional");
+            });
+            document.getElementById('emergency-tool').addEventListener('click', function() {
+                serenBot.processMessage("necesito recursos de emergencia");
+            });
+            
+            // Botones de estado de ánimo
+            const moodButtons = document.querySelectorAll('.mood-btn');
+            moodButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    moodButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    const mood = this.getAttribute('data-mood');
+                    serenBot.processMessage("Me siento " + mood);
+                });
+            });
+            
+            // Escuchar nuevos mensajes
+            serenBot.on('messageAdded', function(message) {
+                addMessageToChat(message);
+            });
+            
+            // Función para enviar mensajes
             function sendMessage() {
                 const message = userInput.value.trim();
                 if (message) {
-                    addMessageToChat({
-                        sender: 'user',
-                        content: message,
-                        timestamp: Date.now()
-                    });
-                    
                     userInput.value = '';
                     
                     // Mostrar indicador de typing
                     const typingIndicator = document.createElement('div');
                     typingIndicator.className = 'typing-indicator';
                     typingIndicator.innerHTML = `
-                        <span>SerenBot está pensando</span>
+                        <span>SerenBot AI está pensando</span>
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
@@ -955,35 +2062,104 @@
                     
                     // Procesar mensaje después de un breve delay
                     setTimeout(() => {
-                        chatMessages.removeChild(typingIndicator);
+                        if (chatMessages.contains(typingIndicator)) {
+                            chatMessages.removeChild(typingIndicator);
+                        }
                         serenBot.processMessage(message);
-                    }, 1500);
+                    }, 2000);
                 }
             }
             
+            // Función para añadir mensajes al chat
             function addMessageToChat(message) {
                 const messageElement = document.createElement('div');
-                
                 let messageClass = 'message';
                 if (message.sender === 'user') {
                     messageClass += ' user-message';
                 } else if (message.sender === 'bot') {
                     messageClass += ' bot-message';
+                    if (message.metadata && message.metadata.isCrisis) {
+                        messageClass += ' crisis-message';
+                    }
                 } else {
                     messageClass += ' system-message';
                 }
                 
-                messageElement.className = messageClass;
-                messageElement.innerHTML = `<p>${message.content}</p>`;
+                const time = new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                let messageContent = message.content;
                 
+                messageElement.className = messageClass;
+                
+                // Construir HTML del mensaje
+                let messageHTML = `<p>${messageContent}</p>`;
+                
+                // Añadir barra de confianza si existe
+                if (message.metadata && message.metadata.confidence) {
+                    const confidence = message.metadata.confidence;
+                    messageHTML += `
+                        <div class="confidence">
+                            <i class="fas fa-robot"></i> Confianza: ${Math.round(confidence)}%
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" style="width: ${confidence}%; background: ${confidence > 80 ? '#28a745' : confidence > 60 ? '#ffc107' : '#dc3545'};"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Añadir chips de sugerencia si existen
+                if (message.metadata && message.metadata.suggestionChips && message.metadata.suggestionChips.length > 0) {
+                    let chipsHTML = '<div class="suggestion-chips">';
+                    message.metadata.suggestionChips.forEach(chip => {
+                        chipsHTML += `<div class="suggestion-chip">${chip}</div>`;
+                    });
+                    chipsHTML += '</div>';
+                    messageHTML += chipsHTML;
+                    
+                    // Añadir event listeners a los chips
+                    setTimeout(() => {
+                        const chipElements = messageElement.querySelectorAll('.suggestion-chip');
+                        chipElements.forEach(chip => {
+                            chip.addEventListener('click', function() {
+                                userInput.value = this.textContent;
+                                sendMessage();
+                            });
+                        });
+                    }, 100);
+                }
+                
+                // Añadir timestamp
+                messageHTML += `<div class="message-time">${time}</div>`;
+                
+                messageElement.innerHTML = messageHTML;
                 chatMessages.appendChild(messageElement);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Actualizar confianza promedio
+                updateAverageConfidence();
             }
             
-            // Ejemplo de mensaje de bienvenida
-            setTimeout(() => {
-                serenBot.addMessage('bot', '¡Hola! Ahora puedo acceder a recursos en PDF para brindarte información más específica. ¿En qué puedo ayudarte?');
+            // Actualizar confianza promedio
+            function updateAverageConfidence() {
+                const botMessages = serenBot.messageHistory.filter(msg => msg.sender === 'bot' && msg.metadata.confidence);
+                if (botMessages.length > 0) {
+                    const avg = botMessages.reduce((sum, msg) => sum + msg.metadata.confidence, 0) / botMessages.length;
+                    avgConfidence.textContent = `${Math.round(avg)}%`;
+                }
+            }
+            
+            // Actualizar tiempo de sesión
+            let sessionSeconds = 0;
+            setInterval(() => {
+                sessionSeconds++;
+                const minutes = Math.floor(sessionSeconds / 60);
+                const seconds = sessionSeconds % 60;
+                sessionTime.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }, 1000);
+            
+            // Ejemplo de mensaje de bienvenida después de la inicialización
+            setTimeout(() => {
+                serenBot.addMessage('bot', serenBot.getMessage('welcome'), { confidence: 95 });
+            }, 1500);
         });
     </script>
 </body>
