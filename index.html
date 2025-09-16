@@ -371,6 +371,83 @@
             30% { transform: translateY(-5px); }
         }
 
+        .crisis-message {
+            border-left: 4px solid var(--danger);
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        .validation-message {
+            border-left: 4px solid var(--accent);
+            background: rgba(78, 205, 196, 0.1);
+        }
+
+        .dynamic-message {
+            border-left: 4px solid var(--primary);
+            background: rgba(78, 84, 200, 0.1);
+        }
+
+        .proactive-message {
+            border-left: 4px solid var(--warning);
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .voice-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            transition: var(--transition);
+        }
+
+        .voice-btn:hover {
+            background: #3db3ac;
+            transform: scale(1.05);
+        }
+
+        .action-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin: 5px 5px 0 0;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            background: #1e7e34;
+            transform: scale(1.05);
+        }
+
+        .message-actions {
+            margin-top: 8px;
+        }
+
+        .tool-btn.active {
+            background: var(--accent);
+            color: white;
+            transform: scale(1.05);
+        }
+
         .high-contrast {
             --primary: #000000;
             --primary-light: #333333;
@@ -443,6 +520,10 @@
                         <i class="fas fa-spa"></i>
                         <span>Meditación guiada</span>
                     </div>
+                    <div class="tool-btn" id="voice-tool">
+                        <i class="fas fa-microphone"></i>
+                        <span>Modo de voz</span>
+                    </div>
                     <div class="tool-btn" id="journal-tool">
                         <i class="fas fa-book"></i>
                         <span>Diario emocional</span>
@@ -450,6 +531,10 @@
                     <div class="tool-btn" id="emergency-tool">
                         <i class="fas fa-life-ring"></i>
                         <span>Recursos de emergencia</span>
+                    </div>
+                    <div class="tool-btn" id="progress-tool">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Ver mi progreso</span>
                     </div>
                 </div>
 
@@ -534,9 +619,13 @@
                             sessionExpired: 'Tu sesión ha expirado por seguridad. Comencemos de nuevo.',
                             dataCleared: 'Los datos han sido limpiados por tu privacidad.',
                             crisis: 'Detecté que podrías estar pasando por un momento difícil. ¿Te gustaría que te ayude con algunas técnicas de apoyo?',
-                            emergency: 'Si estás en crisis, por favor contacta inmediatamente: 0800 345 1435 - Centro de Asistencia al Suicida',
+                            emergency: 'Si estás en crisis, por favor contacta inmediatamente: 0800 345 1435 - Centro de Asistencia al Suicida. También puedes escribir "AYUDA" al 30363 para recibir apoyo inmediato.',
                             breathingExercise: 'Te guío en un ejercicio de respiración: Inhala por 4 segundos, mantén por 4, exhala por 6. ¿Lo intentamos juntos?',
-                            mindfulness: 'El mindfulness puede ayudarte a centrarte en el presente. ¿Te gustaría practicar un ejercicio de atención plena?'
+                            mindfulness: 'El mindfulness puede ayudarte a centrarte en el presente. ¿Te gustaría practicar un ejercicio de atención plena?',
+                            voiceOption: '¿Quieres que lea esto en voz alta? Puedo ayudarte a través de audio si prefieres.',
+                            proactiveCheck: 'He notado que no hemos hablado en un tiempo. ¿Cómo has estado? ¿Hay algo en lo que pueda ayudarte hoy?',
+                            progressCelebration: '¡He notado un progreso positivo en tu estado de ánimo! Es maravilloso ver cómo estás cuidando tu bienestar emocional.',
+                            reminderTechnique: 'Recuerda que la semana pasada mencionaste que las técnicas de relajación te ayudan. ¿Quieres intentar una ahora?'
                         },
                         en: {
                             welcome: 'Hello! I\'m SerenBot, your emotional support assistant. How can I help you today?',
@@ -545,9 +634,13 @@
                             sessionExpired: 'Your session has expired for security reasons. Let\'s start over.',
                             dataCleared: 'Data has been cleared for your privacy.',
                             crisis: 'I detected you might be going through a difficult time. Would you like me to help you with some support techniques?',
-                            emergency: 'If you\'re in crisis, please contact immediately: Emergency Mental Health Services',
+                            emergency: 'If you\'re in crisis, please contact immediately: National Suicide Prevention Lifeline 988',
                             breathingExercise: 'Let me guide you through a breathing exercise: Inhale for 4 seconds, hold for 4, exhale for 6. Shall we try together?',
-                            mindfulness: 'Mindfulness can help you focus on the present. Would you like to practice a mindfulness exercise?'
+                            mindfulness: 'Mindfulness can help you focus on the present. Would you like to practice a mindfulness exercise?',
+                            voiceOption: 'Would you like me to read this aloud? I can help you through audio if you prefer.',
+                            proactiveCheck: 'I noticed we haven\'t talked in a while. How have you been? Is there anything I can help you with today?',
+                            progressCelebration: 'I\'ve noticed positive progress in your mood! It\'s wonderful to see how you\'re taking care of your emotional wellbeing.',
+                            reminderTechnique: 'Remember last week you mentioned that relaxation techniques help you. Would you like to try one now?'
                         }
                     };
                     
@@ -766,9 +859,22 @@
             async generateResponse(message, options = {}, emotionAnalysis = {}) {
                 const lowerMessage = message.toLowerCase();
                 
-                // Detección de crisis
-                const crisisKeywords = ['suicidio', 'morir', 'acabar', 'crisis', 'no puedo más', 'help', 'ayuda urgente', 'suicide', 'kill myself', 'end it all'];
-                if (crisisKeywords.some(keyword => lowerMessage.includes(keyword))) {
+                // Verificar si debe mostrar mensaje proactivo
+                if (this.userProfile.shouldShowProactiveMessage()) {
+                    const proactiveMsg = this.userProfile.getProactiveMessage();
+                    if (proactiveMsg) {
+                        // Agregar mensaje proactivo después de la respuesta principal
+                        setTimeout(() => {
+                            this.addMessage('bot', proactiveMsg, { isProactive: true });
+                        }, 2000);
+                    }
+                }
+
+                // Obtener recomendación personalizada
+                const personalizedRec = this.userProfile.getPersonalizedRecommendation(emotionAnalysis);
+                
+                // Detección de crisis mejorada
+                if (emotionAnalysis.needsCrisisIntervention) {
                     return {
                         content: this.getMessage('emergency'),
                         metadata: { 
@@ -779,47 +885,122 @@
                     };
                 }
 
-                // Detección de estado emocional
-                const emotionalKeywords = ['triste', 'ansioso', 'preocupado', 'deprimido', 'estresado', 'nervioso', 'asustado'];
-                if (emotionalKeywords.some(keyword => lowerMessage.includes(keyword)) || emotionAnalysis.negativeScore > 0.6) {
+                // Validación emocional automática para estados negativos
+                if (emotionAnalysis.needsValidation) {
+                    const validationResponses = [
+                        'Entiendo que esto puede ser muy difícil. Estoy aquí para ayudarte.',
+                        'Reconozco lo que estás sintiendo. Tus emociones son válidas.',
+                        'Es completamente comprensible que te sientas así. No estás solo/a en esto.'
+                    ];
+                    
                     return {
-                        content: this.getMessage('crisis'),
+                        content: this.getRandomResponse(validationResponses),
                         metadata: { 
-                            isEmotionalSupport: true,
-                            ariaLabel: 'Respuesta de apoyo emocional'
+                            isValidation: true,
+                            emotionDetected: emotionAnalysis.dominantEmotion,
+                            ariaLabel: 'Mensaje de validación emocional'
                         }
                     };
                 }
 
-                // Respuestas basadas en patrones
+                // Respuestas basadas en patrones mejoradas
                 const responses = this.getResponsePatterns();
                 
                 for (const pattern of responses) {
                     if (pattern.keywords.some(keyword => lowerMessage.includes(keyword))) {
+                        let selectedResponse = this.getRandomResponse(pattern.responses);
+                        
+                        // Agregar recomendación personalizada si aplica
+                        if (personalizedRec && Math.random() > 0.5) {
+                            selectedResponse += " " + personalizedRec;
+                        }
+                        
                         return {
-                            content: this.getRandomResponse(pattern.responses),
+                            content: selectedResponse,
                             metadata: {
                                 category: pattern.category,
-                                ariaLabel: `Respuesta sobre ${pattern.category}`
+                                ariaLabel: `Respuesta sobre ${pattern.category}`,
+                                hasPersonalization: !!personalizedRec
                             }
                         };
                     }
                 }
 
-                // Respuesta por defecto con sugerencias
+                // Generar contenido dinámico basado en el estado emocional
+                const dynamicContent = this.generateDynamicContent(emotionAnalysis);
+                if (dynamicContent) {
+                    return dynamicContent;
+                }
+
+                // Respuesta por defecto con pregunta socrática
+                const socraticQuestions = [
+                    "¿Qué crees que te haría sentir mejor ahora mismo?",
+                    "¿Cuándo fue la última vez que te sentiste en paz? ¿Qué estaba pasando?",
+                    "Si pudieras cambiar una cosa de tu situación actual, ¿cuál sería?",
+                    "¿Qué le dirías a un buen amigo que estuviera pasando por lo mismo?"
+                ];
+                
                 const defaultResponses = [
                     this.getMessage('notUnderstood'),
-                    "No estoy seguro de entender. ¿Te gustaría hablar sobre cómo te sientes o prefieres probar un ejercicio de relajación?",
-                    "Parece que no capté completamente tu mensaje. ¿Podrías reformularlo? Mientras tanto, ¿quieres que hablemos de técnicas para manejar el estrés?"
+                    "No estoy seguro de entender completamente. " + this.getRandomResponse(socraticQuestions),
+                    "Me gustaría entenderte mejor. " + this.getRandomResponse(socraticQuestions)
                 ];
                 
                 return {
                     content: this.getRandomResponse(defaultResponses),
                     metadata: { 
                         isDefault: true,
-                        ariaLabel: 'Respuesta de aclaración'
+                        hasSocraticQuestion: true,
+                        ariaLabel: 'Respuesta de aclaración con pregunta reflexiva'
                     }
                 };
+            }
+
+            generateDynamicContent(emotionAnalysis) {
+                switch (emotionAnalysis.suggestionType) {
+                    case 'stress_management':
+                        return {
+                            content: "Noto que estás experimentando estrés. Te guío en una técnica rápida: Cierra los ojos, respira profundamente por la nariz contando hasta 4, mantén el aire por 4 segundos, y exhala lentamente por la boca contando hasta 6. Repite 3 veces. ¿Quieres que hagamos esto juntos?",
+                            metadata: { 
+                                isDynamic: true, 
+                                technique: 'breathing_exercise',
+                                ariaLabel: 'Ejercicio de respiración para manejo del estrés'
+                            }
+                        };
+                        
+                    case 'social_support':
+                        return {
+                            content: "Percibo que podrías estar sintiendo soledad o aislamiento. Recuerda que las conexiones humanas son fundamentales para nuestro bienestar. ¿Te gustaría hablar sobre estrategias para conectar con otros, o prefieres que exploremos técnicas para sentirte más cómodo/a contigo mismo/a?",
+                            metadata: { 
+                                isDynamic: true, 
+                                technique: 'social_connection',
+                                ariaLabel: 'Apoyo para conexión social'
+                            }
+                        };
+                        
+                    case 'emotional_regulation':
+                        return {
+                            content: "Entiendo que las emociones pueden sentirse abrumadoras a veces. Una técnica útil es observar tus sentimientos sin juzgarlos, como si fueras un observador neutral. ¿Puedes describir qué estás sintiendo ahora mismo sin etiquetarlo como 'bueno' o 'malo'?",
+                            metadata: { 
+                                isDynamic: true, 
+                                technique: 'emotional_regulation',
+                                ariaLabel: 'Técnica de regulación emocional'
+                            }
+                        };
+                        
+                    case 'positive_reinforcement':
+                        return {
+                            content: "Me alegra saber que te sientes bien. Es importante celebrar estos momentos positivos. ¿Qué crees que ha contribuido a que te sientas así? Identificar estos factores puede ayudarte a recrear estos estados de bienestar en el futuro.",
+                            metadata: { 
+                                isDynamic: true, 
+                                technique: 'positive_reinforcement',
+                                ariaLabel: 'Reforzamiento positivo'
+                            }
+                        };
+                        
+                    default:
+                        return null;
+                }
             }
 
             getResponsePatterns() {
@@ -849,6 +1030,43 @@
                             this.getMessage('mindfulness'),
                             'Estar presente es una habilidad poderosa. ¿Quieres que hagamos un ejercicio de conexión con el momento actual?',
                             'La meditación puede ser muy beneficiosa. ¿Te gustaría intentar una breve sesión guiada?'
+                        ]
+                    },
+                    {
+                        category: 'validacion_emocional',
+                        keywords: ['triste', 'deprimido', 'solo', 'asustado', 'preocupado', 'estresado', 'abrumado', 'perdido'],
+                        responses: [
+                            'Entiendo que eso puede ser muy difícil. Es completamente normal sentirse así, y estoy aquí para ayudarte.',
+                            'Reconozco lo que estás sintiendo. Tus emociones son válidas y es valiente de tu parte compartirlas conmigo.',
+                            'Me imagino que debe ser muy pesado llevar esto contigo. ¿Qué crees que te ayudaría a sentirte un poco mejor ahora mismo?'
+                        ]
+                    },
+                    {
+                        category: 'preguntas_socraticas',
+                        keywords: ['confundido', 'no sé', 'qué hacer', 'perdido', 'indeciso', 'pensando'],
+                        responses: [
+                            '¿Qué crees que te haría sentir mejor ahora mismo? A veces nuestro instinto tiene respuestas que no vemos inmediatamente.',
+                            '¿Cuándo fue la última vez que te sentiste realmente en paz? ¿Qué estaba pasando en ese momento?',
+                            '¿Qué le dirías a un buen amigo que estuviera pasando por lo mismo que tú? A veces somos más compasivos con otros.',
+                            'Si pudieras cambiar una cosa de tu situación actual, ¿cuál sería? ¿Hay algún pequeño paso que podrías dar hacia ese cambio?'
+                        ]
+                    },
+                    {
+                        category: 'act_therapy',
+                        keywords: ['pensamientos', 'mente', 'obsesivo', 'rumiando', 'no puedo parar'],
+                        responses: [
+                            '¿Qué tal si observamos tus pensamientos como algo pasajero en lugar de luchar contra ellos? Como nubes que pasan por el cielo.',
+                            'Los pensamientos son solo palabras en tu mente. ¿Puedes notar que tú eres quien los observa, no quien está atrapado en ellos?',
+                            '¿Qué valores son importantes para ti? A veces podemos encontrar dirección enfocándonos en lo que realmente nos importa.'
+                        ]
+                    },
+                    {
+                        category: 'dbt_therapy',
+                        keywords: ['intenso', 'abrumador', 'no aguanto', 'dolor emocional', 'sufrimiento'],
+                        responses: [
+                            'Este momento es difícil, pero los momentos cambian. ¿Puedes recordar alguna vez anterior cuando superaste algo difícil?',
+                            'Entiendo que el dolor es intenso ahora. ¿Hay alguna actividad que te ayude a regularte cuando te sientes así?',
+                            'Practiquemos la tolerancia al malestar. Este sentimiento es temporal. ¿Qué estrategias has usado antes para atravesar momentos difíciles?'
                         ]
                     },
                     {
@@ -959,12 +1177,15 @@
             }
         }
 
-        // Clase para análisis de emociones
+        // Clase para análisis de emociones mejorada
         class EmotionAnalysis {
             constructor() {
-                this.positiveWords = ['feliz', 'contento', 'alegre', 'genial', 'maravilloso', 'excelente', 'fantástico', 'bien', 'optimista', 'agradecido'];
-                this.negativeWords = ['triste', 'deprimido', 'ansioso', 'preocupado', 'asustado', 'enfadado', 'enojado', 'molesto', 'frustrado', 'desesperado'];
-                this.emergencyWords = ['suicidio', 'morir', 'matar', 'acabar', 'despedida', 'sin sentido', 'sin esperanza'];
+                this.positiveWords = ['feliz', 'contento', 'alegre', 'genial', 'maravilloso', 'excelente', 'fantástico', 'bien', 'optimista', 'agradecido', 'emocionado', 'motivado', 'esperanzado', 'tranquilo', 'relajado'];
+                this.negativeWords = ['triste', 'deprimido', 'ansioso', 'preocupado', 'asustado', 'enfadado', 'enojado', 'molesto', 'frustrado', 'desesperado', 'abrumado', 'estresado', 'perdido', 'solo', 'vacío', 'cansado'];
+                this.emergencyWords = ['suicidio', 'morir', 'matar', 'acabar', 'despedida', 'sin sentido', 'sin esperanza', 'no aguanto más', 'quiero desaparecer'];
+                this.intensityWords = ['muy', 'mucho', 'extremadamente', 'completamente', 'totalmente', 'súper', 'increíblemente', 'absolutamente'];
+                this.socialWords = ['solo', 'aislado', 'abandonado', 'incomprendido', 'rechazado', 'excluido'];
+                this.stressWords = ['trabajo', 'estudios', 'exámenes', 'presión', 'deadline', 'responsabilidades', 'obligaciones'];
             }
 
             analyzeText(text) {
@@ -972,57 +1193,126 @@
                 let positiveCount = 0;
                 let negativeCount = 0;
                 let emergencyCount = 0;
+                let intensityMultiplier = 1;
+                let socialIssues = 0;
+                let stressIndicators = 0;
                 
                 words.forEach(word => {
                     if (this.positiveWords.includes(word)) positiveCount++;
                     if (this.negativeWords.includes(word)) negativeCount++;
                     if (this.emergencyWords.includes(word)) emergencyCount++;
+                    if (this.intensityWords.includes(word)) intensityMultiplier = 1.5;
+                    if (this.socialWords.includes(word)) socialIssues++;
+                    if (this.stressWords.includes(word)) stressIndicators++;
                 });
                 
                 const total = words.length;
-                const positiveScore = total > 0 ? positiveCount / total : 0;
-                const negativeScore = total > 0 ? negativeCount / total : 0;
-                const emergencyScore = total > 0 ? emergencyCount / total : 0;
+                const positiveScore = total > 0 ? (positiveCount / total) * intensityMultiplier : 0;
+                const negativeScore = total > 0 ? (negativeCount / total) * intensityMultiplier : 0;
+                const emergencyScore = total > 0 ? (emergencyCount / total) * intensityMultiplier : 0;
+                const socialDistressScore = total > 0 ? socialIssues / total : 0;
+                const stressScore = total > 0 ? stressIndicators / total : 0;
                 
                 let dominantEmotion = 'neutral';
-                if (emergencyScore > 0.1) dominantEmotion = 'crisis';
-                else if (negativeScore > positiveScore) dominantEmotion = 'negative';
-                else if (positiveScore > negativeScore) dominantEmotion = 'positive';
+                let emotionIntensity = 'low';
+                
+                if (emergencyScore > 0.05) {
+                    dominantEmotion = 'crisis';
+                    emotionIntensity = 'high';
+                } else if (negativeScore > positiveScore) {
+                    dominantEmotion = 'negative';
+                    emotionIntensity = negativeScore > 0.2 ? 'high' : 'medium';
+                } else if (positiveScore > negativeScore) {
+                    dominantEmotion = 'positive';
+                    emotionIntensity = positiveScore > 0.2 ? 'high' : 'medium';
+                }
+
+                // Determinar subtipo emocional
+                let emotionSubtype = null;
+                if (socialDistressScore > 0.1) emotionSubtype = 'social_distress';
+                if (stressScore > 0.1) emotionSubtype = 'stress_related';
                 
                 return {
                     positiveScore,
                     negativeScore,
                     emergencyScore,
+                    socialDistressScore,
+                    stressScore,
                     dominantEmotion,
-                    wordsAnalyzed: total
+                    emotionIntensity,
+                    emotionSubtype,
+                    wordsAnalyzed: total,
+                    needsValidation: negativeScore > 0.1 || emergencyScore > 0,
+                    needsCrisisIntervention: emergencyScore > 0.05,
+                    suggestionType: this.getSuggestionType(dominantEmotion, emotionSubtype, stressScore, socialDistressScore)
                 };
+            }
+
+            getSuggestionType(emotion, subtype, stressScore, socialScore) {
+                if (emotion === 'crisis') return 'crisis_support';
+                if (subtype === 'stress_related') return 'stress_management';
+                if (subtype === 'social_distress') return 'social_support';
+                if (emotion === 'negative') return 'emotional_regulation';
+                if (emotion === 'positive') return 'positive_reinforcement';
+                return 'general_wellness';
             }
         }
 
-        // Clase para perfil de usuario
+        // Clase para perfil de usuario mejorada
         class UserProfile {
             constructor() {
                 this.moodHistory = [];
                 this.interactionCount = 0;
-                this.preferences = {};
+                this.preferences = {
+                    preferredTechniques: [],
+                    language: 'es',
+                    communicationStyle: 'empathetic', // empathetic, direct, supportive
+                    crisisContactShown: false
+                };
                 this.lastSession = new Date();
+                this.patterns = {
+                    commonEmotions: [],
+                    triggerWords: [],
+                    preferredSupport: [],
+                    progressIndicators: []
+                };
+                this.goals = [];
+                this.achievements = [];
             }
             
             updateWithAnalysis(analysis) {
                 this.moodHistory.push({
                     timestamp: new Date(),
                     mood: analysis.dominantEmotion,
-                    intensity: Math.max(analysis.positiveScore, analysis.negativeScore, analysis.emergencyScore)
+                    intensity: analysis.emotionIntensity,
+                    subtype: analysis.emotionSubtype,
+                    needsValidation: analysis.needsValidation,
+                    suggestionType: analysis.suggestionType
                 });
                 
                 this.interactionCount++;
+                
+                // Analizar patrones
+                this.updatePatterns(analysis);
                 
                 // Mantener un historial limitado
                 if (this.moodHistory.length > 100) {
                     this.moodHistory = this.moodHistory.slice(-100);
                 }
             }
-            
+
+            updatePatterns(analysis) {
+                // Actualizar emociones comunes
+                if (!this.patterns.commonEmotions.includes(analysis.dominantEmotion)) {
+                    this.patterns.commonEmotions.push(analysis.dominantEmotion);
+                }
+
+                // Rastrear tipos de sugerencias efectivas
+                if (analysis.suggestionType && !this.patterns.preferredSupport.includes(analysis.suggestionType)) {
+                    this.patterns.preferredSupport.push(analysis.suggestionType);
+                }
+            }
+
             getMoodTrend() {
                 if (this.moodHistory.length < 2) return 'stable';
                 
@@ -1034,9 +1324,86 @@
                 if (negativeCount > positiveCount * 2) return 'declining';
                 return 'stable';
             }
+
+            getProactiveMessage() {
+                const now = new Date();
+                const daysSinceLastSession = Math.floor((now - this.lastSession) / (1000 * 60 * 60 * 24));
+                
+                if (daysSinceLastSession > 3) {
+                    return "Noté que han pasado algunos días desde nuestra última conversación. ¿Cómo has estado? ¿Te gustaría practicar alguna técnica de bienestar?";
+                }
+
+                const recentMoods = this.moodHistory.slice(-5);
+                const hasStressPattern = recentMoods.filter(m => m.subtype === 'stress_related').length >= 2;
+                
+                if (hasStressPattern) {
+                    return "He notado que has mencionado estrés recientemente. ¿Te gustaría que exploremos algunas técnicas de manejo del estrés que podrían ayudarte?";
+                }
+
+                const hasSocialDistressPattern = recentMoods.filter(m => m.subtype === 'social_distress').length >= 2;
+                
+                if (hasSocialDistressPattern) {
+                    return "Parece que has estado lidiando con algunos desafíos sociales. ¿Quieres hablar sobre estrategias para conectar mejor con otros?";
+                }
+
+                return null;
+            }
+
+            getPersonalizedRecommendation(currentAnalysis) {
+                const trend = this.getMoodTrend();
+                const preferredTechniques = this.preferences.preferredTechniques;
+
+                if (currentAnalysis.dominantEmotion === 'negative' && trend === 'declining') {
+                    if (preferredTechniques.includes('breathing')) {
+                        return "Recordé que las técnicas de respiración te han ayudado antes. ¿Quieres que practiquemos una ahora?";
+                    }
+                    if (preferredTechniques.includes('mindfulness')) {
+                        return "La última vez que hicimos mindfulness notaste una mejora. ¿Te gustaría intentarlo de nuevo?";
+                    }
+                }
+
+                if (currentAnalysis.suggestionType === 'stress_management') {
+                    return "¿Recuerdas la técnica de respiración que practicamos? Podría ser útil ahora que sientes estrés.";
+                }
+
+                return null;
+            }
+
+            addPreferredTechnique(technique) {
+                if (!this.preferences.preferredTechniques.includes(technique)) {
+                    this.preferences.preferredTechniques.push(technique);
+                }
+            }
+
+            addGoal(goal) {
+                this.goals.push({
+                    id: Date.now(),
+                    description: goal,
+                    createdAt: new Date(),
+                    completed: false
+                });
+            }
+
+            completeGoal(goalId) {
+                const goal = this.goals.find(g => g.id === goalId);
+                if (goal) {
+                    goal.completed = true;
+                    goal.completedAt = new Date();
+                    this.achievements.push({
+                        type: 'goal_completed',
+                        description: goal.description,
+                        date: new Date()
+                    });
+                }
+            }
             
             getInteractionFrequency() {
                 return this.interactionCount;
+            }
+
+            shouldShowProactiveMessage() {
+                // Mostrar mensaje proactivo cada 5-7 interacciones
+                return this.interactionCount % 6 === 0 && this.interactionCount > 0;
             }
         }
 
@@ -1064,11 +1431,124 @@
             // Herramientas
             document.getElementById('breathing-tool').addEventListener('click', function() {
                 serenBot.processMessage("quiero hacer un ejercicio de respiración");
+                serenBot.userProfile.addPreferredTechnique('breathing');
             });
             
             document.getElementById('mindfulness-tool').addEventListener('click', function() {
                 serenBot.processMessage("me gustaría meditar");
+                serenBot.userProfile.addPreferredTechnique('mindfulness');
             });
+
+            document.getElementById('voice-tool').addEventListener('click', function() {
+                toggleVoiceMode();
+            });
+
+            document.getElementById('progress-tool').addEventListener('click', function() {
+                showProgressSummary();
+            });
+
+            document.getElementById('emergency-tool').addEventListener('click', function() {
+                serenBot.processMessage("necesito ayuda de emergencia");
+            });
+
+            document.getElementById('journal-tool').addEventListener('click', function() {
+                serenBot.processMessage("quiero escribir en mi diario emocional");
+            });
+
+            // Funcionalidad de voz
+            let isVoiceMode = false;
+            let recognition = null;
+            let synthesis = window.speechSynthesis;
+
+            function toggleVoiceMode() {
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    serenBot.addMessage('bot', 'Lo siento, tu navegador no soporta reconocimiento de voz. Intenta con Chrome o Firefox.', { isSystem: true });
+                    return;
+                }
+
+                isVoiceMode = !isVoiceMode;
+                const voiceBtn = document.getElementById('voice-tool');
+                
+                if (isVoiceMode) {
+                    voiceBtn.style.backgroundColor = '#4ecdc4';
+                    voiceBtn.style.color = 'white';
+                    serenBot.addMessage('bot', '🎤 Modo de voz activado. Puedes hablar ahora. Haz clic de nuevo para desactivar.', { isSystem: true });
+                    startListening();
+                } else {
+                    voiceBtn.style.backgroundColor = '';
+                    voiceBtn.style.color = '';
+                    serenBot.addMessage('bot', '🔇 Modo de voz desactivado.', { isSystem: true });
+                    stopListening();
+                }
+            }
+
+            function startListening() {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = false;
+                recognition.lang = 'es-ES';
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[event.results.length - 1][0].transcript;
+                    document.getElementById('user-input').value = transcript;
+                    sendMessage();
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Error de reconocimiento de voz:', event.error);
+                    if (event.error === 'no-speech') {
+                        serenBot.addMessage('bot', 'No pude escuchar nada. Intenta hablar más claro.', { isSystem: true });
+                    }
+                };
+
+                recognition.start();
+            }
+
+            function stopListening() {
+                if (recognition) {
+                    recognition.stop();
+                    recognition = null;
+                }
+            }
+
+            function speakText(text) {
+                if (synthesis.speaking) {
+                    synthesis.cancel();
+                }
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                
+                // Buscar una voz en español
+                const voices = synthesis.getVoices();
+                const spanishVoice = voices.find(voice => voice.lang.startsWith('es'));
+                if (spanishVoice) {
+                    utterance.voice = spanishVoice;
+                }
+
+                synthesis.speak(utterance);
+            }
+
+            function showProgressSummary() {
+                const trend = serenBot.userProfile.getMoodTrend();
+                const interactionCount = serenBot.userProfile.getInteractionFrequency();
+                const recentMoods = serenBot.userProfile.moodHistory.slice(-10);
+                
+                let progressMessage = `📊 Resumen de tu progreso:\n\n`;
+                progressMessage += `• Interacciones totales: ${interactionCount}\n`;
+                progressMessage += `• Tendencia emocional: ${trend === 'improving' ? '📈 Mejorando' : trend === 'declining' ? '📉 Necesita atención' : '➡️ Estable'}\n`;
+                progressMessage += `• Técnicas preferidas: ${serenBot.userProfile.preferences.preferredTechniques.join(', ') || 'Aún explorando'}\n`;
+                
+                if (recentMoods.length > 0) {
+                    const positiveCount = recentMoods.filter(m => m.mood === 'positive').length;
+                    progressMessage += `• Emociones positivas recientes: ${Math.round((positiveCount / recentMoods.length) * 100)}%`;
+                }
+
+                serenBot.addMessage('bot', progressMessage, { isProgress: true });
+            }
             
             document.getElementById('journal-tool').addEventListener('click', function() {
                 serenBot.processMessage("quiero escribir en mi diario emocional");
@@ -1138,20 +1618,54 @@
                     if (message.metadata && message.metadata.isCrisis) {
                         messageClass += ' crisis-message';
                     }
+                    if (message.metadata && message.metadata.isValidation) {
+                        messageClass += ' validation-message';
+                    }
+                    if (message.metadata && message.metadata.isDynamic) {
+                        messageClass += ' dynamic-message';
+                    }
+                    if (message.metadata && message.metadata.isProactive) {
+                        messageClass += ' proactive-message';
+                    }
                 } else {
                     messageClass += ' system-message';
                 }
                 
                 const time = new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 
+                // Crear contenido del mensaje con opciones adicionales
+                let messageContent = `<p>${message.content}</p>`;
+                
+                // Agregar botón de voz para mensajes del bot
+                if (message.sender === 'bot' && 'speechSynthesis' in window) {
+                    messageContent += `<button class="voice-btn" onclick="speakText('${message.content.replace(/'/g, "\\'")}')">
+                        <i class="fas fa-volume-up"></i> Escuchar
+                    </button>`;
+                }
+                
+                // Agregar botones de acción para ciertos tipos de mensajes
+                if (message.metadata && message.metadata.technique) {
+                    messageContent += `<div class="message-actions">
+                        <button class="action-btn" onclick="serenBot.userProfile.addPreferredTechnique('${message.metadata.technique}')">
+                            <i class="fas fa-heart"></i> Me gustó esta técnica
+                        </button>
+                    </div>`;
+                }
+                
                 messageElement.className = messageClass;
                 messageElement.innerHTML = `
-                    <p>${message.content}</p>
+                    ${messageContent}
                     <div class="message-time">${time}</div>
                 `;
                 
                 chatMessages.appendChild(messageElement);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Auto-reproducir voz para mensajes importantes si el modo voz está activo
+                if (isVoiceMode && message.sender === 'bot' && 
+                    (message.metadata?.isCrisis || message.metadata?.isValidation)) {
+                    setTimeout(() => speakText(message.content), 500);
+                }
             }
             
             // Actualizar tiempo de sesión
