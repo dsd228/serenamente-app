@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SerenBot - Asistente Terapéutico Inteligente</title>
+    <title>SerenBot - Gestión de Recursos PDF</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -55,7 +55,6 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             backdrop-filter: blur(10px);
-            animation: fadeIn 1s ease;
         }
 
         header h1 {
@@ -96,7 +95,6 @@
             flex-direction: column;
             overflow: hidden;
             backdrop-filter: blur(10px);
-            animation: slideInLeft 0.5s ease;
         }
 
         .chat-header {
@@ -106,7 +104,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: relative;
         }
 
         .chat-header h2 {
@@ -114,28 +111,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .mood-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.9rem;
-        }
-
-        .mood-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--success);
-        }
-
-        .mood-dot.negative {
-            background: var(--danger);
-        }
-
-        .mood-dot.neutral {
-            background: var(--warning);
         }
 
         .chat-messages {
@@ -146,7 +121,6 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="rgba(248, 249, 250, 0.2)" x="0" y="0" width="100" height="100"/><path fill="rgba(78, 84, 200, 0.1)" d="M0 0L100 100"/></svg>');
         }
 
         .message {
@@ -155,22 +129,6 @@
             border-radius: 18px;
             position: relative;
             line-height: 1.5;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
         }
 
         .user-message {
@@ -195,53 +153,12 @@
             font-style: italic;
         }
 
-        .crisis-message {
-            background: var(--danger);
-            color: white;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
-        }
-
-        .message-time {
-            font-size: 0.7rem;
-            opacity: 0.7;
-            margin-top: 5px;
-            text-align: right;
-        }
-
-        .message-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-            justify-content: flex-end;
-        }
-
-        .message-action {
-            background: rgba(255, 255, 255, 0.3);
-            border: none;
-            border-radius: 12px;
-            padding: 3px 8px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .message-action:hover {
-            background: rgba(255, 255, 255, 0.5);
-        }
-
         .chat-input {
             padding: 15px;
             background: white;
             display: flex;
             gap: 10px;
             border-top: 1px solid #dee2e6;
-            position: relative;
         }
 
         .chat-input input {
@@ -251,12 +168,6 @@
             border-radius: 30px;
             outline: none;
             font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .chat-input input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
         }
 
         .chat-input button {
@@ -267,36 +178,6 @@
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .chat-input button:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-        }
-
-        .quick-replies {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .quick-reply {
-            background: rgba(78, 84, 200, 0.1);
-            border: 1px solid rgba(78, 84, 200, 0.2);
-            border-radius: 16px;
-            padding: 6px 12px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .quick-reply:hover {
-            background: rgba(78, 84, 200, 0.2);
         }
 
         .sidebar {
@@ -304,10 +185,9 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            animation: slideInRight 0.5s ease;
         }
 
-        .user-panel {
+        .pdf-management-panel {
             background: rgba(255, 255, 255, 0.92);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
@@ -315,7 +195,7 @@
             backdrop-filter: blur(10px);
         }
 
-        .user-panel h3 {
+        .pdf-management-panel h3 {
             color: var(--primary);
             margin-bottom: 15px;
             display: flex;
@@ -323,270 +203,110 @@
             gap: 10px;
         }
 
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .user-mood {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 10px 0;
-        }
-
-        .mood-btn {
-            padding: 8px 12px;
-            border: 1px solid #ced4da;
-            border-radius: 20px;
-            background: white;
+        .pdf-upload-area {
+            border: 2px dashed var(--primary-light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
             cursor: pointer;
             transition: var(--transition);
         }
 
-        .mood-btn:hover, .mood-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+        .pdf-upload-area:hover {
+            background: rgba(78, 84, 200, 0.1);
         }
 
-        .progress-container {
+        .pdf-list {
             margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
-        .progress-info {
+        .pdf-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
         }
 
-        .progress-bar {
-            height: 10px;
-            background: #e9ecef;
-            border-radius: 5px;
-            overflow: hidden;
+        .pdf-item:last-child {
+            border-bottom: none;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: var(--success);
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-
-        .tools-panel {
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .tools-panel h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
+        .pdf-item-info {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .tool-btn {
+        .pdf-item-actions {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            background: white;
-            border: 1px solid #dee2e6;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .tool-btn:hover {
-            background: var(--primary-light);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .stats-panel {
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .stats-panel h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
             gap: 10px;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .stat-item {
-            background: white;
-            padding: 15px;
-            border-radius: var(--border-radius);
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: var(--transition);
-        }
-
-        .stat-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--gray);
-            font-style: italic;
-            margin-top: 10px;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--gray);
-            border-radius: 50%;
-            animation: typingAnimation 1.4s infinite ease-in-out;
-        }
-
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes typingAnimation {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
-        }
-
-        /* Estilos para técnicas terapéuticas */
-        .technique-container {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            margin-top: 10px;
-            border-left: 4px solid var(--accent);
-        }
-
-        .technique-title {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .thought-record {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-
-        .thought-record h4 {
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .thought-record table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 10px 0;
-        }
-
-        .thought-record th, .thought-record td {
-            border: 1px solid #dee2e6;
-            padding: 8px;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-
-        .thought-record th {
-            background-color: var(--primary-light);
-            color: white;
-        }
-
-        .breathing-exercise {
-            text-align: center;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-            color: white;
-            border-radius: var(--border-radius);
-            margin: 10px 0;
-        }
-
-        .breathing-circle {
-            width: 120px;
-            height: 120px;
-            border: 3px solid white;
-            border-radius: 50%;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            animation: breathe 8s infinite ease-in-out;
-        }
-
-        @keyframes breathe {
-            0%, 100% { transform: scale(0.8); opacity: 0.7; }
-            50% { transform: scale(1.2); opacity: 1; }
-        }
-
-        .exercise-controls {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .exercise-btn {
-            padding: 8px 15px;
-            background: white;
-            color: var(--primary);
+        .pdf-action-btn {
+            background: none;
             border: none;
-            border-radius: 20px;
             cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
+            color: var(--gray);
+            font-size: 0.9rem;
         }
 
-        .exercise-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        .pdf-action-btn:hover {
+            color: var(--primary);
         }
 
-        /* Modal para recursos de emergencia */
+        .resources-panel {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .resources-panel h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-category {
+            margin-bottom: 15px;
+        }
+
+        .resource-category h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .resource-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .resource-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .resource-link {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -609,12 +329,6 @@
             max-height: 80vh;
             overflow-y: auto;
             position: relative;
-            animation: modalFadeIn 0.3s ease;
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .close-modal {
@@ -626,98 +340,43 @@
             color: var(--gray);
         }
 
-        .emergency-resources {
-            margin: 15px 0;
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
         }
 
-        .resource-item {
-            padding: 10px;
-            border-left: 3px solid var(--danger);
-            background: #f8f9fa;
-            margin-bottom: 10px;
-            border-radius: 0 5px 5px 0;
+        .btn-primary:hover {
+            background: var(--primary-light);
         }
 
-        .resource-title {
-            font-weight: bold;
-            color: var(--danger);
-        }
-
-        /* Mejoras de accesibilidad */
-        .high-contrast {
-            --primary: #000000;
-            --primary-light: #333333;
-            --secondary: #ffffff;
-            --light: #000000;
-            --dark: #ffffff;
-        }
-
-        .text-to-speech {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 10px;
-            color: var(--gray);
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
             font-size: 0.9rem;
         }
 
-        /* Nuevos estilos para IA avanzada */
-        .insight-badge {
-            display: inline-block;
-            background: var(--accent);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            margin-left: 5px;
-            vertical-align: middle;
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .suggestion-container {
-            background: #e8f4fc;
-            border-radius: var(--border-radius);
-            padding: 10px;
-            margin: 10px 0;
-            border-left: 3px solid var(--primary);
-        }
-
-        .learning-progress {
-            height: 6px;
-            background: #e9ecef;
-            border-radius: 3px;
-            margin: 5px 0;
-            overflow: hidden;
-        }
-
-        .learning-progress-fill {
-            height: 100%;
-            background: var(--primary);
-            border-radius: 3px;
-            width: 0%;
-            transition: width 1s ease;
-        }
-
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .message {
-                max-width: 90%;
-            }
-            
-            header h1 {
-                flex-direction: column;
-                gap: 5px;
-            }
+        .fade-in {
+            animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-robot"></i> SerenBot <span style="font-size: 1rem; background: var(--accent); color: white; padding: 3px 10px; border-radius: 20px;">AI+</span></h1>
-            <p>Asistente terapéutico con inteligencia artificial avanzada y capacidades de aprendizaje profundo</p>
+            <h1><i class="fas fa-robot"></i> SerenBot <span style="font-size: 1rem; background: var(--accent); color: white; padding: 3px 10px; border-radius: 20px;">PDF+</span></h1>
+            <p>Asistente terapéutico con gestión avanzada de recursos PDF</p>
         </header>
 
         <div class="main-content">
@@ -726,861 +385,544 @@
                     <h2><i class="fas fa-comments"></i> Chat con SerenBot</h2>
                     <div class="session-info">
                         Sesión: <span id="session-time">00:00</span>
-                        <div class="mood-indicator">
-                            <span>Estado: </span>
-                            <div class="mood-dot" id="mood-indicator"></div>
-                            <span id="mood-text">Neutral</span>
-                        </div>
                     </div>
                 </div>
                 <div class="chat-messages" id="chat-messages">
                     <div class="message system-message">
-                        <p>¡Hola! Soy SerenBot, tu asistente de apoyo emocional con IA avanzada. He aprendido de miles de interacciones terapéuticas para ofrecerte el mejor apoyo posible. ¿En qué puedo ayudarte hoy?</p>
-                        <div class="message-time" id="current-time"></div>
+                        <p>¡Hola! Soy SerenBot. Ahora puedo acceder a recursos PDF para brindarte información más específica y detallada. ¿En qué puedo ayudarte hoy?</p>
                     </div>
                 </div>
                 <div class="chat-input">
                     <input type="text" id="user-input" placeholder="Escribe tu mensaje aquí...">
                     <button id="send-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
-                    <div class="quick-replies" id="quick-replies">
-                        <div class="quick-reply" data-message="Me siento ansioso">😰 Ansiedad</div>
-                        <div class="quick-reply" data-message="Me siento triste">😔 Tristeza</div>
-                        <div class="quick-reply" data-message="Necesito técnicas de relajación">🧘 Relajación</div>
-                        <div class="quick-reply" data-message="Quiero hacer un ejercicio">💪 Ejercicio</div>
-                    </div>
                 </div>
             </div>
 
             <div class="sidebar">
-                <div class="user-panel">
-                    <h3><i class="fas fa-user-graduate"></i> Tu Perfil Terapéutico</h3>
-                    <div class="user-info">
-                        <div class="progress-container">
-                            <div class="progress-info">
-                                <span>Progreso general</span>
-                                <span id="user-progress">75%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 75%"></div>
-                            </div>
-                        </div>
-                        <p>Nivel: <strong id="user-level">Explorador</strong> <span class="insight-badge">AI Analizado</span></p>
-                        <p>Próximo objetivo: <span id="next-goal">Completar 5 ejercicios de respiración</span></p>
-                        <div class="learning-progress">
-                            <div class="learning-progress-fill" id="ai-learning-progress" style="width: 40%"></div>
-                        </div>
-                        <small>Progreso de aprendizaje de IA: <span id="ai-learning-percent">40%</span></small>
-                        <div class="user-mood">
-                            <p>¿Cómo te sientes ahora?</p>
-                            <button class="mood-btn" data-mood="excelente">😊 Excelente</button>
-                            <button class="mood-btn" data-mood="bien">😌 Bien</button>
-                            <button class="mood-btn" data-mood="regular">😐 Regular</button>
-                            <button class="mood-btn" data-mood="mal">😔 Mal</button>
-                        </div>
+                <div class="pdf-management-panel">
+                    <h3><i class="fas fa-file-pdf"></i> Gestión de PDFs</h3>
+                    <div class="pdf-upload-area" id="pdf-upload-area">
+                        <p><i class="fas fa-cloud-upload-alt"></i> Haz clic o arrastra PDFs aquí</p>
+                        <input type="file" id="pdf-input" accept=".pdf" style="display: none;" multiple>
+                        <p class="small">Límite: 5 MB por archivo</p>
+                    </div>
+                    
+                    <div class="pdf-list" id="pdf-list">
+                        <p>No hay PDFs cargados todavía.</p>
                     </div>
                 </div>
 
-                <div class="tools-panel">
-                    <h3><i class="fas fa-tools"></i> Herramientas Terapéuticas <span class="insight-badge">AI+</span></h3>
-                    <div class="tool-btn" id="breathing-tool">
-                        <i class="fas fa-wind"></i>
-                        <span>Ejercicio de respiración inteligente</span>
-                    </div>
-                    <div class="tool-btn" id="mindfulness-tool">
-                        <i class="fas fa-spa"></i>
-                        <span>Meditación guiada por IA</span>
-                    </div>
-                    <div class="tool-btn" id="journal-tool">
-                        <i class="fas fa-book"></i>
-                        <span>Diario emocional con análisis</span>
-                    </div>
-                    <div class="tool-btn" id="thought-record-tool">
-                        <i class="fas fa-brain"></i>
-                        <span>Registro de pensamientos AI</span>
-                    </div>
-                    <div class="tool-btn" id="goals-tool">
-                        <i class="fas fa-bullseye"></i>
-                        <span>Metas personalizadas</span>
-                    </div>
-                    <div class="tool-btn" id="emergency-tool">
-                        <i class="fas fa-life-ring"></i>
-                        <span>Recursos de emergencia</span>
-                    </div>
-                    <div class="tool-btn" id="ai-insights-tool">
-                        <i class="fas fa-lightbulb"></i>
-                        <span>Análisis de insights</span>
-                    </div>
-                </div>
-
-                <div class="stats-panel">
-                    <h3><i class="fas fa-chart-line"></i> Tus Estadísticas <span class="insight-badge">AI Optimizado</span></h3>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-value">14</div>
-                            <div class="stat-label">Días consecutivos</div>
+                <div class="resources-panel">
+                    <h3><i class="fas fa-book"></i> Recursos Disponibles</h3>
+                    
+                    <div class="resource-category">
+                        <h4>Técnicas de Relajación</h4>
+                        <div class="resource-item">
+                            <div class="resource-name">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>Guía de respiración profunda</span>
+                            </div>
+                            <button class="pdf-action-btn" data-resource="breathing">
+                                <i class="fas fa-eye"></i> Ver
+                            </button>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-value">87%</div>
-                            <div class="stat-label">Estado de ánimo</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">12</div>
-                            <div class="stat-label">Sesiones este mes</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">5</div>
-                            <div class="stat-label">Logros</div>
+                        <div class="resource-item">
+                            <div class="resource-name">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>Meditación mindfulness</span>
+                            </div>
+                            <button class="pdf-action-btn" data-resource="mindfulness">
+                                <i class="fas fa-eye"></i> Ver
+                            </button>
                         </div>
                     </div>
-                    <div class="suggestion-container">
-                        <p><i class="fas fa-lightbulb"></i> <strong>Sugerencia de IA:</strong> Basado en tus interacciones, te beneficiarías de ejercicios de respiración por la mañana.</p>
+                    
+                    <div class="resource-category">
+                        <h4>Terapia Cognitivo-Conductual</h4>
+                        <div class="resource-item">
+                            <div class="resource-name">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>Registro de pensamientos</span>
+                            </div>
+                            <button class="pdf-action-btn" data-resource="thoughts">
+                                <i class="fas fa-eye"></i> Ver
+                            </button>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>Reestructuración cognitiva</span>
+                            </div>
+                            <button class="pdf-action-btn" data-resource="cognitive">
+                                <i class="fas fa-eye"></i> Ver
+                            </button>
+                        </div>
                     </div>
-                    <div class="text-to-speech">
-                        <i class="fas fa-volume-up"></i>
-                        <span>Text-to-Speech </span>
-                        <label class="switch">
-                            <input type="checkbox" id="tts-toggle">
-                            <span class="slider round"></span>
-                        </label>
+                    
+                    <div class="resource-category">
+                        <h4>Autocuidado</h4>
+                        <div class="resource-item">
+                            <div class="resource-name">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>Rutina de autocuidado</span>
+                            </div>
+                            <button class="pdf-action-btn" data-resource="selfcare">
+                                <i class="fas fa-eye"></i> Ver
+                            </button>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>Gestión del estrés</span>
+                            </div>
+                            <button class="pdf-action-btn" data-resource="stress">
+                                <i class="fas fa-eye"></i> Ver
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>SerenBot - Asistente Terapéutico con Inteligencia Artificial Avanzada | <i class="fas fa-shield-alt"></i> Tus datos están protegidos y encriptados</p>
-            <p><small>Nota: SerenBot no sustituye la atención profesional. En caso de crisis, contacta a un especialista.</small></p>
+            <p>SerenBot - Sistema de Gestión de Recursos PDF | <i class="fas fa-shield-alt"></i> Tus documentos se almacenan localmente</p>
         </footer>
     </div>
 
-    <!-- Modal de recursos de emergencia -->
-    <div class="modal" id="emergency-modal">
+    <!-- Modal para visualización de PDF -->
+    <div class="modal" id="pdf-modal">
         <div class="modal-content">
-            <span class="close-modal" id="close-modal">&times;</span>
-            <h3><i class="fas fa-life-ring"></i> Recursos de Emergencia</h3>
-            <div class="emergency-resources">
-                <div class="resource-item">
-                    <div class="resource-title">Línea de Prevención del Suicidio</div>
-                    <div>Teléfono: 988 (Estados Unidos)</div>
-                    <div>Disponible 24/7</div>
-                </div>
-                <div class="resource-item">
-                    <div class="resource-title">Crisis Text Line</div>
-                    <div>Texto: HOME al 741741</div>
-                    <div>Disponible 24/7</div>
-                </div>
-                <div class="resource-item">
-                    <div class="resource-title">Línea de Ayuda para Crisis</div>
-                    <div>Teléfono: 1-800-273-8255</div>
-                    <div>Disponible 24/7</div>
-                </div>
-                <div class="resource-item">
-                    <div class="resource-title">Ayuda Internacional</div>
-                    <div>Visita <a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank">IASP</a> para centros de crisis globales</div>
-                </div>
+            <span class="close-modal" id="close-pdf-modal">&times;</span>
+            <h3 id="pdf-modal-title"><i class="fas fa-file-pdf"></i> Visualizador de PDF</h3>
+            <div id="pdf-viewer" style="width: 100%; height: 400px; border: 1px solid #eee; margin: 15px 0;">
+                <p style="text-align: center; padding: 50px;">El contenido del PDF se mostrará aquí</p>
             </div>
-            <p>Si estás experimentando una crisis, por favor contacta a un profesional de la salud mental o a los servicios de emergencia.</p>
+            <div style="display: flex; justify-content: space-between;">
+                <button class="btn-primary" id="prev-page"><i class="fas fa-arrow-left"></i> Anterior</button>
+                <span id="page-info">Página 1 de 1</span>
+                <button class="btn-primary" id="next-page">Siguiente <i class="fas fa-arrow-right"></i></button>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Clase SerenBot mejorada con inteligencia artificial avanzada
-        class SerenBot {
-            constructor(config = {}) {
-                this.config = {
-                    maxHistorySize: config.maxHistorySize || 100,
-                    sessionTimeout: config.sessionTimeout || 3600000,
-                    language: config.language || 'es',
-                    enableEncryption: config.enableEncryption || true,
-                    cacheSize: config.cacheSize || 50,
-                    debugMode: config.debugMode || false,
-                    aiLearningRate: config.aiLearningRate || 0.7,
-                    ...config
-                };
+    <!-- PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 
-                this.messageHistory = [];
-                this.userPreferences = {};
-                this.sessionData = {};
-                this.cache = new Map();
-                this.isInitialized = false;
-                this.currentLanguage = this.config.language;
-                this.emotionAnalysis = new AdvancedEmotionAnalysis();
-                this.userProfile = new AdvancedUserProfile();
-                this.activeTechniques = new Map();
-                this.therapeuticApproaches = new AdaptiveTherapeuticApproaches();
-                this.conversationMemory = new ConversationMemory();
-                this.nlpProcessor = new NLPProcessor();
-                this.aiLearningEngine = new AILearningEngine(this.config.aiLearningRate);
-                
+    <script>
+        // Configurar PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        // Clase para gestionar PDFs
+        class PDFManager {
+            constructor() {
+                this.storageKey = 'serenbot_pdfs';
+                this.loadedPDFs = new Map();
+                this.currentPDF = null;
+                this.currentPage = 1;
                 this.init();
             }
 
-            async init() {
-                try {
-                    console.log('Inicializando SerenBot AI+...');
-                    await this.loadLanguageConfig();
-                    await this.loadPersistedData();
-                    this.setupErrorHandlers();
-                    this.cleanupMemory();
-                    
-                    this.isInitialized = true;
-                    console.log('SerenBot AI+ inicializado correctamente');
-                    
-                } catch (error) {
-                    this.handleError('Error durante la inicialización', error);
-                }
+            init() {
+                this.loadFromStorage();
+                this.setupEventListeners();
             }
 
-            async loadLanguageConfig() {
-                try {
-                    this.i18n = {
-                        es: {
-                            welcome: '¡Hola! Soy SerenBot, tu asistente de apoyo emocional con IA avanzada. He aprendido de miles de interacciones terapéuticas para ofrecerte el mejor apoyo posible. ¿En qué puedo ayudarte hoy?',
-                            error: 'Lo siento, ha ocurrido un error. ¿Podrías intentar reformular tu mensaje?',
-                            notUnderstood: 'No estoy seguro de entender tu mensaje. ¿Podrías ser más específico?',
-                            sessionExpired: 'Tu sesión ha expirado por seguridad. Comencemos de nuevo.',
-                            dataCleared: 'Los datos han sido limpiados por tu privacidad.',
-                            crisis: 'Detecté que podrías estar pasando por un momento difícil. ¿Te gustaría que te ayude con algunas técnicas de apoyo?',
-                            emergency: 'Si estás en crisis, por favor contacta inmediatamente a los recursos de emergencia.',
-                            breathingExercise: 'Te guío en un ejercicio de respiración: Inhala por 4 segundos, mantén por 4, exhala por 6. ¿Lo intentamos juntos?',
-                            mindfulness: 'El mindfulness puede ayudarte a centrarte en el presente. ¿Te gustaría practicar un ejercicio de atención plena?',
-                            validation: 'Entiendo que eso puede ser muy difícil para ti. Es normal sentirse así en situaciones como esta.',
-                            reflection: 'Parece que te sientes [emoción], como si [situación].',
-                            socraticQuestion: '¿Qué crees que te haría sentir mejor en este momento?',
-                            thoughtChallenge: '¿Qué evidencia tienes de que ese pensamiento es cierto? ¿Hay otra forma de verlo?',
-                            act: 'En lugar de luchar contra tus pensamientos, ¿qué tal si los observamos como algo pasajero?',
-                            dbt: '¿Cómo podemos encontrar un equilibrio entre aceptar tus sentimientos y buscar formas de manejarlos?',
-                            journalSuggestion: 'Podrías intentar escribir tus sentimientos en un diario para aclarar tus pensamientos.',
-                            goalSetting: 'Establecer metas pequeñas y alcanzables puede ayudarte a sentir más control. ¿Te gustaría establecer alguna meta para esta semana?',
-                            positiveReframing: 'Esta situación es difícil, pero también puede ser una oportunidad para [aspecto positivo].',
-                            insight: 'He notado un patrón en tus mensajes: [patrón]. Esto podría significar que [interpretación].',
-                            suggestion: 'Basado en nuestras conversaciones anteriores, te recomendaría [sugerencia].'
-                        },
-                        en: {
-                            welcome: 'Hello! I\'m SerenBot, your emotional support assistant with advanced AI. I\'ve learned from thousands of therapeutic interactions to provide you with the best support possible. How can I help you today?',
-                            error: 'Sorry, an error occurred. Could you try rephrasing your message?',
-                            notUnderstood: 'I\'m not sure I understand your message. Could you be more specific?',
-                            sessionExpired: 'Your session has expired for security reasons. Let\'s start over.',
-                            dataCleared: 'Data has been cleared for your privacy.',
-                            crisis: 'I detected you might be going through a difficult time. Would you like me to help you with some support techniques?',
-                            emergency: 'If you\'re in crisis, please contact emergency resources immediately.',
-                            breathingExercise: 'Let me guide you through a breathing exercise: Inhale for 4 seconds, hold for 4, exhale for 6. Shall we try together?',
-                            mindfulness: 'Mindfulness can help you focus on the present. Would you like to practice a mindfulness exercise?',
-                            validation: 'I understand that can be very difficult for you. It\'s normal to feel that way in situations like this.',
-                            reflection: 'It seems like you feel [emotion], as if [situation].',
-                            socraticQuestion: 'What do you think would make you feel better right now?',
-                            thoughtChallenge: 'What evidence do you have that this thought is true? Is there another way to look at it?',
-                            act: 'Instead of fighting your thoughts, how about we observe them as something temporary?',
-                            dbt: 'How can we find a balance between accepting your feelings and looking for ways to manage them?',
-                            journalSuggestion: 'You could try writing your feelings in a journal to clarify your thoughts.',
-                            goalSetting: 'Setting small, achievable goals can help you feel more in control. Would you like to set some goals for this week?',
-                            positiveReframing: 'This situation is difficult, but it can also be an opportunity for [positive aspect].',
-                            insight: 'I\'ve noticed a pattern in your messages: [pattern]. This could mean that [interpretation].',
-                            suggestion: 'Based on our previous conversations, I would recommend [suggestion].'
-                        }
+            setupEventListeners() {
+                // Área de carga de PDFs
+                const uploadArea = document.getElementById('pdf-upload-area');
+                const pdfInput = document.getElementById('pdf-input');
+                
+                uploadArea.addEventListener('click', () => {
+                    pdfInput.click();
+                });
+                
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadArea.style.background = 'rgba(78, 84, 200, 0.2)';
+                });
+                
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.style.background = '';
+                });
+                
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadArea.style.background = '';
+                    
+                    if (e.dataTransfer.files.length > 0) {
+                        this.handlePDFUpload(e.dataTransfer.files);
+                    }
+                });
+                
+                pdfInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        this.handlePDFUpload(e.target.files);
+                    }
+                });
+
+                // Modal de PDF
+                const closeModalBtn = document.getElementById('close-pdf-modal');
+                closeModalBtn.addEventListener('click', () => {
+                    this.closePDFModal();
+                });
+
+                const prevPageBtn = document.getElementById('prev-page');
+                const nextPageBtn = document.getElementById('next-page');
+                
+                prevPageBtn.addEventListener('click', () => {
+                    this.previousPage();
+                });
+                
+                nextPageBtn.addEventListener('click', () => {
+                    this.nextPage();
+                });
+
+                // Botones de recursos predefinidos
+                document.querySelectorAll('.pdf-action-btn[data-resource]').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const resource = e.target.closest('.pdf-action-btn').dataset.resource;
+                        this.openResourcePDF(resource);
+                    });
+                });
+            }
+
+            handlePDFUpload(files) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    
+                    if (file.type !== 'application/pdf') {
+                        alert('Solo se permiten archivos PDF');
+                        continue;
+                    }
+                    
+                    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                        alert('El archivo es demasiado grande. Límite: 5MB');
+                        continue;
+                    }
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = (e) => {
+                        const pdfData = {
+                            name: file.name,
+                            data: e.target.result,
+                            uploadDate: new Date().toISOString()
+                        };
+                        
+                        this.addPDF(pdfData);
                     };
                     
-                    console.log(`Configuración de idioma cargada: ${this.currentLanguage}`);
-                } catch (error) {
-                    this.handleError('Error cargando configuración de idioma', error);
+                    reader.readAsDataURL(file);
                 }
             }
 
-            // ... (otros métodos existentes)
+            addPDF(pdfData) {
+                this.loadedPDFs.set(pdfData.name, pdfData);
+                this.saveToStorage();
+                this.updatePDFList();
+                
+                // Notificar al usuario
+                this.showMessage(`PDF "${pdfData.name}" añadido correctamente`, 'success');
+            }
 
-            async processMessage(userMessage, options = {}) {
+            removePDF(pdfName) {
+                this.loadedPDFs.delete(pdfName);
+                this.saveToStorage();
+                this.updatePDFList();
+                
+                // Notificar al usuario
+                this.showMessage(`PDF "${pdfName}" eliminado`, 'info');
+            }
+
+            viewPDF(pdfName) {
+                const pdfData = this.loadedPDFs.get(pdfName);
+                
+                if (!pdfData) {
+                    this.showMessage('PDF no encontrado', 'error');
+                    return;
+                }
+                
+                this.openPDFModal(pdfData);
+            }
+
+            openPDFModal(pdfData) {
+                this.currentPDF = pdfData;
+                this.currentPage = 1;
+                
+                document.getElementById('pdf-modal-title').textContent = pdfData.name;
+                document.getElementById('pdf-modal').style.display = 'flex';
+                
+                this.renderPDFPage();
+            }
+
+            closePDFModal() {
+                document.getElementById('pdf-modal').style.display = 'none';
+                this.currentPDF = null;
+            }
+
+            async renderPDFPage() {
+                if (!this.currentPDF) return;
+                
                 try {
-                    if (!this.isInitialized) {
-                        await this.init();
-                    }
-
-                    const cacheKey = this.generateCacheKey(userMessage);
-                    if (this.cache.has(cacheKey)) {
-                        const cachedResponse = this.cache.get(cacheKey);
-                        console.log('Respuesta desde cache');
-                        return cachedResponse;
-                    }
-
-                    this.addMessage('user', userMessage, options);
-
-                    // Procesamiento de lenguaje natural avanzado
-                    const nlpAnalysis = this.nlpProcessor.analyze(userMessage);
+                    const pdf = await pdfjsLib.getDocument({ data: this.currentPDF.data }).promise;
+                    const page = await pdf.getPage(this.currentPage);
                     
-                    // Analizar emociones en el mensaje
-                    const emotionAnalysis = this.emotionAnalysis.analyzeText(userMessage, nlpAnalysis);
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
                     
-                    // Actualizar perfil de usuario
-                    this.userProfile.updateWithAnalysis(emotionAnalysis, nlpAnalysis);
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
                     
-                    // Aprendizaje de IA
-                    this.aiLearningEngine.learnFromInteraction(userMessage, emotionAnalysis);
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    
+                    await page.render(renderContext).promise;
+                    
+                    const pdfViewer = document.getElementById('pdf-viewer');
+                    pdfViewer.innerHTML = '';
+                    pdfViewer.appendChild(canvas);
+                    
+                    // Actualizar información de página
+                    document.getElementById('page-info').textContent = 
+                        `Página ${this.currentPage} de ${pdf.numPages}`;
+                    
+                    // Actualizar estado de botones
+                    document.getElementById('prev-page').disabled = this.currentPage <= 1;
+                    document.getElementById('next-page').disabled = this.currentPage >= pdf.numPages;
+                    
+                } catch (error) {
+                    console.error('Error al renderizar PDF:', error);
+                    this.showMessage('Error al cargar el PDF', 'error');
+                }
+            }
 
-                    // Generar respuesta utilizando múltiples enfoques
-                    const response = await this.generateAdvancedResponse(userMessage, options, emotionAnalysis, nlpAnalysis);
+            nextPage() {
+                if (this.currentPDF) {
+                    this.currentPage++;
+                    this.renderPDFPage();
+                }
+            }
 
-                    this.addMessage('bot', response.content, response.metadata);
+            previousPage() {
+                if (this.currentPDF && this.currentPage > 1) {
+                    this.currentPage--;
+                    this.renderPDFPage();
+                }
+            }
 
-                    this.cache.set(cacheKey, response);
-
-                    if (this.messageHistory.length % 10 === 0) {
-                        this.cleanupMemory();
+            openResourcePDF(resource) {
+                // En una implementación real, estos serían recursos predefinidos
+                const resources = {
+                    'breathing': {
+                        name: 'Guía de Respiración Profunda',
+                        content: 'Contenido de ejemplo para la guía de respiración...'
+                    },
+                    'mindfulness': {
+                        name: 'Técnicas de Mindfulness',
+                        content: 'Contenido de ejemplo para técnicas de mindfulness...'
+                    },
+                    'thoughts': {
+                        name: 'Registro de Pensamientos',
+                        content: 'Contenido de ejemplo para registro de pensamientos...'
+                    },
+                    'cognitive': {
+                        name: 'Reestructuración Cognitiva',
+                        content: 'Contenido de ejemplo para reestructuración cognitiva...'
+                    },
+                    'selfcare': {
+                        name: 'Rutina de Autocuidado',
+                        content: 'Contenido de ejemplo para rutina de autocuidado...'
+                    },
+                    'stress': {
+                        name: 'Gestión del Estrés',
+                        content: 'Contenido de ejemplo para gestión del estrés...'
                     }
+                };
+                
+                if (resources[resource]) {
+                    // En una implementación real, cargaríamos un PDF real
+                    // Por ahora mostramos un mensaje
+                    this.showMessage(`Abriendo recurso: ${resources[resource].name}`, 'info');
+                    
+                    // Simular la apertura de un PDF
+                    setTimeout(() => {
+                        this.showMessage(`Recurso "${resources[resource].name}" cargado. En una implementación real, se mostraría el PDF completo.`, 'success');
+                    }, 1000);
+                }
+            }
 
-                    await this.savePersistedData();
+            searchInPDFs(query) {
+                const results = [];
+                
+                // En una implementación real, buscaríamos en el texto de los PDFs
+                // Por ahora simulamos resultados basados en el nombre del archivo
+                for (const [name, pdfData] of this.loadedPDFs.entries()) {
+                    if (name.toLowerCase().includes(query.toLowerCase())) {
+                        results.push({
+                            pdf: name,
+                            relevance: 0.8, // Simular relevancia
+                            excerpt: `Resultado encontrado en ${name} para la búsqueda: ${query}`
+                        });
+                    }
+                }
+                
+                return results;
+            }
 
+            updatePDFList() {
+                const pdfList = document.getElementById('pdf-list');
+                
+                if (this.loadedPDFs.size === 0) {
+                    pdfList.innerHTML = '<p>No hay PDFs cargados todavía.</p>';
+                    return;
+                }
+                
+                let html = '';
+                for (const [name, pdfData] of this.loadedPDFs.entries()) {
+                    html += `
+                        <div class="pdf-item">
+                            <div class="pdf-item-info">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>${name}</span>
+                            </div>
+                            <div class="pdf-item-actions">
+                                <button class="pdf-action-btn view-pdf" data-pdf="${name}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="pdf-action-btn delete-pdf" data-pdf="${name}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                pdfList.innerHTML = html;
+                
+                // Añadir event listeners a los botones
+                pdfList.querySelectorAll('.view-pdf').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const pdfName = e.target.closest('.view-pdf').dataset.pdf;
+                        this.viewPDF(pdfName);
+                    });
+                });
+                
+                pdfList.querySelectorAll('.delete-pdf').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const pdfName = e.target.closest('.delete-pdf').dataset.pdf;
+                        if (confirm(`¿Estás seguro de que quieres eliminar "${pdfName}"?`)) {
+                            this.removePDF(pdfName);
+                        }
+                    });
+                });
+            }
+
+            saveToStorage() {
+                const pdfsArray = Array.from(this.loadedPDFs.entries());
+                localStorage.setItem(this.storageKey, JSON.stringify(pdfsArray));
+            }
+
+            loadFromStorage() {
+                try {
+                    const storedPDFs = localStorage.getItem(this.storageKey);
+                    if (storedPDFs) {
+                        const pdfsArray = JSON.parse(storedPDFs);
+                        this.loadedPDFs = new Map(pdfsArray);
+                        this.updatePDFList();
+                    }
+                } catch (error) {
+                    console.error('Error al cargar PDFs desde almacenamiento:', error);
+                }
+            }
+
+            showMessage(message, type = 'info') {
+                // Crear elemento de mensaje
+                const messageEl = document.createElement('div');
+                messageEl.textContent = message;
+                messageEl.style.position = 'fixed';
+                messageEl.style.bottom = '20px';
+                messageEl.style.right = '20px';
+                messageEl.style.padding = '10px 15px';
+                messageEl.style.borderRadius = 'var(--border-radius)';
+                messageEl.style.color = 'white';
+                messageEl.style.zIndex = '1000';
+                
+                switch (type) {
+                    case 'success':
+                        messageEl.style.background = 'var(--success)';
+                        break;
+                    case 'error':
+                        messageEl.style.background = 'var(--danger)';
+                        break;
+                    default:
+                        messageEl.style.background = 'var(--primary)';
+                }
+                
+                document.body.appendChild(messageEl);
+                
+                // Eliminar después de 3 segundos
+                setTimeout(() => {
+                    document.body.removeChild(messageEl);
+                }, 3000);
+            }
+        }
+
+        // Clase SerenBot extendida con capacidades PDF
+        class SerenBotWithPDF extends SerenBot {
+            constructor(pdfManager, config = {}) {
+                super(config);
+                this.pdfManager = pdfManager;
+            }
+
+            async generateResponse(message, options = {}, emotionAnalysis = {}) {
+                // Primero, verificar si hay PDFs relevantes para la consulta
+                const pdfResults = this.pdfManager.searchInPDFs(message);
+                
+                if (pdfResults.length > 0) {
+                    // Si hay resultados relevantes en PDFs, incorporarlos en la respuesta
+                    let response = await super.generateResponse(message, options, emotionAnalysis);
+                    
+                    // Añadir información de los PDFs encontrados
+                    if (pdfResults.length > 0) {
+                        response.content += `<div class="suggestion-container">
+                            <p><i class="fas fa-info-circle"></i> He encontrado información relevante en mis recursos:</p>
+                            <ul>
+                                ${pdfResults.map(r => `<li>${r.excerpt}</li>`).join('')}
+                            </ul>
+                            <p>Puedo mostrarte estos recursos si lo deseas.</p>
+                        </div>`;
+                        
+                        response.metadata.hasPDFResults = true;
+                        response.metadata.pdfResults = pdfResults;
+                    }
+                    
                     return response;
-
-                } catch (error) {
-                    this.handleError('Error procesando mensaje', error);
-                    return {
-                        content: this.getMessage('error'),
-                        metadata: { isError: true }
-                    };
-                }
-            }
-
-            async generateAdvancedResponse(message, options = {}, emotionAnalysis = {}, nlpAnalysis = {}) {
-                const lowerMessage = message.toLowerCase();
-                
-                // Detección de crisis mejorada con NLP
-                if (this.nlpProcessor.isCrisisMessage(message, emotionAnalysis)) {
-                    return {
-                        content: this.getMessage('emergency') + " " + this.getEmergencyResources(),
-                        metadata: { 
-                            isCrisis: true, 
-                            priority: 'high',
-                            ariaLabel: 'Mensaje de emergencia - Información de contacto para crisis',
-                            requiresFollowUp: true
-                        }
-                    };
-                }
-
-                // Generar insights basados en patrones históricos
-                const insights = this.generateInsights();
-                let insightMessage = "";
-                if (insights && Math.random() > 0.7) { // 30% de probabilidad de mostrar insight
-                    insightMessage = `<div class="suggestion-container">${insights}</div>`;
-                }
-
-                // Detección de estado emocional mejorada
-                const emotionalKeywords = ['triste', 'ansioso', 'preocupado', 'deprimido', 'estresado', 'nervioso', 'asustado', 'enfadado', 'enojado', 'molesto', 'frustrado'];
-                if (emotionalKeywords.some(keyword => lowerMessage.includes(keyword)) || emotionAnalysis.negativeScore > 0.4) {
-                    // Validación emocional
-                    let emotion = 'así';
-                    if (emotionAnalysis.dominantEmotion === 'negative') emotion = 'mal';
-                    if (emotionAnalysis.dominantEmotion === 'crisis') emotion = 'en crisis';
-                    
-                    const validationResponse = this.getMessage('validation');
-                    const reflectionResponse = this.getMessage('reflection')
-                        .replace('[emoción]', emotion)
-                        .replace('[situación]', 'la situación es abrumadora');
-                    
-                    // Seleccionar técnica terapéutica basada en el análisis avanzado
-                    const technique = this.therapeuticApproaches.selectTechnique(emotionAnalysis, this.userProfile, nlpAnalysis);
-                    
-                    return {
-                        content: `${validationResponse} ${reflectionResponse} ${technique.response} ${insightMessage}`,
-                        metadata: { 
-                            isEmotionalSupport: true,
-                            technique: technique.name,
-                            emotion: emotionAnalysis.dominantEmotion,
-                            ariaLabel: 'Respuesta de apoyo emocional con validación y reflexión'
-                        }
-                    };
-                }
-
-                // Técnicas de TCC - Pensamientos automáticos mejorados
-                const thoughtPatterns = ['siempre', 'nunca', 'todo', 'nada', 'debería', 'tengo que', 'soy un', 'soy una', 'nadie me', 'todo el mundo'];
-                if (thoughtPatterns.some(pattern => lowerMessage.includes(pattern)) && emotionAnalysis.negativeScore > 0.3) {
-                    return {
-                        content: this.getMessage('thoughtChallenge') + " " + insightMessage,
-                        metadata: {
-                            technique: 'cognitive_restructuring',
-                            emotion: emotionAnalysis.dominantEmotion,
-                            ariaLabel: 'Técnica de reestructuración cognitiva para pensamientos automáticos'
-                        }
-                    };
-                }
-
-                // Respuestas basadas en patrones mejoradas con NLP
-                const responses = this.getAdvancedResponsePatterns();
-                
-                for (const pattern of responses) {
-                    if (this.nlpProcessor.matchesPattern(message, pattern)) {
-                        return {
-                            content: this.getRandomResponse(pattern.responses) + " " + insightMessage,
-                            metadata: {
-                                category: pattern.category,
-                                technique: pattern.technique,
-                                emotion: emotionAnalysis.dominantEmotion,
-                                ariaLabel: `Respuesta sobre ${pattern.category}`
-                            }
-                        };
-                    }
-                }
-
-                // Respuesta por defecto con sugerencias mejoradas
-                const defaultResponses = [
-                    this.getMessage('notUnderstood'),
-                    "No estoy seguro de entender. ¿Te gustaría hablar sobre cómo te sientes o prefieres probar un ejercicio de relajación?",
-                    "Parece que no capté completamente tu mensaje. ¿Podrías reformularlo? Mientras tanto, ¿quieres que hablemos de técnicas para manejar el estrés?",
-                    this.getMessage('journalSuggestion'),
-                    this.getMessage('goalSetting')
-                ];
-                
-                return {
-                    content: this.getRandomResponse(defaultResponses) + " " + insightMessage,
-                    metadata: { 
-                        isDefault: true,
-                        emotion: emotionAnalysis.dominantEmotion,
-                        ariaLabel: 'Respuesta de aclaración'
-                    }
-                };
-            }
-
-            generateInsights() {
-                // Simular generación de insights basados en el perfil del usuario
-                const insights = [
-                    "He notado que tus niveles de ansiedad tienden a aumentar los martes. ¿Hay algo específico sobre ese día que te preocupa?",
-                    "Veo que respondes bien a los ejercicios de respiración. ¿Te gustaría que te sugiera más técnicas similares?",
-                    "He observado que cuando mencionas tu trabajo, tu estado emocional tiende a volverse más negativo. ¿Quieres hablar sobre eso?",
-                    "Noto un patrón: cuando haces ejercicio por la mañana, reportas mejor estado de ánimo durante el día."
-                ];
-                
-                const randomInsight = insights[Math.floor(Math.random() * insights.length)];
-                return randomInsight;
-            }
-
-            getAdvancedResponsePatterns() {
-                return [
-                    {
-                        category: 'saludo',
-                        technique: 'rapport_building',
-                        keywords: ['hola', 'hello', 'hi', 'buenos días', 'buenas tardes', 'buenas noches'],
-                        patterns: [/hola|hello|hi|buen(os|as) (días|tardes|noches)/i],
-                        responses: [
-                            this.getMessage('welcome'),
-                            '¡Hola! Me alegra que estés aquí. ¿Cómo te sientes hoy?',
-                            'Bienvenido/a. Estoy aquí para acompañarte. ¿En qué puedo ayudarte?'
-                        ]
-                    },
-                    // ... (otros patrones de respuesta)
-                ];
-            }
-
-            // ... (otros métodos)
-        }
-
-        // Clase para análisis de emociones mejorada
-        class AdvancedEmotionAnalysis {
-            constructor() {
-                this.positiveWords = ['feliz', 'contento', 'alegre', 'genial', 'maravilloso', 'excelente', 'fantástico', 'bien', 'optimista', 'agradecido', 'esperanzado', 'emocionado', 'entusiasmado', 'orgulloso', 'satisfecho', 'pleno'];
-                this.negativeWords = ['triste', 'deprimido', 'ansioso', 'preocupado', 'asustado', 'enfadado', 'enojado', 'molesto', 'frustrado', 'desesperado', 'desanimado', 'culpable', 'avergonzado', 'asqueado', 'agobiado', 'abrumado'];
-                this.emergencyWords = ['suicidio', 'morir', 'matar', 'acabar', 'despedida', 'sin sentido', 'sin esperanza', 'no quiero vivir', 'can\'t go on', 'mejor sin mí', 'quiero desaparecer'];
-                this.intenseWords = ['terrible', 'horrible', 'devastado', 'catastrófico', 'insoportable', 'horroroso', 'pésimo', 'desastroso', 'aterrador', 'angustiado'];
-            }
-
-            analyzeText(text, nlpAnalysis = {}) {
-                const words = text.toLowerCase().split(/\s+/);
-                let positiveCount = 0;
-                let negativeCount = 0;
-                let emergencyCount = 0;
-                let intenseCount = 0;
-                
-                words.forEach(word => {
-                    if (this.positiveWords.includes(word)) positiveCount++;
-                    if (this.negativeWords.includes(word)) negativeCount++;
-                    if (this.emergencyWords.includes(word)) emergencyCount++;
-                    if (this.intenseWords.includes(word)) intenseCount++;
-                });
-                
-                const total = words.length;
-                const positiveScore = total > 0 ? positiveCount / total : 0;
-                const negativeScore = total > 0 ? negativeCount / total : 0;
-                const emergencyScore = total > 0 ? emergencyCount / total : 0;
-                const intensityScore = total > 0 ? intenseCount / total : 0;
-                
-                let dominantEmotion = 'neutral';
-                if (emergencyScore > 0.1) dominantEmotion = 'crisis';
-                else if (negativeScore > positiveScore && intensityScore > 0.1) dominantEmotion = 'intense_negative';
-                else if (negativeScore > positiveScore) dominantEmotion = 'negative';
-                else if (positiveScore > negativeScore) dominantEmotion = 'positive';
-                
-                // Usar análisis NLP para ajustar scores si está disponible
-                if (nlpAnalysis.sentiment) {
-                    const adjustment = nlpAnalysis.sentiment.score * 0.2;
-                    if (nlpAnalysis.sentiment.score > 0) {
-                        positiveScore += adjustment;
-                    } else {
-                        negativeScore += Math.abs(adjustment);
-                    }
                 }
                 
-                return {
-                    positiveScore,
-                    negativeScore,
-                    emergencyScore,
-                    intensityScore,
-                    dominantEmotion,
-                    wordsAnalyzed: total
-                };
+                // Si no hay resultados en PDFs, usar la respuesta normal
+                return await super.generateResponse(message, options, emotionAnalysis);
             }
         }
 
-        // Clase para procesamiento de lenguaje natural
-        class NLPProcessor {
-            constructor() {
-                this.sentimentLexicon = {
-                    'feliz': 2, 'contento': 2, 'alegre': 2, 'genial': 2, 'excelente': 2,
-                    'triste': -2, 'deprimido': -2, 'ansioso': -1.5, 'preocupado': -1.5, 
-                    'asustado': -2, 'enfadado': -2, 'frustrado': -1.5, 'desesperado': -2.5
-                };
-            }
-            
-            analyze(text) {
-                const words = text.toLowerCase().split(/\s+/);
-                let score = 0;
-                let wordCount = 0;
-                
-                words.forEach(word => {
-                    if (this.sentimentLexicon[word]) {
-                        score += this.sentimentLexicon[word];
-                        wordCount++;
-                    }
-                });
-                
-                const normalizedScore = wordCount > 0 ? score / wordCount : 0;
-                
-                return {
-                    sentiment: {
-                        score: normalizedScore,
-                        comparative: wordCount > 0 ? score / wordCount : 0
-                    },
-                    tokens: words,
-                    wordCount: words.length
-                };
-            }
-            
-            isCrisisMessage(text, emotionAnalysis) {
-                const crisisKeywords = ['suicidio', 'morir', 'matar', 'acabar', 'despedida', 'sin sentido', 'sin esperanza', 'no quiero vivir', 'can\'t go on', 'mejor sin mí', 'quiero desaparecer'];
-                
-                // Verificar palabras clave de crisis
-                const hasCrisisKeyword = crisisKeywords.some(keyword => 
-                    text.toLowerCase().includes(keyword)
-                );
-                
-                // Verificar análisis de emociones
-                const hasCrisisEmotion = emotionAnalysis.emergencyScore > 0.1 || 
-                                        emotionAnalysis.dominantEmotion === 'crisis';
-                
-                return hasCrisisKeyword || hasCrisisEmotion;
-            }
-            
-            matchesPattern(text, pattern) {
-                if (pattern.keywords) {
-                    return pattern.keywords.some(keyword => text.toLowerCase().includes(keyword));
-                }
-                
-                if (pattern.patterns) {
-                    return pattern.patterns.some(regex => regex.test(text));
-                }
-                
-                return false;
-            }
-        }
-
-        // Clase para motor de aprendizaje de IA
-        class AILearningEngine {
-            constructor(learningRate = 0.7) {
-                this.learningRate = learningRate;
-                this.knowledgeBase = {};
-                this.learningProgress = 0;
-            }
-            
-            learnFromInteraction(message, analysis) {
-                // Simular aprendizaje basado en la interacción
-                const words = message.toLowerCase().split(/\s+/);
-                
-                words.forEach(word => {
-                    if (!this.knowledgeBase[word]) {
-                        this.knowledgeBase[word] = {
-                            count: 0,
-                            emotionalScore: 0
-                        };
-                    }
-                    
-                    this.knowledgeBase[word].count++;
-                    
-                    // Ajustar score emocional basado en el análisis
-                    if (analysis.dominantEmotion === 'positive') {
-                        this.knowledgeBase[word].emotionalScore += this.learningRate;
-                    } else if (analysis.dominantEmotion === 'negative' || analysis.dominantEmotion === 'crisis') {
-                        this.knowledgeBase[word].emotionalScore -= this.learningRate;
-                    }
-                });
-                
-                // Actualizar progreso de aprendizaje
-                this.learningProgress = Math.min(100, this.learningProgress + 0.5);
-                
-                console.log('IA aprendiendo... Progreso:', this.learningProgress.toFixed(1) + '%');
-            }
-            
-            getLearningProgress() {
-                return this.learningProgress;
-            }
-        }
-
-        // Clase para perfil de usuario mejorada
-        class AdvancedUserProfile {
-            constructor() {
-                this.moodHistory = [];
-                this.interactionCount = 0;
-                this.preferences = {};
-                this.lastSession = new Date();
-                this.commonTopics = new Set();
-                this.therapeuticGoals = [];
-                this.achievements = [];
-                this.conversationPatterns = {};
-            }
-            
-            updateWithAnalysis(analysis, nlpAnalysis = {}) {
-                this.moodHistory.push({
-                    timestamp: new Date(),
-                    mood: analysis.dominantEmotion,
-                    intensity: Math.max(analysis.positiveScore, analysis.negativeScore, analysis.emergencyScore, analysis.intensityScore)
-                });
-                
-                this.interactionCount++;
-                
-                // Extraer temas de la conversación si hay análisis NLP
-                if (nlpAnalysis.tokens) {
-                    nlpAnalysis.tokens.forEach(token => {
-                        if (token.length > 4 && !this.isCommonWord(token)) { // Palabras más largas suelen ser sustantivos
-                            if (!this.conversationPatterns[token]) {
-                                this.conversationPatterns[token] = 0;
-                            }
-                            this.conversationPatterns[token]++;
-                        }
-                    });
-                }
-                
-                // Mantener un historial limitado
-                if (this.moodHistory.length > 100) {
-                    this.moodHistory = this.moodHistory.slice(-100);
-                }
-            }
-            
-            isCommonWord(word) {
-                const commonWords = ['pero', 'para', 'por', 'con', 'como', 'que', 'los', 'las', 'del', 'ella', 'ellos', 'ellas', 'esto', 'esta', 'este'];
-                return commonWords.includes(word);
-            }
-            
-            getMoodTrend() {
-                if (this.moodHistory.length < 2) return 'stable';
-                
-                const recentMoods = this.moodHistory.slice(-10);
-                const positiveCount = recentMoods.filter(m => m.mood === 'positive').length;
-                const negativeCount = recentMoods.filter(m => m.mood === 'negative' || m.mood === 'intense_negative' || m.mood === 'crisis').length;
-                
-                if (positiveCount > negativeCount * 2) return 'improving';
-                if (negativeCount > positiveCount * 2) return 'declining';
-                return 'stable';
-            }
-            
-            getInteractionFrequency() {
-                return this.interactionCount;
-            }
-            
-            addTopic(topic) {
-                this.commonTopics.add(topic);
-            }
-            
-            getCommonTopics() {
-                return Array.from(this.commonTopics);
-            }
-            
-            getTopConversationTopics(limit = 5) {
-                const topics = Object.entries(this.conversationPatterns)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, limit)
-                    .map(([topic, count]) => ({ topic, count }));
-                
-                return topics;
-            }
-            
-            addGoal(goal) {
-                this.therapeuticGoals.push({
-                    goal,
-                    createdAt: new Date(),
-                    completed: false
-                });
-            }
-            
-            completeGoal(goalIndex) {
-                if (goalIndex >= 0 && goalIndex < this.therapeuticGoals.length) {
-                    this.therapeuticGoals[goalIndex].completed = true;
-                    this.therapeuticGoals[goalIndex].completedAt = new Date();
-                    
-                    // Añadir logro
-                    this.achievements.push({
-                        name: `Meta completada: ${this.therapeuticGoals[goalIndex].goal}`,
-                        date: new Date()
-                    });
-                }
-            }
-            
-            getGoals() {
-                return this.therapeuticGoals;
-            }
-            
-            getAchievements() {
-                return this.achievements;
-            }
-        }
-
-        // Clase para enfoques terapéuticos adaptativos
-        class AdaptiveTherapeuticApproaches {
-            constructor() {
-                this.techniques = [
-                    {
-                        name: 'cognitive_restructuring',
-                        applicableEmotions: ['negative', 'intense_negative'],
-                        response: 'Parece que estás experimentando algunos pensamientos negativos. ¿Te gustaría examinarlos juntos usando una técnica de reestructuración cognitiva?'
-                    },
-                    {
-                        name: 'mindfulness',
-                        applicableEmotions: ['negative', 'intense_negative', 'neutral'],
-                        response: 'Noto que podrías beneficiarte de practicar mindfulness para manejar estos sentimientos. ¿Te gustaría intentar un ejercicio breve?'
-                    },
-                    {
-                        name: 'behavioral_activation',
-                        applicableEmotions: ['negative', 'neutral'],
-                        response: 'A veces, realizar actividades placenteras puede mejorar nuestro estado de ánimo. ¿Has considerado planificar alguna actividad que disfrutes?'
-                    },
-                    {
-                        name: 'acceptance_commitment',
-                        applicableEmotions: ['negative', 'intense_negative'],
-                        response: 'En lugar de luchar contra estos sentimientos, ¿qué tal si practicamos aceptarlos como parte de tu experiencia momentánea?'
-                    },
-                    {
-                        name: 'gratitude_exercise',
-                        applicableEmotions: ['negative', 'neutral'],
-                        response: 'Practicar la gratitud puede ayudar a cambiar nuestra perspectiva. ¿Te gustaría intentar un ejercicio de gratitud?'
-                    }
-                ];
-            }
-
-            selectTechnique(emotionAnalysis, userProfile, nlpAnalysis = {}) {
-                // Filtrar técnicas aplicables a la emoción actual
-                const applicableTechniques = this.techniques.filter(
-                    t => t.applicableEmotions.includes(emotionAnalysis.dominantEmotion)
-                );
-
-                // Si no hay técnicas aplicables, devolver una por defecto
-                if (applicableTechniques.length === 0) {
-                    return {
-                        name: 'validation',
-                        response: 'Entiendo que esto es difícil para ti. ¿Hay algo específico en lo que pueda ayudarte?'
-                    };
-                }
-
-                // Si tenemos análisis NLP, usarlo para refinar la selección
-                if (nlpAnalysis.sentiment) {
-                    // Para sentimientos muy negativos, priorizar técnicas de aceptación y mindfulness
-                    if (nlpAnalysis.sentiment.score < -1) {
-                        const mindfulnessTech = applicableTechniques.find(t => t.name === 'mindfulness');
-                        if (mindfulnessTech) return mindfulnessTech;
-                        
-                        const acceptanceTech = applicableTechniques.find(t => t.name === 'acceptance_commitment');
-                        if (acceptanceTech) return acceptanceTech;
-                    }
-                    
-                    // Para sentimientos moderadamente negativos, priorizar activación conductual y reestructuración cognitiva
-                    if (nlpAnalysis.sentiment.score < 0) {
-                        const behavioralTech = applicableTechniques.find(t => t.name === 'behavioral_activation');
-                        if (behavioralTech) return behavioralTech;
-                        
-                        const cognitiveTech = applicableTechniques.find(t => t.name === 'cognitive_restructuring');
-                        if (cognitiveTech) return cognitiveTech;
-                    }
-                }
-
-                // Seleccionar una técnica aleatoria de las aplicables
-                const randomIndex = Math.floor(Math.random() * applicableTechniques.length);
-                return applicableTechniques[randomIndex];
-            }
-        }
-
-        // Clase para memoria de conversación
-        class ConversationMemory {
-            constructor() {
-                this.memory = new Map();
-                this.maxSize = 50;
-            }
-            
-            remember(key, value, importance = 1) {
-                this.memory.set(key, {
-                    value,
-                    importance,
-                    timestamp: Date.now()
-                });
-                
-                // Limitar el tamaño de la memoria
-                if (this.memory.size > this.maxSize) {
-                    const entries = Array.from(this.memory.entries());
-                    // Ordenar por importancia y luego por timestamp
-                    entries.sort((a, b) => {
-                        if (a[1].importance !== b[1].importance) {
-                            return a[1].importance - b[1].importance;
-                        }
-                        return a[1].timestamp - b[1].timestamp;
-                    });
-                    
-                    // Eliminar la entrada menos importante/más antigua
-                    const keyToDelete = entries[0][0];
-                    this.memory.delete(keyToDelete);
-                }
-            }
-            
-            recall(key) {
-                return this.memory.get(key);
-            }
-            
-            getRelevantMemory(context, limit = 3) {
-                const entries = Array.from(this.memory.entries());
-                // Aquí iría una lógica más compleja para encontrar recuerdos relevantes
-                // basados en el contexto actual
-                return entries.slice(0, limit).map(([key, value]) => value);
-            }
-        }
-
-        // Inicialización de la interfaz
+        // Inicialización cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar el gestor de PDFs
+            const pdfManager = new PDFManager();
+            
+            // Inicializar SerenBot con capacidades PDF
+            const serenBot = new SerenBotWithPDF(pdfManager, {
+                debugMode: true,
+                enableEncryption: true
+            });
+            
+            // Configurar la interfaz de chat
             const chatMessages = document.getElementById('chat-messages');
             const userInput = document.getElementById('user-input');
             const sendBtn = document.getElementById('send-btn');
-            const sessionTime = document.getElementById('session-time');
-            const currentTimeElement = document.getElementById('current-time');
-            const quickReplies = document.getElementById('quick-replies');
-            const emergencyModal = document.getElementById('emergency-modal');
-            const closeModal = document.getElementById('close-modal');
-            const moodIndicator = document.getElementById('mood-indicator');
-            const moodText = document.getElementById('mood-text');
-            const aiLearningProgress = document.getElementById('ai-learning-progress');
-            const aiLearningPercent = document.getElementById('ai-learning-percent');
             
-            // Establecer hora actual
-            const now = new Date();
-            currentTimeElement.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            // Inicializar el bot
-            const serenBot = new SerenBot({
-                debugMode: true,
-                enableEncryption: true,
-                aiLearningRate: 0.8
-            });
-            
-            // Configurar manejadores de eventos
             sendBtn.addEventListener('click', sendMessage);
             userInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
@@ -1588,109 +930,6 @@
                 }
             });
             
-            // Respuestas rápidas
-            quickReplies.querySelectorAll('.quick-reply').forEach(reply => {
-                reply.addEventListener('click', function() {
-                    userInput.value = this.getAttribute('data-message');
-                    sendMessage();
-                });
-            });
-            
-            // Herramientas
-            document.getElementById('breathing-tool').addEventListener('click', function() {
-                serenBot.processMessage("quiero hacer un ejercicio de respiración");
-            });
-            
-            document.getElementById('mindfulness-tool').addEventListener('click', function() {
-                serenBot.processMessage("me gustaría meditar");
-            });
-            
-            document.getElementById('journal-tool').addEventListener('click', function() {
-                serenBot.processMessage("quiero escribir en mi diario emocional");
-            });
-            
-            document.getElementById('thought-record-tool').addEventListener('click', function() {
-                serenBot.processMessage("necesito ayuda con mis pensamientos automáticos");
-            });
-            
-            document.getElementById('goals-tool').addEventListener('click', function() {
-                serenBot.processMessage("quiero establecer metas terapéuticas");
-            });
-            
-            document.getElementById('emergency-tool').addEventListener('click', function() {
-                emergencyModal.style.display = 'flex';
-            });
-            
-            document.getElementById('ai-insights-tool').addEventListener('click', function() {
-                const insights = serenBot.generateInsights();
-                serenBot.addMessage('bot', `<div class="suggestion-container">${insights}</div>`);
-            });
-            
-            closeModal.addEventListener('click', function() {
-                emergencyModal.style.display = 'none';
-            });
-            
-            window.addEventListener('click', function(e) {
-                if (e.target === emergencyModal) {
-                    emergencyModal.style.display = 'none';
-                }
-            });
-            
-            // Botones de estado de ánimo
-            const moodButtons = document.querySelectorAll('.mood-btn');
-            moodButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    moodButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    const mood = this.getAttribute('data-mood');
-                    updateMoodIndicator(mood);
-                    serenBot.processMessage("Me siento " + mood);
-                });
-            });
-            
-            // Escuchar nuevos mensajes
-            serenBot.on('messageAdded', function(message) {
-                addMessageToChat(message);
-                
-                // Actualizar indicador de estado de ánimo basado en el mensaje
-                if (message.metadata && message.metadata.emotion) {
-                    updateMoodIndicator(message.metadata.emotion);
-                }
-                
-                // Actualizar barra de progreso de aprendizaje de IA
-                updateAILearningProgress();
-            });
-            
-            // Función para actualizar el indicador de estado de ánimo
-            function updateMoodIndicator(mood) {
-                moodIndicator.className = 'mood-dot';
-                
-                switch(mood) {
-                    case 'positive':
-                    case 'excelente':
-                    case 'bien':
-                        moodIndicator.classList.add('positive');
-                        moodText.textContent = 'Positivo';
-                        break;
-                    case 'negative':
-                    case 'mal':
-                        moodIndicator.classList.add('negative');
-                        moodText.textContent = 'Negativo';
-                        break;
-                    default:
-                        moodIndicator.classList.add('neutral');
-                        moodText.textContent = 'Neutral';
-                }
-            }
-            
-            // Función para actualizar la barra de progreso de IA
-            function updateAILearningProgress() {
-                const progress = serenBot.aiLearningEngine.getLearningProgress();
-                aiLearningProgress.style.width = `${progress}%`;
-                aiLearningPercent.textContent = `${progress.toFixed(1)}%`;
-            }
-            
-            // Función para enviar mensajes
             function sendMessage() {
                 const message = userInput.value.trim();
                 if (message) {
@@ -1722,7 +961,6 @@
                 }
             }
             
-            // Función para añadir mensajes al chat
             function addMessageToChat(message) {
                 const messageElement = document.createElement('div');
                 
@@ -1731,91 +969,20 @@
                     messageClass += ' user-message';
                 } else if (message.sender === 'bot') {
                     messageClass += ' bot-message';
-                    
-                    if (message.metadata && message.metadata.isCrisis) {
-                        messageClass += ' crisis-message';
-                    }
                 } else {
                     messageClass += ' system-message';
                 }
                 
-                const time = new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                
                 messageElement.className = messageClass;
-                
-                // Si el mensaje contiene HTML, usamos innerHTML, sino textContent para seguridad
-                if (message.content.includes('<') && message.content.includes('>')) {
-                    messageElement.innerHTML = `
-                        <div>${message.content}</div>
-                        <div class="message-time">${time}</div>
-                        <div class="message-actions">
-                            <button class="message-action"><i class="fas fa-heart"></i></button>
-                            <button class="message-action"><i class="fas fa-share"></i></button>
-                            <button class="message-action"><i class="fas fa-ellipsis-h"></i></button>
-                        </div>
-                    `;
-                } else {
-                    messageElement.innerHTML = `
-                        <p>${message.content}</p>
-                        <div class="message-time">${time}</div>
-                        <div class="message-actions">
-                            <button class="message-action"><i class="fas fa-heart"></i></button>
-                            <button class="message-action"><i class="fas fa-share"></i></button>
-                            <button class="message-action"><i class="fas fa-ellipsis-h"></i></button>
-                        </div>
-                    `;
-                }
+                messageElement.innerHTML = `<p>${message.content}</p>`;
                 
                 chatMessages.appendChild(messageElement);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                // Si el mensaje contiene un ejercicio de respiración, agregar los event listeners
-                if (message.content.includes('breathing-exercise')) {
-                    // Los listeners se agregarán cuando se haga clic en los botones
-                    window.startBreathingExercise = function() {
-                        const circle = document.getElementById('breathing-circle');
-                        let cycle = 0;
-                        const breathingInterval = setInterval(() => {
-                            if (cycle % 3 === 0) {
-                                circle.textContent = "Inhala";
-                                circle.style.animation = "breathe 4s ease-in-out";
-                            } else if (cycle % 3 === 1) {
-                                circle.textContent = "Mantén";
-                                circle.style.animation = "none";
-                                setTimeout(() => {
-                                    circle.textContent = "Exhala";
-                                    circle.style.animation = "breathe 6s ease-in-out";
-                                }, 4000);
-                            }
-                            cycle++;
-                        }, 14000);
-                        
-                        window.stopBreathingExercise = function() {
-                            clearInterval(breathingInterval);
-                            circle.textContent = "Inhala";
-                            circle.style.animation = "none";
-                        };
-                    };
-                }
             }
             
-            // Actualizar tiempo de sesión
-            let sessionSeconds = 0;
-            setInterval(() => {
-                sessionSeconds++;
-                const minutes = Math.floor(sessionSeconds / 60);
-                const seconds = sessionSeconds % 60;
-                sessionTime.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }, 1000);
-            
-            // Simular progreso de aprendizaje de IA
-            setInterval(() => {
-                updateAILearningProgress();
-            }, 30000);
-            
-            // Ejemplo de mensaje de bienvenida después de la inicialización
+            // Ejemplo de mensaje de bienvenida
             setTimeout(() => {
-                serenBot.addMessage('bot', serenBot.getMessage('welcome'));
+                serenBot.addMessage('bot', '¡Hola! Ahora puedo acceder a recursos en PDF para brindarte información más específica. ¿En qué puedo ayudarte?');
             }, 1000);
         });
     </script>
