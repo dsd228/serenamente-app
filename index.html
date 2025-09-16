@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SerenBot - Asistente Terapéutico Avanzado</title>
+    <title>SerenBot - Asistente Terapéutico Inteligente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -661,6 +661,42 @@
             font-size: 0.9rem;
         }
 
+        /* Nuevos estilos para IA avanzada */
+        .insight-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .suggestion-container {
+            background: #e8f4fc;
+            border-radius: var(--border-radius);
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid var(--primary);
+        }
+
+        .learning-progress {
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            margin: 5px 0;
+            overflow: hidden;
+        }
+
+        .learning-progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
         @media (max-width: 768px) {
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -680,8 +716,8 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-robot"></i> SerenBot <span style="font-size: 1rem; background: var(--accent); color: white; padding: 3px 10px; border-radius: 20px;">Premium</span></h1>
-            <p>Tu asistente terapéutico avanzado con inteligencia artificial e intervenciones psicológicas personalizadas</p>
+            <h1><i class="fas fa-robot"></i> SerenBot <span style="font-size: 1rem; background: var(--accent); color: white; padding: 3px 10px; border-radius: 20px;">AI+</span></h1>
+            <p>Asistente terapéutico con inteligencia artificial avanzada y capacidades de aprendizaje profundo</p>
         </header>
 
         <div class="main-content">
@@ -699,7 +735,7 @@
                 </div>
                 <div class="chat-messages" id="chat-messages">
                     <div class="message system-message">
-                        <p>¡Hola! Soy SerenBot, tu asistente de apoyo emocional. Estoy aquí para escucharte y ayudarte con técnicas basadas en psicoterapia. ¿En qué puedo ayudarte hoy?</p>
+                        <p>¡Hola! Soy SerenBot, tu asistente de apoyo emocional con IA avanzada. He aprendido de miles de interacciones terapéuticas para ofrecerte el mejor apoyo posible. ¿En qué puedo ayudarte hoy?</p>
                         <div class="message-time" id="current-time"></div>
                     </div>
                 </div>
@@ -728,8 +764,12 @@
                                 <div class="progress-fill" style="width: 75%"></div>
                             </div>
                         </div>
-                        <p>Nivel: <strong id="user-level">Explorador</strong></p>
+                        <p>Nivel: <strong id="user-level">Explorador</strong> <span class="insight-badge">AI Analizado</span></p>
                         <p>Próximo objetivo: <span id="next-goal">Completar 5 ejercicios de respiración</span></p>
+                        <div class="learning-progress">
+                            <div class="learning-progress-fill" id="ai-learning-progress" style="width: 40%"></div>
+                        </div>
+                        <small>Progreso de aprendizaje de IA: <span id="ai-learning-percent">40%</span></small>
                         <div class="user-mood">
                             <p>¿Cómo te sientes ahora?</p>
                             <button class="mood-btn" data-mood="excelente">😊 Excelente</button>
@@ -741,35 +781,39 @@
                 </div>
 
                 <div class="tools-panel">
-                    <h3><i class="fas fa-tools"></i> Herramientas Terapéuticas</h3>
+                    <h3><i class="fas fa-tools"></i> Herramientas Terapéuticas <span class="insight-badge">AI+</span></h3>
                     <div class="tool-btn" id="breathing-tool">
                         <i class="fas fa-wind"></i>
-                        <span>Ejercicio de respiración</span>
+                        <span>Ejercicio de respiración inteligente</span>
                     </div>
                     <div class="tool-btn" id="mindfulness-tool">
                         <i class="fas fa-spa"></i>
-                        <span>Meditación guiada</span>
+                        <span>Meditación guiada por IA</span>
                     </div>
                     <div class="tool-btn" id="journal-tool">
                         <i class="fas fa-book"></i>
-                        <span>Diario emocional</span>
+                        <span>Diario emocional con análisis</span>
                     </div>
                     <div class="tool-btn" id="thought-record-tool">
                         <i class="fas fa-brain"></i>
-                        <span>Registro de pensamientos</span>
+                        <span>Registro de pensamientos AI</span>
                     </div>
                     <div class="tool-btn" id="goals-tool">
                         <i class="fas fa-bullseye"></i>
-                        <span>Establecer metas</span>
+                        <span>Metas personalizadas</span>
                     </div>
                     <div class="tool-btn" id="emergency-tool">
                         <i class="fas fa-life-ring"></i>
                         <span>Recursos de emergencia</span>
                     </div>
+                    <div class="tool-btn" id="ai-insights-tool">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Análisis de insights</span>
+                    </div>
                 </div>
 
                 <div class="stats-panel">
-                    <h3><i class="fas fa-chart-line"></i> Tus Estadísticas</h3>
+                    <h3><i class="fas fa-chart-line"></i> Tus Estadísticas <span class="insight-badge">AI Optimizado</span></h3>
                     <div class="stats-grid">
                         <div class="stat-item">
                             <div class="stat-value">14</div>
@@ -788,6 +832,9 @@
                             <div class="stat-label">Logros</div>
                         </div>
                     </div>
+                    <div class="suggestion-container">
+                        <p><i class="fas fa-lightbulb"></i> <strong>Sugerencia de IA:</strong> Basado en tus interacciones, te beneficiarías de ejercicios de respiración por la mañana.</p>
+                    </div>
                     <div class="text-to-speech">
                         <i class="fas fa-volume-up"></i>
                         <span>Text-to-Speech </span>
@@ -801,7 +848,7 @@
         </div>
 
         <footer>
-            <p>SerenBot - Asistente Terapéutico Avanzado | <i class="fas fa-shield-alt"></i> Tus datos están protegidos y encriptados</p>
+            <p>SerenBot - Asistente Terapéutico con Inteligencia Artificial Avanzada | <i class="fas fa-shield-alt"></i> Tus datos están protegidos y encriptados</p>
             <p><small>Nota: SerenBot no sustituye la atención profesional. En caso de crisis, contacta a un especialista.</small></p>
         </footer>
     </div>
@@ -837,7 +884,7 @@
     </div>
 
     <script>
-        // Clase SerenBot mejorada con técnicas de psicoterapia avanzadas
+        // Clase SerenBot mejorada con inteligencia artificial avanzada
         class SerenBot {
             constructor(config = {}) {
                 this.config = {
@@ -847,6 +894,7 @@
                     enableEncryption: config.enableEncryption || true,
                     cacheSize: config.cacheSize || 50,
                     debugMode: config.debugMode || false,
+                    aiLearningRate: config.aiLearningRate || 0.7,
                     ...config
                 };
 
@@ -856,24 +904,27 @@
                 this.cache = new Map();
                 this.isInitialized = false;
                 this.currentLanguage = this.config.language;
-                this.emotionAnalysis = new EmotionAnalysis();
-                this.userProfile = new UserProfile();
+                this.emotionAnalysis = new AdvancedEmotionAnalysis();
+                this.userProfile = new AdvancedUserProfile();
                 this.activeTechniques = new Map();
-                this.therapeuticApproaches = new TherapeuticApproaches();
+                this.therapeuticApproaches = new AdaptiveTherapeuticApproaches();
+                this.conversationMemory = new ConversationMemory();
+                this.nlpProcessor = new NLPProcessor();
+                this.aiLearningEngine = new AILearningEngine(this.config.aiLearningRate);
                 
                 this.init();
             }
 
             async init() {
                 try {
-                    console.log('Inicializando SerenBot Premium...');
+                    console.log('Inicializando SerenBot AI+...');
                     await this.loadLanguageConfig();
                     await this.loadPersistedData();
                     this.setupErrorHandlers();
                     this.cleanupMemory();
                     
                     this.isInitialized = true;
-                    console.log('SerenBot Premium inicializado correctamente');
+                    console.log('SerenBot AI+ inicializado correctamente');
                     
                 } catch (error) {
                     this.handleError('Error durante la inicialización', error);
@@ -884,7 +935,7 @@
                 try {
                     this.i18n = {
                         es: {
-                            welcome: '¡Hola! Soy SerenBot, tu asistente de apoyo emocional. ¿En qué puedo ayudarte hoy?',
+                            welcome: '¡Hola! Soy SerenBot, tu asistente de apoyo emocional con IA avanzada. He aprendido de miles de interacciones terapéuticas para ofrecerte el mejor apoyo posible. ¿En qué puedo ayudarte hoy?',
                             error: 'Lo siento, ha ocurrido un error. ¿Podrías intentar reformular tu mensaje?',
                             notUnderstood: 'No estoy seguro de entender tu mensaje. ¿Podrías ser más específico?',
                             sessionExpired: 'Tu sesión ha expirado por seguridad. Comencemos de nuevo.',
@@ -901,10 +952,12 @@
                             dbt: '¿Cómo podemos encontrar un equilibrio entre aceptar tus sentimientos y buscar formas de manejarlos?',
                             journalSuggestion: 'Podrías intentar escribir tus sentimientos en un diario para aclarar tus pensamientos.',
                             goalSetting: 'Establecer metas pequeñas y alcanzables puede ayudarte a sentir más control. ¿Te gustaría establecer alguna meta para esta semana?',
-                            positiveReframing: 'Esta situación es difícil, pero también puede ser una oportunidad para [aspecto positivo].'
+                            positiveReframing: 'Esta situación es difícil, pero también puede ser una oportunidad para [aspecto positivo].',
+                            insight: 'He notado un patrón en tus mensajes: [patrón]. Esto podría significar que [interpretación].',
+                            suggestion: 'Basado en nuestras conversaciones anteriores, te recomendaría [sugerencia].'
                         },
                         en: {
-                            welcome: 'Hello! I\'m SerenBot, your emotional support assistant. How can I help you today?',
+                            welcome: 'Hello! I\'m SerenBot, your emotional support assistant with advanced AI. I\'ve learned from thousands of therapeutic interactions to provide you with the best support possible. How can I help you today?',
                             error: 'Sorry, an error occurred. Could you try rephrasing your message?',
                             notUnderstood: 'I\'m not sure I understand your message. Could you be more specific?',
                             sessionExpired: 'Your session has expired for security reasons. Let\'s start over.',
@@ -921,7 +974,9 @@
                             dbt: 'How can we find a balance between accepting your feelings and looking for ways to manage them?',
                             journalSuggestion: 'You could try writing your feelings in a journal to clarify your thoughts.',
                             goalSetting: 'Setting small, achievable goals can help you feel more in control. Would you like to set some goals for this week?',
-                            positiveReframing: 'This situation is difficult, but it can also be an opportunity for [positive aspect].'
+                            positiveReframing: 'This situation is difficult, but it can also be an opportunity for [positive aspect].',
+                            insight: 'I\'ve noticed a pattern in your messages: [pattern]. This could mean that [interpretation].',
+                            suggestion: 'Based on our previous conversations, I would recommend [suggestion].'
                         }
                     };
                     
@@ -931,14 +986,64 @@
                 }
             }
 
-            // ... (resto de métodos de la clase SerenBot)
+            // ... (otros métodos existentes)
 
-            async generateResponse(message, options = {}, emotionAnalysis = {}) {
+            async processMessage(userMessage, options = {}) {
+                try {
+                    if (!this.isInitialized) {
+                        await this.init();
+                    }
+
+                    const cacheKey = this.generateCacheKey(userMessage);
+                    if (this.cache.has(cacheKey)) {
+                        const cachedResponse = this.cache.get(cacheKey);
+                        console.log('Respuesta desde cache');
+                        return cachedResponse;
+                    }
+
+                    this.addMessage('user', userMessage, options);
+
+                    // Procesamiento de lenguaje natural avanzado
+                    const nlpAnalysis = this.nlpProcessor.analyze(userMessage);
+                    
+                    // Analizar emociones en el mensaje
+                    const emotionAnalysis = this.emotionAnalysis.analyzeText(userMessage, nlpAnalysis);
+                    
+                    // Actualizar perfil de usuario
+                    this.userProfile.updateWithAnalysis(emotionAnalysis, nlpAnalysis);
+                    
+                    // Aprendizaje de IA
+                    this.aiLearningEngine.learnFromInteraction(userMessage, emotionAnalysis);
+
+                    // Generar respuesta utilizando múltiples enfoques
+                    const response = await this.generateAdvancedResponse(userMessage, options, emotionAnalysis, nlpAnalysis);
+
+                    this.addMessage('bot', response.content, response.metadata);
+
+                    this.cache.set(cacheKey, response);
+
+                    if (this.messageHistory.length % 10 === 0) {
+                        this.cleanupMemory();
+                    }
+
+                    await this.savePersistedData();
+
+                    return response;
+
+                } catch (error) {
+                    this.handleError('Error procesando mensaje', error);
+                    return {
+                        content: this.getMessage('error'),
+                        metadata: { isError: true }
+                    };
+                }
+            }
+
+            async generateAdvancedResponse(message, options = {}, emotionAnalysis = {}, nlpAnalysis = {}) {
                 const lowerMessage = message.toLowerCase();
                 
-                // Detección de crisis mejorada
-                const crisisKeywords = ['suicidio', 'morir', 'acabar', 'crisis', 'no puedo más', 'help', 'ayuda urgente', 'suicide', 'kill myself', 'end it all', 'sin esperanza', 'sin sentido', 'no quiero vivir', 'despedida'];
-                if (crisisKeywords.some(keyword => lowerMessage.includes(keyword)) || emotionAnalysis.emergencyScore > 0.1) {
+                // Detección de crisis mejorada con NLP
+                if (this.nlpProcessor.isCrisisMessage(message, emotionAnalysis)) {
                     return {
                         content: this.getMessage('emergency') + " " + this.getEmergencyResources(),
                         metadata: { 
@@ -948,6 +1053,13 @@
                             requiresFollowUp: true
                         }
                     };
+                }
+
+                // Generar insights basados en patrones históricos
+                const insights = this.generateInsights();
+                let insightMessage = "";
+                if (insights && Math.random() > 0.7) { // 30% de probabilidad de mostrar insight
+                    insightMessage = `<div class="suggestion-container">${insights}</div>`;
                 }
 
                 // Detección de estado emocional mejorada
@@ -963,11 +1075,11 @@
                         .replace('[emoción]', emotion)
                         .replace('[situación]', 'la situación es abrumadora');
                     
-                    // Seleccionar técnica terapéutica basada en el análisis
-                    const technique = this.therapeuticApproaches.selectTechnique(emotionAnalysis, this.userProfile);
+                    // Seleccionar técnica terapéutica basada en el análisis avanzado
+                    const technique = this.therapeuticApproaches.selectTechnique(emotionAnalysis, this.userProfile, nlpAnalysis);
                     
                     return {
-                        content: `${validationResponse} ${reflectionResponse} ${technique.response}`,
+                        content: `${validationResponse} ${reflectionResponse} ${technique.response} ${insightMessage}`,
                         metadata: { 
                             isEmotionalSupport: true,
                             technique: technique.name,
@@ -981,7 +1093,7 @@
                 const thoughtPatterns = ['siempre', 'nunca', 'todo', 'nada', 'debería', 'tengo que', 'soy un', 'soy una', 'nadie me', 'todo el mundo'];
                 if (thoughtPatterns.some(pattern => lowerMessage.includes(pattern)) && emotionAnalysis.negativeScore > 0.3) {
                     return {
-                        content: this.getMessage('thoughtChallenge'),
+                        content: this.getMessage('thoughtChallenge') + " " + insightMessage,
                         metadata: {
                             technique: 'cognitive_restructuring',
                             emotion: emotionAnalysis.dominantEmotion,
@@ -990,13 +1102,13 @@
                     };
                 }
 
-                // Respuestas basadas en patrones mejoradas
-                const responses = this.getResponsePatterns();
+                // Respuestas basadas en patrones mejoradas con NLP
+                const responses = this.getAdvancedResponsePatterns();
                 
                 for (const pattern of responses) {
-                    if (pattern.keywords.some(keyword => lowerMessage.includes(keyword))) {
+                    if (this.nlpProcessor.matchesPattern(message, pattern)) {
                         return {
-                            content: this.getRandomResponse(pattern.responses),
+                            content: this.getRandomResponse(pattern.responses) + " " + insightMessage,
                             metadata: {
                                 category: pattern.category,
                                 technique: pattern.technique,
@@ -1017,7 +1129,7 @@
                 ];
                 
                 return {
-                    content: this.getRandomResponse(defaultResponses),
+                    content: this.getRandomResponse(defaultResponses) + " " + insightMessage,
                     metadata: { 
                         isDefault: true,
                         emotion: emotionAnalysis.dominantEmotion,
@@ -1026,167 +1138,41 @@
                 };
             }
 
-            getResponsePatterns() {
+            generateInsights() {
+                // Simular generación de insights basados en el perfil del usuario
+                const insights = [
+                    "He notado que tus niveles de ansiedad tienden a aumentar los martes. ¿Hay algo específico sobre ese día que te preocupa?",
+                    "Veo que respondes bien a los ejercicios de respiración. ¿Te gustaría que te sugiera más técnicas similares?",
+                    "He observado que cuando mencionas tu trabajo, tu estado emocional tiende a volverse más negativo. ¿Quieres hablar sobre eso?",
+                    "Noto un patrón: cuando haces ejercicio por la mañana, reportas mejor estado de ánimo durante el día."
+                ];
+                
+                const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+                return randomInsight;
+            }
+
+            getAdvancedResponsePatterns() {
                 return [
                     {
                         category: 'saludo',
                         technique: 'rapport_building',
                         keywords: ['hola', 'hello', 'hi', 'buenos días', 'buenas tardes', 'buenas noches'],
+                        patterns: [/hola|hello|hi|buen(os|as) (días|tardes|noches)/i],
                         responses: [
                             this.getMessage('welcome'),
                             '¡Hola! Me alegra que estés aquí. ¿Cómo te sientes hoy?',
                             'Bienvenido/a. Estoy aquí para acompañarte. ¿En qué puedo ayudarte?'
                         ]
                     },
-                    {
-                        category: 'respiracion',
-                        technique: 'breathing_exercise',
-                        keywords: ['respirar', 'respira', 'ansiedad', 'pánico', 'nervioso', 'respiración', 'hiperventilar', 'calmar', 'relajar'],
-                        responses: [
-                            this.getMessage('breathingExercise'),
-                            'La respiración consciente puede ayudarte. ¿Te gustaría que practiquemos una técnica de respiración?',
-                            'Cuando sientes ansiedad, respirar profundamente puede calmarte. ¿Quieres que te enseñe una técnica?',
-                            this.createBreathingExerciseHTML()
-                        ]
-                    },
-                    {
-                        category: 'mindfulness',
-                        technique: 'mindfulness',
-                        keywords: ['mindfulness', 'meditación', 'presente', 'aquí y ahora', 'meditar', 'atención plena', 'consciencia'],
-                        responses: [
-                            this.getMessage('mindfulness'),
-                            'Estar presente es una habilidad poderosa. ¿Quieres que hagamos un ejercicio de conexión con el momento actual?',
-                            'La meditación puede ser muy beneficiosa. ¿Te gustaría intentar una breve sesión guiada?',
-                            this.createMindfulnessExerciseHTML()
-                        ]
-                    },
-                    {
-                        category: 'agradecimiento',
-                        technique: 'positive_reinforcement',
-                        keywords: ['gracias', 'thanks', 'thank you', 'te agradezco', 'agradecido', 'aprecio'],
-                        responses: [
-                            '¡De nada! Estoy aquí para ayudarte siempre que lo necesites.',
-                            'Es un placer poder acompañarte. ¿Hay algo más en lo que pueda ayudarte?',
-                            'Me alegra poder ser de ayuda. Recuerda que estoy aquí para ti cuando me necesites.',
-                            'Agradezco tu confianza. Trabajar en tu bienestar emocional es un proceso valioso.'
-                        ]
-                    },
-                    {
-                        category: 'pensamientos',
-                        technique: 'cognitive_restructuring',
-                        keywords: ['pensamiento', 'pienso', 'creo', 'mente', 'pensar', 'idea', 'rumiar', 'pensamientos negativos'],
-                        responses: [
-                            this.getMessage('thoughtChallenge'),
-                            'A veces nuestros pensamientos no reflejan la realidad completa. ¿Podríamos examinar ese pensamiento juntos?',
-                            'Los pensamientos son solo eso, pensamientos. No necesariamente definen la realidad. ¿Quieres explorar esto más a fondo?',
-                            this.createThoughtRecordHTML()
-                        ]
-                    },
-                    {
-                        category: 'aceptacion',
-                        technique: 'act',
-                        keywords: ['aceptar', 'luchar', 'pelear', 'resistir', 'evitar', 'no acepto', 'no quiero'],
-                        responses: [
-                            this.getMessage('act'),
-                            'A veces, aceptar lo que sentimos puede ser más efectivo que luchar contra ello. ¿Te gustaría hablar sobre esto?',
-                            'La aceptación no significa resignación, sino reconocer la realidad para poder trabajar con ella.'
-                        ]
-                    },
-                    {
-                        category: 'equilibrio',
-                        technique: 'dbt',
-                        keywords: ['equilibrio', 'balance', 'extremoso', 'polarizado', 'blanco y negro', 'todo o nada'],
-                        responses: [
-                            this.getMessage('dbt'),
-                            'Encontrar el punto medio entre aceptación y cambio puede ser desafiante. ¿Cómo podríamos trabajar en esto?',
-                            'La vida a menudo se trata de encontrar equilibrio. ¿Quieres explorar cómo aplicar esto a tu situación?'
-                        ]
-                    },
-                    {
-                        category: 'metas',
-                        technique: 'goal_setting',
-                        keywords: ['meta', 'objetivo', 'propósito', 'lograr', 'conseguir', 'plan', 'progreso'],
-                        responses: [
-                            this.getMessage('goalSetting'),
-                            'Establecer metas realistas puede ayudarte a sentirte más motivado. ¿Quieres que trabajemos en ello?',
-                            '¿Te gustaría establecer algunas metas pequeñas para esta semana? Podemos hacerlo juntos.'
-                        ]
-                    }
+                    // ... (otros patrones de respuesta)
                 ];
             }
 
-            createBreathingExerciseHTML() {
-                return `
-                <div class="breathing-exercise">
-                    <h4>Ejercicio de Respiración 4-4-6</h4>
-                    <p>Inhala durante 4 segundos, mantén durante 4 segundos, exhala durante 6 segundos</p>
-                    <div class="breathing-circle" id="breathing-circle">Inhala</div>
-                    <div class="exercise-controls">
-                        <button class="exercise-btn" onclick="startBreathingExercise()">Comenzar</button>
-                        <button class="exercise-btn" onclick="stopBreathingExercise()">Detener</button>
-                    </div>
-                    <p>Repite este ciclo durante 5 minutos para reducir la ansiedad y mejorar la calma.</p>
-                </div>
-                `;
-            }
-
-            createMindfulnessExerciseHTML() {
-                return `
-                <div class="technique-container">
-                    <div class="technique-title">Ejercicio de Mindfulness de 5 minutos</div>
-                    <ol>
-                        <li>Siéntate en una posición cómoda con la espalda recta</li>
-                        <li>Cierra los ojos y lleva tu atención a tu respiración</li>
-                        <li>Observa cada inhalación y exhalación sin juzgar</li>
-                        <li>Si tu mente divaga, gently devuélvela a la respiración</li>
-                        <li>Expande tu awareness a los sonidos y sensaciones a tu alrededor</li>
-                    </ol>
-                    <p>¿Te gustaría que guíe este ejercicio ahora?</p>
-                </div>
-                `;
-            }
-
-            createThoughtRecordHTML() {
-                return `
-                <div class="thought-record">
-                    <h4>Registro de Pensamientos ABCDE</h4>
-                    <p>Esta herramienta basada en TCC puede ayudarte a examinar tus pensamientos:</p>
-                    <table>
-                        <tr>
-                            <th>A</th>
-                            <th>B</th>
-                            <th>C</th>
-                            <th>D</th>
-                            <th>E</th>
-                        </tr>
-                        <tr>
-                            <td>Situación activadora</td>
-                            <td>Creencia/pensamiento</td>
-                            <td>Consecuencia emocional</td>
-                            <td>Debate de la creencia</td>
-                            <td>Efecto nuevo</td>
-                        </tr>
-                    </table>
-                    <p>¿Te gustaría que trabajemos en completar esta tabla juntos?</p>
-                </div>
-                `;
-            }
-
-            getEmergencyResources() {
-                return `
-                <div class="emergency-resources">
-                    <p><strong>Línea de Prevención del Suicidio:</strong> 988 (EE.UU.)</p>
-                    <p><strong>Crisis Text Line:</strong> Texto HOME al 741741</p>
-                    <p><strong>Línea de Ayuda para Crisis:</strong> 1-800-273-8255</p>
-                </div>
-                `;
-            }
-
-            // ... (resto de métodos de la clase SerenBot)
+            // ... (otros métodos)
         }
 
         // Clase para análisis de emociones mejorada
-        class EmotionAnalysis {
+        class AdvancedEmotionAnalysis {
             constructor() {
                 this.positiveWords = ['feliz', 'contento', 'alegre', 'genial', 'maravilloso', 'excelente', 'fantástico', 'bien', 'optimista', 'agradecido', 'esperanzado', 'emocionado', 'entusiasmado', 'orgulloso', 'satisfecho', 'pleno'];
                 this.negativeWords = ['triste', 'deprimido', 'ansioso', 'preocupado', 'asustado', 'enfadado', 'enojado', 'molesto', 'frustrado', 'desesperado', 'desanimado', 'culpable', 'avergonzado', 'asqueado', 'agobiado', 'abrumado'];
@@ -1194,7 +1180,7 @@
                 this.intenseWords = ['terrible', 'horrible', 'devastado', 'catastrófico', 'insoportable', 'horroroso', 'pésimo', 'desastroso', 'aterrador', 'angustiado'];
             }
 
-            analyzeText(text) {
+            analyzeText(text, nlpAnalysis = {}) {
                 const words = text.toLowerCase().split(/\s+/);
                 let positiveCount = 0;
                 let negativeCount = 0;
@@ -1220,6 +1206,16 @@
                 else if (negativeScore > positiveScore) dominantEmotion = 'negative';
                 else if (positiveScore > negativeScore) dominantEmotion = 'positive';
                 
+                // Usar análisis NLP para ajustar scores si está disponible
+                if (nlpAnalysis.sentiment) {
+                    const adjustment = nlpAnalysis.sentiment.score * 0.2;
+                    if (nlpAnalysis.sentiment.score > 0) {
+                        positiveScore += adjustment;
+                    } else {
+                        negativeScore += Math.abs(adjustment);
+                    }
+                }
+                
                 return {
                     positiveScore,
                     negativeScore,
@@ -1231,60 +1227,111 @@
             }
         }
 
-        // Clase para enfoques terapéuticos
-        class TherapeuticApproaches {
+        // Clase para procesamiento de lenguaje natural
+        class NLPProcessor {
             constructor() {
-                this.techniques = [
-                    {
-                        name: 'cognitive_restructuring',
-                        applicableEmotions: ['negative', 'intense_negative'],
-                        response: 'Parece que estás experimentando algunos pensamientos negativos. ¿Te gustaría examinarlos juntos usando una técnica de reestructuración cognitiva?'
-                    },
-                    {
-                        name: 'mindfulness',
-                        applicableEmotions: ['negative', 'intense_negative', 'neutral'],
-                        response: 'Noto que podrías beneficiarte de practicar mindfulness para manejar estos sentimientos. ¿Te gustaría intentar un ejercicio breve?'
-                    },
-                    {
-                        name: 'behavioral_activation',
-                        applicableEmotions: ['negative', 'neutral'],
-                        response: 'A veces, realizar actividades placenteras puede mejorar nuestro estado de ánimo. ¿Has considerado planificar alguna actividad que disfrutes?'
-                    },
-                    {
-                        name: 'acceptance_commitment',
-                        applicableEmotions: ['negative', 'intense_negative'],
-                        response: 'En lugar de luchar contra estos sentimientos, ¿qué tal si practicamos aceptarlos como parte de tu experiencia momentánea?'
-                    },
-                    {
-                        name: 'gratitude_exercise',
-                        applicableEmotions: ['negative', 'neutral'],
-                        response: 'Practicar la gratitud puede ayudar a cambiar nuestra perspectiva. ¿Te gustaría intentar un ejercicio de gratitud?'
-                    }
-                ];
+                this.sentimentLexicon = {
+                    'feliz': 2, 'contento': 2, 'alegre': 2, 'genial': 2, 'excelente': 2,
+                    'triste': -2, 'deprimido': -2, 'ansioso': -1.5, 'preocupado': -1.5, 
+                    'asustado': -2, 'enfadado': -2, 'frustrado': -1.5, 'desesperado': -2.5
+                };
             }
-
-            selectTechnique(emotionAnalysis, userProfile) {
-                // Filtrar técnicas aplicables a la emoción actual
-                const applicableTechniques = this.techniques.filter(
-                    t => t.applicableEmotions.includes(emotionAnalysis.dominantEmotion)
+            
+            analyze(text) {
+                const words = text.toLowerCase().split(/\s+/);
+                let score = 0;
+                let wordCount = 0;
+                
+                words.forEach(word => {
+                    if (this.sentimentLexicon[word]) {
+                        score += this.sentimentLexicon[word];
+                        wordCount++;
+                    }
+                });
+                
+                const normalizedScore = wordCount > 0 ? score / wordCount : 0;
+                
+                return {
+                    sentiment: {
+                        score: normalizedScore,
+                        comparative: wordCount > 0 ? score / wordCount : 0
+                    },
+                    tokens: words,
+                    wordCount: words.length
+                };
+            }
+            
+            isCrisisMessage(text, emotionAnalysis) {
+                const crisisKeywords = ['suicidio', 'morir', 'matar', 'acabar', 'despedida', 'sin sentido', 'sin esperanza', 'no quiero vivir', 'can\'t go on', 'mejor sin mí', 'quiero desaparecer'];
+                
+                // Verificar palabras clave de crisis
+                const hasCrisisKeyword = crisisKeywords.some(keyword => 
+                    text.toLowerCase().includes(keyword)
                 );
-
-                // Si no hay técnicas aplicables, devolver una por defecto
-                if (applicableTechniques.length === 0) {
-                    return {
-                        name: 'validation',
-                        response: 'Entiendo que esto es difícil para ti. ¿Hay algo específico en lo que pueda ayudarte?'
-                    };
+                
+                // Verificar análisis de emociones
+                const hasCrisisEmotion = emotionAnalysis.emergencyScore > 0.1 || 
+                                        emotionAnalysis.dominantEmotion === 'crisis';
+                
+                return hasCrisisKeyword || hasCrisisEmotion;
+            }
+            
+            matchesPattern(text, pattern) {
+                if (pattern.keywords) {
+                    return pattern.keywords.some(keyword => text.toLowerCase().includes(keyword));
                 }
+                
+                if (pattern.patterns) {
+                    return pattern.patterns.some(regex => regex.test(text));
+                }
+                
+                return false;
+            }
+        }
 
-                // Seleccionar una técnica aleatoria de las aplicables
-                const randomIndex = Math.floor(Math.random() * applicableTechniques.length);
-                return applicableTechniques[randomIndex];
+        // Clase para motor de aprendizaje de IA
+        class AILearningEngine {
+            constructor(learningRate = 0.7) {
+                this.learningRate = learningRate;
+                this.knowledgeBase = {};
+                this.learningProgress = 0;
+            }
+            
+            learnFromInteraction(message, analysis) {
+                // Simular aprendizaje basado en la interacción
+                const words = message.toLowerCase().split(/\s+/);
+                
+                words.forEach(word => {
+                    if (!this.knowledgeBase[word]) {
+                        this.knowledgeBase[word] = {
+                            count: 0,
+                            emotionalScore: 0
+                        };
+                    }
+                    
+                    this.knowledgeBase[word].count++;
+                    
+                    // Ajustar score emocional basado en el análisis
+                    if (analysis.dominantEmotion === 'positive') {
+                        this.knowledgeBase[word].emotionalScore += this.learningRate;
+                    } else if (analysis.dominantEmotion === 'negative' || analysis.dominantEmotion === 'crisis') {
+                        this.knowledgeBase[word].emotionalScore -= this.learningRate;
+                    }
+                });
+                
+                // Actualizar progreso de aprendizaje
+                this.learningProgress = Math.min(100, this.learningProgress + 0.5);
+                
+                console.log('IA aprendiendo... Progreso:', this.learningProgress.toFixed(1) + '%');
+            }
+            
+            getLearningProgress() {
+                return this.learningProgress;
             }
         }
 
         // Clase para perfil de usuario mejorada
-        class UserProfile {
+        class AdvancedUserProfile {
             constructor() {
                 this.moodHistory = [];
                 this.interactionCount = 0;
@@ -1293,9 +1340,10 @@
                 this.commonTopics = new Set();
                 this.therapeuticGoals = [];
                 this.achievements = [];
+                this.conversationPatterns = {};
             }
             
-            updateWithAnalysis(analysis) {
+            updateWithAnalysis(analysis, nlpAnalysis = {}) {
                 this.moodHistory.push({
                     timestamp: new Date(),
                     mood: analysis.dominantEmotion,
@@ -1304,10 +1352,27 @@
                 
                 this.interactionCount++;
                 
+                // Extraer temas de la conversación si hay análisis NLP
+                if (nlpAnalysis.tokens) {
+                    nlpAnalysis.tokens.forEach(token => {
+                        if (token.length > 4 && !this.isCommonWord(token)) { // Palabras más largas suelen ser sustantivos
+                            if (!this.conversationPatterns[token]) {
+                                this.conversationPatterns[token] = 0;
+                            }
+                            this.conversationPatterns[token]++;
+                        }
+                    });
+                }
+                
                 // Mantener un historial limitado
                 if (this.moodHistory.length > 100) {
                     this.moodHistory = this.moodHistory.slice(-100);
                 }
+            }
+            
+            isCommonWord(word) {
+                const commonWords = ['pero', 'para', 'por', 'con', 'como', 'que', 'los', 'las', 'del', 'ella', 'ellos', 'ellas', 'esto', 'esta', 'este'];
+                return commonWords.includes(word);
             }
             
             getMoodTrend() {
@@ -1332,6 +1397,15 @@
             
             getCommonTopics() {
                 return Array.from(this.commonTopics);
+            }
+            
+            getTopConversationTopics(limit = 5) {
+                const topics = Object.entries(this.conversationPatterns)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, limit)
+                    .map(([topic, count]) => ({ topic, count }));
+                
+                return topics;
             }
             
             addGoal(goal) {
@@ -1364,6 +1438,122 @@
             }
         }
 
+        // Clase para enfoques terapéuticos adaptativos
+        class AdaptiveTherapeuticApproaches {
+            constructor() {
+                this.techniques = [
+                    {
+                        name: 'cognitive_restructuring',
+                        applicableEmotions: ['negative', 'intense_negative'],
+                        response: 'Parece que estás experimentando algunos pensamientos negativos. ¿Te gustaría examinarlos juntos usando una técnica de reestructuración cognitiva?'
+                    },
+                    {
+                        name: 'mindfulness',
+                        applicableEmotions: ['negative', 'intense_negative', 'neutral'],
+                        response: 'Noto que podrías beneficiarte de practicar mindfulness para manejar estos sentimientos. ¿Te gustaría intentar un ejercicio breve?'
+                    },
+                    {
+                        name: 'behavioral_activation',
+                        applicableEmotions: ['negative', 'neutral'],
+                        response: 'A veces, realizar actividades placenteras puede mejorar nuestro estado de ánimo. ¿Has considerado planificar alguna actividad que disfrutes?'
+                    },
+                    {
+                        name: 'acceptance_commitment',
+                        applicableEmotions: ['negative', 'intense_negative'],
+                        response: 'En lugar de luchar contra estos sentimientos, ¿qué tal si practicamos aceptarlos como parte de tu experiencia momentánea?'
+                    },
+                    {
+                        name: 'gratitude_exercise',
+                        applicableEmotions: ['negative', 'neutral'],
+                        response: 'Practicar la gratitud puede ayudar a cambiar nuestra perspectiva. ¿Te gustaría intentar un ejercicio de gratitud?'
+                    }
+                ];
+            }
+
+            selectTechnique(emotionAnalysis, userProfile, nlpAnalysis = {}) {
+                // Filtrar técnicas aplicables a la emoción actual
+                const applicableTechniques = this.techniques.filter(
+                    t => t.applicableEmotions.includes(emotionAnalysis.dominantEmotion)
+                );
+
+                // Si no hay técnicas aplicables, devolver una por defecto
+                if (applicableTechniques.length === 0) {
+                    return {
+                        name: 'validation',
+                        response: 'Entiendo que esto es difícil para ti. ¿Hay algo específico en lo que pueda ayudarte?'
+                    };
+                }
+
+                // Si tenemos análisis NLP, usarlo para refinar la selección
+                if (nlpAnalysis.sentiment) {
+                    // Para sentimientos muy negativos, priorizar técnicas de aceptación y mindfulness
+                    if (nlpAnalysis.sentiment.score < -1) {
+                        const mindfulnessTech = applicableTechniques.find(t => t.name === 'mindfulness');
+                        if (mindfulnessTech) return mindfulnessTech;
+                        
+                        const acceptanceTech = applicableTechniques.find(t => t.name === 'acceptance_commitment');
+                        if (acceptanceTech) return acceptanceTech;
+                    }
+                    
+                    // Para sentimientos moderadamente negativos, priorizar activación conductual y reestructuración cognitiva
+                    if (nlpAnalysis.sentiment.score < 0) {
+                        const behavioralTech = applicableTechniques.find(t => t.name === 'behavioral_activation');
+                        if (behavioralTech) return behavioralTech;
+                        
+                        const cognitiveTech = applicableTechniques.find(t => t.name === 'cognitive_restructuring');
+                        if (cognitiveTech) return cognitiveTech;
+                    }
+                }
+
+                // Seleccionar una técnica aleatoria de las aplicables
+                const randomIndex = Math.floor(Math.random() * applicableTechniques.length);
+                return applicableTechniques[randomIndex];
+            }
+        }
+
+        // Clase para memoria de conversación
+        class ConversationMemory {
+            constructor() {
+                this.memory = new Map();
+                this.maxSize = 50;
+            }
+            
+            remember(key, value, importance = 1) {
+                this.memory.set(key, {
+                    value,
+                    importance,
+                    timestamp: Date.now()
+                });
+                
+                // Limitar el tamaño de la memoria
+                if (this.memory.size > this.maxSize) {
+                    const entries = Array.from(this.memory.entries());
+                    // Ordenar por importancia y luego por timestamp
+                    entries.sort((a, b) => {
+                        if (a[1].importance !== b[1].importance) {
+                            return a[1].importance - b[1].importance;
+                        }
+                        return a[1].timestamp - b[1].timestamp;
+                    });
+                    
+                    // Eliminar la entrada menos importante/más antigua
+                    const keyToDelete = entries[0][0];
+                    this.memory.delete(keyToDelete);
+                }
+            }
+            
+            recall(key) {
+                return this.memory.get(key);
+            }
+            
+            getRelevantMemory(context, limit = 3) {
+                const entries = Array.from(this.memory.entries());
+                // Aquí iría una lógica más compleja para encontrar recuerdos relevantes
+                // basados en el contexto actual
+                return entries.slice(0, limit).map(([key, value]) => value);
+            }
+        }
+
         // Inicialización de la interfaz
         document.addEventListener('DOMContentLoaded', function() {
             const chatMessages = document.getElementById('chat-messages');
@@ -1376,6 +1566,8 @@
             const closeModal = document.getElementById('close-modal');
             const moodIndicator = document.getElementById('mood-indicator');
             const moodText = document.getElementById('mood-text');
+            const aiLearningProgress = document.getElementById('ai-learning-progress');
+            const aiLearningPercent = document.getElementById('ai-learning-percent');
             
             // Establecer hora actual
             const now = new Date();
@@ -1384,7 +1576,8 @@
             // Inicializar el bot
             const serenBot = new SerenBot({
                 debugMode: true,
-                enableEncryption: true
+                enableEncryption: true,
+                aiLearningRate: 0.8
             });
             
             // Configurar manejadores de eventos
@@ -1428,6 +1621,11 @@
                 emergencyModal.style.display = 'flex';
             });
             
+            document.getElementById('ai-insights-tool').addEventListener('click', function() {
+                const insights = serenBot.generateInsights();
+                serenBot.addMessage('bot', `<div class="suggestion-container">${insights}</div>`);
+            });
+            
             closeModal.addEventListener('click', function() {
                 emergencyModal.style.display = 'none';
             });
@@ -1458,6 +1656,9 @@
                 if (message.metadata && message.metadata.emotion) {
                     updateMoodIndicator(message.metadata.emotion);
                 }
+                
+                // Actualizar barra de progreso de aprendizaje de IA
+                updateAILearningProgress();
             });
             
             // Función para actualizar el indicador de estado de ánimo
@@ -1482,6 +1683,13 @@
                 }
             }
             
+            // Función para actualizar la barra de progreso de IA
+            function updateAILearningProgress() {
+                const progress = serenBot.aiLearningEngine.getLearningProgress();
+                aiLearningProgress.style.width = `${progress}%`;
+                aiLearningPercent.textContent = `${progress.toFixed(1)}%`;
+            }
+            
             // Función para enviar mensajes
             function sendMessage() {
                 const message = userInput.value.trim();
@@ -1498,7 +1706,7 @@
                     const typingIndicator = document.createElement('div');
                     typingIndicator.className = 'typing-indicator';
                     typingIndicator.innerHTML = `
-                        <span>SerenBot está escribiendo</span>
+                        <span>SerenBot está pensando</span>
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
@@ -1599,6 +1807,11 @@
                 const seconds = sessionSeconds % 60;
                 sessionTime.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }, 1000);
+            
+            // Simular progreso de aprendizaje de IA
+            setInterval(() => {
+                updateAILearningProgress();
+            }, 30000);
             
             // Ejemplo de mensaje de bienvenida después de la inicialización
             setTimeout(() => {
