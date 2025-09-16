@@ -3,1217 +3,1170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SerenBot Avanzado</title>
+    <title>SerenBot - Asistente de Apoyo Emocional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #4e7ae6;
-            --secondary: #7c4dff;
-            --background: #f8f9fa;
-            --surface: #ffffff;
-            --on-surface: #212121;
-            --on-primary: #ffffff;
-            --success: #4caf50;
-            --warning: #ff9800;
-            --error: #f44336;
+            --primary: #4e54c8;
+            --primary-light: #8f94fb;
+            --secondary: #ff6b6b;
+            --accent: #4ecdc4;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background-color: var(--background);
-            color: var(--on-surface);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--dark);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
-        
-        .chat-container {
+
+        .container {
             width: 100%;
-            max-width: 800px;
-            height: 90vh;
-            background-color: var(--surface);
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                flex-direction: row;
+            }
+        }
+
+        .chat-container {
+            flex: 2;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
-        
+
         .chat-header {
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--on-primary);
+            padding: 15px 20px;
+            background: var(--primary);
+            color: white;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
         }
-        
-        .chat-header h1 {
+
+        .chat-header h2 {
             font-size: 1.5rem;
-            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
+
         .chat-messages {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
+            max-height: 500px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 15px;
         }
-        
+
         .message {
             max-width: 80%;
             padding: 12px 16px;
             border-radius: 18px;
-            line-height: 1.5;
             position: relative;
+            line-height: 1.5;
             animation: fadeIn 0.3s ease;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .user-message {
             align-self: flex-end;
-            background-color: var(--primary);
-            color: var(--on-primary);
+            background: var(--primary-light);
+            color: white;
             border-bottom-right-radius: 4px;
         }
-        
+
         .bot-message {
             align-self: flex-start;
-            background-color: #eef2f8;
-            color: var(--on-surface);
+            background: #e9ecef;
+            color: var(--dark);
             border-bottom-left-radius: 4px;
         }
-        
-        .chat-input {
-            padding: 16px;
-            border-top: 1px solid rgba(0, 0, 0, 0.08);
-            display: flex;
-            gap: 12px;
+
+        .system-message {
+            align-self: center;
+            background: var(--accent);
+            color: white;
+            text-align: center;
+            font-style: italic;
         }
-        
+
+        .crisis-message {
+            background: var(--danger);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .chat-input {
+            padding: 15px;
+            background: white;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #dee2e6;
+        }
+
         .chat-input input {
             flex: 1;
-            padding: 12px 16px;
-            border: 1px solid #ddd;
-            border-radius: 24px;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 30px;
             outline: none;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: var(--transition);
         }
-        
+
         .chat-input input:focus {
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
         }
-        
+
         .chat-input button {
             padding: 12px 20px;
-            background-color: var(--primary);
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 24px;
+            border-radius: 30px;
             cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            transition: var(--transition);
         }
-        
+
         .chat-input button:hover {
-            background-color: #3b5fc0;
+            background: var(--primary-light);
+            transform: translateY(-2px);
         }
-        
-        .quick-suggestions {
+
+        .sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .user-panel {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-panel h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-mood {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            padding: 0 16px 16px;
-            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            gap: 10px;
+            margin: 10px 0;
         }
-        
-        .suggestion-chip {
-            padding: 8px 16px;
-            background-color: #eef2f8;
-            border-radius: 16px;
-            font-size: 0.9rem;
+
+        .mood-btn {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            background: white;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: var(--transition);
         }
-        
-        .suggestion-chip:hover {
-            background-color: #dfe6f3;
+
+        .mood-btn:hover, .mood-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
-        
-        .typing-indicator {
-            align-self: flex-start;
-            background-color: #eef2f8;
-            padding: 12px 16px;
-            border-radius: 18px;
+
+        .tools-panel {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tools-panel h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
             display: flex;
-            gap: 4px;
-            margin-bottom: 8px;
+            align-items: center;
+            gap: 10px;
         }
-        
+
+        .tool-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tool-btn:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .stats-panel {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-panel h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray);
+            font-style: italic;
+            margin-top: 10px;
+        }
+
         .typing-dot {
             width: 8px;
             height: 8px;
-            background-color: #9e9e9e;
+            background: var(--gray);
             border-radius: 50%;
             animation: typingAnimation 1.4s infinite ease-in-out;
         }
-        
+
         .typing-dot:nth-child(1) { animation-delay: 0s; }
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
+
         @keyframes typingAnimation {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-5px); }
         }
-        
-        .message-time {
-            font-size: 0.7rem;
-            margin-top: 4px;
-            opacity: 0.7;
+
+        .high-contrast {
+            --primary: #000000;
+            --primary-light: #333333;
+            --secondary: #ffffff;
+            --light: #000000;
+            --dark: #ffffff;
         }
 
-        .notification-toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--surface);
-            color: var(--on-surface);
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.3s, transform 0.3s;
-            z-index: 1000;
-        }
-
-        .notification-toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (max-width: 600px) {
-            .chat-container {
-                height: 95vh;
-                border-radius: 12px;
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
             
             .message {
                 max-width: 90%;
             }
-            
-            .chat-header h1 {
-                font-size: 1.3rem;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>SerenBot</h1>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-            <div class="message bot-message">
-                ¡Hola! Soy SerenBot, tu asistente virtual en Serenamente. Estoy aquí para ayudarte con tu bienestar emocional. ¿Cómo te sientes hoy?
-                <div class="message-time">Ahora</div>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-robot"></i> SerenBot</h1>
+            <p>Tu asistente inteligente de apoyo emocional</p>
+        </header>
+
+        <div class="main-content">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2><i class="fas fa-comments"></i> Chat con SerenBot</h2>
+                    <div class="session-info">Sesión: <span id="session-time">00:00</span></div>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message system-message">
+                        <p>¡Hola! Soy SerenBot, tu asistente de apoyo emocional. ¿En qué puedo ayudarte hoy?</p>
+                        <div class="message-time">12:00 PM</div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Escribe tu mensaje aquí...">
+                    <button id="send-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="user-panel">
+                    <h3><i class="fas fa-user"></i> Tu Estado</h3>
+                    <div class="user-info">
+                        <p>¿Cómo te sientes hoy?</p>
+                        <div class="user-mood">
+                            <button class="mood-btn">😊 Bien</button>
+                            <button class="mood-btn">😐 Regular</button>
+                            <button class="mood-btn">😔 Triste</button>
+                            <button class="mood-btn">😰 Ansioso</button>
+                        </div>
+                        <p>Tu progreso: <span id="user-progress">75%</span></p>
+                        <div class="progress-bar" style="height: 10px; background: #e9ecef; border-radius: 5px; margin-top: 5px;">
+                            <div style="width: 75%; height: 100%; background: var(--success); border-radius: 5px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tools-panel">
+                    <h3><i class="fas fa-tools"></i> Herramientas</h3>
+                    <div class="tool-btn" id="breathing-tool">
+                        <i class="fas fa-wind"></i>
+                        <span>Ejercicio de respiración</span>
+                    </div>
+                    <div class="tool-btn" id="mindfulness-tool">
+                        <i class="fas fa-spa"></i>
+                        <span>Meditación guiada</span>
+                    </div>
+                    <div class="tool-btn" id="journal-tool">
+                        <i class="fas fa-book"></i>
+                        <span>Diario emocional</span>
+                    </div>
+                    <div class="tool-btn" id="emergency-tool">
+                        <i class="fas fa-life-ring"></i>
+                        <span>Recursos de emergencia</span>
+                    </div>
+                </div>
+
+                <div class="stats-panel">
+                    <h3><i class="fas fa-chart-line"></i> Tus Estadísticas</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value">14</div>
+                            <div class="stat-label">Días consecutivos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">87%</div>
+                            <div class="stat-label">Estado de ánimo</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Sesiones este mes</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Logros</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="quick-suggestions" id="quickSuggestions">
-            <div class="suggestion-chip">Técnicas para ansiedad</div>
-            <div class="suggestion-chip">Cómo dormir mejor</div>
-            <div class="suggestion-chip">Ejercicio de respiración</div>
-            <div class="suggestion-chip">Registrar mis emociones</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Escribe tu mensaje aquí..." autocomplete="off" aria-label="Escribe tu mensaje">
-            <button id="sendButton" aria-label="Enviar mensaje">Enviar</button>
-        </div>
+
+        <footer>
+            <p>SerenBot - Diseñado para tu bienestar emocional | <i class="fas fa-shield-alt"></i> Tus datos están protegidos</p>
+        </footer>
     </div>
 
-    <div class="notification-toast" id="notificationToast"></div>
-
     <script>
-        // Clase de utilidades para localStorage
-        class StorageManager {
-            static save(key, data) {
-                try {
-                    localStorage.setItem(key, JSON.stringify(data));
-                    return true;
-                } catch (e) {
-                    console.error('Error guardando en localStorage:', e);
-                    return false;
-                }
-            }
-            
-            static load(key) {
-                try {
-                    const data = localStorage.getItem(key);
-                    return data ? JSON.parse(data) : null;
-                } catch (e) {
-                    console.error('Error cargando desde localStorage:', e);
-                    return null;
-                }
-            }
-            
-            static clear(key) {
-                try {
-                    localStorage.removeItem(key);
-                    return true;
-                } catch (e) {
-                    console.error('Error limpiando localStorage:', e);
-                    return false;
-                }
-            }
-        }
+        // Clase SerenBot mejorada
+        class SerenBot {
+            constructor(config = {}) {
+                this.config = {
+                    maxHistorySize: config.maxHistorySize || 100,
+                    sessionTimeout: config.sessionTimeout || 3600000,
+                    language: config.language || 'es',
+                    enableEncryption: config.enableEncryption || false,
+                    cacheSize: config.cacheSize || 50,
+                    debugMode: config.debugMode || false,
+                    ...config
+                };
 
-        // Gestor de notificaciones
-        class NotificationManager {
-            constructor() {
-                this.toast = document.getElementById('notificationToast');
-                this.notificationPermission = false;
-                
-                // Solicitar permiso para notificaciones
-                if ('Notification' in window) {
-                    Notification.requestPermission().then(permission => {
-                        this.notificationPermission = permission === 'granted';
-                    });
-                }
-            }
-            
-            showNotification(title, options = {}) {
-                // Notificación del navegador
-                if (this.notificationPermission) {
-                    const notification = new Notification(title, {
-                        icon: '/favicon.ico',
-                        badge: '/favicon.ico',
-                        ...options
-                    });
-                    
-                    notification.onclick = () => {
-                        window.focus();
-                        notification.close();
-                    };
-                    
-                    return notification;
-                }
-                
-                // Toast como fallback
-                this.showToast(title);
-                return null;
-            }
-            
-            showToast(message, duration = 3000) {
-                this.toast.textContent = message;
-                this.toast.classList.add('show');
-                
-                setTimeout(() => {
-                    this.toast.classList.remove('show');
-                }, duration);
-            }
-        }
-
-        // Gestor de errores
-        class ErrorHandler {
-            static handle(error, context = '') {
-                console.error(`Error en ${context}:`, error);
-                
-                // En un entorno real, enviaríamos este error a un servicio de tracking
-                // Por ahora solo lo registramos en consola
-                
-                return `Lo siento, ha ocurrido un error procesando tu solicitud. Por favor, inténtalo de nuevo.`;
-            }
-        }
-
-        // SerenBot mejorado con algoritmos avanzados
-        class EnhancedSerenBot {
-            constructor() {
-                this.isOpen = true;
-                this.messages = [];
-                this.currentContext = 'general';
-                this.waitingForInput = false;
-                this.userName = null;
-                this.userMood = null;
-                this.lastInteraction = null;
-                this.conversationHistory = [];
+                this.messageHistory = [];
                 this.userPreferences = {};
-                this.emotionalState = {
-                    mood: null,
-                    intensity: 1,
-                    triggers: [],
-                    patterns: []
-                };
+                this.sessionData = {};
+                this.cache = new Map();
+                this.isInitialized = false;
+                this.currentLanguage = this.config.language;
+                this.emotionAnalysis = new EmotionAnalysis();
+                this.userProfile = new UserProfile();
                 
-                // Inicializar managers
-                this.storageManager = StorageManager;
-                this.notificationManager = new NotificationManager();
-                
-                // Cargar datos guardados
-                this.loadUserData();
-                
-                // Configurar recordatorios
-                this.setupReminders();
-                
-                // Modelo de clasificación de intenciones mejorado
-                this.intentModel = {
-                    vocabulary: new Set(),
-                    intents: {},
-                    train: function(examples) {
-                        examples.forEach((example, intent) => {
-                            if (!this.intents[intent]) this.intents[intent] = { count: 0, words: {} };
-                            
-                            const words = example.toLowerCase().split(/\s+/);
-                            words.forEach(word => {
-                                this.vocabulary.add(word);
-                                this.intents[intent].words[word] = (this.intents[intent].words[word] || 0) + 1;
-                            });
-                            
-                            this.intents[intent].count++;
-                        });
-                    },
-                    predict: function(text) {
-                        try {
-                            const words = text.toLowerCase().split(/\s+/);
-                            let bestIntent = null;
-                            let bestScore = 0;
-                            
-                            for (const intent in this.intents) {
-                                let score = 0;
-                                words.forEach(word => {
-                                    if (this.intents[intent].words[word]) {
-                                        score += this.intents[intent].words[word];
-                                    }
-                                });
-                                
-                                // Normalizar por longitud del texto e importancia de la intención
-                                score = score / words.length / this.intents[intent].count;
-                                
-                                if (score > bestScore) {
-                                    bestScore = score;
-                                    bestIntent = intent;
-                                }
-                            }
-                            
-                            return bestScore > 0.3 ? bestIntent : 'unknown';
-                        } catch (error) {
-                            ErrorHandler.handle(error, 'predict intent');
-                            return 'unknown';
-                        }
-                    }
-                };
-                
-                // Entrenar el modelo con ejemplos
-                this.trainIntentModel();
-                
-                // Conocimiento mejorado con más profundidad técnica
-                this.knowledgeBase = {
-                    saludos: {
-                        triggers: ['hola', 'hey', 'buenas', 'buenos días', 'buenas tardes', 'buenas noches', 'hi', 'hello', 'saludos'],
-                        responses: [
-                            (user) => `¡Hola${user.name ? ' ' + user.name : ''}! Soy SerenBot, tu asistente virtual en Serenamente. ¿Cómo te sientes hoy?`,
-                            (user) => `¡Hola! Me alegra verte por aquí${user.name ? ' ' + user.name : ''}. ¿En qué puedo ayudarte hoy?`,
-                            (user) => `¡Hola${user.name ? ' ' + user.name : ''}! Espero que estés teniendo un buen día. ¿Hay algo en lo que pueda asistirte?`
-                        ],
-                        followUp: '¿Te gustaría que te cuente más sobre lo que puedo hacer por ti?',
-                        priority: 1
-                    },
-                    ayuda: {
-                        triggers: ['ayuda', 'help', 'qué puedes hacer', 'que puedes hacer', 'funciones', 'comandos', 'asistencia'],
-                        responses: [
-                            (user) => `Puedo ayudarte en muchas áreas de tu bienestar emocional:
-
-🧠 **Apoyo Emocional**: Técnicas para manejar ansiedad, estrés y emociones difíciles
-🌙 **Sueño y Relajación**: Ejercicios para dormir mejor y reducir el insomnio
-📊 **Seguimiento**: Ayuda para registrar y entender tus patrones emocionales
-🔍 **Navegación**: Guiarte por las diferentes secciones de Serenamente
-💡 **Educación**: Explicarte conceptos de salud mental y técnicas terapéuticas
-
-¿Hay algo específico con lo que necesites ayuda?`
-                        ],
-                        followUp: '¿Te interesa alguna de estas áreas en particular?',
-                        priority: 1
-                    },
-                    tecnicas: {
-                        triggers: ['técnicas', 'tecnicas', 'ejercicios', 'métodos', 'metodos', 'herramientas', 'qué hacer', 'que hacer'],
-                        responses: [
-                            (user) => `Serenamente ofrece técnicas profesionales basadas en evidencia científica:
-
-1. 🧠 **Técnicas Cognitivas**: 
-   - Reestructuración cognitiva para pensamientos negativos
-   - Detección de distorsiones cognitivas
-   - Diario de pensamientos
-
-2. 🫁 **Regulación Fisiológica**:
-   - Respiración 4-7-8 para ansiedad inmediata
-   - Relajación muscular progresiva de Jacobson
-   - Técnicas de grounding (5-4-3-2-1)
-
-3. 🧘 **Mindfulness y Atención Plena**:
-   - Meditaciones guiadas por tiempo
-   - Body scan para conexión corporal
-   - Mindfulness en actividades cotidianas
-
-4. 💝 **Autocompasión y Autoaceptación**:
-   - Ejercicios basados en el trabajo de Kristin Neff
-   - Cartas de autocompasión
-   - Meditaciones de bondad amorosa
-
-¿Te gustaría que profundice en alguna técnica en particular?`
-                        ],
-                        followUp: '¿Qué tipo de técnica te interesa más: cognitivas, de respiración, mindfulness o autocompasión?',
-                        priority: 2
-                    },
-                    emociones: {
-                        triggers: ['triste', 'ansioso', 'estresado', 'enojado', 'preocupado', 'asustado', 'nervioso', 'desbordado', 'agobiado', 'frustrado'],
-                        responses: [
-                            (mood) => {
-                                const empathy = {
-                                    triste: `Lamento escuchar que te sientes triste. La tristeza es una emoción natural que nos indica que algo nos importa. ¿Te gustaría probar una técnica para procesar esta emoción?`,
-                                    ansioso: `Entiendo que te sientas ansioso. La ansiedad puede ser abrumadora, pero hay técnicas específicas que pueden ayudarte a regularla. ¿Quieres que te guíe con alguna?`,
-                                    estresado: `El estrés puede ser difícil de manejar. Afortunadamente, hay ejercicios de respiración y relajación que pueden ayudarte a reducir la sensación de estrés. ¿Te interesa probar uno?`,
-                                    enojado: `El enojo es una emoción válida que nos indica que algo nos importa. Hay formas saludables de expresarlo y canalizarlo. ¿Te gustaría explorar algunas técnicas?`,
-                                    general: `Aprecio que compartas cómo te sientes. Las emociones difíciles son parte de la experiencia humana. ¿Te gustaría probar alguna técnica para manejar lo que estás experimentando?`
-                                };
-                                
-                                return empathy[mood] || empathy.general;
-                            }
-                        ],
-                        followUp: '¿Quieres que te guíe con alguna técnica específica para manejar esta emoción?',
-                        priority: 3
-                    },
-                    respiracion: {
-                        triggers: ['respiración', 'respiracion', 'respirar', 'ansiedad', 'pánico', 'panico', 'calmarme', 'relajarme', 'hiperventilar', 'ataque'],
-                        responses: [
-                            (user) => `Te recomiendo la **técnica de respiración 4-7-8**, desarrollada por el Dr. Andrew Weil:
-
-🌬️ **Instrucciones**:
-1. Siéntate con la espalda recta o túmbate cómodamente
-2. Coloca la punta de la lengua contra el paladar, detrás de los dientes frontales
-3. **Exhala** completamente por la boca
-4. **Inhala** por la nariz durante 4 segundos
-5. **Aguanta** la respiración durante 7 segundos
-6. **Exhala** completamente por la boca durante 8 segundos
-7. Repite este ciclo **4 veces**
-
-¿Te gustaría que te guíe paso a paso con esta técnica o prefieres otra opción?`
-                        ],
-                        followUp: '¿Quieres que inicie una sesión guiada de respiración ahora?',
-                        priority: 2
-                    },
-                    sueno: {
-                        triggers: ['dormir', 'insomnio', 'desvelado', 'sueño', 'sueno', 'no puedo dormir', 'despertar', 'noche'],
-                        responses: [
-                            (user) => `El insomnio puede ser difícil de manejar. Te sugiero varias aproximaciones:
-
-🌙 **Higiene del sueño**:
-- Establece un horario regular para dormir
-- Crea un ritual relajante antes de acostarte
-- Evita pantallas 1-2 horas antes de dormir
-- Mantén tu habitación fresca, oscura y silenciosa
-
-🛌 **Técnicas para conciliar el sueño**:
-- Respiración 4-7-8 acostado en la cama
-- Relajación muscular progresiva
-- Visualización de escenas tranquilas
-
-💡 **Si te despiertas en la noche**:
-- Levántate si no logras dormirte en 20 minutos
-- Haz algo relajante con luz tenue
-- Vuelve a la cama solo cuando tengas sueño
-
-¿Te gustaría que profundice en alguna de estas estrategias?`
-                        ],
-                        followUp: '¿Qué aspecto del sueño te preocupa más: conciliar el sueño, mantenerlo o despertarte muy temprano?',
-                        priority: 2
-                    },
-                    diario: {
-                        triggers: ['diario', 'escribir', 'registrar', 'pensamientos', 'emociones', 'sentimientos', 'expresar'],
-                        responses: [
-                            (user) => `El diario emocional es una herramienta poderosa con múltiples beneficios:
-
-📝 **Beneficios del diario**:
-- Ayuda a procesar y comprender emociones
-- Identifica patrones de pensamiento
-- Reduce la rumiación y el estrés
-- Promueve la autoconciencia y el crecimiento
-
-🔍 **Enfoques efectivos**:
-1. **Diario de pensamientos**: Registra situación, emoción y pensamiento automático
-2. **Diario de gratitud**: Anota 3 cosas por las que estés agradecido
-3. **Escritura expresiva**: Escribe sobre experiencias emocionales intensas
-4. **Diario de soluciones**: Enfócate en posibles soluciones más que en problemas
-
-¿Te gustaría que te guíe con algún tipo específico de diario?`
-                        ],
-                        followUp: '¿Qué tipo de diario te interesaría probar: de pensamientos, de gratitud o expresivo?',
-                        priority: 2
-                    },
-                    progreso: {
-                        triggers: ['progreso', 'avance', 'estadísticas', 'estadisticas', 'seguimiento', 'mejora', 'evolución', 'evolucion', 'resultados'],
-                        responses: [
-                            (user) => `En Serenamente puedes hacer seguimiento de tu bienestar de varias formas:
-
-📊 **Métricas de seguimiento**:
-- Estado de ánimo diario (gráficos de evolución)
-- Frecuencia de uso de técnicas
-- Patrones de sueño y energía
-- Niveles de estrés y ansiedad
-
-📈 **Beneficios del seguimiento**:
-- Identifica factores que afectan tu bienestar
-- Detecta patrones y tendencias
-- Celebra progresos y mejoras
-- Ajusta estrategias según lo que funcione para ti
-
-¿Te gustaría aprender a registrar tu estado de ánimo o ver tutoriales sobre cómo interpretar tus estadísticas?`
-                        ],
-                        followUp: '¿Qué te interesa más: registrar tu estado de ánimo actual o revisar tu progreso histórico?',
-                        priority: 2
-                    },
-                    crisis: {
-                        triggers: ['crisis', 'suicidio', 'emergencia', 'mal', 'muy mal', 'ayuda urgente', 'no puedo más', 'sin esperanza', 'desesperado'],
-                        responses: [
-                            (user) => `🆘 **Si estás experimentando una crisis, es importante que busques ayuda inmediata:**
-
-📞 **Líneas de crisis disponibles 24/7**:
-- Argentina: 135 (Desde CABA) o 0800-345-1435 (Todo el país)
-- México: 800 911 2000 (Línea de la Vida)
-- España: 024 (Prevención del suicidio)
-- Colombia: 106 (Cruz Roja)
-- Chile: 600 360 7777 (Salud Responde)
-- Estados Unidos: 988 (Suicide and Crisis Lifeline)
-- Internacional: https://www.iasp.info/resources/Crisis_Centres/
-
-🏥 **Acude a emergencias** o contacta con tu profesional de salud mental.
-
-Mientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este momento. ¿Te gustaría probar una?`
-                        ],
-                        followUp: '¿Necesitas que te guíe con una técnica de emergencia mientras buscas ayuda profesional?',
-                        priority: 0
-                    },
-                    despedida: {
-                        triggers: ['adiós', 'chao', 'nos vemos', 'hasta luego', 'bye', 'gracias', 'thank you', 'me voy', 'hasta pronto'],
-                        responses: [
-                            (user) => `¡Ha sido un gusto ayudarte! Recuerda que estoy aquí para ti cuando me necesites.`,
-                            (user) => `¡Hasta pronto! Cuídate y no dudes en volver si necesitas más apoyo.`,
-                            (user) => `¡Nos vemos! Espero que las técnicas te sean útiles. Vuelve pronto.`
-                        ],
-                        followUp: null,
-                        priority: 1
-                    }
-                };
-
-                // Respuestas por defecto con más variedad y contexto
-                this.defaultResponses = [
-                    'Interesante pregunta. ¿Podrías contarme un poco más sobre lo que necesitas?',
-                    'No estoy seguro de entender completamente. ¿Podrías reformularlo o darme más detalles?',
-                    'Esa es una buena pregunta. ¿Está relacionada con alguna técnica específica o con el uso de la aplicación?',
-                    'Puedo ayudarte mejor si me das más contexto. ¿Qué exactamente te gustaría saber o hacer?',
-                    'Me interesa entender mejor tu consulta. ¿Podrías explicarme con otras palabras?'
-                ];
-
-                // Sugerencias contextuales mejoradas
-                this.quickSuggestions = [
-                    'Técnicas para ansiedad',
-                    'Cómo dormir mejor',
-                    'Ejercicio de respiración',
-                    'Registrar mis emociones',
-                    'Ver mi progreso',
-                    'Cómo usar el diario'
-                ];
+                this.init();
             }
-            
-            // Cargar datos del usuario desde localStorage
-            loadUserData() {
-                const userData = this.storageManager.load('serenbot_user_data');
-                if (userData) {
-                    this.userName = userData.userName;
-                    this.userMood = userData.userMood;
-                    this.conversationHistory = userData.conversationHistory || [];
-                    this.userPreferences = userData.userPreferences || {};
-                    this.emotionalState = userData.emotionalState || {
-                        mood: null,
-                        intensity: 1,
-                        triggers: [],
-                        patterns: []
+
+            async init() {
+                try {
+                    console.log('Inicializando SerenBot...');
+                    await this.loadLanguageConfig();
+                    await this.loadPersistedData();
+                    this.setupErrorHandlers();
+                    this.cleanupMemory();
+                    
+                    this.isInitialized = true;
+                    console.log('SerenBot inicializado correctamente');
+                    
+                } catch (error) {
+                    this.handleError('Error durante la inicialización', error);
+                }
+            }
+
+            async loadLanguageConfig() {
+                try {
+                    this.i18n = {
+                        es: {
+                            welcome: '¡Hola! Soy SerenBot, tu asistente de apoyo emocional. ¿En qué puedo ayudarte hoy?',
+                            error: 'Lo siento, ha ocurrido un error. ¿Podrías intentar reformular tu mensaje?',
+                            notUnderstood: 'No estoy seguro de entender tu mensaje. ¿Podrías ser más específico?',
+                            sessionExpired: 'Tu sesión ha expirado por seguridad. Comencemos de nuevo.',
+                            dataCleared: 'Los datos han sido limpiados por tu privacidad.',
+                            crisis: 'Detecté que podrías estar pasando por un momento difícil. ¿Te gustaría que te ayude con algunas técnicas de apoyo?',
+                            emergency: 'Si estás en crisis, por favor contacta inmediatamente: 0800 345 1435 - Centro de Asistencia al Suicida',
+                            breathingExercise: 'Te guío en un ejercicio de respiración: Inhala por 4 segundos, mantén por 4, exhala por 6. ¿Lo intentamos juntos?',
+                            mindfulness: 'El mindfulness puede ayudarte a centrarte en el presente. ¿Te gustaría practicar un ejercicio de atención plena?'
+                        },
+                        en: {
+                            welcome: 'Hello! I\'m SerenBot, your emotional support assistant. How can I help you today?',
+                            error: 'Sorry, an error occurred. Could you try rephrasing your message?',
+                            notUnderstood: 'I\'m not sure I understand your message. Could you be more specific?',
+                            sessionExpired: 'Your session has expired for security reasons. Let\'s start over.',
+                            dataCleared: 'Data has been cleared for your privacy.',
+                            crisis: 'I detected you might be going through a difficult time. Would you like me to help you with some support techniques?',
+                            emergency: 'If you\'re in crisis, please contact immediately: Emergency Mental Health Services',
+                            breathingExercise: 'Let me guide you through a breathing exercise: Inhale for 4 seconds, hold for 4, exhale for 6. Shall we try together?',
+                            mindfulness: 'Mindfulness can help you focus on the present. Would you like to practice a mindfulness exercise?'
+                        }
                     };
                     
-                    console.log('Datos de usuario cargados correctamente');
+                    console.log(`Configuración de idioma cargada: ${this.currentLanguage}`);
+                } catch (error) {
+                    this.handleError('Error cargando configuración de idioma', error);
                 }
             }
-            
-            // Guardar datos del usuario en localStorage
-            saveUserData() {
-                const userData = {
-                    userName: this.userName,
-                    userMood: this.userMood,
-                    conversationHistory: this.conversationHistory.slice(-30), // Guardar solo los últimos 30 mensajes
-                    userPreferences: this.userPreferences,
-                    emotionalState: this.emotionalState,
-                    lastSave: new Date().toISOString()
+
+            setupErrorHandlers() {
+                window.addEventListener('unhandledrejection', (event) => {
+                    this.handleError('Promise rechazada no manejada', event.reason);
+                    event.preventDefault();
+                });
+
+                window.addEventListener('error', (event) => {
+                    this.handleError('Error global capturado', event.error);
+                });
+            }
+
+            handleError(context, error) {
+                const errorInfo = {
+                    timestamp: new Date().toISOString(),
+                    context: context,
+                    message: error?.message || 'Error desconocido',
+                    stack: error?.stack || 'No disponible',
+                    userAgent: navigator.userAgent,
+                    sessionId: this.getSessionId()
                 };
+
+                console.error(`ERROR: ${context}`, errorInfo);
                 
-                const success = this.storageManager.save('serenbot_user_data', userData);
-                if (success) {
-                    console.log('Datos de usuario guardados correctamente');
-                } else {
-                    console.error('Error guardando datos de usuario');
+                const errorMessage = this.getMessage('error');
+                this.addMessage('bot', errorMessage, { isError: true });
+            }
+
+            async loadPersistedData() {
+                try {
+                    const encryptedPreferences = localStorage.getItem('serenbot_preferences');
+                    if (encryptedPreferences) {
+                        this.userPreferences = this.config.enableEncryption 
+                            ? this.decrypt(encryptedPreferences)
+                            : JSON.parse(encryptedPreferences);
+                    }
+
+                    const encryptedHistory = localStorage.getItem('serenbot_history');
+                    if (encryptedHistory) {
+                        const history = this.config.enableEncryption 
+                            ? this.decrypt(encryptedHistory)
+                            : JSON.parse(encryptedHistory);
+                        
+                        this.messageHistory = history.slice(-this.config.maxHistorySize);
+                    }
+
+                    this.sessionData = {
+                        sessionId: this.generateSessionId(),
+                        startTime: Date.now(),
+                        language: this.userPreferences.language || this.config.language
+                    };
+
+                    console.log('Datos persistentes cargados correctamente');
+                } catch (error) {
+                    this.handleError('Error cargando datos persistentes', error);
                 }
             }
-            
-            // Configurar recordatorios basados en preferencias
-            setupReminders() {
-                // Limpiar recordatorios anteriores
-                if (this.reminderIntervals) {
-                    this.reminderIntervals.forEach(interval => clearInterval(interval));
+
+            async savePersistedData() {
+                try {
+                    const anonymizedPreferences = this.anonymizeData(this.userPreferences);
+                    const preferencesData = this.config.enableEncryption 
+                        ? this.encrypt(anonymizedPreferences)
+                        : JSON.stringify(anonymizedPreferences);
+                    
+                    localStorage.setItem('serenbot_preferences', preferencesData);
+
+                    const recentHistory = this.messageHistory.slice(-this.config.maxHistorySize);
+                    const anonymizedHistory = recentHistory.map(msg => this.anonymizeMessage(msg));
+                    const historyData = this.config.enableEncryption 
+                        ? this.encrypt(anonymizedHistory)
+                        : JSON.stringify(anonymizedHistory);
+                    
+                    localStorage.setItem('serenbot_history', historyData);
+
+                    console.log('Datos persistentes guardados correctamente');
+                } catch (error) {
+                    this.handleError('Error guardando datos persistentes', error);
+                }
+            }
+
+            anonymizeData(data) {
+                const anonymized = { ...data };
+                delete anonymized.name;
+                delete anonymized.email;
+                delete anonymized.phone;
+                delete anonymized.address;
+                
+                if (anonymized.userId) {
+                    anonymized.userId = this.hashString(anonymized.userId);
                 }
                 
-                this.reminderIntervals = [];
+                return anonymized;
+            }
+
+            anonymizeMessage(message) {
+                return {
+                    ...message,
+                    content: message.content ? this.sanitizeContent(message.content) : '',
+                    timestamp: message.timestamp,
+                    type: message.type,
+                    metadata: message.metadata ? { ...message.metadata, sensitive: undefined } : {}
+                };
+            }
+
+            sanitizeContent(content) {
+                return content
+                    .replace(/\b\d{4,}\b/g, '[NÚMERO]')
+                    .replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, '[EMAIL]')
+                    .replace(/\b\d{3}-\d{3}-\d{4}\b/g, '[TELÉFONO]');
+            }
+
+            encrypt(data) {
+                if (!this.config.enableEncryption) return JSON.stringify(data);
+                const jsonString = JSON.stringify(data);
+                return btoa(jsonString);
+            }
+
+            decrypt(encryptedData) {
+                if (!this.config.enableEncryption) return JSON.parse(encryptedData);
+                try {
+                    const jsonString = atob(encryptedData);
+                    return JSON.parse(jsonString);
+                } catch (error) {
+                    this.handleError('Error descifrando datos', error);
+                    return {};
+                }
+            }
+
+            hashString(str) {
+                let hash = 0;
+                for (let i = 0; i < str.length; i++) {
+                    const char = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return hash.toString(36);
+            }
+
+            cleanupMemory() {
+                if (this.messageHistory.length > this.config.maxHistorySize) {
+                    this.messageHistory = this.messageHistory.slice(-this.config.maxHistorySize);
+                }
+
+                if (this.cache.size > this.config.cacheSize) {
+                    const entries = Array.from(this.cache.entries());
+                    const oldEntries = entries.slice(0, entries.length - this.config.cacheSize);
+                    oldEntries.forEach(([key]) => this.cache.delete(key));
+                }
+
+                if (Date.now() - this.sessionData.startTime > this.config.sessionTimeout) {
+                    this.clearSession();
+                }
+            }
+
+            clearSession() {
+                this.messageHistory = [];
+                this.sessionData = {
+                    sessionId: this.generateSessionId(),
+                    startTime: Date.now(),
+                    language: this.currentLanguage
+                };
+                this.addMessage('bot', this.getMessage('sessionExpired'), { isSystem: true });
+            }
+
+            async processMessage(userMessage, options = {}) {
+                try {
+                    if (!this.isInitialized) {
+                        await this.init();
+                    }
+
+                    const cacheKey = this.generateCacheKey(userMessage);
+                    if (this.cache.has(cacheKey)) {
+                        const cachedResponse = this.cache.get(cacheKey);
+                        console.log('Respuesta desde cache');
+                        return cachedResponse;
+                    }
+
+                    this.addMessage('user', userMessage, options);
+
+                    // Analizar emociones en el mensaje
+                    const emotionAnalysis = this.emotionAnalysis.analyzeText(userMessage);
+                    this.userProfile.updateWithAnalysis(emotionAnalysis);
+
+                    const response = await this.generateResponse(userMessage, options, emotionAnalysis);
+
+                    this.addMessage('bot', response.content, response.metadata);
+
+                    this.cache.set(cacheKey, response);
+
+                    if (this.messageHistory.length % 10 === 0) {
+                        this.cleanupMemory();
+                    }
+
+                    await this.savePersistedData();
+
+                    return response;
+
+                } catch (error) {
+                    this.handleError('Error procesando mensaje', error);
+                    return {
+                        content: this.getMessage('error'),
+                        metadata: { isError: true }
+                    };
+                }
+            }
+
+            async generateResponse(message, options = {}, emotionAnalysis = {}) {
+                const lowerMessage = message.toLowerCase();
                 
-                // Recordatorio para registro del estado de ánimo (si está activo en preferencias)
-                if (this.userPreferences.moodReminders) {
-                    const moodInterval = setInterval(() => {
-                        const now = new Date();
-                        // Solo enviar recordatorio entre las 8 AM y las 8 PM
-                        if (now.getHours() >= 8 && now.getHours() < 20) {
-                            const lastMoodRecord = this.userPreferences.lastMoodRecord;
-                            const shouldRemind = !lastMoodRecord || 
-                                              (new Date() - new Date(lastMoodRecord)) > 12 * 60 * 60 * 1000; // 12 horas
-                            
-                            if (shouldRemind) {
-                                this.notificationManager.showNotification(
-                                    'Serenamente', 
-                                    {
-                                        body: '¿Cómo te sientes hoy? Es un buen momento para registrar tu estado de ánimo.',
-                                        icon: '/favicon.ico'
-                                    }
-                                );
+                // Detección de crisis
+                const crisisKeywords = ['suicidio', 'morir', 'acabar', 'crisis', 'no puedo más', 'help', 'ayuda urgente', 'suicide', 'kill myself', 'end it all'];
+                if (crisisKeywords.some(keyword => lowerMessage.includes(keyword))) {
+                    return {
+                        content: this.getMessage('emergency'),
+                        metadata: { 
+                            isCrisis: true, 
+                            priority: 'high',
+                            ariaLabel: 'Mensaje de emergencia - Información de contacto para crisis'
+                        }
+                    };
+                }
+
+                // Detección de estado emocional
+                const emotionalKeywords = ['triste', 'ansioso', 'preocupado', 'deprimido', 'estresado', 'nervioso', 'asustado'];
+                if (emotionalKeywords.some(keyword => lowerMessage.includes(keyword)) || emotionAnalysis.negativeScore > 0.6) {
+                    return {
+                        content: this.getMessage('crisis'),
+                        metadata: { 
+                            isEmotionalSupport: true,
+                            ariaLabel: 'Respuesta de apoyo emocional'
+                        }
+                    };
+                }
+
+                // Respuestas basadas en patrones
+                const responses = this.getResponsePatterns();
+                
+                for (const pattern of responses) {
+                    if (pattern.keywords.some(keyword => lowerMessage.includes(keyword))) {
+                        return {
+                            content: this.getRandomResponse(pattern.responses),
+                            metadata: {
+                                category: pattern.category,
+                                ariaLabel: `Respuesta sobre ${pattern.category}`
                             }
-                        }
-                    }, 60 * 60 * 1000); // Revisar cada hora
-                    
-                    this.reminderIntervals.push(moodInterval);
+                        };
+                    }
                 }
+
+                // Respuesta por defecto con sugerencias
+                const defaultResponses = [
+                    this.getMessage('notUnderstood'),
+                    "No estoy seguro de entender. ¿Te gustaría hablar sobre cómo te sientes o prefieres probar un ejercicio de relajación?",
+                    "Parece que no capté completamente tu mensaje. ¿Podrías reformularlo? Mientras tanto, ¿quieres que hablemos de técnicas para manejar el estrés?"
+                ];
                 
-                // Recordatorio para prácticas de mindfulness (si está activo en preferencias)
-                if (this.userPreferences.mindfulnessReminders) {
-                    const mindfulnessInterval = setInterval(() => {
-                        const now = new Date();
-                        // Horarios sugeridos: 9 AM, 1 PM, 6 PM
-                        const reminderTimes = [9, 13, 18];
-                        if (reminderTimes.includes(now.getHours()) && now.getMinutes() === 0) {
-                            this.notificationManager.showNotification(
-                                'Serenamente', 
-                                {
-                                    body: 'Momento de mindfulness. ¿Te gustaría hacer un breve ejercicio de respiración?',
-                                    icon: '/favicon.ico'
-                                }
-                            );
-                        }
-                    }, 60 * 1000); // Revisar cada minuto
-                    
-                    this.reminderIntervals.push(mindfulnessInterval);
+                return {
+                    content: this.getRandomResponse(defaultResponses),
+                    metadata: { 
+                        isDefault: true,
+                        ariaLabel: 'Respuesta de aclaración'
+                    }
+                };
+            }
+
+            getResponsePatterns() {
+                return [
+                    {
+                        category: 'saludo',
+                        keywords: ['hola', 'hello', 'hi', 'buenos días', 'buenas tardes', 'buenas noches'],
+                        responses: [
+                            this.getMessage('welcome'),
+                            '¡Hola! Me alegra que estés aquí. ¿Cómo te sientes hoy?',
+                            'Bienvenido/a. Estoy aquí para acompañarte. ¿En qué puedo ayudarte?'
+                        ]
+                    },
+                    {
+                        category: 'respiracion',
+                        keywords: ['respirar', 'respira', 'ansiedad', 'pánico', 'nervioso', 'respiración'],
+                        responses: [
+                            this.getMessage('breathingExercise'),
+                            'La respiración consciente puede ayudarte. ¿Te gustaría que practiquemos una técnica de respiración?',
+                            'Cuando sientes ansiedad, respirar profundamente puede calmarte. ¿Quieres que te enseñe una técnica?'
+                        ]
+                    },
+                    {
+                        category: 'mindfulness',
+                        keywords: ['mindfulness', 'meditación', 'presente', 'aquí y ahora', 'meditar'],
+                        responses: [
+                            this.getMessage('mindfulness'),
+                            'Estar presente es una habilidad poderosa. ¿Quieres que hagamos un ejercicio de conexión con el momento actual?',
+                            'La meditación puede ser muy beneficiosa. ¿Te gustaría intentar una breve sesión guiada?'
+                        ]
+                    },
+                    {
+                        category: 'agradecimiento',
+                        keywords: ['gracias', 'thanks', 'thank you', 'te agradezco', 'agradecido'],
+                        responses: [
+                            '¡De nada! Estoy aquí para ayudarte siempre que lo necesites.',
+                            'Es un placer poder acompañarte. ¿Hay algo más en lo que pueda ayudarte?',
+                            'Me alegra poder ser de ayuda. Recuerda que estoy aquí para ti cuando me necesites.'
+                        ]
+                    }
+                ];
+            }
+
+            addMessage(sender, content, metadata = {}) {
+                const message = {
+                    id: this.generateMessageId(),
+                    sender,
+                    content,
+                    timestamp: Date.now(),
+                    metadata: {
+                        sessionId: this.sessionData.sessionId,
+                        ...metadata
+                    }
+                };
+
+                this.messageHistory.push(message);
+                this.emit('messageAdded', message);
+                
+                return message;
+            }
+
+            getMessage(key) {
+                return this.i18n[this.currentLanguage]?.[key] || this.i18n.es[key] || key;
+            }
+
+            getRandomResponse(responses) {
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            generateCacheKey(message) {
+                return this.hashString(message.toLowerCase().trim());
+            }
+
+            generateMessageId() {
+                return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            }
+
+            generateSessionId() {
+                return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            }
+
+            getSessionId() {
+                return this.sessionData.sessionId;
+            }
+
+            emit(eventName, data) {
+                if (this.listeners && this.listeners[eventName]) {
+                    this.listeners[eventName].forEach(callback => callback(data));
+                }
+            }
+
+            on(eventName, callback) {
+                if (!this.listeners) this.listeners = {};
+                if (!this.listeners[eventName]) this.listeners[eventName] = [];
+                this.listeners[eventName].push(callback);
+            }
+
+            setLanguage(language) {
+                if (this.i18n[language]) {
+                    this.currentLanguage = language;
+                    this.userPreferences.language = language;
+                    this.savePersistedData();
+                    console.log(`Idioma cambiado a: ${language}`);
+                }
+            }
+
+            clearAllData() {
+                this.messageHistory = [];
+                this.userPreferences = {};
+                this.cache.clear();
+                localStorage.removeItem('serenbot_preferences');
+                localStorage.removeItem('serenbot_history');
+                this.addMessage('bot', this.getMessage('dataCleared'), { isSystem: true });
+            }
+
+            log(message, data = null) {
+                if (this.config.debugMode) {
+                    console.log(`[SerenBot] ${message}`, data);
+                }
+            }
+
+            getMessageHistory() {
+                return [...this.messageHistory];
+            }
+
+            getUserPreferences() {
+                return { ...this.userPreferences };
+            }
+
+            getSessionInfo() {
+                return {
+                    sessionId: this.sessionData.sessionId,
+                    startTime: this.sessionData.startTime,
+                    language: this.currentLanguage,
+                    messageCount: this.messageHistory.length
+                };
+            }
+        }
+
+        // Clase para análisis de emociones
+        class EmotionAnalysis {
+            constructor() {
+                this.positiveWords = ['feliz', 'contento', 'alegre', 'genial', 'maravilloso', 'excelente', 'fantástico', 'bien', 'optimista', 'agradecido'];
+                this.negativeWords = ['triste', 'deprimido', 'ansioso', 'preocupado', 'asustado', 'enfadado', 'enojado', 'molesto', 'frustrado', 'desesperado'];
+                this.emergencyWords = ['suicidio', 'morir', 'matar', 'acabar', 'despedida', 'sin sentido', 'sin esperanza'];
+            }
+
+            analyzeText(text) {
+                const words = text.toLowerCase().split(/\s+/);
+                let positiveCount = 0;
+                let negativeCount = 0;
+                let emergencyCount = 0;
+                
+                words.forEach(word => {
+                    if (this.positiveWords.includes(word)) positiveCount++;
+                    if (this.negativeWords.includes(word)) negativeCount++;
+                    if (this.emergencyWords.includes(word)) emergencyCount++;
+                });
+                
+                const total = words.length;
+                const positiveScore = total > 0 ? positiveCount / total : 0;
+                const negativeScore = total > 0 ? negativeCount / total : 0;
+                const emergencyScore = total > 0 ? emergencyCount / total : 0;
+                
+                let dominantEmotion = 'neutral';
+                if (emergencyScore > 0.1) dominantEmotion = 'crisis';
+                else if (negativeScore > positiveScore) dominantEmotion = 'negative';
+                else if (positiveScore > negativeScore) dominantEmotion = 'positive';
+                
+                return {
+                    positiveScore,
+                    negativeScore,
+                    emergencyScore,
+                    dominantEmotion,
+                    wordsAnalyzed: total
+                };
+            }
+        }
+
+        // Clase para perfil de usuario
+        class UserProfile {
+            constructor() {
+                this.moodHistory = [];
+                this.interactionCount = 0;
+                this.preferences = {};
+                this.lastSession = new Date();
+            }
+            
+            updateWithAnalysis(analysis) {
+                this.moodHistory.push({
+                    timestamp: new Date(),
+                    mood: analysis.dominantEmotion,
+                    intensity: Math.max(analysis.positiveScore, analysis.negativeScore, analysis.emergencyScore)
+                });
+                
+                this.interactionCount++;
+                
+                // Mantener un historial limitado
+                if (this.moodHistory.length > 100) {
+                    this.moodHistory = this.moodHistory.slice(-100);
                 }
             }
             
-            trainIntentModel() {
-                try {
-                    // Ejemplos de entrenamiento para el modelo de clasificación de intenciones
-                    const trainingExamples = new Map();
-                    
-                    trainingExamples.set('saludos', ['hola', 'hola cómo estás', 'buenos días', 'buenas tardes', 'hey']);
-                    trainingExamples.set('ayuda', ['necesito ayuda', 'qué puedes hacer', 'ayúdame', 'no sé usar la app']);
-                    trainingExamples.set('tecnicas', ['técnicas de relajación', 'ejercicios para calmarme', 'cómo manejar la ansiedad']);
-                    trainingExamples.set('sueno', ['no puedo dormir', 'tengo insomnio', 'cómo dormir mejor']);
-                    trainingExamples.set('emociones', ['me siento triste', 'estoy ansioso', 'cómo manejar el enojo']);
-                    trainingExamples.set('crisis', ['me siento muy mal', 'necesito ayuda urgente', 'estoy en crisis']);
-                    
-                    this.intentModel.train(trainingExamples);
-                } catch (error) {
-                    ErrorHandler.handle(error, 'training intent model');
-                }
+            getMoodTrend() {
+                if (this.moodHistory.length < 2) return 'stable';
+                
+                const recentMoods = this.moodHistory.slice(-10);
+                const positiveCount = recentMoods.filter(m => m.mood === 'positive').length;
+                const negativeCount = recentMoods.filter(m => m.mood === 'negative' || m.mood === 'crisis').length;
+                
+                if (positiveCount > negativeCount * 2) return 'improving';
+                if (negativeCount > positiveCount * 2) return 'declining';
+                return 'stable';
             }
             
-            async processMessage(message) {
-                try {
-                    // Simular tiempo de procesamiento para una experiencia más natural
-                    this.showTypingIndicator();
-                    await this.delay(800 + Math.random() * 700);
-                    
-                    const normalizedMessage = message.toLowerCase().trim();
-                    this.addToConversationHistory('user', message);
-                    
-                    // Análisis de sentimiento mejorado
-                    const sentiment = this.analyzeSentiment(normalizedMessage);
-                    this.updateEmotionalState(sentiment, normalizedMessage);
-                    
-                    // Detectar y almacenar el nombre del usuario
-                    if (!this.userName && this.isNameIntroduction(normalizedMessage)) {
-                        this.userName = this.extractName(normalizedMessage);
-                        const response = `¡Mucho gusto, ${this.userName}! Es un placer conocerte. ¿En qué puedo ayudarte hoy?`;
-                        this.addToConversationHistory('bot', response);
-                        this.hideTypingIndicator();
-                        
-                        // Guardar datos después de obtener el nombre
-                        this.saveUserData();
-                        return response;
-                    }
-                    
-                    // Clasificar la intención usando el modelo
-                    const intent = this.intentModel.predict(normalizedMessage);
-                    
-                    // Detectar estado de ánimo
-                    const detectedMood = this.detectMood(normalizedMessage);
-                    if (detectedMood && !this.waitingForInput) {
-                        this.userMood = detectedMood;
-                        this.userPreferences.lastMoodRecord = new Date().toISOString();
-                        this.lastInteraction = 'mood_detection';
-                        const response = this.knowledgeBase.emociones.responses[0](detectedMood);
-                        this.waitingForInput = true;
-                        this.addToConversationHistory('bot', response);
-                        this.hideTypingIndicator();
-                        
-                        // Guardar datos después de detectar el estado de ánimo
-                        this.saveUserData();
-                        return response;
-                    }
-                    
-                    // Manejar respuestas de seguimiento
-                    if (this.waitingForInput) {
-                        const response = this.handleFollowUp(normalizedMessage);
-                        this.addToConversationHistory('bot', response);
-                        this.hideTypingIndicator();
-                        
-                        // Guardar datos después de seguimiento
-                        this.saveUserData();
-                        return response;
-                    }
-                    
-                    // Buscar en la base de conocimiento basado en la intención clasificada
-                    if (this.knowledgeBase[intent]) {
-                        this.currentContext = intent;
-                        
-                        let response;
-                        if (intent === 'emociones' && this.userMood) {
-                            response = this.knowledgeBase[intent].responses[0](this.userMood);
-                        } else {
-                            const responses = this.knowledgeBase[intent].responses;
-                            response = typeof responses[0] === 'function' ? 
-                                      responses[0]({name: this.userName, mood: this.userMood}) : 
-                                      responses[Math.floor(Math.random() * responses.length)];
-                        }
-                        
-                        // Agregar pregunta de seguimiento si existe
-                        if (this.knowledgeBase[intent].followUp && !this.waitingForInput) {
-                            this.waitingForInput = true;
-                            response = response + '\n\n' + this.knowledgeBase[intent].followUp;
-                        }
-                        
-                        this.addToConversationHistory('bot', response);
-                        this.hideTypingIndicator();
-                        
-                        // Guardar datos después de procesar la intención
-                        this.saveUserData();
-                        return response;
-                    }
-                    
-                    // Si no encuentra coincidencia, respuesta por defecto mejorada
-                    const defaultResponse = this.defaultResponses[Math.floor(Math.random() * this.defaultResponses.length)];
-                    const enhancedResponse = defaultResponse + '\n\nPuedes preguntarme sobre:\n• Técnicas de relajación\n• Cómo manejar emociones difíciles\n• Estrategias para dormir mejor\n• Uso del diario emocional\n• Seguimiento de tu progreso';
-                    
-                    this.addToConversationHistory('bot', enhancedResponse);
-                    this.hideTypingIndicator();
-                    
-                    // Guardar datos después de respuesta por defecto
-                    this.saveUserData();
-                    return enhancedResponse;
-                } catch (error) {
-                    this.hideTypingIndicator();
-                    return ErrorHandler.handle(error, 'processing message');
-                }
+            getInteractionFrequency() {
+                return this.interactionCount;
             }
+        }
+
+        // Inicialización de la interfaz
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const sessionTime = document.getElementById('session-time');
             
-            analyzeSentiment(message) {
-                try {
-                    // Algoritmo mejorado de análisis de sentimiento
-                    const positiveWords = ['bien', 'feliz', 'contento', 'genial', 'maravilloso', 'agradecido', 'optimista', 'alegre', 'emocionado'];
-                    const negativeWords = ['mal', 'triste', 'ansioso', 'estresado', 'enojado', 'preocupado', 'asustado', 'nervioso', 'desbordado', 'agobiado', 'frustrado'];
-                    const intenseWords = ['muy', 'mucho', 'extremadamente', 'realmente', 'totalmente', 'completamente'];
-                    
-                    const words = message.toLowerCase().split(/\s+/);
-                    let score = 0;
-                    let intensity = 1;
-                    
-                    words.forEach(word => {
-                        if (positiveWords.includes(word)) score += 1;
-                        if (negativeWords.includes(word)) score -= 1;
-                        if (intenseWords.includes(word)) intensity += 0.5;
+            // Inicializar el bot
+            const serenBot = new SerenBot({
+                debugMode: true,
+                enableEncryption: false
+            });
+            
+            // Configurar manejadores de eventos
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Herramientas
+            document.getElementById('breathing-tool').addEventListener('click', function() {
+                serenBot.processMessage("quiero hacer un ejercicio de respiración");
+            });
+            
+            document.getElementById('mindfulness-tool').addEventListener('click', function() {
+                serenBot.processMessage("me gustaría meditar");
+            });
+            
+            document.getElementById('journal-tool').addEventListener('click', function() {
+                serenBot.processMessage("quiero escribir en mi diario emocional");
+            });
+            
+            document.getElementById('emergency-tool').addEventListener('click', function() {
+                serenBot.processMessage("necesito recursos de emergencia");
+            });
+            
+            // Botones de estado de ánimo
+            const moodButtons = document.querySelectorAll('.mood-btn');
+            moodButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    moodButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    serenBot.processMessage("Me siento " + this.textContent);
+                });
+            });
+            
+            // Escuchar nuevos mensajes
+            serenBot.on('messageAdded', function(message) {
+                addMessageToChat(message);
+            });
+            
+            // Función para enviar mensajes
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message) {
+                    addMessageToChat({
+                        sender: 'user',
+                        content: message,
+                        timestamp: Date.now()
                     });
                     
-                    return { score, intensity };
-                } catch (error) {
-                    ErrorHandler.handle(error, 'analyzing sentiment');
-                    return { score: 0, intensity: 1 };
-                }
-            }
-            
-            updateEmotionalState(sentiment, message) {
-                try {
-                    // Actualizar el estado emocional basado en el análisis de sentimiento
-                    if (sentiment.score > 0) {
-                        this.emotionalState.mood = 'positive';
-                    } else if (sentiment.score < 0) {
-                        this.emotionalState.mood = 'negative';
-                    } else {
-                        this.emotionalState.mood = 'neutral';
-                    }
+                    userInput.value = '';
                     
-                    this.emotionalState.intensity = sentiment.intensity;
-                    
-                    // Extraer posibles desencadenantes emocionales
-                    const triggerWords = ['porque', 'debido a', 'cuando', 'después de', 'por'];
-                    const words = message.split(/\s+/);
-                    
-                    for (let i = 0; i < words.length; i++) {
-                        if (triggerWords.includes(words[i]) && i < words.length - 1) {
-                            this.emotionalState.triggers.push(words.slice(i + 1, i + 4).join(' '));
-                        }
-                    }
-                    
-                    // Limitar el historial de desencadenantes
-                    if (this.emotionalState.triggers.length > 10) {
-                        this.emotionalState.triggers = this.emotionalState.triggers.slice(-10);
-                    }
-                } catch (error) {
-                    ErrorHandler.handle(error, 'updating emotional state');
-                }
-            }
-            
-            addToConversationHistory(role, message) {
-                try {
-                    this.conversationHistory.push({
-                        role,
-                        message,
-                        timestamp: new Date(),
-                        mood: this.emotionalState.mood,
-                        intensity: this.emotionalState.intensity
-                    });
-                    
-                    // Limitar el historial para no consumir demasiada memoria
-                    if (this.conversationHistory.length > 50) {
-                        this.conversationHistory = this.conversationHistory.slice(-50);
-                    }
-                } catch (error) {
-                    ErrorHandler.handle(error, 'adding to conversation history');
-                }
-            }
-            
-            showTypingIndicator() {
-                try {
-                    const chatMessages = document.getElementById('chatMessages');
+                    // Mostrar indicador de typing
                     const typingIndicator = document.createElement('div');
                     typingIndicator.className = 'typing-indicator';
-                    typingIndicator.id = 'typingIndicator';
-                    typingIndicator.setAttribute('aria-label', 'El bot está escribiendo');
                     typingIndicator.innerHTML = `
+                        <span>SerenBot está escribiendo</span>
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
                     `;
                     chatMessages.appendChild(typingIndicator);
                     chatMessages.scrollTop = chatMessages.scrollHeight;
-                } catch (error) {
-                    ErrorHandler.handle(error, 'showing typing indicator');
+                    
+                    // Procesar mensaje después de un breve delay
+                    setTimeout(() => {
+                        chatMessages.removeChild(typingIndicator);
+                        serenBot.processMessage(message);
+                    }, 1500);
                 }
             }
             
-            hideTypingIndicator() {
-                try {
-                    const typingIndicator = document.getElementById('typingIndicator');
-                    if (typingIndicator) {
-                        typingIndicator.remove();
-                    }
-                } catch (error) {
-                    ErrorHandler.handle(error, 'hiding typing indicator');
-                }
-            }
-            
-            delay(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
-            
-            isNameIntroduction(message) {
-                try {
-                    const namePatterns = [
-                        /me llamo (\w+)/i,
-                        /soy (\w+)/i,
-                        /mi nombre es (\w+)/i,
-                        /puedes llamarme (\w+)/i
-                    ];
-                    
-                    return namePatterns.some(pattern => pattern.test(message));
-                } catch (error) {
-                    ErrorHandler.handle(error, 'checking name introduction');
-                    return false;
-                }
-            }
-
-            extractName(message) {
-                try {
-                    const patterns = [
-                        /me llamo (\w+)/i,
-                        /soy (\w+)/i,
-                        /mi nombre es (\w+)/i,
-                        /puedes llamarme (\w+)/i
-                    ];
-                    
-                    for (const pattern of patterns) {
-                        const match = message.match(pattern);
-                        if (match) return match[1];
-                    }
-                    
-                    return null;
-                } catch (error) {
-                    ErrorHandler.handle(error, 'extracting name');
-                    return null;
-                }
-            }
-
-            detectMood(message) {
-                try {
-                    const moodKeywords = {
-                        triste: ['triste', 'deprimido', 'desanimado', 'desesperanzado', 'melancólico', 'apenado'],
-                        ansioso: ['ansioso', 'nervioso', 'preocupado', 'agitado', 'intranquilo', 'atemorizado'],
-                        estresado: ['estresado', 'agobiado', 'abrumado', 'presionado', 'tenso', 'frustrado'],
-                        enojado: ['enojado', 'enfadado', 'furioso', 'molesto', 'irritado', 'airado'],
-                        feliz: ['feliz', 'contento', 'alegre', 'optimista', 'entusiasmado', 'emocionado']
-                    };
-                    
-                    for (const [mood, keywords] of Object.entries(moodKeywords)) {
-                        if (keywords.some(keyword => message.includes(keyword))) {
-                            return mood;
-                        }
-                    }
-                    
-                    return null;
-                } catch (error) {
-                    ErrorHandler.handle(error, 'detecting mood');
-                    return null;
-                }
-            }
-
-            handleFollowUp(message) {
-                try {
-                    this.waitingForInput = false;
-                    
-                    switch (this.currentContext) {
-                        case 'emociones':
-                            if (message.includes('sí') || message.includes('si') || message.includes('por favor')) {
-                                return this.knowledgeBase.tecnicas.responses[0]({name: this.userName, mood: this.userMood});
-                            }
-                            break;
-                            
-                        case 'respiracion':
-                            if (message.includes('sí') || message.includes('si') || message.includes('guiar')) {
-                                return this.guidedBreathingExercise();
-                            }
-                            break;
-                            
-                        case 'sueno':
-                            if (message.includes('conciliar')) {
-                                return `Para conciliar el sueño, te recomiendo la **técnica 4-7-8** en la cama:
-                                
-1. Acuéstate boca arriba en una posición cómoda
-2. Realiza 4-5 ciclos de respiración 4-7-8
-3. Concéntrate solo en tu respiración
-4. Si vienen pensamientos, acéptalos y vuelve a tu respiración
-
-¿Te gustaría que te guíe con esta técnica ahora mismo?`;
-                            } else if (message.includes('mantener')) {
-                                return `Para mantener el sueño:
-                                
-- Establece una rutina consistente de sueño
-- Evita alcohol y cafeína después de las 2 PM
-- Crea un ambiente óptimo para dormir (fresco, oscuro y silencioso)
-- Si te despiertas, evita mirar el reloj
-
-¿Te gustaría más consejos sobre higiene del sueño?`;
-                            }
-                            break;
-                            
-                        default:
-                            return 'Gracias por la información. ¿Hay algo más en lo que pueda ayudarte?';
-                    }
-                    
-                    return 'Entiendo. ¿Hay algo más en lo que pueda ayudarte?';
-                } catch (error) {
-                    ErrorHandler.handle(error, 'handling follow-up');
-                    return 'Gracias por la información. ¿Hay algo más en lo que pueda ayudarte?';
-                }
-            }
-
-            guidedBreathingExercise() {
-                return `Vamos a hacer juntos la técnica de respiración 4-7-8:
-
-Paso 1: Siéntate cómodamente con la espalda recta o túmbate.
-Paso 2: Coloca la punta de la lengua contra el paladar, detrás de los dientes frontales.
-Paso 3: Exhala completamente por la boca, haciendo un sonido de susurro.
-Paso 4: Cierra la boca e inhala silenciosamente por la nariz contando mentalmente hasta 4.
-Paso 5: Aguanta la respiración contando mentalmente hasta 7.
-Paso 6: Exhala completamente por la boca, haciendo un sonido de susurro, contando mentalmente hasta 8.
-Paso 7: Este es un ciclo. Ahora inhala nuevamente y repite el ciclo 3 veces más.
-
-¿Cómo te sientes después de completar el ejercicio?`;
-            }
-            
-            // Método para generar sugerencias contextuales basadas en la conversación
-            generateContextualSuggestions() {
-                try {
-                    if (this.conversationHistory.length < 2) {
-                        return this.quickSuggestions;
-                    }
-                    
-                    const lastMessage = this.conversationHistory[this.conversationHistory.length - 1].message.toLowerCase();
-                    
-                    if (lastMessage.includes('ans') || lastMessage.includes('preocup') || lastMessage.includes('nerv')) {
-                        return ['Técnica de respiración 4-7-8', 'Ejercicio de grounding', 'Meditación guiada', 'Diario de preocupaciones'];
-                    }
-                    
-                    if (lastMessage.includes('triste') || lastMessage.includes('depri') || lastMessage.includes('desanim')) {
-                        return ['Autocompasión guiada', 'Diario de gratitud', 'Actividad placentera', 'Conectar con apoyo'];
-                    }
-                    
-                    if (lastMessage.includes('sueño') || lastMessage.includes('dormir') || lastMessage.includes('insomnio')) {
-                        return ['Rutina de sueño', 'Relajación muscular', 'Meditación para dormir', 'Higiene del sueño'];
-                    }
-                    
-                    return this.quickSuggestions;
-                } catch (error) {
-                    ErrorHandler.handle(error, 'generating contextual suggestions');
-                    return this.quickSuggestions;
-                }
-            }
-        }
-
-        // Inicializar y conectar con la interfaz
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatMessages = document.getElementById('chatMessages');
-            const userInput = document.getElementById('userInput');
-            const sendButton = document.getElementById('sendButton');
-            const quickSuggestions = document.getElementById('quickSuggestions');
-            
-            const serenBot = new EnhancedSerenBot();
-            
-            // Cargar historial de conversación previo si existe
-            const savedHistory = StorageManager.load('serenbot_conversation_history');
-            if (savedHistory && savedHistory.length > 0) {
-                // Mantener solo el mensaje inicial del bot y agregar el historial guardado
-                chatMessages.innerHTML = '';
-                savedHistory.forEach(msg => {
-                    addMessageToChat(msg.message, msg.role === 'user');
-                });
-            }
-            
-            // Función para añadir mensaje al chat
-            function addMessageToChat(message, isUser = false) {
+            // Función para añadir mensajes al chat
+            function addMessageToChat(message) {
                 const messageElement = document.createElement('div');
-                messageElement.className = isUser ? 'message user-message' : 'message bot-message';
                 
-                const messageText = document.createElement('div');
-                messageText.textContent = message;
+                let messageClass = 'message';
+                if (message.sender === 'user') {
+                    messageClass += ' user-message';
+                } else if (message.sender === 'bot') {
+                    messageClass += ' bot-message';
+                    
+                    if (message.metadata && message.metadata.isCrisis) {
+                        messageClass += ' crisis-message';
+                    }
+                } else {
+                    messageClass += ' system-message';
+                }
                 
-                const messageTime = document.createElement('div');
-                messageTime.className = 'message-time';
-                messageTime.textContent = 'Ahora';
+                const time = new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 
-                messageElement.appendChild(messageText);
-                messageElement.appendChild(messageTime);
+                messageElement.className = messageClass;
+                messageElement.innerHTML = `
+                    <p>${message.content}</p>
+                    <div class="message-time">${time}</div>
+                `;
                 
                 chatMessages.appendChild(messageElement);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                // Guardar el historial de la conversación actual
-                saveConversationHistory();
             }
             
-            // Guardar historial de conversación
-            function saveConversationHistory() {
-                const messages = Array.from(chatMessages.querySelectorAll('.message')).map(msg => {
-                    return {
-                        role: msg.classList.contains('user-message') ? 'user' : 'bot',
-                        message: msg.querySelector('div:first-child').textContent,
-                        timestamp: new Date()
-                    };
-                });
-                
-                StorageManager.save('serenbot_conversation_history', messages);
-            }
+            // Actualizar tiempo de sesión
+            let sessionSeconds = 0;
+            setInterval(() => {
+                sessionSeconds++;
+                const minutes = Math.floor(sessionSeconds / 60);
+                const seconds = sessionSeconds % 60;
+                sessionTime.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
             
-            // Función para enviar mensaje
-            async function sendMessage() {
-                const message = userInput.value.trim();
-                if (message) {
-                    addMessageToChat(message, true);
-                    userInput.value = '';
-                    
-                    const response = await serenBot.processMessage(message);
-                    addMessageToChat(response, false);
-                    
-                    // Actualizar sugerencias
-                    updateQuickSuggestions();
-                }
-            }
-            
-            // Función para actualizar sugerencias rápidas
-            function updateQuickSuggestions() {
-                const suggestions = serenBot.generateContextualSuggestions();
-                quickSuggestions.innerHTML = '';
-                
-                suggestions.forEach(suggestion => {
-                    const chip = document.createElement('div');
-                    chip.className = 'suggestion-chip';
-                    chip.textContent = suggestion;
-                    chip.setAttribute('role', 'button');
-                    chip.setAttribute('aria-label', `Sugerencia: ${suggestion}`);
-                    chip.addEventListener('click', () => {
-                        userInput.value = suggestion;
-                        sendMessage();
-                    });
-                    quickSuggestions.appendChild(chip);
-                });
-            }
-            
-            // Event listeners
-            sendButton.addEventListener('click', sendMessage);
-            userInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-            
-            // Inicializar sugerencias
-            updateQuickSuggestions();
-            
-            // Configurar evento para guardar datos antes de cerrar la página
-            window.addEventListener('beforeunload', () => {
-                serenBot.saveUserData();
-                saveConversationHistory();
-            });
+            // Ejemplo de mensaje de bienvenida después de la inicialización
+            setTimeout(() => {
+                serenBot.addMessage('bot', serenBot.getMessage('welcome'));
+            }, 1000);
         });
     </script>
 </body>
