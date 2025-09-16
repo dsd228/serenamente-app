@@ -1,7 +1,4 @@
-/**
- * SerenBot - Chatbot para la aplicación Serenamente
- * Proporciona asistencia básica, respuestas a preguntas frecuentes y ayuda de navegación
- */
+
 
 class SerenBot {
   constructor() {
