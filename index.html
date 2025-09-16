@@ -1369,8 +1369,6 @@
                 });
             }
             
-            const serenBot = new EnhancedSerenBot();
-            
             // Cargar historial de conversación previo si existe
             const savedHistory = StorageManager.load('serenbot_conversation_history');
             if (savedHistory && savedHistory.length > 0) {
