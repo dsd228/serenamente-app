@@ -1040,6 +1040,9 @@
       <span>Serenamente</span>
     </div>
     <div style="display: flex; align-items: center; gap: 15px;">
+      <button onclick="toggleSerenBot()" class="nav-icon" title="Abrir SerenBot" aria-label="Abrir chatbot SerenBot">
+        <i class="fas fa-robot"></i>
+      </button>
       <label class="theme-switch">
         <input type="checkbox" id="darkModeToggle">
         <span class="slider"></span>
@@ -1163,6 +1166,7 @@
       <button class="btn-secondary" onclick="nextStep('techniques-section','mood-section')">Volver al inicio</button>
       <button onclick="nextStep('techniques-section','meditation-section')"><i class="fas fa-music"></i> Meditaciones</button>
       <button onclick="nextStep('techniques-section','activities-section')"><i class="fas fa-hands-helping"></i> Actividades</button>
+      <button onclick="toggleSerenBot()"><i class="fas fa-robot"></i> Chatbot SerenBot</button>
     </div>
   </section>
   <!-- Meditaciones -->
@@ -1567,6 +1571,9 @@
   
   <div class="footer">© 2025 Serenamente – Apoyo Emocional Basado en Evidencia – No reemplaza atención profesional.</div>
 </div>
+<!-- SerenBot Chatbot Integration -->
+<script src="serenbot.js"></script>
+
 <script>
   // Variables globales
   let currentCrisis = "";
@@ -2998,6 +3005,27 @@
     loadJournalEntries();
   }
   
+  // SerenBot Integration
+  function toggleSerenBot() {
+    if (window.serenBot) {
+      // If already exists, just make sure it's visible
+      const container = document.getElementById('serenbot-container');
+      if (container) {
+        if (container.classList.contains('serenbot-minimized')) {
+          container.classList.remove('serenbot-minimized');
+        }
+        // Focus on input
+        const input = document.getElementById('serenbot-input');
+        if (input) {
+          input.focus();
+        }
+      }
+    } else {
+      // Initialize SerenBot
+      window.serenBot = new SerenBot();
+    }
+  }
+
   // Inicializar
   document.addEventListener('DOMContentLoaded', function() {
     loadFromStorage();

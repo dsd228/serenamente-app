@@ -1,0 +1,92 @@
+{
+  "es": {
+    "welcome": "¡Hola! Soy SerenBot, tu asistente de bienestar emocional. ¿Cómo te sientes hoy?",
+    "error": "Lo siento, no pude procesar tu mensaje. ¿Podrías reformularlo?",
+    "goodbye": "Cuídate mucho. Recuerda que siempre estoy aquí para ayudarte.",
+    "crisis": "Entiendo que estás pasando por un momento muy difícil. Por favor, considera contactar al 0800 345 1435 - Centro de Asistencia al Suicida (8 a 24 hs). Tu vida es valiosa.",
+    "notUnderstood": "No estoy seguro de entender completamente. ¿Podrías explicarme un poco más sobre cómo te sientes?",
+    "typing": "SerenBot está escribiendo...",
+    "techniques": {
+      "breathing": "Te propongo una técnica de respiración: Inhala durante 4 segundos, mantén durante 7 segundos, y exhala durante 8 segundos. ¿Te gustaría que te guíe paso a paso?",
+      "grounding": "Probemos la técnica 5-4-3-2-1 para conectarte con el presente: Nombra 5 cosas que ves, 4 que puedes tocar, 3 que escuchas, 2 que hueles y 1 que saboreas.",
+      "progressive_relaxation": "La relajación muscular progresiva puede ayudarte. Comienza tensando los músculos de tus pies por 5 segundos, luego relájalos. ¿Quieres que continuemos?",
+      "mindfulness": "Intentemos un ejercicio de mindfulness: Observa tu respiración sin cambiarla. Solo nota cómo entra y sale el aire. ¿Puedes sentir cómo se mueve tu pecho?"
+    },
+    "emotions": {
+      "sad": "Veo que te sientes triste. Es completamente normal sentirse así a veces. ¿Hay algo específico que te está afectando hoy?",
+      "anxious": "La ansiedad puede ser muy abrumadora. Entiendo lo que estás sintiendo. ¿Te gustaría que practiquemos algunas técnicas de relajación juntos?",
+      "angry": "Entiendo que estés enojado/a. Es una emoción válida y natural. ¿Qué crees que está causando esta sensación?",
+      "happy": "Me alegra mucho saber que te sientes bien. ¿Qué está contribuyendo a este sentimiento positivo? Es importante reconocer estos momentos.",
+      "stressed": "El estrés puede ser muy agotador. ¿Qué situaciones te están generando más tensión últimamente?",
+      "overwhelmed": "Sentirse abrumado/a es muy común. Tomemos las cosas paso a paso. ¿Cuál dirías que es tu mayor preocupación ahora mismo?"
+    },
+    "affirmations": {
+      "strength": "Eres más fuerte de lo que crees. Has superado desafíos antes y puedes hacerlo de nuevo.",
+      "worth": "Tu valor como persona no depende de tus logros o de lo que otros piensen. Eres valioso/a por quien eres.",
+      "progress": "El progreso no siempre es lineal. Cada pequeño paso cuenta, incluso los que parecen hacia atrás.",
+      "hope": "Aunque ahora las cosas parezcan difíciles, recuerda que los sentimientos cambian y las situaciones mejoran."
+    },
+    "resources": {
+      "emergency": "Si sientes que estás en crisis inmediata, por favor contacta: 0800 345 1435 (Centro de Asistencia al Suicida) o 135 (Línea de prevención del suicidio).",
+      "professional_help": "Considera buscar ayuda profesional. Un psicólogo o psiquiatra puede brindarte herramientas específicas para tu situación.",
+      "support_groups": "Los grupos de apoyo pueden ser muy beneficiosos. Conectarte con otros que entienden lo que vives puede ser muy sanador."
+    },
+    "prompts": {
+      "mood_check": "¿Cómo describirías tu estado de ánimo en una escala del 1 al 10?",
+      "daily_gratitude": "¿Podrías mencionar una cosa, por pequeña que sea, por la que te sientes agradecido/a hoy?",
+      "coping_strategies": "¿Qué estrategias has usado antes que te hayan ayudado a sentirte mejor?",
+      "support_system": "¿Con quién puedes hablar cuando te sientes así? ¿Tienes a alguien de confianza?"
+    },
+    "encouragement": {
+      "seeking_help": "Es muy valiente buscar ayuda. El hecho de que estés aquí muestra tu fortaleza.",
+      "self_care": "Cuidar de tu salud mental es tan importante como cuidar de tu salud física.",
+      "patience": "Sé paciente contigo mismo/a. La sanación emocional toma tiempo.",
+      "not_alone": "No estás solo/a en esto. Muchas personas han pasado por situaciones similares y han encontrado maneras de mejorar."
+    }
+  },
+  "en": {
+    "welcome": "Hello! I'm SerenBot, your emotional wellness assistant. How are you feeling today?",
+    "error": "I'm sorry, I couldn't process your message. Could you rephrase it?",
+    "goodbye": "Take care. Remember, I'm always here to help you.",
+    "crisis": "I understand you're going through a very difficult time. Please consider contacting a crisis helpline in your area. Your life is valuable.",
+    "notUnderstood": "I'm not sure I fully understand. Could you tell me a bit more about how you're feeling?",
+    "typing": "SerenBot is typing...",
+    "techniques": {
+      "breathing": "Let me suggest a breathing technique: Inhale for 4 seconds, hold for 7 seconds, and exhale for 8 seconds. Would you like me to guide you step by step?",
+      "grounding": "Let's try the 5-4-3-2-1 technique to ground yourself: Name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you taste.",
+      "progressive_relaxation": "Progressive muscle relaxation can help. Start by tensing your foot muscles for 5 seconds, then relax them. Shall we continue?",
+      "mindfulness": "Let's try a mindfulness exercise: Observe your breathing without changing it. Just notice how the air goes in and out. Can you feel your chest moving?"
+    },
+    "emotions": {
+      "sad": "I see you're feeling sad. It's completely normal to feel this way sometimes. Is there something specific affecting you today?",
+      "anxious": "Anxiety can be very overwhelming. I understand what you're feeling. Would you like to practice some relaxation techniques together?",
+      "angry": "I understand you're angry. It's a valid and natural emotion. What do you think is causing this feeling?",
+      "happy": "I'm so glad to know you're feeling good. What's contributing to this positive feeling? It's important to recognize these moments.",
+      "stressed": "Stress can be very exhausting. What situations are generating the most tension for you lately?",
+      "overwhelmed": "Feeling overwhelmed is very common. Let's take things step by step. What would you say is your biggest concern right now?"
+    },
+    "affirmations": {
+      "strength": "You are stronger than you think. You've overcome challenges before and you can do it again.",
+      "worth": "Your worth as a person doesn't depend on your achievements or what others think. You are valuable for who you are.",
+      "progress": "Progress isn't always linear. Every small step counts, even the ones that seem backward.",
+      "hope": "Even though things seem difficult now, remember that feelings change and situations improve."
+    },
+    "resources": {
+      "emergency": "If you feel you're in immediate crisis, please contact your local emergency services or crisis helpline.",
+      "professional_help": "Consider seeking professional help. A psychologist or psychiatrist can provide you with specific tools for your situation.",
+      "support_groups": "Support groups can be very beneficial. Connecting with others who understand what you're going through can be very healing."
+    },
+    "prompts": {
+      "mood_check": "How would you describe your mood on a scale of 1 to 10?",
+      "daily_gratitude": "Could you mention one thing, however small, that you feel grateful for today?",
+      "coping_strategies": "What strategies have you used before that have helped you feel better?",
+      "support_system": "Who can you talk to when you feel this way? Do you have someone you trust?"
+    },
+    "encouragement": {
+      "seeking_help": "It's very brave to seek help. The fact that you're here shows your strength.",
+      "self_care": "Taking care of your mental health is just as important as taking care of your physical health.",
+      "patience": "Be patient with yourself. Emotional healing takes time.",
+      "not_alone": "You're not alone in this. Many people have gone through similar situations and have found ways to improve."
+    }
+  }
+}
