@@ -6,6 +6,10 @@
 <title>Serenamente - Apoyo Emocional Integral</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- SerenBot Scripts -->
+<script src="serenbot-i18n.js"></script>
+<script src="serenbot.js"></script>
+<script src="serenbot-ui.js"></script>
 <style>
   :root {
     --primary: #4361ee;
@@ -1566,6 +1570,9 @@
   </section>
   
   <div class="footer">© 2025 Serenamente – Apoyo Emocional Basado en Evidencia – No reemplaza atención profesional.</div>
+  
+  <!-- SerenBot Container -->
+  <div id="serenbot-container" aria-label="SerenBot - Asistente de apoyo emocional"></div>
 </div>
 <script>
   // Variables globales
@@ -1754,6 +1761,33 @@
         }
       });
     });
+  });
+  
+  // Inicializar SerenBot
+  document.addEventListener('DOMContentLoaded', function() {
+    try {
+      // Verificar que las dependencias estén disponibles
+      if (typeof SerenBot !== 'undefined' && typeof SerenBotUI !== 'undefined') {
+        // Configuración del bot
+        const botConfig = {
+          language: localStorage.getItem('serenbot-language') || 'es',
+          debugMode: false,
+          enableEncryption: false,
+          maxHistorySize: 100,
+          sessionTimeout: 3600000, // 1 hora
+          cacheSize: 50
+        };
+        
+        // Inicializar la interfaz del bot
+        window.serenBotUI = new SerenBotUI('serenbot-container', botConfig);
+        
+        console.log('SerenBot inicializado correctamente');
+      } else {
+        console.warn('SerenBot no disponible: dependencias no cargadas');
+      }
+    } catch (error) {
+      console.error('Error inicializando SerenBot:', error);
+    }
   });
   
   // Funciones de navegación
