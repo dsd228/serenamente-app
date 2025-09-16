@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "language": "es",
+    "language_name": "Español",
+    "direction": "ltr"
+  },
+  "ui": {
+    "title": "SerenBot",
+    "input_placeholder": "Escribe tu mensaje aquí...",
+    "send_button": "Enviar",
+    "send_button_aria": "Enviar mensaje",
+    "input_aria": "Escribe tu mensaje",
+    "typing_indicator_aria": "El bot está escribiendo",
+    "language_selector_aria": "Selector de idioma"
+  },
+  "greetings": {
+    "initial_message": "¡Hola! Soy SerenBot, tu asistente virtual en Serenamente. Estoy aquí para ayudarte con tu bienestar emocional. ¿Cómo te sientes hoy?",
+    "responses": [
+      "¡Hola{name}! Soy SerenBot, tu asistente virtual en Serenamente. ¿Cómo te sientes hoy?",
+      "¡Hola! Me alegra verte por aquí{name}. ¿En qué puedo ayudarte hoy?",
+      "¡Hola{name}! Espero que estés teniendo un buen día. ¿Hay algo en lo que pueda asistirte?"
+    ],
+    "follow_up": "¿Te gustaría que te cuente más sobre lo que puedo hacer por ti?"
+  },
+  "help": {
+    "responses": [
+      "Puedo ayudarte en muchas áreas de tu bienestar emocional:\n\n🧠 **Apoyo Emocional**: Técnicas para manejar ansiedad, estrés y emociones difíciles\n🌙 **Sueño y Relajación**: Ejercicios para dormir mejor y reducir el insomnio\n📊 **Seguimiento**: Ayuda para registrar y entender tus patrones emocionales\n🔍 **Navegación**: Guiarte por las diferentes secciones de Serenamente\n💡 **Educación**: Explicarte conceptos de salud mental y técnicas terapéuticas\n\n¿Hay algo específico con lo que necesites ayuda?"
+    ],
+    "follow_up": "¿Te interesa alguna de estas áreas en particular?"
+  },
+  "techniques": {
+    "responses": [
+      "Serenamente ofrece técnicas profesionales basadas en evidencia científica:\n\n1. 🧠 **Técnicas Cognitivas**: \n   - Reestructuración cognitiva para pensamientos negativos\n   - Detección de distorsiones cognitivas\n   - Diario de pensamientos\n\n2. 🫁 **Regulación Fisiológica**:\n   - Respiración 4-7-8 para ansiedad inmediata\n   - Relajación muscular progresiva de Jacobson\n   - Técnicas de grounding (5-4-3-2-1)\n\n3. 🧘 **Mindfulness y Atención Plena**:\n   - Meditaciones guiadas por tiempo\n   - Body scan para conexión corporal\n   - Mindfulness en actividades cotidianas\n\n4. 💝 **Autocompasión y Autoaceptación**:\n   - Ejercicios basados en el trabajo de Kristin Neff\n   - Cartas de autocompasión\n   - Meditaciones de bondad amorosa\n\n¿Te gustaría que profundice en alguna técnica en particular?"
+    ],
+    "follow_up": "¿Qué tipo de técnica te interesa más: cognitivas, de respiración, mindfulness o autocompasión?"
+  },
+  "emotions": {
+    "empathy": {
+      "sad": "Lamento escuchar que te sientes triste. La tristeza es una emoción natural que nos indica que algo nos importa. ¿Te gustaría probar una técnica para procesar esta emoción?",
+      "anxious": "Entiendo que te sientas ansioso. La ansiedad puede ser abrumadora, pero hay técnicas específicas que pueden ayudarte a regularla. ¿Quieres que te guíe con alguna?",
+      "stressed": "El estrés puede ser difícil de manejar. Afortunadamente, hay ejercicios de respiración y relajación que pueden ayudarte a reducir la sensación de estrés. ¿Te interesa probar uno?",
+      "angry": "El enojo es una emoción válida que nos indica que algo nos importa. Hay formas saludables de expresarlo y canalizarlo. ¿Te gustaría explorar algunas técnicas?",
+      "general": "Aprecio que compartas cómo te sientes. Las emociones difíciles son parte de la experiencia humana. ¿Te gustaría probar alguna técnica para manejar lo que estás experimentando?"
+    },
+    "follow_up": "¿Quieres que te guíe con alguna técnica específica para manejar esta emoción?"
+  },
+  "breathing": {
+    "responses": [
+      "Te recomiendo la **técnica de respiración 4-7-8**, desarrollada por el Dr. Andrew Weil:\n\n🌬️ **Instrucciones**:\n1. Siéntate con la espalda recta o túmbate cómodamente\n2. Coloca la punta de la lengua contra el paladar, detrás de los dientes frontales\n3. **Exhala** completamente por la boca\n4. **Inhala** por la nariz durante 4 segundos\n5. **Aguanta** la respiración durante 7 segundos\n6. **Exhala** completamente por la boca durante 8 segundos\n7. Repite este ciclo **4 veces**\n\n¿Te gustaría que te guíe paso a paso con esta técnica o prefieres otra opción?"
+    ],
+    "follow_up": "¿Quieres que inicie una sesión guiada de respiración ahora?",
+    "guided_exercise": "Vamos a hacer juntos la técnica de respiración 4-7-8:\n\nPaso 1: Siéntate cómodamente con la espalda recta o túmbate.\nPaso 2: Coloca la punta de la lengua contra el paladar, detrás de los dientes frontales.\nPaso 3: Exhala completamente por la boca, haciendo un sonido de susurro.\nPaso 4: Cierra la boca e inhala silenciosamente por la nariz contando mentalmente hasta 4.\nPaso 5: Aguanta la respiración contando mentalmente hasta 7.\nPaso 6: Exhala completamente por la boca, haciendo un sonido de susurro, contando mentalmente hasta 8.\nPaso 7: Este es un ciclo. Ahora inhala nuevamente y repite el ciclo 3 veces más.\n\n¿Cómo te sientes después de completar el ejercicio?"
+  },
+  "sleep": {
+    "responses": [
+      "El insomnio puede ser difícil de manejar. Te sugiero varias aproximaciones:\n\n🌙 **Higiene del sueño**:\n- Establece un horario regular para dormir\n- Crea un ritual relajante antes de acostarte\n- Evita pantallas 1-2 horas antes de dormir\n- Mantén tu habitación fresca, oscura y silenciosa\n\n🛌 **Técnicas para conciliar el sueño**:\n- Respiración 4-7-8 acostado en la cama\n- Relajación muscular progresiva\n- Visualización de escenas tranquilas\n\n💡 **Si te despiertas en la noche**:\n- Levántate si no logras dormirte en 20 minutos\n- Haz algo relajante con luz tenue\n- Vuelve a la cama solo cuando tengas sueño\n\n¿Te gustaría que profundice en alguna de estas estrategias?"
+    ],
+    "follow_up": "¿Qué aspecto del sueño te preocupa más: conciliar el sueño, mantenerlo o despertarte muy temprano?"
+  },
+  "crisis": {
+    "responses": [
+      "🆘 **Si estás experimentando una crisis, es importante que busques ayuda inmediata:**\n\n📞 **Líneas de crisis disponibles 24/7**:\n- Argentina: 135 (Desde CABA) o 0800-345-1435 (Todo el país)\n- México: 800 911 2000 (Línea de la Vida)\n- España: 024 (Prevención del suicidio)\n- Colombia: 106 (Cruz Roja)\n- Chile: 600 360 7777 (Salud Responde)\n- Estados Unidos: 988 (Suicide and Crisis Lifeline)\n- Internacional: https://www.iasp.info/resources/Crisis_Centres/\n\n🏥 **Acude a emergencias** o contacta con tu profesional de salud mental.\n\nMientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este momento. ¿Te gustaría probar una?"
+    ],
+    "follow_up": "¿Necesitas que te guíe con una técnica de emergencia mientras buscas ayuda profesional?"
+  },
+  "farewell": {
+    "responses": [
+      "¡Ha sido un gusto ayudarte! Recuerda que estoy aquí para ti cuando me necesites.",
+      "¡Hasta pronto! Cuídate y no dudes en volver si necesitas más apoyo.",
+      "¡Nos vemos! Espero que las técnicas te sean útiles. Vuelve pronto."
+    ]
+  },
+  "default_responses": [
+    "Interesante pregunta. ¿Podrías contarme un poco más sobre lo que necesitas?",
+    "No estoy seguro de entender completamente. ¿Podrías reformularlo o darme más detalles?",
+    "Esa es una buena pregunta. ¿Está relacionada con alguna técnica específica o con el uso de la aplicación?",
+    "Puedo ayudarte mejor si me das más contexto. ¿Qué exactamente te gustaría saber o hacer?",
+    "Me interesa entender mejor tu consulta. ¿Podrías explicarme con otras palabras?"
+  ],
+  "suggestions": {
+    "default": [
+      "Técnicas para ansiedad",
+      "Cómo dormir mejor",
+      "Ejercicio de respiración",
+      "Registrar mis emociones",
+      "Ver mi progreso",
+      "Cómo usar el diario"
+    ],
+    "anxiety": [
+      "Técnica de respiración 4-7-8",
+      "Ejercicio de grounding",
+      "Meditación guiada",
+      "Diario de preocupaciones"
+    ],
+    "sadness": [
+      "Autocompasión guiada",
+      "Diario de gratitud",
+      "Actividad placentera",
+      "Conectar con apoyo"
+    ],
+    "sleep": [
+      "Rutina de sueño",
+      "Relajación muscular",
+      "Meditación para dormir",
+      "Higiene del sueño"
+    ]
+  },
+  "errors": {
+    "processing_error": "Lo siento, ha ocurrido un error procesando tu solicitud. Por favor, inténtalo de nuevo.",
+    "network_error": "Parece que hay un problema de conexión. Por favor, verifica tu conexión e inténtalo nuevamente.",
+    "storage_error": "No se pudieron guardar tus datos. Tus preferencias pueden no persistir en esta sesión.",
+    "general_error": "Ha ocurrido un error inesperado. Por favor, recarga la página e inténtalo de nuevo."
+  },
+  "notifications": {
+    "mood_reminder": "¿Cómo te sientes hoy? Es un buen momento para registrar tu estado de ánimo.",
+    "mindfulness_reminder": "Momento de mindfulness. ¿Te gustaría hacer un breve ejercicio de respiración?",
+    "data_saved": "Tus datos han sido guardados correctamente.",
+    "data_loaded": "Datos de usuario cargados correctamente."
+  }
+}

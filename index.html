@@ -226,11 +226,15 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <h1>SerenBot</h1>
+            <h1 id="chatTitle">SerenBot</h1>
+            <select id="languageSelector" aria-label="Selector de idioma" style="margin-left: auto; padding: 8px; border-radius: 8px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer;">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+            </select>
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="message bot-message">
-                ¡Hola! Soy SerenBot, tu asistente virtual en Serenamente. Estoy aquí para ayudarte con tu bienestar emocional. ¿Cómo te sientes hoy?
+                <span id="initialMessage">¡Hola! Soy SerenBot, tu asistente virtual en Serenamente. Estoy aquí para ayudarte con tu bienestar emocional. ¿Cómo te sientes hoy?</span>
                 <div class="message-time">Ahora</div>
             </div>
         </div>
@@ -249,6 +253,98 @@
     <div class="notification-toast" id="notificationToast"></div>
 
     <script>
+        // Gestor de internacionalización (i18n)
+        class I18nManager {
+            constructor() {
+                this.currentLanguage = 'es';
+                this.translations = {};
+                this.fallbackLanguage = 'es';
+            }
+            
+            async loadLanguage(language) {
+                try {
+                    if (!this.translations[language]) {
+                        const response = await fetch(`./i18n/${language}.json`);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        this.translations[language] = await response.json();
+                    }
+                    this.currentLanguage = language;
+                    return true;
+                } catch (error) {
+                    console.error(`Error loading language ${language}:`, error);
+                    // Fallback al idioma por defecto si no está cargado
+                    if (language !== this.fallbackLanguage && !this.translations[this.fallbackLanguage]) {
+                        try {
+                            const fallbackResponse = await fetch(`./i18n/${this.fallbackLanguage}.json`);
+                            this.translations[this.fallbackLanguage] = await fallbackResponse.json();
+                            this.currentLanguage = this.fallbackLanguage;
+                        } catch (fallbackError) {
+                            console.error('Failed to load fallback language:', fallbackError);
+                        }
+                    }
+                    return false;
+                }
+            }
+            
+            translate(key, replacements = {}) {
+                try {
+                    const keys = key.split('.');
+                    let value = this.translations[this.currentLanguage];
+                    
+                    for (const k of keys) {
+                        if (value && typeof value === 'object' && k in value) {
+                            value = value[k];
+                        } else {
+                            // Intentar con idioma de respaldo
+                            value = this.translations[this.fallbackLanguage];
+                            for (const fallbackK of keys) {
+                                if (value && typeof value === 'object' && fallbackK in value) {
+                                    value = value[fallbackK];
+                                } else {
+                                    return key; // Retornar la clave si no se encuentra
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    
+                    if (typeof value === 'string') {
+                        // Aplicar reemplazos
+                        let result = value;
+                        for (const [placeholder, replacement] of Object.entries(replacements)) {
+                            const regex = new RegExp(`\\{${placeholder}\\}`, 'g');
+                            result = result.replace(regex, replacement || '');
+                        }
+                        return result;
+                    }
+                    
+                    return value;
+                } catch (error) {
+                    console.error('Error translating key:', key, error);
+                    return key;
+                }
+            }
+            
+            getCurrentLanguage() {
+                return this.currentLanguage;
+            }
+            
+            getAvailableLanguages() {
+                return Object.keys(this.translations);
+            }
+            
+            // Método para obtener respuestas aleatorias de arrays
+            getRandomTranslation(key, replacements = {}) {
+                const value = this.translate(key, replacements);
+                if (Array.isArray(value)) {
+                    return value[Math.floor(Math.random() * value.length)];
+                }
+                return value;
+            }
+        }
+
         // Clase de utilidades para localStorage
         class StorageManager {
             static save(key, data) {
@@ -328,15 +424,174 @@
             }
         }
 
-        // Gestor de errores
+        // Gestor de errores mejorado
         class ErrorHandler {
-            static handle(error, context = '') {
+            static handle(error, context = '', userFriendly = true) {
                 console.error(`Error en ${context}:`, error);
                 
-                // En un entorno real, enviaríamos este error a un servicio de tracking
-                // Por ahora solo lo registramos en consola
+                // Análisis del tipo de error para respuestas más específicas
+                let errorType = 'general_error';
+                if (error.name === 'TypeError' || error.name === 'ReferenceError') {
+                    errorType = 'processing_error';
+                } else if (error.message && error.message.includes('fetch')) {
+                    errorType = 'network_error';
+                } else if (error.message && error.message.includes('localStorage')) {
+                    errorType = 'storage_error';
+                }
                 
-                return `Lo siento, ha ocurrido un error procesando tu solicitud. Por favor, inténtalo de nuevo.`;
+                // En un entorno real, enviaríamos este error a un servicio de tracking
+                // Aquí lo registramos de forma anónima
+                const errorReport = {
+                    timestamp: new Date().toISOString(),
+                    context: context,
+                    type: error.name || 'UnknownError',
+                    message: this.sanitizeErrorMessage(error.message),
+                    userAgent: navigator.userAgent.substring(0, 100), // Información limitada
+                    url: window.location.pathname
+                };
+                
+                // Guardar en localStorage para análisis posterior (sin datos sensibles)
+                try {
+                    const errorLogs = JSON.parse(localStorage.getItem('serenbot_error_logs') || '[]');
+                    errorLogs.push(errorReport);
+                    // Mantener solo los últimos 10 errores
+                    if (errorLogs.length > 10) {
+                        errorLogs.splice(0, errorLogs.length - 10);
+                    }
+                    localStorage.setItem('serenbot_error_logs', JSON.stringify(errorLogs));
+                } catch (logError) {
+                    console.warn('Cannot log error to storage:', logError);
+                }
+                
+                if (userFriendly && window.i18nManager) {
+                    return window.i18nManager.translate(`errors.${errorType}`);
+                }
+                
+                return 'Lo siento, ha ocurrido un error procesando tu solicitud. Por favor, inténtalo de nuevo.';
+            }
+            
+            static sanitizeErrorMessage(message) {
+                if (!message) return 'Unknown error';
+                
+                // Remover información potencialmente sensible
+                return message
+                    .replace(/\b[\w\.-]+@[\w\.-]+\.\w+\b/g, '[email]') // Emails
+                    .replace(/\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, '[card]') // Números de tarjeta
+                    .replace(/\b\d{3}-\d{2}-\d{4}\b/g, '[ssn]') // SSN
+                    .substring(0, 200); // Limitar longitud
+            }
+            
+            static getErrorLogs() {
+                try {
+                    return JSON.parse(localStorage.getItem('serenbot_error_logs') || '[]');
+                } catch (error) {
+                    console.error('Error retrieving error logs:', error);
+                    return [];
+                }
+            }
+            
+            static clearErrorLogs() {
+                try {
+                    localStorage.removeItem('serenbot_error_logs');
+                    return true;
+                } catch (error) {
+                    console.error('Error clearing error logs:', error);
+                    return false;
+                }
+            }
+        }
+
+        // Gestor de seguridad y anonimización
+        class SecurityManager {
+            static sanitizeInput(input) {
+                if (typeof input !== 'string') return input;
+                
+                // Sanitizar HTML y caracteres peligrosos
+                const sanitized = input
+                    .replace(/[<>]/g, '') // Remover < y >
+                    .replace(/javascript:/gi, '') // Remover javascript:
+                    .replace(/on\w+=/gi, '') // Remover eventos HTML
+                    .trim();
+                
+                // Limitar longitud del input
+                return sanitized.substring(0, 1000);
+            }
+            
+            static anonymizeData(data) {
+                if (typeof data !== 'object' || data === null) return data;
+                
+                const anonymized = JSON.parse(JSON.stringify(data));
+                
+                // Buscar y anonimizar patrones comunes de datos sensibles
+                const sensitivePatterns = {
+                    email: /\b[\w\.-]+@[\w\.-]+\.\w+\b/g,
+                    phone: /\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g,
+                    card: /\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g,
+                    ssn: /\b\d{3}-\d{2}-\d{4}\b/g
+                };
+                
+                function anonymizeObject(obj) {
+                    for (const [key, value] of Object.entries(obj)) {
+                        if (typeof value === 'string') {
+                            let newValue = value;
+                            for (const [pattern, regex] of Object.entries(sensitivePatterns)) {
+                                newValue = newValue.replace(regex, `[${pattern}]`);
+                            }
+                            obj[key] = newValue;
+                        } else if (typeof value === 'object' && value !== null) {
+                            anonymizeObject(value);
+                        }
+                    }
+                }
+                
+                anonymizeObject(anonymized);
+                return anonymized;
+            }
+            
+            static hashData(data) {
+                // Función simple de hash para identificadores únicos sin exponer datos
+                let hash = 0;
+                const str = JSON.stringify(data);
+                for (let i = 0; i < str.length; i++) {
+                    const char = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convertir a 32bit integer
+                }
+                return Math.abs(hash).toString(36);
+            }
+            
+            static encryptData(data, key) {
+                // Implementación básica de ofuscación (en producción usar crypto APIs)
+                try {
+                    const jsonString = JSON.stringify(data);
+                    let encrypted = '';
+                    for (let i = 0; i < jsonString.length; i++) {
+                        encrypted += String.fromCharCode(
+                            jsonString.charCodeAt(i) ^ key.charCodeAt(i % key.length)
+                        );
+                    }
+                    return btoa(encrypted);
+                } catch (error) {
+                    console.error('Encryption error:', error);
+                    return null;
+                }
+            }
+            
+            static decryptData(encryptedData, key) {
+                // Implementación básica de desofuscación
+                try {
+                    const encrypted = atob(encryptedData);
+                    let decrypted = '';
+                    for (let i = 0; i < encrypted.length; i++) {
+                        decrypted += String.fromCharCode(
+                            encrypted.charCodeAt(i) ^ key.charCodeAt(i % key.length)
+                        );
+                    }
+                    return JSON.parse(decrypted);
+                } catch (error) {
+                    console.error('Decryption error:', error);
+                    return null;
+                }
             }
         }
 
@@ -351,7 +606,12 @@
                 this.userMood = null;
                 this.lastInteraction = null;
                 this.conversationHistory = [];
-                this.userPreferences = {};
+                this.userPreferences = {
+                    language: 'es',
+                    moodReminders: false,
+                    mindfulnessReminders: false,
+                    dataEncryption: false
+                };
                 this.emotionalState = {
                     mood: null,
                     intensity: 1,
@@ -362,6 +622,11 @@
                 // Inicializar managers
                 this.storageManager = StorageManager;
                 this.notificationManager = new NotificationManager();
+                this.i18nManager = new I18nManager();
+                window.i18nManager = this.i18nManager; // Hacer disponible globalmente
+                
+                // Clave de cifrado para datos sensibles (en producción vendría del servidor)
+                this.encryptionKey = 'serenbot_' + (navigator.userAgent + Date.now()).substring(0, 16);
                 
                 // Cargar datos guardados
                 this.loadUserData();
@@ -369,21 +634,26 @@
                 // Configurar recordatorios
                 this.setupReminders();
                 
+                // Inicializar sistema de idiomas
+                this.initializeI18n();
+                
                 // Modelo de clasificación de intenciones mejorado
                 this.intentModel = {
                     vocabulary: new Set(),
                     intents: {},
                     train: function(examples) {
-                        examples.forEach((example, intent) => {
+                        examples.forEach((exampleArray, intent) => {
                             if (!this.intents[intent]) this.intents[intent] = { count: 0, words: {} };
                             
-                            const words = example.toLowerCase().split(/\s+/);
-                            words.forEach(word => {
-                                this.vocabulary.add(word);
-                                this.intents[intent].words[word] = (this.intents[intent].words[word] || 0) + 1;
+                            exampleArray.forEach(example => {
+                                const words = example.toLowerCase().split(/\s+/);
+                                words.forEach(word => {
+                                    this.vocabulary.add(word);
+                                    this.intents[intent].words[word] = (this.intents[intent].words[word] || 0) + 1;
+                                });
+                                
+                                this.intents[intent].count++;
                             });
-                            
-                            this.intents[intent].count++;
                         });
                     },
                     predict: function(text) {
@@ -420,259 +690,216 @@
                 // Entrenar el modelo con ejemplos
                 this.trainIntentModel();
                 
-                // Conocimiento mejorado con más profundidad técnica
-                this.knowledgeBase = {
-                    saludos: {
-                        triggers: ['hola', 'hey', 'buenas', 'buenos días', 'buenas tardes', 'buenas noches', 'hi', 'hello', 'saludos'],
-                        responses: [
-                            (user) => `¡Hola${user.name ? ' ' + user.name : ''}! Soy SerenBot, tu asistente virtual en Serenamente. ¿Cómo te sientes hoy?`,
-                            (user) => `¡Hola! Me alegra verte por aquí${user.name ? ' ' + user.name : ''}. ¿En qué puedo ayudarte hoy?`,
-                            (user) => `¡Hola${user.name ? ' ' + user.name : ''}! Espero que estés teniendo un buen día. ¿Hay algo en lo que pueda asistirte?`
-                        ],
-                        followUp: '¿Te gustaría que te cuente más sobre lo que puedo hacer por ti?',
-                        priority: 1
-                    },
-                    ayuda: {
-                        triggers: ['ayuda', 'help', 'qué puedes hacer', 'que puedes hacer', 'funciones', 'comandos', 'asistencia'],
-                        responses: [
-                            (user) => `Puedo ayudarte en muchas áreas de tu bienestar emocional:
-
-🧠 **Apoyo Emocional**: Técnicas para manejar ansiedad, estrés y emociones difíciles
-🌙 **Sueño y Relajación**: Ejercicios para dormir mejor y reducir el insomnio
-📊 **Seguimiento**: Ayuda para registrar y entender tus patrones emocionales
-🔍 **Navegación**: Guiarte por las diferentes secciones de Serenamente
-💡 **Educación**: Explicarte conceptos de salud mental y técnicas terapéuticas
-
-¿Hay algo específico con lo que necesites ayuda?`
-                        ],
-                        followUp: '¿Te interesa alguna de estas áreas en particular?',
-                        priority: 1
-                    },
-                    tecnicas: {
-                        triggers: ['técnicas', 'tecnicas', 'ejercicios', 'métodos', 'metodos', 'herramientas', 'qué hacer', 'que hacer'],
-                        responses: [
-                            (user) => `Serenamente ofrece técnicas profesionales basadas en evidencia científica:
-
-1. 🧠 **Técnicas Cognitivas**: 
-   - Reestructuración cognitiva para pensamientos negativos
-   - Detección de distorsiones cognitivas
-   - Diario de pensamientos
-
-2. 🫁 **Regulación Fisiológica**:
-   - Respiración 4-7-8 para ansiedad inmediata
-   - Relajación muscular progresiva de Jacobson
-   - Técnicas de grounding (5-4-3-2-1)
-
-3. 🧘 **Mindfulness y Atención Plena**:
-   - Meditaciones guiadas por tiempo
-   - Body scan para conexión corporal
-   - Mindfulness en actividades cotidianas
-
-4. 💝 **Autocompasión y Autoaceptación**:
-   - Ejercicios basados en el trabajo de Kristin Neff
-   - Cartas de autocompasión
-   - Meditaciones de bondad amorosa
-
-¿Te gustaría que profundice en alguna técnica en particular?`
-                        ],
-                        followUp: '¿Qué tipo de técnica te interesa más: cognitivas, de respiración, mindfulness o autocompasión?',
-                        priority: 2
-                    },
-                    emociones: {
-                        triggers: ['triste', 'ansioso', 'estresado', 'enojado', 'preocupado', 'asustado', 'nervioso', 'desbordado', 'agobiado', 'frustrado'],
-                        responses: [
-                            (mood) => {
-                                const empathy = {
-                                    triste: `Lamento escuchar que te sientes triste. La tristeza es una emoción natural que nos indica que algo nos importa. ¿Te gustaría probar una técnica para procesar esta emoción?`,
-                                    ansioso: `Entiendo que te sientas ansioso. La ansiedad puede ser abrumadora, pero hay técnicas específicas que pueden ayudarte a regularla. ¿Quieres que te guíe con alguna?`,
-                                    estresado: `El estrés puede ser difícil de manejar. Afortunadamente, hay ejercicios de respiración y relajación que pueden ayudarte a reducir la sensación de estrés. ¿Te interesa probar uno?`,
-                                    enojado: `El enojo es una emoción válida que nos indica que algo nos importa. Hay formas saludables de expresarlo y canalizarlo. ¿Te gustaría explorar algunas técnicas?`,
-                                    general: `Aprecio que compartas cómo te sientes. Las emociones difíciles son parte de la experiencia humana. ¿Te gustaría probar alguna técnica para manejar lo que estás experimentando?`
-                                };
-                                
-                                return empathy[mood] || empathy.general;
-                            }
-                        ],
-                        followUp: '¿Quieres que te guíe con alguna técnica específica para manejar esta emoción?',
-                        priority: 3
-                    },
-                    respiracion: {
-                        triggers: ['respiración', 'respiracion', 'respirar', 'ansiedad', 'pánico', 'panico', 'calmarme', 'relajarme', 'hiperventilar', 'ataque'],
-                        responses: [
-                            (user) => `Te recomiendo la **técnica de respiración 4-7-8**, desarrollada por el Dr. Andrew Weil:
-
-🌬️ **Instrucciones**:
-1. Siéntate con la espalda recta o túmbate cómodamente
-2. Coloca la punta de la lengua contra el paladar, detrás de los dientes frontales
-3. **Exhala** completamente por la boca
-4. **Inhala** por la nariz durante 4 segundos
-5. **Aguanta** la respiración durante 7 segundos
-6. **Exhala** completamente por la boca durante 8 segundos
-7. Repite este ciclo **4 veces**
-
-¿Te gustaría que te guíe paso a paso con esta técnica o prefieres otra opción?`
-                        ],
-                        followUp: '¿Quieres que inicie una sesión guiada de respiración ahora?',
-                        priority: 2
-                    },
-                    sueno: {
-                        triggers: ['dormir', 'insomnio', 'desvelado', 'sueño', 'sueno', 'no puedo dormir', 'despertar', 'noche'],
-                        responses: [
-                            (user) => `El insomnio puede ser difícil de manejar. Te sugiero varias aproximaciones:
-
-🌙 **Higiene del sueño**:
-- Establece un horario regular para dormir
-- Crea un ritual relajante antes de acostarte
-- Evita pantallas 1-2 horas antes de dormir
-- Mantén tu habitación fresca, oscura y silenciosa
-
-🛌 **Técnicas para conciliar el sueño**:
-- Respiración 4-7-8 acostado en la cama
-- Relajación muscular progresiva
-- Visualización de escenas tranquilas
-
-💡 **Si te despiertas en la noche**:
-- Levántate si no logras dormirte en 20 minutos
-- Haz algo relajante con luz tenue
-- Vuelve a la cama solo cuando tengas sueño
-
-¿Te gustaría que profundice en alguna de estas estrategias?`
-                        ],
-                        followUp: '¿Qué aspecto del sueño te preocupa más: conciliar el sueño, mantenerlo o despertarte muy temprano?',
-                        priority: 2
-                    },
-                    diario: {
-                        triggers: ['diario', 'escribir', 'registrar', 'pensamientos', 'emociones', 'sentimientos', 'expresar'],
-                        responses: [
-                            (user) => `El diario emocional es una herramienta poderosa con múltiples beneficios:
-
-📝 **Beneficios del diario**:
-- Ayuda a procesar y comprender emociones
-- Identifica patrones de pensamiento
-- Reduce la rumiación y el estrés
-- Promueve la autoconciencia y el crecimiento
-
-🔍 **Enfoques efectivos**:
-1. **Diario de pensamientos**: Registra situación, emoción y pensamiento automático
-2. **Diario de gratitud**: Anota 3 cosas por las que estés agradecido
-3. **Escritura expresiva**: Escribe sobre experiencias emocionales intensas
-4. **Diario de soluciones**: Enfócate en posibles soluciones más que en problemas
-
-¿Te gustaría que te guíe con algún tipo específico de diario?`
-                        ],
-                        followUp: '¿Qué tipo de diario te interesaría probar: de pensamientos, de gratitud o expresivo?',
-                        priority: 2
-                    },
-                    progreso: {
-                        triggers: ['progreso', 'avance', 'estadísticas', 'estadisticas', 'seguimiento', 'mejora', 'evolución', 'evolucion', 'resultados'],
-                        responses: [
-                            (user) => `En Serenamente puedes hacer seguimiento de tu bienestar de varias formas:
-
-📊 **Métricas de seguimiento**:
-- Estado de ánimo diario (gráficos de evolución)
-- Frecuencia de uso de técnicas
-- Patrones de sueño y energía
-- Niveles de estrés y ansiedad
-
-📈 **Beneficios del seguimiento**:
-- Identifica factores que afectan tu bienestar
-- Detecta patrones y tendencias
-- Celebra progresos y mejoras
-- Ajusta estrategias según lo que funcione para ti
-
-¿Te gustaría aprender a registrar tu estado de ánimo o ver tutoriales sobre cómo interpretar tus estadísticas?`
-                        ],
-                        followUp: '¿Qué te interesa más: registrar tu estado de ánimo actual o revisar tu progreso histórico?',
-                        priority: 2
-                    },
-                    crisis: {
-                        triggers: ['crisis', 'suicidio', 'emergencia', 'mal', 'muy mal', 'ayuda urgente', 'no puedo más', 'sin esperanza', 'desesperado'],
-                        responses: [
-                            (user) => `🆘 **Si estás experimentando una crisis, es importante que busques ayuda inmediata:**
-
-📞 **Líneas de crisis disponibles 24/7**:
-- Argentina: 135 (Desde CABA) o 0800-345-1435 (Todo el país)
-- México: 800 911 2000 (Línea de la Vida)
-- España: 024 (Prevención del suicidio)
-- Colombia: 106 (Cruz Roja)
-- Chile: 600 360 7777 (Salud Responde)
-- Estados Unidos: 988 (Suicide and Crisis Lifeline)
-- Internacional: https://www.iasp.info/resources/Crisis_Centres/
-
-🏥 **Acude a emergencias** o contacta con tu profesional de salud mental.
-
-Mientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este momento. ¿Te gustaría probar una?`
-                        ],
-                        followUp: '¿Necesitas que te guíe con una técnica de emergencia mientras buscas ayuda profesional?',
-                        priority: 0
-                    },
-                    despedida: {
-                        triggers: ['adiós', 'chao', 'nos vemos', 'hasta luego', 'bye', 'gracias', 'thank you', 'me voy', 'hasta pronto'],
-                        responses: [
-                            (user) => `¡Ha sido un gusto ayudarte! Recuerda que estoy aquí para ti cuando me necesites.`,
-                            (user) => `¡Hasta pronto! Cuídate y no dudes en volver si necesitas más apoyo.`,
-                            (user) => `¡Nos vemos! Espero que las técnicas te sean útiles. Vuelve pronto.`
-                        ],
-                        followUp: null,
-                        priority: 1
-                    }
+                // Mapeo de intenciones a claves de traducción
+                this.intentToI18nMapping = {
+                    saludos: 'greetings',
+                    ayuda: 'help',
+                    tecnicas: 'techniques',
+                    emociones: 'emotions',
+                    respiracion: 'breathing',
+                    sueno: 'sleep',
+                    crisis: 'crisis',
+                    despedida: 'farewell'
                 };
-
-                // Respuestas por defecto con más variedad y contexto
-                this.defaultResponses = [
-                    'Interesante pregunta. ¿Podrías contarme un poco más sobre lo que necesitas?',
-                    'No estoy seguro de entender completamente. ¿Podrías reformularlo o darme más detalles?',
-                    'Esa es una buena pregunta. ¿Está relacionada con alguna técnica específica o con el uso de la aplicación?',
-                    'Puedo ayudarte mejor si me das más contexto. ¿Qué exactamente te gustaría saber o hacer?',
-                    'Me interesa entender mejor tu consulta. ¿Podrías explicarme con otras palabras?'
-                ];
-
-                // Sugerencias contextuales mejoradas
-                this.quickSuggestions = [
-                    'Técnicas para ansiedad',
-                    'Cómo dormir mejor',
-                    'Ejercicio de respiración',
-                    'Registrar mis emociones',
-                    'Ver mi progreso',
-                    'Cómo usar el diario'
-                ];
+                
+                // Sugerencias contextuales (se cargarán desde i18n)
+                this.quickSuggestions = [];
             }
             
-            // Cargar datos del usuario desde localStorage
-            loadUserData() {
-                const userData = this.storageManager.load('serenbot_user_data');
-                if (userData) {
-                    this.userName = userData.userName;
-                    this.userMood = userData.userMood;
-                    this.conversationHistory = userData.conversationHistory || [];
-                    this.userPreferences = userData.userPreferences || {};
-                    this.emotionalState = userData.emotionalState || {
-                        mood: null,
-                        intensity: 1,
-                        triggers: [],
-                        patterns: []
-                    };
+            // Método para inicializar el sistema i18n
+            async initializeI18n() {
+                try {
+                    // Cargar idioma guardado o usar el por defecto
+                    const savedLanguage = this.userPreferences.language || 'es';
+                    await this.i18nManager.loadLanguage(savedLanguage);
                     
-                    console.log('Datos de usuario cargados correctamente');
+                    // Actualizar la interfaz con el idioma cargado
+                    this.updateUI();
+                    
+                    console.log(`Language ${savedLanguage} loaded successfully`);
+                } catch (error) {
+                    ErrorHandler.handle(error, 'initializing i18n');
                 }
             }
             
-            // Guardar datos del usuario en localStorage
-            saveUserData() {
-                const userData = {
-                    userName: this.userName,
-                    userMood: this.userMood,
-                    conversationHistory: this.conversationHistory.slice(-30), // Guardar solo los últimos 30 mensajes
-                    userPreferences: this.userPreferences,
-                    emotionalState: this.emotionalState,
-                    lastSave: new Date().toISOString()
+            // Método para cambiar idioma
+            async changeLanguage(language) {
+                try {
+                    const success = await this.i18nManager.loadLanguage(language);
+                    if (success) {
+                        this.userPreferences.language = language;
+                        this.updateUI();
+                        this.saveUserData();
+                        
+                        // Notificar cambio exitoso
+                        this.notificationManager.showToast(
+                            this.i18nManager.translate('notifications.data_saved')
+                        );
+                        
+                        return true;
+                    }
+                    return false;
+                } catch (error) {
+                    ErrorHandler.handle(error, 'changing language');
+                    return false;
+                }
+            }
+            
+            // Método para actualizar la interfaz con las traducciones
+            updateUI() {
+                try {
+                    // Actualizar elementos de la interfaz
+                    const elements = {
+                        'chatTitle': 'ui.title',
+                        'userInput': 'ui.input_placeholder',
+                        'sendButton': 'ui.send_button',
+                        'initialMessage': 'greetings.initial_message'
+                    };
+                    
+                    for (const [elementId, translationKey] of Object.entries(elements)) {
+                        const element = document.getElementById(elementId);
+                        if (element) {
+                            if (elementId === 'userInput') {
+                                element.placeholder = this.i18nManager.translate(translationKey);
+                                element.setAttribute('aria-label', this.i18nManager.translate('ui.input_aria'));
+                            } else if (elementId === 'sendButton') {
+                                element.textContent = this.i18nManager.translate(translationKey);
+                                element.setAttribute('aria-label', this.i18nManager.translate('ui.send_button_aria'));
+                            } else {
+                                element.textContent = this.i18nManager.translate(translationKey);
+                            }
+                        }
+                    }
+                    
+                    // Actualizar selector de idioma
+                    const languageSelector = document.getElementById('languageSelector');
+                    if (languageSelector) {
+                        languageSelector.value = this.i18nManager.getCurrentLanguage();
+                        languageSelector.setAttribute('aria-label', this.i18nManager.translate('ui.language_selector_aria'));
+                    }
+                    
+                    // Actualizar sugerencias
+                    this.updateQuickSuggestions();
+                } catch (error) {
+                    ErrorHandler.handle(error, 'updating UI');
+                }
+            }
+            
+            // Cargar datos del usuario desde localStorage con seguridad mejorada
+            loadUserData() {
+                try {
+                    const userData = this.storageManager.load('serenbot_user_data');
+                    if (userData) {
+                        // Verificar si los datos están cifrados
+                        if (userData.encrypted) {
+                            const decryptedData = SecurityManager.decryptData(userData.data, this.encryptionKey);
+                            if (decryptedData) {
+                                this.populateUserData(decryptedData);
+                            } else {
+                                console.warn('Failed to decrypt user data, using defaults');
+                                this.setDefaultUserData();
+                            }
+                        } else {
+                            this.populateUserData(userData);
+                        }
+                        
+                        console.log('Datos de usuario cargados correctamente');
+                    } else {
+                        this.setDefaultUserData();
+                    }
+                } catch (error) {
+                    ErrorHandler.handle(error, 'loading user data');
+                    this.setDefaultUserData();
+                }
+            }
+            
+            // Método auxiliar para establecer datos por defecto
+            setDefaultUserData() {
+                this.userPreferences = {
+                    language: 'es',
+                    moodReminders: false,
+                    mindfulnessReminders: false,
+                    dataEncryption: false
                 };
-                
-                const success = this.storageManager.save('serenbot_user_data', userData);
-                if (success) {
-                    console.log('Datos de usuario guardados correctamente');
-                } else {
-                    console.error('Error guardando datos de usuario');
+                this.emotionalState = {
+                    mood: null,
+                    intensity: 1,
+                    triggers: [],
+                    patterns: []
+                };
+                this.conversationHistory = [];
+            }
+            
+            // Método auxiliar para poblar datos de usuario
+            populateUserData(userData) {
+                this.userName = userData.userName;
+                this.userMood = userData.userMood;
+                this.conversationHistory = userData.conversationHistory || [];
+                this.userPreferences = {
+                    language: userData.userPreferences?.language || 'es',
+                    moodReminders: userData.userPreferences?.moodReminders || false,
+                    mindfulnessReminders: userData.userPreferences?.mindfulnessReminders || false,
+                    dataEncryption: userData.userPreferences?.dataEncryption || false,
+                    ...userData.userPreferences
+                };
+                this.emotionalState = userData.emotionalState || {
+                    mood: null,
+                    intensity: 1,
+                    triggers: [],
+                    patterns: []
+                };
+            }
+            
+            // Guardar datos del usuario en localStorage con seguridad mejorada
+            saveUserData() {
+                try {
+                    let userData = {
+                        userName: this.userName,
+                        userMood: this.userMood,
+                        conversationHistory: this.conversationHistory.slice(-30), // Mantener solo los últimos 30 mensajes
+                        userPreferences: this.userPreferences,
+                        emotionalState: this.emotionalState,
+                        lastSave: new Date().toISOString()
+                    };
+                    
+                    // Anonimizar datos antes de guardar
+                    userData = SecurityManager.anonymizeData(userData);
+                    
+                    // Cifrar datos si está habilitado
+                    if (this.userPreferences.dataEncryption) {
+                        const encryptedData = SecurityManager.encryptData(userData, this.encryptionKey);
+                        if (encryptedData) {
+                            userData = {
+                                encrypted: true,
+                                data: encryptedData,
+                                timestamp: new Date().toISOString()
+                            };
+                        }
+                    }
+                    
+                    const success = this.storageManager.save('serenbot_user_data', userData);
+                    if (success) {
+                        console.log('Datos de usuario guardados correctamente');
+                        
+                        // Notificar éxito si hay notificationManager disponible
+                        if (this.i18nManager && this.notificationManager) {
+                            const message = this.i18nManager.translate('notifications.data_saved');
+                            if (message && message !== 'notifications.data_saved') {
+                                // Solo mostrar si la traducción está disponible
+                                // this.notificationManager.showToast(message);
+                            }
+                        }
+                    } else {
+                        console.error('Error guardando datos de usuario');
+                        if (this.i18nManager && this.notificationManager) {
+                            const message = this.i18nManager.translate('errors.storage_error');
+                            if (message && message !== 'errors.storage_error') {
+                                this.notificationManager.showToast(message);
+                            }
+                        }
+                    }
+                } catch (error) {
+                    ErrorHandler.handle(error, 'saving user data');
                 }
             }
             
@@ -751,12 +978,15 @@ Mientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este m
             
             async processMessage(message) {
                 try {
+                    // Sanitizar entrada para seguridad
+                    const sanitizedMessage = SecurityManager.sanitizeInput(message);
+                    
                     // Simular tiempo de procesamiento para una experiencia más natural
                     this.showTypingIndicator();
                     await this.delay(800 + Math.random() * 700);
                     
-                    const normalizedMessage = message.toLowerCase().trim();
-                    this.addToConversationHistory('user', message);
+                    const normalizedMessage = sanitizedMessage.toLowerCase().trim();
+                    this.addToConversationHistory('user', sanitizedMessage);
                     
                     // Análisis de sentimiento mejorado
                     const sentiment = this.analyzeSentiment(normalizedMessage);
@@ -765,7 +995,10 @@ Mientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este m
                     // Detectar y almacenar el nombre del usuario
                     if (!this.userName && this.isNameIntroduction(normalizedMessage)) {
                         this.userName = this.extractName(normalizedMessage);
-                        const response = `¡Mucho gusto, ${this.userName}! Es un placer conocerte. ¿En qué puedo ayudarte hoy?`;
+                        const response = this.i18nManager.getRandomTranslation(
+                            'greetings.responses', 
+                            { name: this.userName ? ` ${this.userName}` : '' }
+                        );
                         this.addToConversationHistory('bot', response);
                         this.hideTypingIndicator();
                         
@@ -783,7 +1016,14 @@ Mientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este m
                         this.userMood = detectedMood;
                         this.userPreferences.lastMoodRecord = new Date().toISOString();
                         this.lastInteraction = 'mood_detection';
-                        const response = this.knowledgeBase.emociones.responses[0](detectedMood);
+                        
+                        // Usar i18n para respuestas empáticas
+                        let response = this.i18nManager.translate(`emotions.empathy.${detectedMood}`);
+                        if (response === `emotions.empathy.${detectedMood}`) {
+                            // Fallback a respuesta general si no hay traducción específica
+                            response = this.i18nManager.translate('emotions.empathy.general');
+                        }
+                        
                         this.waitingForInput = true;
                         this.addToConversationHistory('bot', response);
                         this.hideTypingIndicator();
@@ -804,24 +1044,21 @@ Mientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este m
                         return response;
                     }
                     
-                    // Buscar en la base de conocimiento basado en la intención clasificada
-                    if (this.knowledgeBase[intent]) {
+                    // Buscar respuesta basada en intención usando i18n
+                    if (this.intentToI18nMapping[intent]) {
                         this.currentContext = intent;
+                        const translationKey = this.intentToI18nMapping[intent];
                         
-                        let response;
-                        if (intent === 'emociones' && this.userMood) {
-                            response = this.knowledgeBase[intent].responses[0](this.userMood);
-                        } else {
-                            const responses = this.knowledgeBase[intent].responses;
-                            response = typeof responses[0] === 'function' ? 
-                                      responses[0]({name: this.userName, mood: this.userMood}) : 
-                                      responses[Math.floor(Math.random() * responses.length)];
-                        }
+                        let response = this.i18nManager.getRandomTranslation(
+                            `${translationKey}.responses`,
+                            { name: this.userName ? ` ${this.userName}` : '' }
+                        );
                         
                         // Agregar pregunta de seguimiento si existe
-                        if (this.knowledgeBase[intent].followUp && !this.waitingForInput) {
+                        const followUp = this.i18nManager.translate(`${translationKey}.follow_up`);
+                        if (followUp && followUp !== `${translationKey}.follow_up` && !this.waitingForInput) {
                             this.waitingForInput = true;
-                            response = response + '\n\n' + this.knowledgeBase[intent].followUp;
+                            response = response + '\n\n' + followUp;
                         }
                         
                         this.addToConversationHistory('bot', response);
@@ -832,9 +1069,10 @@ Mientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este m
                         return response;
                     }
                     
-                    // Si no encuentra coincidencia, respuesta por defecto mejorada
-                    const defaultResponse = this.defaultResponses[Math.floor(Math.random() * this.defaultResponses.length)];
-                    const enhancedResponse = defaultResponse + '\n\nPuedes preguntarme sobre:\n• Técnicas de relajación\n• Cómo manejar emociones difíciles\n• Estrategias para dormir mejor\n• Uso del diario emocional\n• Seguimiento de tu progreso';
+                    // Si no encuentra coincidencia, respuesta por defecto usando i18n
+                    const defaultResponse = this.i18nManager.getRandomTranslation('default_responses');
+                    const helpSuggestions = '\n\nPuedes preguntarme sobre:\n• Técnicas de relajación\n• Cómo manejar emociones difíciles\n• Estrategias para dormir mejor\n• Uso del diario emocional\n• Seguimiento de tu progreso';
+                    const enhancedResponse = defaultResponse + helpSuggestions;
                     
                     this.addToConversationHistory('bot', enhancedResponse);
                     this.hideTypingIndicator();
@@ -1023,44 +1261,32 @@ Mientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este m
                     
                     switch (this.currentContext) {
                         case 'emociones':
-                            if (message.includes('sí') || message.includes('si') || message.includes('por favor')) {
-                                return this.knowledgeBase.tecnicas.responses[0]({name: this.userName, mood: this.userMood});
+                            if (message.includes('sí') || message.includes('si') || message.includes('yes') || message.includes('por favor') || message.includes('please')) {
+                                return this.i18nManager.getRandomTranslation('techniques.responses', {
+                                    name: this.userName ? ` ${this.userName}` : ''
+                                });
                             }
                             break;
                             
                         case 'respiracion':
-                            if (message.includes('sí') || message.includes('si') || message.includes('guiar')) {
-                                return this.guidedBreathingExercise();
+                            if (message.includes('sí') || message.includes('si') || message.includes('yes') || message.includes('guiar') || message.includes('guide')) {
+                                return this.i18nManager.translate('breathing.guided_exercise');
                             }
                             break;
                             
                         case 'sueno':
-                            if (message.includes('conciliar')) {
-                                return `Para conciliar el sueño, te recomiendo la **técnica 4-7-8** en la cama:
-                                
-1. Acuéstate boca arriba en una posición cómoda
-2. Realiza 4-5 ciclos de respiración 4-7-8
-3. Concéntrate solo en tu respiración
-4. Si vienen pensamientos, acéptalos y vuelve a tu respiración
-
-¿Te gustaría que te guíe con esta técnica ahora mismo?`;
-                            } else if (message.includes('mantener')) {
-                                return `Para mantener el sueño:
-                                
-- Establece una rutina consistente de sueño
-- Evita alcohol y cafeína después de las 2 PM
-- Crea un ambiente óptimo para dormir (fresco, oscuro y silencioso)
-- Si te despiertas, evita mirar el reloj
-
-¿Te gustaría más consejos sobre higiene del sueño?`;
+                            if (message.includes('conciliar') || message.includes('fall asleep')) {
+                                return this.i18nManager.translate('sleep.responses.0') + '\n\n¿Te gustaría que te guíe con esta técnica ahora mismo?';
+                            } else if (message.includes('mantener') || message.includes('stay asleep')) {
+                                return `Para mantener el sueño:\n\n- Establece una rutina consistente de sueño\n- Evita alcohol y cafeína después de las 2 PM\n- Crea un ambiente óptimo para dormir (fresco, oscuro y silencioso)\n- Si te despiertas, evita mirar el reloj\n\n¿Te gustaría más consejos sobre higiene del sueño?`;
                             }
                             break;
                             
                         default:
-                            return 'Gracias por la información. ¿Hay algo más en lo que pueda ayudarte?';
+                            return this.i18nManager.translate('default_responses.0') || 'Gracias por la información. ¿Hay algo más en lo que pueda ayudarte?';
                     }
                     
-                    return 'Entiendo. ¿Hay algo más en lo que pueda ayudarte?';
+                    return this.i18nManager.translate('default_responses.0') || 'Entiendo. ¿Hay algo más en lo que pueda ayudarte?';
                 } catch (error) {
                     ErrorHandler.handle(error, 'handling follow-up');
                     return 'Gracias por la información. ¿Hay algo más en lo que pueda ayudarte?';
@@ -1068,54 +1294,80 @@ Mientras tanto, puedo guiarte con técnicas de grounding para ayudarte en este m
             }
 
             guidedBreathingExercise() {
-                return `Vamos a hacer juntos la técnica de respiración 4-7-8:
-
-Paso 1: Siéntate cómodamente con la espalda recta o túmbate.
-Paso 2: Coloca la punta de la lengua contra el paladar, detrás de los dientes frontales.
-Paso 3: Exhala completamente por la boca, haciendo un sonido de susurro.
-Paso 4: Cierra la boca e inhala silenciosamente por la nariz contando mentalmente hasta 4.
-Paso 5: Aguanta la respiración contando mentalmente hasta 7.
-Paso 6: Exhala completamente por la boca, haciendo un sonido de susurro, contando mentalmente hasta 8.
-Paso 7: Este es un ciclo. Ahora inhala nuevamente y repite el ciclo 3 veces más.
-
-¿Cómo te sientes después de completar el ejercicio?`;
+                return this.i18nManager.translate('breathing.guided_exercise');
             }
             
-            // Método para generar sugerencias contextuales basadas en la conversación
+            // Método para generar sugerencias contextuales basadas en la conversación usando i18n
             generateContextualSuggestions() {
                 try {
                     if (this.conversationHistory.length < 2) {
-                        return this.quickSuggestions;
+                        return this.i18nManager.translate('suggestions.default') || [];
                     }
                     
                     const lastMessage = this.conversationHistory[this.conversationHistory.length - 1].message.toLowerCase();
                     
-                    if (lastMessage.includes('ans') || lastMessage.includes('preocup') || lastMessage.includes('nerv')) {
-                        return ['Técnica de respiración 4-7-8', 'Ejercicio de grounding', 'Meditación guiada', 'Diario de preocupaciones'];
+                    if (lastMessage.includes('ans') || lastMessage.includes('preocup') || lastMessage.includes('nerv') || 
+                        lastMessage.includes('anxious') || lastMessage.includes('worried') || lastMessage.includes('nervous')) {
+                        return this.i18nManager.translate('suggestions.anxiety') || this.i18nManager.translate('suggestions.default') || [];
                     }
                     
-                    if (lastMessage.includes('triste') || lastMessage.includes('depri') || lastMessage.includes('desanim')) {
-                        return ['Autocompasión guiada', 'Diario de gratitud', 'Actividad placentera', 'Conectar con apoyo'];
+                    if (lastMessage.includes('triste') || lastMessage.includes('depri') || lastMessage.includes('desanim') ||
+                        lastMessage.includes('sad') || lastMessage.includes('depressed') || lastMessage.includes('discouraged')) {
+                        return this.i18nManager.translate('suggestions.sadness') || this.i18nManager.translate('suggestions.default') || [];
                     }
                     
-                    if (lastMessage.includes('sueño') || lastMessage.includes('dormir') || lastMessage.includes('insomnio')) {
-                        return ['Rutina de sueño', 'Relajación muscular', 'Meditación para dormir', 'Higiene del sueño'];
+                    if (lastMessage.includes('sueño') || lastMessage.includes('dormir') || lastMessage.includes('insomnio') ||
+                        lastMessage.includes('sleep') || lastMessage.includes('insomnia')) {
+                        return this.i18nManager.translate('suggestions.sleep') || this.i18nManager.translate('suggestions.default') || [];
                     }
                     
-                    return this.quickSuggestions;
+                    return this.i18nManager.translate('suggestions.default') || [];
                 } catch (error) {
                     ErrorHandler.handle(error, 'generating contextual suggestions');
-                    return this.quickSuggestions;
+                    return this.i18nManager.translate('suggestions.default') || [];
+                }
+            }
+            
+            // Método para actualizar sugerencias rápidas (llamado desde updateUI)
+            updateQuickSuggestions() {
+                try {
+                    this.quickSuggestions = this.generateContextualSuggestions();
+                } catch (error) {
+                    ErrorHandler.handle(error, 'updating quick suggestions');
                 }
             }
         }
 
         // Inicializar y conectar con la interfaz
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             const chatMessages = document.getElementById('chatMessages');
             const userInput = document.getElementById('userInput');
             const sendButton = document.getElementById('sendButton');
             const quickSuggestions = document.getElementById('quickSuggestions');
+            const languageSelector = document.getElementById('languageSelector');
+            
+            const serenBot = new EnhancedSerenBot();
+            
+            // Esperar a que se inicialice el i18n antes de continuar
+            await serenBot.initializeI18n();
+            
+            // Configurar selector de idioma
+            if (languageSelector) {
+                languageSelector.addEventListener('change', async (e) => {
+                    const newLanguage = e.target.value;
+                    const success = await serenBot.changeLanguage(newLanguage);
+                    if (success) {
+                        // Actualizar mensaje inicial
+                        const initialMessage = document.getElementById('initialMessage');
+                        if (initialMessage) {
+                            initialMessage.textContent = serenBot.i18nManager.translate('greetings.initial_message');
+                        }
+                        
+                        // Actualizar sugerencias
+                        updateQuickSuggestions();
+                    }
+                });
+            }
             
             const serenBot = new EnhancedSerenBot();
             
@@ -1189,11 +1441,28 @@ Paso 7: Este es un ciclo. Ahora inhala nuevamente y repite el ciclo 3 veces más
                     chip.className = 'suggestion-chip';
                     chip.textContent = suggestion;
                     chip.setAttribute('role', 'button');
-                    chip.setAttribute('aria-label', `Sugerencia: ${suggestion}`);
+                    chip.setAttribute('tabindex', '0'); // Make focusable
+                    
+                    // Set appropriate ARIA label based on current language
+                    const suggestionLabel = serenBot.i18nManager.getCurrentLanguage() === 'en' 
+                        ? `Suggestion: ${suggestion}` 
+                        : `Sugerencia: ${suggestion}`;
+                    chip.setAttribute('aria-label', suggestionLabel);
+                    
+                    // Add keyboard support
                     chip.addEventListener('click', () => {
                         userInput.value = suggestion;
                         sendMessage();
                     });
+                    
+                    chip.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            userInput.value = suggestion;
+                            sendMessage();
+                        }
+                    });
+                    
                     quickSuggestions.appendChild(chip);
                 });
             }

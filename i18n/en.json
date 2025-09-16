@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "language": "en",
+    "language_name": "English",
+    "direction": "ltr"
+  },
+  "ui": {
+    "title": "SerenBot",
+    "input_placeholder": "Type your message here...",
+    "send_button": "Send",
+    "send_button_aria": "Send message",
+    "input_aria": "Type your message",
+    "typing_indicator_aria": "Bot is typing",
+    "language_selector_aria": "Language selector"
+  },
+  "greetings": {
+    "initial_message": "Hello! I'm SerenBot, your virtual assistant at Serenamente. I'm here to help you with your emotional wellbeing. How are you feeling today?",
+    "responses": [
+      "Hello{name}! I'm SerenBot, your virtual assistant at Serenamente. How are you feeling today?",
+      "Hello! Nice to see you here{name}. How can I help you today?",
+      "Hello{name}! I hope you're having a good day. Is there anything I can assist you with?"
+    ],
+    "follow_up": "Would you like me to tell you more about what I can do for you?"
+  },
+  "help": {
+    "responses": [
+      "I can help you in many areas of your emotional wellbeing:\n\n🧠 **Emotional Support**: Techniques to manage anxiety, stress and difficult emotions\n🌙 **Sleep and Relaxation**: Exercises to sleep better and reduce insomnia\n📊 **Tracking**: Help to record and understand your emotional patterns\n🔍 **Navigation**: Guide you through different sections of Serenamente\n💡 **Education**: Explain mental health concepts and therapeutic techniques\n\nIs there something specific you need help with?"
+    ],
+    "follow_up": "Are you interested in any of these areas in particular?"
+  },
+  "techniques": {
+    "responses": [
+      "Serenamente offers professional techniques based on scientific evidence:\n\n1. 🧠 **Cognitive Techniques**: \n   - Cognitive restructuring for negative thoughts\n   - Detection of cognitive distortions\n   - Thought diary\n\n2. 🫁 **Physiological Regulation**:\n   - 4-7-8 breathing for immediate anxiety\n   - Jacobson's progressive muscle relaxation\n   - Grounding techniques (5-4-3-2-1)\n\n3. 🧘 **Mindfulness and Mindful Awareness**:\n   - Timed guided meditations\n   - Body scan for body connection\n   - Mindfulness in daily activities\n\n4. 💝 **Self-compassion and Self-acceptance**:\n   - Exercises based on Kristin Neff's work\n   - Self-compassion letters\n   - Loving-kindness meditations\n\nWould you like me to elaborate on any particular technique?"
+    ],
+    "follow_up": "What type of technique interests you most: cognitive, breathing, mindfulness or self-compassion?"
+  },
+  "emotions": {
+    "empathy": {
+      "sad": "I'm sorry to hear you're feeling sad. Sadness is a natural emotion that tells us something matters to us. Would you like to try a technique to process this emotion?",
+      "anxious": "I understand you're feeling anxious. Anxiety can be overwhelming, but there are specific techniques that can help you regulate it. Would you like me to guide you through one?",
+      "stressed": "Stress can be difficult to manage. Fortunately, there are breathing and relaxation exercises that can help reduce the feeling of stress. Would you be interested in trying one?",
+      "angry": "Anger is a valid emotion that tells us something matters to us. There are healthy ways to express and channel it. Would you like to explore some techniques?",
+      "general": "I appreciate you sharing how you feel. Difficult emotions are part of the human experience. Would you like to try some technique to manage what you're experiencing?"
+    },
+    "follow_up": "Do you want me to guide you through some specific technique to manage this emotion?"
+  },
+  "breathing": {
+    "responses": [
+      "I recommend the **4-7-8 breathing technique**, developed by Dr. Andrew Weil:\n\n🌬️ **Instructions**:\n1. Sit with your back straight or lie down comfortably\n2. Place the tip of your tongue against the roof of your mouth, behind your front teeth\n3. **Exhale** completely through your mouth\n4. **Inhale** through your nose for 4 seconds\n5. **Hold** your breath for 7 seconds\n6. **Exhale** completely through your mouth for 8 seconds\n7. Repeat this cycle **4 times**\n\nWould you like me to guide you step by step through this technique or do you prefer another option?"
+    ],
+    "follow_up": "Would you like me to start a guided breathing session now?",
+    "guided_exercise": "Let's do the 4-7-8 breathing technique together:\n\nStep 1: Sit comfortably with your back straight or lie down.\nStep 2: Place the tip of your tongue against the roof of your mouth, behind your front teeth.\nStep 3: Exhale completely through your mouth, making a whooshing sound.\nStep 4: Close your mouth and inhale silently through your nose, counting mentally to 4.\nStep 5: Hold your breath, counting mentally to 7.\nStep 6: Exhale completely through your mouth, making a whooshing sound, counting mentally to 8.\nStep 7: This is one cycle. Now inhale again and repeat the cycle 3 more times.\n\nHow do you feel after completing the exercise?"
+  },
+  "sleep": {
+    "responses": [
+      "Insomnia can be difficult to manage. I suggest several approaches:\n\n🌙 **Sleep hygiene**:\n- Establish a regular sleep schedule\n- Create a relaxing bedtime ritual\n- Avoid screens 1-2 hours before bed\n- Keep your room cool, dark and quiet\n\n🛌 **Techniques to fall asleep**:\n- 4-7-8 breathing lying in bed\n- Progressive muscle relaxation\n- Visualization of peaceful scenes\n\n💡 **If you wake up at night**:\n- Get up if you can't fall asleep in 20 minutes\n- Do something relaxing with dim light\n- Return to bed only when sleepy\n\nWould you like me to elaborate on any of these strategies?"
+    ],
+    "follow_up": "What aspect of sleep concerns you most: falling asleep, staying asleep, or waking up too early?"
+  },
+  "crisis": {
+    "responses": [
+      "🆘 **If you're experiencing a crisis, it's important to seek immediate help:**\n\n📞 **24/7 crisis lines available**:\n- Argentina: 135 (From CABA) or 0800-345-1435 (Nationwide)\n- Mexico: 800 911 2000 (Línea de la Vida)\n- Spain: 024 (Suicide prevention)\n- Colombia: 106 (Red Cross)\n- Chile: 600 360 7777 (Salud Responde)\n- United States: 988 (Suicide and Crisis Lifeline)\n- International: https://www.iasp.info/resources/Crisis_Centres/\n\n🏥 **Go to emergency** or contact your mental health professional.\n\nMeanwhile, I can guide you through grounding techniques to help you in this moment. Would you like to try one?"
+    ],
+    "follow_up": "Do you need me to guide you through an emergency technique while you seek professional help?"
+  },
+  "farewell": {
+    "responses": [
+      "It's been a pleasure helping you! Remember I'm here for you when you need me.",
+      "See you soon! Take care and don't hesitate to come back if you need more support.",
+      "See you! I hope the techniques are useful for you. Come back soon."
+    ]
+  },
+  "default_responses": [
+    "Interesting question. Could you tell me a bit more about what you need?",
+    "I'm not sure I understand completely. Could you rephrase it or give me more details?",
+    "That's a good question. Is it related to any specific technique or using the application?",
+    "I can help you better if you give me more context. What exactly would you like to know or do?",
+    "I'm interested in understanding your query better. Could you explain it to me in other words?"
+  ],
+  "suggestions": {
+    "default": [
+      "Anxiety techniques",
+      "How to sleep better",
+      "Breathing exercise",
+      "Record my emotions",
+      "See my progress",
+      "How to use the diary"
+    ],
+    "anxiety": [
+      "4-7-8 breathing technique",
+      "Grounding exercise",
+      "Guided meditation",
+      "Worry journal"
+    ],
+    "sadness": [
+      "Guided self-compassion",
+      "Gratitude journal",
+      "Pleasant activity",
+      "Connect with support"
+    ],
+    "sleep": [
+      "Sleep routine",
+      "Muscle relaxation",
+      "Sleep meditation",
+      "Sleep hygiene"
+    ]
+  },
+  "errors": {
+    "processing_error": "Sorry, an error occurred processing your request. Please try again.",
+    "network_error": "There seems to be a connection problem. Please check your connection and try again.",
+    "storage_error": "Could not save your data. Your preferences may not persist in this session.",
+    "general_error": "An unexpected error occurred. Please reload the page and try again."
+  },
+  "notifications": {
+    "mood_reminder": "How are you feeling today? It's a good time to record your mood.",
+    "mindfulness_reminder": "Mindfulness moment. Would you like to do a brief breathing exercise?",
+    "data_saved": "Your data has been saved successfully.",
+    "data_loaded": "User data loaded successfully."
+  }
+}
