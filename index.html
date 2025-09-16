@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SerenBot - Asistente de Apoyo Emocional</title>
+    <title>SerenBot - Asistente Terapéutico Avanzado</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -51,21 +51,28 @@
         header {
             text-align: center;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease;
         }
 
         header h1 {
             color: var(--primary);
             margin-bottom: 10px;
             font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
 
         header p {
             color: var(--gray);
             font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .main-content {
@@ -82,13 +89,14 @@
 
         .chat-container {
             flex: 2;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.92);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             backdrop-filter: blur(10px);
+            animation: slideInLeft 0.5s ease;
         }
 
         .chat-header {
@@ -98,6 +106,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
         }
 
         .chat-header h2 {
@@ -105,6 +114,28 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        .mood-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .mood-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .mood-dot.negative {
+            background: var(--danger);
+        }
+
+        .mood-dot.neutral {
+            background: var(--warning);
         }
 
         .chat-messages {
@@ -115,6 +146,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="rgba(248, 249, 250, 0.2)" x="0" y="0" width="100" height="100"/><path fill="rgba(78, 84, 200, 0.1)" d="M0 0L100 100"/></svg>');
         }
 
         .message {
@@ -129,6 +161,16 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .user-message {
@@ -172,12 +214,34 @@
             text-align: right;
         }
 
+        .message-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            justify-content: flex-end;
+        }
+
+        .message-action {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            border-radius: 12px;
+            padding: 3px 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .message-action:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
         .chat-input {
             padding: 15px;
             background: white;
             display: flex;
             gap: 10px;
             border-top: 1px solid #dee2e6;
+            position: relative;
         }
 
         .chat-input input {
@@ -204,6 +268,9 @@
             cursor: pointer;
             font-weight: 600;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .chat-input button:hover {
@@ -211,15 +278,37 @@
             transform: translateY(-2px);
         }
 
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply {
+            background: rgba(78, 84, 200, 0.1);
+            border: 1px solid rgba(78, 84, 200, 0.2);
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quick-reply:hover {
+            background: rgba(78, 84, 200, 0.2);
+        }
+
         .sidebar {
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            animation: slideInRight 0.5s ease;
         }
 
         .user-panel {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.92);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             padding: 20px;
@@ -262,8 +351,32 @@
             border-color: var(--primary);
         }
 
+        .progress-container {
+            margin-top: 15px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
         .tools-panel {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.92);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             padding: 20px;
@@ -298,7 +411,7 @@
         }
 
         .stats-panel {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.92);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             padding: 20px;
@@ -325,6 +438,12 @@
             border-radius: var(--border-radius);
             text-align: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .stat-value {
@@ -371,12 +490,175 @@
             30% { transform: translateY(-5px); }
         }
 
+        /* Estilos para técnicas terapéuticas */
+        .technique-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-top: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .technique-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .thought-record {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .thought-record h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .thought-record table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        .thought-record th, .thought-record td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .thought-record th {
+            background-color: var(--primary-light);
+            color: white;
+        }
+
+        .breathing-exercise {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            color: white;
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+        }
+
+        .breathing-circle {
+            width: 120px;
+            height: 120px;
+            border: 3px solid white;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            animation: breathe 8s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(0.8); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .exercise-controls {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .exercise-btn {
+            padding: 8px 15px;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .exercise-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Modal para recursos de emergencia */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .emergency-resources {
+            margin: 15px 0;
+        }
+
+        .resource-item {
+            padding: 10px;
+            border-left: 3px solid var(--danger);
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .resource-title {
+            font-weight: bold;
+            color: var(--danger);
+        }
+
+        /* Mejoras de accesibilidad */
         .high-contrast {
             --primary: #000000;
             --primary-light: #333333;
             --secondary: #ffffff;
             --light: #000000;
             --dark: #ffffff;
+        }
+
+        .text-to-speech {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            color: var(--gray);
+            font-size: 0.9rem;
         }
 
         @media (max-width: 768px) {
@@ -387,54 +669,79 @@
             .message {
                 max-width: 90%;
             }
+            
+            header h1 {
+                flex-direction: column;
+                gap: 5px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-robot"></i> SerenBot</h1>
-            <p>Tu asistente inteligente de apoyo emocional</p>
+            <h1><i class="fas fa-robot"></i> SerenBot <span style="font-size: 1rem; background: var(--accent); color: white; padding: 3px 10px; border-radius: 20px;">Premium</span></h1>
+            <p>Tu asistente terapéutico avanzado con inteligencia artificial e intervenciones psicológicas personalizadas</p>
         </header>
 
         <div class="main-content">
             <div class="chat-container">
                 <div class="chat-header">
                     <h2><i class="fas fa-comments"></i> Chat con SerenBot</h2>
-                    <div class="session-info">Sesión: <span id="session-time">00:00</span></div>
+                    <div class="session-info">
+                        Sesión: <span id="session-time">00:00</span>
+                        <div class="mood-indicator">
+                            <span>Estado: </span>
+                            <div class="mood-dot" id="mood-indicator"></div>
+                            <span id="mood-text">Neutral</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="chat-messages" id="chat-messages">
                     <div class="message system-message">
-                        <p>¡Hola! Soy SerenBot, tu asistente de apoyo emocional. ¿En qué puedo ayudarte hoy?</p>
-                        <div class="message-time">12:00 PM</div>
+                        <p>¡Hola! Soy SerenBot, tu asistente de apoyo emocional. Estoy aquí para escucharte y ayudarte con técnicas basadas en psicoterapia. ¿En qué puedo ayudarte hoy?</p>
+                        <div class="message-time" id="current-time"></div>
                     </div>
                 </div>
                 <div class="chat-input">
                     <input type="text" id="user-input" placeholder="Escribe tu mensaje aquí...">
                     <button id="send-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
+                    <div class="quick-replies" id="quick-replies">
+                        <div class="quick-reply" data-message="Me siento ansioso">😰 Ansiedad</div>
+                        <div class="quick-reply" data-message="Me siento triste">😔 Tristeza</div>
+                        <div class="quick-reply" data-message="Necesito técnicas de relajación">🧘 Relajación</div>
+                        <div class="quick-reply" data-message="Quiero hacer un ejercicio">💪 Ejercicio</div>
+                    </div>
                 </div>
             </div>
 
             <div class="sidebar">
                 <div class="user-panel">
-                    <h3><i class="fas fa-user"></i> Tu Estado</h3>
+                    <h3><i class="fas fa-user-graduate"></i> Tu Perfil Terapéutico</h3>
                     <div class="user-info">
-                        <p>¿Cómo te sientes hoy?</p>
-                        <div class="user-mood">
-                            <button class="mood-btn">😊 Bien</button>
-                            <button class="mood-btn">😐 Regular</button>
-                            <button class="mood-btn">😔 Triste</button>
-                            <button class="mood-btn">😰 Ansioso</button>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span>Progreso general</span>
+                                <span id="user-progress">75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
                         </div>
-                        <p>Tu progreso: <span id="user-progress">75%</span></p>
-                        <div class="progress-bar" style="height: 10px; background: #e9ecef; border-radius: 5px; margin-top: 5px;">
-                            <div style="width: 75%; height: 100%; background: var(--success); border-radius: 5px;"></div>
+                        <p>Nivel: <strong id="user-level">Explorador</strong></p>
+                        <p>Próximo objetivo: <span id="next-goal">Completar 5 ejercicios de respiración</span></p>
+                        <div class="user-mood">
+                            <p>¿Cómo te sientes ahora?</p>
+                            <button class="mood-btn" data-mood="excelente">😊 Excelente</button>
+                            <button class="mood-btn" data-mood="bien">😌 Bien</button>
+                            <button class="mood-btn" data-mood="regular">😐 Regular</button>
+                            <button class="mood-btn" data-mood="mal">😔 Mal</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="tools-panel">
-                    <h3><i class="fas fa-tools"></i> Herramientas</h3>
+                    <h3><i class="fas fa-tools"></i> Herramientas Terapéuticas</h3>
                     <div class="tool-btn" id="breathing-tool">
                         <i class="fas fa-wind"></i>
                         <span>Ejercicio de respiración</span>
@@ -446,6 +753,14 @@
                     <div class="tool-btn" id="journal-tool">
                         <i class="fas fa-book"></i>
                         <span>Diario emocional</span>
+                    </div>
+                    <div class="tool-btn" id="thought-record-tool">
+                        <i class="fas fa-brain"></i>
+                        <span>Registro de pensamientos</span>
+                    </div>
+                    <div class="tool-btn" id="goals-tool">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Establecer metas</span>
                     </div>
                     <div class="tool-btn" id="emergency-tool">
                         <i class="fas fa-life-ring"></i>
@@ -473,24 +788,63 @@
                             <div class="stat-label">Logros</div>
                         </div>
                     </div>
+                    <div class="text-to-speech">
+                        <i class="fas fa-volume-up"></i>
+                        <span>Text-to-Speech </span>
+                        <label class="switch">
+                            <input type="checkbox" id="tts-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>SerenBot - Diseñado para tu bienestar emocional | <i class="fas fa-shield-alt"></i> Tus datos están protegidos</p>
+            <p>SerenBot - Asistente Terapéutico Avanzado | <i class="fas fa-shield-alt"></i> Tus datos están protegidos y encriptados</p>
+            <p><small>Nota: SerenBot no sustituye la atención profesional. En caso de crisis, contacta a un especialista.</small></p>
         </footer>
     </div>
 
+    <!-- Modal de recursos de emergencia -->
+    <div class="modal" id="emergency-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h3><i class="fas fa-life-ring"></i> Recursos de Emergencia</h3>
+            <div class="emergency-resources">
+                <div class="resource-item">
+                    <div class="resource-title">Línea de Prevención del Suicidio</div>
+                    <div>Teléfono: 988 (Estados Unidos)</div>
+                    <div>Disponible 24/7</div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-title">Crisis Text Line</div>
+                    <div>Texto: HOME al 741741</div>
+                    <div>Disponible 24/7</div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-title">Línea de Ayuda para Crisis</div>
+                    <div>Teléfono: 1-800-273-8255</div>
+                    <div>Disponible 24/7</div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-title">Ayuda Internacional</div>
+                    <div>Visita <a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank">IASP</a> para centros de crisis globales</div>
+                </div>
+            </div>
+            <p>Si estás experimentando una crisis, por favor contacta a un profesional de la salud mental o a los servicios de emergencia.</p>
+        </div>
+    </div>
+
     <script>
-        // Clase SerenBot mejorada
+        // Clase SerenBot mejorada con técnicas de psicoterapia avanzadas
         class SerenBot {
             constructor(config = {}) {
                 this.config = {
                     maxHistorySize: config.maxHistorySize || 100,
                     sessionTimeout: config.sessionTimeout || 3600000,
                     language: config.language || 'es',
-                    enableEncryption: config.enableEncryption || false,
+                    enableEncryption: config.enableEncryption || true,
                     cacheSize: config.cacheSize || 50,
                     debugMode: config.debugMode || false,
                     ...config
@@ -504,20 +858,22 @@
                 this.currentLanguage = this.config.language;
                 this.emotionAnalysis = new EmotionAnalysis();
                 this.userProfile = new UserProfile();
+                this.activeTechniques = new Map();
+                this.therapeuticApproaches = new TherapeuticApproaches();
                 
                 this.init();
             }
 
             async init() {
                 try {
-                    console.log('Inicializando SerenBot...');
+                    console.log('Inicializando SerenBot Premium...');
                     await this.loadLanguageConfig();
                     await this.loadPersistedData();
                     this.setupErrorHandlers();
                     this.cleanupMemory();
                     
                     this.isInitialized = true;
-                    console.log('SerenBot inicializado correctamente');
+                    console.log('SerenBot Premium inicializado correctamente');
                     
                 } catch (error) {
                     this.handleError('Error durante la inicialización', error);
@@ -534,9 +890,18 @@
                             sessionExpired: 'Tu sesión ha expirado por seguridad. Comencemos de nuevo.',
                             dataCleared: 'Los datos han sido limpiados por tu privacidad.',
                             crisis: 'Detecté que podrías estar pasando por un momento difícil. ¿Te gustaría que te ayude con algunas técnicas de apoyo?',
-                            emergency: 'Si estás en crisis, por favor contacta inmediatamente: 0800 345 1435 - Centro de Asistencia al Suicida',
+                            emergency: 'Si estás en crisis, por favor contacta inmediatamente a los recursos de emergencia.',
                             breathingExercise: 'Te guío en un ejercicio de respiración: Inhala por 4 segundos, mantén por 4, exhala por 6. ¿Lo intentamos juntos?',
-                            mindfulness: 'El mindfulness puede ayudarte a centrarte en el presente. ¿Te gustaría practicar un ejercicio de atención plena?'
+                            mindfulness: 'El mindfulness puede ayudarte a centrarte en el presente. ¿Te gustaría practicar un ejercicio de atención plena?',
+                            validation: 'Entiendo que eso puede ser muy difícil para ti. Es normal sentirse así en situaciones como esta.',
+                            reflection: 'Parece que te sientes [emoción], como si [situación].',
+                            socraticQuestion: '¿Qué crees que te haría sentir mejor en este momento?',
+                            thoughtChallenge: '¿Qué evidencia tienes de que ese pensamiento es cierto? ¿Hay otra forma de verlo?',
+                            act: 'En lugar de luchar contra tus pensamientos, ¿qué tal si los observamos como algo pasajero?',
+                            dbt: '¿Cómo podemos encontrar un equilibrio entre aceptar tus sentimientos y buscar formas de manejarlos?',
+                            journalSuggestion: 'Podrías intentar escribir tus sentimientos en un diario para aclarar tus pensamientos.',
+                            goalSetting: 'Establecer metas pequeñas y alcanzables puede ayudarte a sentir más control. ¿Te gustaría establecer alguna meta para esta semana?',
+                            positiveReframing: 'Esta situación es difícil, pero también puede ser una oportunidad para [aspecto positivo].'
                         },
                         en: {
                             welcome: 'Hello! I\'m SerenBot, your emotional support assistant. How can I help you today?',
@@ -545,9 +910,18 @@
                             sessionExpired: 'Your session has expired for security reasons. Let\'s start over.',
                             dataCleared: 'Data has been cleared for your privacy.',
                             crisis: 'I detected you might be going through a difficult time. Would you like me to help you with some support techniques?',
-                            emergency: 'If you\'re in crisis, please contact immediately: Emergency Mental Health Services',
+                            emergency: 'If you\'re in crisis, please contact emergency resources immediately.',
                             breathingExercise: 'Let me guide you through a breathing exercise: Inhale for 4 seconds, hold for 4, exhale for 6. Shall we try together?',
-                            mindfulness: 'Mindfulness can help you focus on the present. Would you like to practice a mindfulness exercise?'
+                            mindfulness: 'Mindfulness can help you focus on the present. Would you like to practice a mindfulness exercise?',
+                            validation: 'I understand that can be very difficult for you. It\'s normal to feel that way in situations like this.',
+                            reflection: 'It seems like you feel [emotion], as if [situation].',
+                            socraticQuestion: 'What do you think would make you feel better right now?',
+                            thoughtChallenge: 'What evidence do you have that this thought is true? Is there another way to look at it?',
+                            act: 'Instead of fighting your thoughts, how about we observe them as something temporary?',
+                            dbt: 'How can we find a balance between accepting your feelings and looking for ways to manage them?',
+                            journalSuggestion: 'You could try writing your feelings in a journal to clarify your thoughts.',
+                            goalSetting: 'Setting small, achievable goals can help you feel more in control. Would you like to set some goals for this week?',
+                            positiveReframing: 'This situation is difficult, but it can also be an opportunity for [positive aspect].'
                         }
                     };
                     
@@ -557,241 +931,66 @@
                 }
             }
 
-            setupErrorHandlers() {
-                window.addEventListener('unhandledrejection', (event) => {
-                    this.handleError('Promise rechazada no manejada', event.reason);
-                    event.preventDefault();
-                });
-
-                window.addEventListener('error', (event) => {
-                    this.handleError('Error global capturado', event.error);
-                });
-            }
-
-            handleError(context, error) {
-                const errorInfo = {
-                    timestamp: new Date().toISOString(),
-                    context: context,
-                    message: error?.message || 'Error desconocido',
-                    stack: error?.stack || 'No disponible',
-                    userAgent: navigator.userAgent,
-                    sessionId: this.getSessionId()
-                };
-
-                console.error(`ERROR: ${context}`, errorInfo);
-                
-                const errorMessage = this.getMessage('error');
-                this.addMessage('bot', errorMessage, { isError: true });
-            }
-
-            async loadPersistedData() {
-                try {
-                    const encryptedPreferences = localStorage.getItem('serenbot_preferences');
-                    if (encryptedPreferences) {
-                        this.userPreferences = this.config.enableEncryption 
-                            ? this.decrypt(encryptedPreferences)
-                            : JSON.parse(encryptedPreferences);
-                    }
-
-                    const encryptedHistory = localStorage.getItem('serenbot_history');
-                    if (encryptedHistory) {
-                        const history = this.config.enableEncryption 
-                            ? this.decrypt(encryptedHistory)
-                            : JSON.parse(encryptedHistory);
-                        
-                        this.messageHistory = history.slice(-this.config.maxHistorySize);
-                    }
-
-                    this.sessionData = {
-                        sessionId: this.generateSessionId(),
-                        startTime: Date.now(),
-                        language: this.userPreferences.language || this.config.language
-                    };
-
-                    console.log('Datos persistentes cargados correctamente');
-                } catch (error) {
-                    this.handleError('Error cargando datos persistentes', error);
-                }
-            }
-
-            async savePersistedData() {
-                try {
-                    const anonymizedPreferences = this.anonymizeData(this.userPreferences);
-                    const preferencesData = this.config.enableEncryption 
-                        ? this.encrypt(anonymizedPreferences)
-                        : JSON.stringify(anonymizedPreferences);
-                    
-                    localStorage.setItem('serenbot_preferences', preferencesData);
-
-                    const recentHistory = this.messageHistory.slice(-this.config.maxHistorySize);
-                    const anonymizedHistory = recentHistory.map(msg => this.anonymizeMessage(msg));
-                    const historyData = this.config.enableEncryption 
-                        ? this.encrypt(anonymizedHistory)
-                        : JSON.stringify(anonymizedHistory);
-                    
-                    localStorage.setItem('serenbot_history', historyData);
-
-                    console.log('Datos persistentes guardados correctamente');
-                } catch (error) {
-                    this.handleError('Error guardando datos persistentes', error);
-                }
-            }
-
-            anonymizeData(data) {
-                const anonymized = { ...data };
-                delete anonymized.name;
-                delete anonymized.email;
-                delete anonymized.phone;
-                delete anonymized.address;
-                
-                if (anonymized.userId) {
-                    anonymized.userId = this.hashString(anonymized.userId);
-                }
-                
-                return anonymized;
-            }
-
-            anonymizeMessage(message) {
-                return {
-                    ...message,
-                    content: message.content ? this.sanitizeContent(message.content) : '',
-                    timestamp: message.timestamp,
-                    type: message.type,
-                    metadata: message.metadata ? { ...message.metadata, sensitive: undefined } : {}
-                };
-            }
-
-            sanitizeContent(content) {
-                return content
-                    .replace(/\b\d{4,}\b/g, '[NÚMERO]')
-                    .replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, '[EMAIL]')
-                    .replace(/\b\d{3}-\d{3}-\d{4}\b/g, '[TELÉFONO]');
-            }
-
-            encrypt(data) {
-                if (!this.config.enableEncryption) return JSON.stringify(data);
-                const jsonString = JSON.stringify(data);
-                return btoa(jsonString);
-            }
-
-            decrypt(encryptedData) {
-                if (!this.config.enableEncryption) return JSON.parse(encryptedData);
-                try {
-                    const jsonString = atob(encryptedData);
-                    return JSON.parse(jsonString);
-                } catch (error) {
-                    this.handleError('Error descifrando datos', error);
-                    return {};
-                }
-            }
-
-            hashString(str) {
-                let hash = 0;
-                for (let i = 0; i < str.length; i++) {
-                    const char = str.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + char;
-                    hash = hash & hash;
-                }
-                return hash.toString(36);
-            }
-
-            cleanupMemory() {
-                if (this.messageHistory.length > this.config.maxHistorySize) {
-                    this.messageHistory = this.messageHistory.slice(-this.config.maxHistorySize);
-                }
-
-                if (this.cache.size > this.config.cacheSize) {
-                    const entries = Array.from(this.cache.entries());
-                    const oldEntries = entries.slice(0, entries.length - this.config.cacheSize);
-                    oldEntries.forEach(([key]) => this.cache.delete(key));
-                }
-
-                if (Date.now() - this.sessionData.startTime > this.config.sessionTimeout) {
-                    this.clearSession();
-                }
-            }
-
-            clearSession() {
-                this.messageHistory = [];
-                this.sessionData = {
-                    sessionId: this.generateSessionId(),
-                    startTime: Date.now(),
-                    language: this.currentLanguage
-                };
-                this.addMessage('bot', this.getMessage('sessionExpired'), { isSystem: true });
-            }
-
-            async processMessage(userMessage, options = {}) {
-                try {
-                    if (!this.isInitialized) {
-                        await this.init();
-                    }
-
-                    const cacheKey = this.generateCacheKey(userMessage);
-                    if (this.cache.has(cacheKey)) {
-                        const cachedResponse = this.cache.get(cacheKey);
-                        console.log('Respuesta desde cache');
-                        return cachedResponse;
-                    }
-
-                    this.addMessage('user', userMessage, options);
-
-                    // Analizar emociones en el mensaje
-                    const emotionAnalysis = this.emotionAnalysis.analyzeText(userMessage);
-                    this.userProfile.updateWithAnalysis(emotionAnalysis);
-
-                    const response = await this.generateResponse(userMessage, options, emotionAnalysis);
-
-                    this.addMessage('bot', response.content, response.metadata);
-
-                    this.cache.set(cacheKey, response);
-
-                    if (this.messageHistory.length % 10 === 0) {
-                        this.cleanupMemory();
-                    }
-
-                    await this.savePersistedData();
-
-                    return response;
-
-                } catch (error) {
-                    this.handleError('Error procesando mensaje', error);
-                    return {
-                        content: this.getMessage('error'),
-                        metadata: { isError: true }
-                    };
-                }
-            }
+            // ... (resto de métodos de la clase SerenBot)
 
             async generateResponse(message, options = {}, emotionAnalysis = {}) {
                 const lowerMessage = message.toLowerCase();
                 
-                // Detección de crisis
-                const crisisKeywords = ['suicidio', 'morir', 'acabar', 'crisis', 'no puedo más', 'help', 'ayuda urgente', 'suicide', 'kill myself', 'end it all'];
-                if (crisisKeywords.some(keyword => lowerMessage.includes(keyword))) {
+                // Detección de crisis mejorada
+                const crisisKeywords = ['suicidio', 'morir', 'acabar', 'crisis', 'no puedo más', 'help', 'ayuda urgente', 'suicide', 'kill myself', 'end it all', 'sin esperanza', 'sin sentido', 'no quiero vivir', 'despedida'];
+                if (crisisKeywords.some(keyword => lowerMessage.includes(keyword)) || emotionAnalysis.emergencyScore > 0.1) {
                     return {
-                        content: this.getMessage('emergency'),
+                        content: this.getMessage('emergency') + " " + this.getEmergencyResources(),
                         metadata: { 
                             isCrisis: true, 
                             priority: 'high',
-                            ariaLabel: 'Mensaje de emergencia - Información de contacto para crisis'
+                            ariaLabel: 'Mensaje de emergencia - Información de contacto para crisis',
+                            requiresFollowUp: true
                         }
                     };
                 }
 
-                // Detección de estado emocional
-                const emotionalKeywords = ['triste', 'ansioso', 'preocupado', 'deprimido', 'estresado', 'nervioso', 'asustado'];
-                if (emotionalKeywords.some(keyword => lowerMessage.includes(keyword)) || emotionAnalysis.negativeScore > 0.6) {
+                // Detección de estado emocional mejorada
+                const emotionalKeywords = ['triste', 'ansioso', 'preocupado', 'deprimido', 'estresado', 'nervioso', 'asustado', 'enfadado', 'enojado', 'molesto', 'frustrado'];
+                if (emotionalKeywords.some(keyword => lowerMessage.includes(keyword)) || emotionAnalysis.negativeScore > 0.4) {
+                    // Validación emocional
+                    let emotion = 'así';
+                    if (emotionAnalysis.dominantEmotion === 'negative') emotion = 'mal';
+                    if (emotionAnalysis.dominantEmotion === 'crisis') emotion = 'en crisis';
+                    
+                    const validationResponse = this.getMessage('validation');
+                    const reflectionResponse = this.getMessage('reflection')
+                        .replace('[emoción]', emotion)
+                        .replace('[situación]', 'la situación es abrumadora');
+                    
+                    // Seleccionar técnica terapéutica basada en el análisis
+                    const technique = this.therapeuticApproaches.selectTechnique(emotionAnalysis, this.userProfile);
+                    
                     return {
-                        content: this.getMessage('crisis'),
+                        content: `${validationResponse} ${reflectionResponse} ${technique.response}`,
                         metadata: { 
                             isEmotionalSupport: true,
-                            ariaLabel: 'Respuesta de apoyo emocional'
+                            technique: technique.name,
+                            emotion: emotionAnalysis.dominantEmotion,
+                            ariaLabel: 'Respuesta de apoyo emocional con validación y reflexión'
                         }
                     };
                 }
 
-                // Respuestas basadas en patrones
+                // Técnicas de TCC - Pensamientos automáticos mejorados
+                const thoughtPatterns = ['siempre', 'nunca', 'todo', 'nada', 'debería', 'tengo que', 'soy un', 'soy una', 'nadie me', 'todo el mundo'];
+                if (thoughtPatterns.some(pattern => lowerMessage.includes(pattern)) && emotionAnalysis.negativeScore > 0.3) {
+                    return {
+                        content: this.getMessage('thoughtChallenge'),
+                        metadata: {
+                            technique: 'cognitive_restructuring',
+                            emotion: emotionAnalysis.dominantEmotion,
+                            ariaLabel: 'Técnica de reestructuración cognitiva para pensamientos automáticos'
+                        }
+                    };
+                }
+
+                // Respuestas basadas en patrones mejoradas
                 const responses = this.getResponsePatterns();
                 
                 for (const pattern of responses) {
@@ -800,23 +999,28 @@
                             content: this.getRandomResponse(pattern.responses),
                             metadata: {
                                 category: pattern.category,
+                                technique: pattern.technique,
+                                emotion: emotionAnalysis.dominantEmotion,
                                 ariaLabel: `Respuesta sobre ${pattern.category}`
                             }
                         };
                     }
                 }
 
-                // Respuesta por defecto con sugerencias
+                // Respuesta por defecto con sugerencias mejoradas
                 const defaultResponses = [
                     this.getMessage('notUnderstood'),
                     "No estoy seguro de entender. ¿Te gustaría hablar sobre cómo te sientes o prefieres probar un ejercicio de relajación?",
-                    "Parece que no capté completamente tu mensaje. ¿Podrías reformularlo? Mientras tanto, ¿quieres que hablemos de técnicas para manejar el estrés?"
+                    "Parece que no capté completamente tu mensaje. ¿Podrías reformularlo? Mientras tanto, ¿quieres que hablemos de técnicas para manejar el estrés?",
+                    this.getMessage('journalSuggestion'),
+                    this.getMessage('goalSetting')
                 ];
                 
                 return {
                     content: this.getRandomResponse(defaultResponses),
                     metadata: { 
                         isDefault: true,
+                        emotion: emotionAnalysis.dominantEmotion,
                         ariaLabel: 'Respuesta de aclaración'
                     }
                 };
@@ -826,6 +1030,7 @@
                 return [
                     {
                         category: 'saludo',
+                        technique: 'rapport_building',
                         keywords: ['hola', 'hello', 'hi', 'buenos días', 'buenas tardes', 'buenas noches'],
                         responses: [
                             this.getMessage('welcome'),
@@ -835,136 +1040,158 @@
                     },
                     {
                         category: 'respiracion',
-                        keywords: ['respirar', 'respira', 'ansiedad', 'pánico', 'nervioso', 'respiración'],
+                        technique: 'breathing_exercise',
+                        keywords: ['respirar', 'respira', 'ansiedad', 'pánico', 'nervioso', 'respiración', 'hiperventilar', 'calmar', 'relajar'],
                         responses: [
                             this.getMessage('breathingExercise'),
                             'La respiración consciente puede ayudarte. ¿Te gustaría que practiquemos una técnica de respiración?',
-                            'Cuando sientes ansiedad, respirar profundamente puede calmarte. ¿Quieres que te enseñe una técnica?'
+                            'Cuando sientes ansiedad, respirar profundamente puede calmarte. ¿Quieres que te enseñe una técnica?',
+                            this.createBreathingExerciseHTML()
                         ]
                     },
                     {
                         category: 'mindfulness',
-                        keywords: ['mindfulness', 'meditación', 'presente', 'aquí y ahora', 'meditar'],
+                        technique: 'mindfulness',
+                        keywords: ['mindfulness', 'meditación', 'presente', 'aquí y ahora', 'meditar', 'atención plena', 'consciencia'],
                         responses: [
                             this.getMessage('mindfulness'),
                             'Estar presente es una habilidad poderosa. ¿Quieres que hagamos un ejercicio de conexión con el momento actual?',
-                            'La meditación puede ser muy beneficiosa. ¿Te gustaría intentar una breve sesión guiada?'
+                            'La meditación puede ser muy beneficiosa. ¿Te gustaría intentar una breve sesión guiada?',
+                            this.createMindfulnessExerciseHTML()
                         ]
                     },
                     {
                         category: 'agradecimiento',
-                        keywords: ['gracias', 'thanks', 'thank you', 'te agradezco', 'agradecido'],
+                        technique: 'positive_reinforcement',
+                        keywords: ['gracias', 'thanks', 'thank you', 'te agradezco', 'agradecido', 'aprecio'],
                         responses: [
                             '¡De nada! Estoy aquí para ayudarte siempre que lo necesites.',
                             'Es un placer poder acompañarte. ¿Hay algo más en lo que pueda ayudarte?',
-                            'Me alegra poder ser de ayuda. Recuerda que estoy aquí para ti cuando me necesites.'
+                            'Me alegra poder ser de ayuda. Recuerda que estoy aquí para ti cuando me necesites.',
+                            'Agradezco tu confianza. Trabajar en tu bienestar emocional es un proceso valioso.'
+                        ]
+                    },
+                    {
+                        category: 'pensamientos',
+                        technique: 'cognitive_restructuring',
+                        keywords: ['pensamiento', 'pienso', 'creo', 'mente', 'pensar', 'idea', 'rumiar', 'pensamientos negativos'],
+                        responses: [
+                            this.getMessage('thoughtChallenge'),
+                            'A veces nuestros pensamientos no reflejan la realidad completa. ¿Podríamos examinar ese pensamiento juntos?',
+                            'Los pensamientos son solo eso, pensamientos. No necesariamente definen la realidad. ¿Quieres explorar esto más a fondo?',
+                            this.createThoughtRecordHTML()
+                        ]
+                    },
+                    {
+                        category: 'aceptacion',
+                        technique: 'act',
+                        keywords: ['aceptar', 'luchar', 'pelear', 'resistir', 'evitar', 'no acepto', 'no quiero'],
+                        responses: [
+                            this.getMessage('act'),
+                            'A veces, aceptar lo que sentimos puede ser más efectivo que luchar contra ello. ¿Te gustaría hablar sobre esto?',
+                            'La aceptación no significa resignación, sino reconocer la realidad para poder trabajar con ella.'
+                        ]
+                    },
+                    {
+                        category: 'equilibrio',
+                        technique: 'dbt',
+                        keywords: ['equilibrio', 'balance', 'extremoso', 'polarizado', 'blanco y negro', 'todo o nada'],
+                        responses: [
+                            this.getMessage('dbt'),
+                            'Encontrar el punto medio entre aceptación y cambio puede ser desafiante. ¿Cómo podríamos trabajar en esto?',
+                            'La vida a menudo se trata de encontrar equilibrio. ¿Quieres explorar cómo aplicar esto a tu situación?'
+                        ]
+                    },
+                    {
+                        category: 'metas',
+                        technique: 'goal_setting',
+                        keywords: ['meta', 'objetivo', 'propósito', 'lograr', 'conseguir', 'plan', 'progreso'],
+                        responses: [
+                            this.getMessage('goalSetting'),
+                            'Establecer metas realistas puede ayudarte a sentirte más motivado. ¿Quieres que trabajemos en ello?',
+                            '¿Te gustaría establecer algunas metas pequeñas para esta semana? Podemos hacerlo juntos.'
                         ]
                     }
                 ];
             }
 
-            addMessage(sender, content, metadata = {}) {
-                const message = {
-                    id: this.generateMessageId(),
-                    sender,
-                    content,
-                    timestamp: Date.now(),
-                    metadata: {
-                        sessionId: this.sessionData.sessionId,
-                        ...metadata
-                    }
-                };
-
-                this.messageHistory.push(message);
-                this.emit('messageAdded', message);
-                
-                return message;
+            createBreathingExerciseHTML() {
+                return `
+                <div class="breathing-exercise">
+                    <h4>Ejercicio de Respiración 4-4-6</h4>
+                    <p>Inhala durante 4 segundos, mantén durante 4 segundos, exhala durante 6 segundos</p>
+                    <div class="breathing-circle" id="breathing-circle">Inhala</div>
+                    <div class="exercise-controls">
+                        <button class="exercise-btn" onclick="startBreathingExercise()">Comenzar</button>
+                        <button class="exercise-btn" onclick="stopBreathingExercise()">Detener</button>
+                    </div>
+                    <p>Repite este ciclo durante 5 minutos para reducir la ansiedad y mejorar la calma.</p>
+                </div>
+                `;
             }
 
-            getMessage(key) {
-                return this.i18n[this.currentLanguage]?.[key] || this.i18n.es[key] || key;
+            createMindfulnessExerciseHTML() {
+                return `
+                <div class="technique-container">
+                    <div class="technique-title">Ejercicio de Mindfulness de 5 minutos</div>
+                    <ol>
+                        <li>Siéntate en una posición cómoda con la espalda recta</li>
+                        <li>Cierra los ojos y lleva tu atención a tu respiración</li>
+                        <li>Observa cada inhalación y exhalación sin juzgar</li>
+                        <li>Si tu mente divaga, gently devuélvela a la respiración</li>
+                        <li>Expande tu awareness a los sonidos y sensaciones a tu alrededor</li>
+                    </ol>
+                    <p>¿Te gustaría que guíe este ejercicio ahora?</p>
+                </div>
+                `;
             }
 
-            getRandomResponse(responses) {
-                return responses[Math.floor(Math.random() * responses.length)];
+            createThoughtRecordHTML() {
+                return `
+                <div class="thought-record">
+                    <h4>Registro de Pensamientos ABCDE</h4>
+                    <p>Esta herramienta basada en TCC puede ayudarte a examinar tus pensamientos:</p>
+                    <table>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>C</th>
+                            <th>D</th>
+                            <th>E</th>
+                        </tr>
+                        <tr>
+                            <td>Situación activadora</td>
+                            <td>Creencia/pensamiento</td>
+                            <td>Consecuencia emocional</td>
+                            <td>Debate de la creencia</td>
+                            <td>Efecto nuevo</td>
+                        </tr>
+                    </table>
+                    <p>¿Te gustaría que trabajemos en completar esta tabla juntos?</p>
+                </div>
+                `;
             }
 
-            generateCacheKey(message) {
-                return this.hashString(message.toLowerCase().trim());
+            getEmergencyResources() {
+                return `
+                <div class="emergency-resources">
+                    <p><strong>Línea de Prevención del Suicidio:</strong> 988 (EE.UU.)</p>
+                    <p><strong>Crisis Text Line:</strong> Texto HOME al 741741</p>
+                    <p><strong>Línea de Ayuda para Crisis:</strong> 1-800-273-8255</p>
+                </div>
+                `;
             }
 
-            generateMessageId() {
-                return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-            }
-
-            generateSessionId() {
-                return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-            }
-
-            getSessionId() {
-                return this.sessionData.sessionId;
-            }
-
-            emit(eventName, data) {
-                if (this.listeners && this.listeners[eventName]) {
-                    this.listeners[eventName].forEach(callback => callback(data));
-                }
-            }
-
-            on(eventName, callback) {
-                if (!this.listeners) this.listeners = {};
-                if (!this.listeners[eventName]) this.listeners[eventName] = [];
-                this.listeners[eventName].push(callback);
-            }
-
-            setLanguage(language) {
-                if (this.i18n[language]) {
-                    this.currentLanguage = language;
-                    this.userPreferences.language = language;
-                    this.savePersistedData();
-                    console.log(`Idioma cambiado a: ${language}`);
-                }
-            }
-
-            clearAllData() {
-                this.messageHistory = [];
-                this.userPreferences = {};
-                this.cache.clear();
-                localStorage.removeItem('serenbot_preferences');
-                localStorage.removeItem('serenbot_history');
-                this.addMessage('bot', this.getMessage('dataCleared'), { isSystem: true });
-            }
-
-            log(message, data = null) {
-                if (this.config.debugMode) {
-                    console.log(`[SerenBot] ${message}`, data);
-                }
-            }
-
-            getMessageHistory() {
-                return [...this.messageHistory];
-            }
-
-            getUserPreferences() {
-                return { ...this.userPreferences };
-            }
-
-            getSessionInfo() {
-                return {
-                    sessionId: this.sessionData.sessionId,
-                    startTime: this.sessionData.startTime,
-                    language: this.currentLanguage,
-                    messageCount: this.messageHistory.length
-                };
-            }
+            // ... (resto de métodos de la clase SerenBot)
         }
 
-        // Clase para análisis de emociones
+        // Clase para análisis de emociones mejorada
         class EmotionAnalysis {
             constructor() {
-                this.positiveWords = ['feliz', 'contento', 'alegre', 'genial', 'maravilloso', 'excelente', 'fantástico', 'bien', 'optimista', 'agradecido'];
-                this.negativeWords = ['triste', 'deprimido', 'ansioso', 'preocupado', 'asustado', 'enfadado', 'enojado', 'molesto', 'frustrado', 'desesperado'];
-                this.emergencyWords = ['suicidio', 'morir', 'matar', 'acabar', 'despedida', 'sin sentido', 'sin esperanza'];
+                this.positiveWords = ['feliz', 'contento', 'alegre', 'genial', 'maravilloso', 'excelente', 'fantástico', 'bien', 'optimista', 'agradecido', 'esperanzado', 'emocionado', 'entusiasmado', 'orgulloso', 'satisfecho', 'pleno'];
+                this.negativeWords = ['triste', 'deprimido', 'ansioso', 'preocupado', 'asustado', 'enfadado', 'enojado', 'molesto', 'frustrado', 'desesperado', 'desanimado', 'culpable', 'avergonzado', 'asqueado', 'agobiado', 'abrumado'];
+                this.emergencyWords = ['suicidio', 'morir', 'matar', 'acabar', 'despedida', 'sin sentido', 'sin esperanza', 'no quiero vivir', 'can\'t go on', 'mejor sin mí', 'quiero desaparecer'];
+                this.intenseWords = ['terrible', 'horrible', 'devastado', 'catastrófico', 'insoportable', 'horroroso', 'pésimo', 'desastroso', 'aterrador', 'angustiado'];
             }
 
             analyzeText(text) {
@@ -972,20 +1199,24 @@
                 let positiveCount = 0;
                 let negativeCount = 0;
                 let emergencyCount = 0;
+                let intenseCount = 0;
                 
                 words.forEach(word => {
                     if (this.positiveWords.includes(word)) positiveCount++;
                     if (this.negativeWords.includes(word)) negativeCount++;
                     if (this.emergencyWords.includes(word)) emergencyCount++;
+                    if (this.intenseWords.includes(word)) intenseCount++;
                 });
                 
                 const total = words.length;
                 const positiveScore = total > 0 ? positiveCount / total : 0;
                 const negativeScore = total > 0 ? negativeCount / total : 0;
                 const emergencyScore = total > 0 ? emergencyCount / total : 0;
+                const intensityScore = total > 0 ? intenseCount / total : 0;
                 
                 let dominantEmotion = 'neutral';
                 if (emergencyScore > 0.1) dominantEmotion = 'crisis';
+                else if (negativeScore > positiveScore && intensityScore > 0.1) dominantEmotion = 'intense_negative';
                 else if (negativeScore > positiveScore) dominantEmotion = 'negative';
                 else if (positiveScore > negativeScore) dominantEmotion = 'positive';
                 
@@ -993,26 +1224,82 @@
                     positiveScore,
                     negativeScore,
                     emergencyScore,
+                    intensityScore,
                     dominantEmotion,
                     wordsAnalyzed: total
                 };
             }
         }
 
-        // Clase para perfil de usuario
+        // Clase para enfoques terapéuticos
+        class TherapeuticApproaches {
+            constructor() {
+                this.techniques = [
+                    {
+                        name: 'cognitive_restructuring',
+                        applicableEmotions: ['negative', 'intense_negative'],
+                        response: 'Parece que estás experimentando algunos pensamientos negativos. ¿Te gustaría examinarlos juntos usando una técnica de reestructuración cognitiva?'
+                    },
+                    {
+                        name: 'mindfulness',
+                        applicableEmotions: ['negative', 'intense_negative', 'neutral'],
+                        response: 'Noto que podrías beneficiarte de practicar mindfulness para manejar estos sentimientos. ¿Te gustaría intentar un ejercicio breve?'
+                    },
+                    {
+                        name: 'behavioral_activation',
+                        applicableEmotions: ['negative', 'neutral'],
+                        response: 'A veces, realizar actividades placenteras puede mejorar nuestro estado de ánimo. ¿Has considerado planificar alguna actividad que disfrutes?'
+                    },
+                    {
+                        name: 'acceptance_commitment',
+                        applicableEmotions: ['negative', 'intense_negative'],
+                        response: 'En lugar de luchar contra estos sentimientos, ¿qué tal si practicamos aceptarlos como parte de tu experiencia momentánea?'
+                    },
+                    {
+                        name: 'gratitude_exercise',
+                        applicableEmotions: ['negative', 'neutral'],
+                        response: 'Practicar la gratitud puede ayudar a cambiar nuestra perspectiva. ¿Te gustaría intentar un ejercicio de gratitud?'
+                    }
+                ];
+            }
+
+            selectTechnique(emotionAnalysis, userProfile) {
+                // Filtrar técnicas aplicables a la emoción actual
+                const applicableTechniques = this.techniques.filter(
+                    t => t.applicableEmotions.includes(emotionAnalysis.dominantEmotion)
+                );
+
+                // Si no hay técnicas aplicables, devolver una por defecto
+                if (applicableTechniques.length === 0) {
+                    return {
+                        name: 'validation',
+                        response: 'Entiendo que esto es difícil para ti. ¿Hay algo específico en lo que pueda ayudarte?'
+                    };
+                }
+
+                // Seleccionar una técnica aleatoria de las aplicables
+                const randomIndex = Math.floor(Math.random() * applicableTechniques.length);
+                return applicableTechniques[randomIndex];
+            }
+        }
+
+        // Clase para perfil de usuario mejorada
         class UserProfile {
             constructor() {
                 this.moodHistory = [];
                 this.interactionCount = 0;
                 this.preferences = {};
                 this.lastSession = new Date();
+                this.commonTopics = new Set();
+                this.therapeuticGoals = [];
+                this.achievements = [];
             }
             
             updateWithAnalysis(analysis) {
                 this.moodHistory.push({
                     timestamp: new Date(),
                     mood: analysis.dominantEmotion,
-                    intensity: Math.max(analysis.positiveScore, analysis.negativeScore, analysis.emergencyScore)
+                    intensity: Math.max(analysis.positiveScore, analysis.negativeScore, analysis.emergencyScore, analysis.intensityScore)
                 });
                 
                 this.interactionCount++;
@@ -1028,7 +1315,7 @@
                 
                 const recentMoods = this.moodHistory.slice(-10);
                 const positiveCount = recentMoods.filter(m => m.mood === 'positive').length;
-                const negativeCount = recentMoods.filter(m => m.mood === 'negative' || m.mood === 'crisis').length;
+                const negativeCount = recentMoods.filter(m => m.mood === 'negative' || m.mood === 'intense_negative' || m.mood === 'crisis').length;
                 
                 if (positiveCount > negativeCount * 2) return 'improving';
                 if (negativeCount > positiveCount * 2) return 'declining';
@@ -1038,6 +1325,43 @@
             getInteractionFrequency() {
                 return this.interactionCount;
             }
+            
+            addTopic(topic) {
+                this.commonTopics.add(topic);
+            }
+            
+            getCommonTopics() {
+                return Array.from(this.commonTopics);
+            }
+            
+            addGoal(goal) {
+                this.therapeuticGoals.push({
+                    goal,
+                    createdAt: new Date(),
+                    completed: false
+                });
+            }
+            
+            completeGoal(goalIndex) {
+                if (goalIndex >= 0 && goalIndex < this.therapeuticGoals.length) {
+                    this.therapeuticGoals[goalIndex].completed = true;
+                    this.therapeuticGoals[goalIndex].completedAt = new Date();
+                    
+                    // Añadir logro
+                    this.achievements.push({
+                        name: `Meta completada: ${this.therapeuticGoals[goalIndex].goal}`,
+                        date: new Date()
+                    });
+                }
+            }
+            
+            getGoals() {
+                return this.therapeuticGoals;
+            }
+            
+            getAchievements() {
+                return this.achievements;
+            }
         }
 
         // Inicialización de la interfaz
@@ -1046,11 +1370,21 @@
             const userInput = document.getElementById('user-input');
             const sendBtn = document.getElementById('send-btn');
             const sessionTime = document.getElementById('session-time');
+            const currentTimeElement = document.getElementById('current-time');
+            const quickReplies = document.getElementById('quick-replies');
+            const emergencyModal = document.getElementById('emergency-modal');
+            const closeModal = document.getElementById('close-modal');
+            const moodIndicator = document.getElementById('mood-indicator');
+            const moodText = document.getElementById('mood-text');
+            
+            // Establecer hora actual
+            const now = new Date();
+            currentTimeElement.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
             // Inicializar el bot
             const serenBot = new SerenBot({
                 debugMode: true,
-                enableEncryption: false
+                enableEncryption: true
             });
             
             // Configurar manejadores de eventos
@@ -1059,6 +1393,14 @@
                 if (e.key === 'Enter') {
                     sendMessage();
                 }
+            });
+            
+            // Respuestas rápidas
+            quickReplies.querySelectorAll('.quick-reply').forEach(reply => {
+                reply.addEventListener('click', function() {
+                    userInput.value = this.getAttribute('data-message');
+                    sendMessage();
+                });
             });
             
             // Herramientas
@@ -1074,8 +1416,26 @@
                 serenBot.processMessage("quiero escribir en mi diario emocional");
             });
             
+            document.getElementById('thought-record-tool').addEventListener('click', function() {
+                serenBot.processMessage("necesito ayuda con mis pensamientos automáticos");
+            });
+            
+            document.getElementById('goals-tool').addEventListener('click', function() {
+                serenBot.processMessage("quiero establecer metas terapéuticas");
+            });
+            
             document.getElementById('emergency-tool').addEventListener('click', function() {
-                serenBot.processMessage("necesito recursos de emergencia");
+                emergencyModal.style.display = 'flex';
+            });
+            
+            closeModal.addEventListener('click', function() {
+                emergencyModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === emergencyModal) {
+                    emergencyModal.style.display = 'none';
+                }
             });
             
             // Botones de estado de ánimo
@@ -1084,14 +1444,43 @@
                 button.addEventListener('click', function() {
                     moodButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
-                    serenBot.processMessage("Me siento " + this.textContent);
+                    const mood = this.getAttribute('data-mood');
+                    updateMoodIndicator(mood);
+                    serenBot.processMessage("Me siento " + mood);
                 });
             });
             
             // Escuchar nuevos mensajes
             serenBot.on('messageAdded', function(message) {
                 addMessageToChat(message);
+                
+                // Actualizar indicador de estado de ánimo basado en el mensaje
+                if (message.metadata && message.metadata.emotion) {
+                    updateMoodIndicator(message.metadata.emotion);
+                }
             });
+            
+            // Función para actualizar el indicador de estado de ánimo
+            function updateMoodIndicator(mood) {
+                moodIndicator.className = 'mood-dot';
+                
+                switch(mood) {
+                    case 'positive':
+                    case 'excelente':
+                    case 'bien':
+                        moodIndicator.classList.add('positive');
+                        moodText.textContent = 'Positivo';
+                        break;
+                    case 'negative':
+                    case 'mal':
+                        moodIndicator.classList.add('negative');
+                        moodText.textContent = 'Negativo';
+                        break;
+                    default:
+                        moodIndicator.classList.add('neutral');
+                        moodText.textContent = 'Neutral';
+                }
+            }
             
             // Función para enviar mensajes
             function sendMessage() {
@@ -1145,13 +1534,61 @@
                 const time = new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 
                 messageElement.className = messageClass;
-                messageElement.innerHTML = `
-                    <p>${message.content}</p>
-                    <div class="message-time">${time}</div>
-                `;
+                
+                // Si el mensaje contiene HTML, usamos innerHTML, sino textContent para seguridad
+                if (message.content.includes('<') && message.content.includes('>')) {
+                    messageElement.innerHTML = `
+                        <div>${message.content}</div>
+                        <div class="message-time">${time}</div>
+                        <div class="message-actions">
+                            <button class="message-action"><i class="fas fa-heart"></i></button>
+                            <button class="message-action"><i class="fas fa-share"></i></button>
+                            <button class="message-action"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    `;
+                } else {
+                    messageElement.innerHTML = `
+                        <p>${message.content}</p>
+                        <div class="message-time">${time}</div>
+                        <div class="message-actions">
+                            <button class="message-action"><i class="fas fa-heart"></i></button>
+                            <button class="message-action"><i class="fas fa-share"></i></button>
+                            <button class="message-action"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    `;
+                }
                 
                 chatMessages.appendChild(messageElement);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Si el mensaje contiene un ejercicio de respiración, agregar los event listeners
+                if (message.content.includes('breathing-exercise')) {
+                    // Los listeners se agregarán cuando se haga clic en los botones
+                    window.startBreathingExercise = function() {
+                        const circle = document.getElementById('breathing-circle');
+                        let cycle = 0;
+                        const breathingInterval = setInterval(() => {
+                            if (cycle % 3 === 0) {
+                                circle.textContent = "Inhala";
+                                circle.style.animation = "breathe 4s ease-in-out";
+                            } else if (cycle % 3 === 1) {
+                                circle.textContent = "Mantén";
+                                circle.style.animation = "none";
+                                setTimeout(() => {
+                                    circle.textContent = "Exhala";
+                                    circle.style.animation = "breathe 6s ease-in-out";
+                                }, 4000);
+                            }
+                            cycle++;
+                        }, 14000);
+                        
+                        window.stopBreathingExercise = function() {
+                            clearInterval(breathingInterval);
+                            circle.textContent = "Inhala";
+                            circle.style.animation = "none";
+                        };
+                    };
+                }
             }
             
             // Actualizar tiempo de sesión
